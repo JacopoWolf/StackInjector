@@ -4,6 +4,7 @@ using System.Text;
 using NUnit.Framework;
 using StackInjector;
 using StackInjector.TEST.SimpleStack1.Services;
+using StackInjector.TEST.SimpleStack1.Services.Implementations;
 
 namespace StackInjector.TEST.SimpleStack1
 {
@@ -14,7 +15,7 @@ namespace StackInjector.TEST.SimpleStack1
     class TestProgram
     {
         [Test]
-        public void Main()
+        public void WithInterfaces()
         {
             Application.StackInjector.Start<IThingsGenerator>();
         }

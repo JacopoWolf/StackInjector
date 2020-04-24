@@ -17,6 +17,15 @@ namespace StackInjector.Application
         /// <returns></returns>
         public static StackWrapper Start<T> () where T : IStackEntryPoint
         {
+            var wrapper = new StackWrapper();
+
+            // read all classes
+            wrapper.ReadAssembly(typeof(T).Assembly);
+
+            wrapper.InstantiateAndInjectServices(typeof(T));
+
+
+
             //! for testing purposes
             return null;
         }
