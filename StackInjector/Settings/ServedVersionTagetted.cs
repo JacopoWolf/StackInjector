@@ -1,4 +1,4 @@
-﻿namespace StackInjector.Attributes
+﻿namespace StackInjector.Settings
 {
     /// <summary>
     /// Type of version targetting. If the condition is unsatisfied, throw an exception and consider the injection failed

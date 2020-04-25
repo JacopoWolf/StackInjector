@@ -8,16 +8,15 @@ using StackInjector.TEST.SimpleStack1.Services.Implementations;
 
 namespace StackInjector.TEST.SimpleStack1
 {
-    /*
-     *  This whole project works as core for the testing-oriented development of the core of this library
-     */
+   
+    // This whole project works as core for the testing-oriented development of the core of this library
 
     class TestProgram
     {
         [Test]
         public void WithInterfaces()
         {
-            Application.StackInjector.Start<IThingsGenerator>();
+            Injector.From<IThingsGenerator>().Start();
         }
 
     }

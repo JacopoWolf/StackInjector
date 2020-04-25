@@ -4,35 +4,92 @@ using System.Collections.Generic;
 using System.Linq;
 using StackInjector.Attributes;
 using StackInjector.Exceptions;
+using StackInjector.Settings;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
-namespace StackInjector.Wrappers
+namespace StackInjector
 {
     /// <summary>
     /// wraps a series of classes
     /// </summary>
     public sealed class StackWrapper
     {
-        
+        internal StackWrapperSettings Settings { get; set; }
+
         internal List<Type> UsedTypes { get; private set; } = new List<Type>();
 
         internal List<object> Instances { get; private set; } = new List<object>();
 
 
+
+
         /// <summary>
-        /// reads all [Service] classes in the given assembly
+        /// reads all [Service] classes 
         /// </summary>
-        /// <param name="assembly"></param>
-        internal void ReadAssembly( Assembly assembly )
+        internal void ReadAssemblies ()
         {
             this.UsedTypes.AddRange
                 (
-                     assembly
-                     .GetTypes()
-                     .Where(t => t.IsClass && t.GetCustomAttribute<ServiceAttribute>() != null)
+                    this.Settings._registredAssemblies
+                    .SelectMany
+                    (
+                        assembly =>
+                            assembly
+                            .GetTypes()
+                            .AsParallel()
+                            .Where(t => t.IsClass && t.GetCustomAttribute<ServiceAttribute>() != null)
+                    )
                 );
         }
 
-        internal Type ClassOrFromInterface( Type type )
+
+        internal object InstantiateService ( Type type )
+        {
+            //todo wrap in try-catch
+
+            //todo check for default constructor. If not present, throw exception
+            type = this.ClassOrFromInterface(type);
+            var instance =  Activator.CreateInstance( type );
+            this.Instances.Add(instance);
+            return instance;
+
+        }
+
+
+        internal void InjectServicesInto ( object instance )
+        {
+            var type = instance.GetType();
+
+            var servicesFields = 
+                type
+                    .GetFields( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance )
+                    .Where( fi => fi.GetCustomAttribute<ServedAttribute>() != null );
+
+            foreach( var serviceField in servicesFields )
+            {
+                var serviceType = this.ClassOrFromInterface(serviceField.FieldType);
+                var serviceInstance = this.Instances.Find( i => serviceType.IsInstanceOfType(i) );
+                serviceField.SetValue(instance, serviceInstance);
+            }
+
+        }
+
+
+        internal void InstantiateAndInjectAll()
+        {
+            foreach ( var type in this.UsedTypes )
+                this.InstantiateService(type);
+
+            foreach( var instance in this.Instances )
+                this.InjectServicesInto(instance);
+        }
+
+
+
+
+        // utility method
+        internal Type ClassOrFromInterface ( Type type )
         {
             if( type.IsInterface )
             {
@@ -41,43 +98,36 @@ namespace StackInjector.Wrappers
                 {
                     return this.UsedTypes.First(t => t.GetInterface(type.Name) != null);
                 }
-                catch ( InvalidOperationException )
+                catch( InvalidOperationException )
                 {
-                    throw new ImplementationNotFoundException(type, $"can't find implementation for {type.Name} in {type.Assembly.FullName}");
+                    throw new ImplementationNotFoundException(type, $"can't find [Service] for interface {type.Name} in {type.Assembly.FullName}");
                 }
-
             }
             else
                 return type;
         }
 
-        internal void InstantiateAndInjectServices ( Type type )
+        internal IStackEntryPoint GetStackEntryPoint ()
         {
-            type = this.ClassOrFromInterface(type);
-
-            // generates default instance
-            ////object typeInstance = Activator.CreateInstance( type );
-
-            var servicesFields = type
-                .GetFields( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance )
-                .Where( fi => fi.GetCustomAttribute<ServedAttribute>() != null );
-
-            foreach( var serviceField in servicesFields )
-            {
-                var serviceType = this.ClassOrFromInterface(serviceField.FieldType);
-
-                //todo inject dependencies here
-
-
-            }
-
+            return (IStackEntryPoint)this.Instances.Find(i => typeof(IStackEntryPoint).IsInstanceOfType(i));
         }
 
-        
+
+
+
+
         /// <summary>
         /// internal constructor.
         /// </summary>
-        internal StackWrapper() { }
+        internal StackWrapper ( StackWrapperSettings settings ) => this.Settings = settings;
+
+        /// <summary>
+        /// Start this Wrapper
+        /// </summary>
+        public void Start ()
+        {
+            this.GetStackEntryPoint().EntryPoint();
+        }
 
     }
 }

@@ -11,12 +11,21 @@ namespace StackInjector.TEST.SimpleStack1.Services.Implementations
         [Served]
         IThingsFilter thingsFilter;
 
+        [Served]
+        IThingsConsumer thingsConsumer;
+
 
         // this method contains the main core of the stack, used to call every other dependency
         public void EntryPoint ()
         {
             var thing = this.GenerateThing();
-            this.thingsFilter.FilterThing( thing );
+            Console.WriteLine($"generated {thing}");
+
+            var filteredthing = this.thingsFilter.FilterThing( thing );
+            Console.WriteLine( $"filtered {filteredthing}");
+
+            this.thingsConsumer.ConsumeThing(filteredthing);
+
         }
 
 
