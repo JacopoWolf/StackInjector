@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using StackInjector.Attributes;
+using StackInjector.Exceptions;
 
 namespace StackInjector.Wrappers
 {
@@ -42,7 +43,7 @@ namespace StackInjector.Wrappers
                 }
                 catch ( InvalidOperationException )
                 {
-                    throw new Exception($"no implementation for {type.FullName}");
+                    throw new ImplementationNotFoundException(type, $"can't find implementation for {type.Name} in {type.Assembly.FullName}");
                 }
 
             }
