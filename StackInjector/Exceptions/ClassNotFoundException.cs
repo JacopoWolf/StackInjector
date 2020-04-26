@@ -1,27 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace StackInjector.Exceptions
 {
     /// <summary>
-    /// 
+    /// Thrown when a class has not been found
     /// </summary>
-    public class ClassNotFoundException : StackInjectorException
+    public sealed class ClassNotFoundException : ClassException
     {
-        /// <summary>
-        /// type of the class not found
-        /// </summary>
-        public Type ClassType { get; set; } = null;
 
-
-
-        internal ClassNotFoundException() { }
-
-        internal ClassNotFoundException ( Type type, string message ) : this( message )
+        internal ClassNotFoundException ()
         {
-            this.ClassType = type;
-            this.SourceAssembly = type.Assembly;
-        }
 
+        }
         internal ClassNotFoundException ( string message ) : base(message)
         {
         }
@@ -29,7 +21,5 @@ namespace StackInjector.Exceptions
         internal ClassNotFoundException ( string message, Exception innerException ) : base(message, innerException)
         {
         }
-
-
     }
 }

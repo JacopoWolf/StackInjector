@@ -1,23 +1,25 @@
 ﻿using System;
-using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using StackInjector.Attributes;
 using StackInjector.Exceptions;
 using StackInjector.Settings;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace StackInjector
 {
     /// <summary>
     /// wraps a series of classes
     /// </summary>
-    public sealed class StackWrapper
+    /// <typeparam name="T">Return type of the Entry Point</typeparam>
+    public sealed partial class StackWrapper
     {
+
+        internal Type EntryPoint { get; set; }
+
         internal StackWrapperSettings Settings { get; set; }
 
-        internal List<Type> UsedTypes { get; private set; } = new List<Type>();
+        internal HashSet<Type> AllServiceTypes { get; private set; }
 
         internal List<object> Instances { get; private set; } = new List<object>();
 
@@ -25,109 +27,33 @@ namespace StackInjector
 
 
         /// <summary>
-        /// reads all [Service] classes 
-        /// </summary>
-        internal void ReadAssemblies ()
-        {
-            this.UsedTypes.AddRange
-                (
-                    this.Settings._registredAssemblies
-                    .SelectMany
-                    (
-                        assembly =>
-                            assembly
-                            .GetTypes()
-                            .AsParallel()
-                            .Where(t => t.IsClass && t.GetCustomAttribute<ServiceAttribute>() != null)
-                    )
-                );
-        }
-
-
-        internal object InstantiateService ( Type type )
-        {
-            //todo wrap in try-catch
-
-            //todo check for default constructor. If not present, throw exception
-            type = this.ClassOrFromInterface(type);
-            var instance =  Activator.CreateInstance( type );
-            this.Instances.Add(instance);
-            return instance;
-
-        }
-
-
-        internal void InjectServicesInto ( object instance )
-        {
-            var type = instance.GetType();
-
-            var servicesFields = 
-                type
-                    .GetFields( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance )
-                    .Where( fi => fi.GetCustomAttribute<ServedAttribute>() != null );
-
-            foreach( var serviceField in servicesFields )
-            {
-                var serviceType = this.ClassOrFromInterface(serviceField.FieldType);
-                var serviceInstance = this.Instances.Find( i => serviceType.IsInstanceOfType(i) );
-                serviceField.SetValue(instance, serviceInstance);
-            }
-
-        }
-
-
-        internal void InstantiateAndInjectAll()
-        {
-            foreach ( var type in this.UsedTypes )
-                this.InstantiateService(type);
-
-            foreach( var instance in this.Instances )
-                this.InjectServicesInto(instance);
-        }
-
-
-
-
-        // utility method
-        internal Type ClassOrFromInterface ( Type type )
-        {
-            if( type.IsInterface )
-            {
-                //todo implement cool versioning logic here
-                try
-                {
-                    return this.UsedTypes.First(t => t.GetInterface(type.Name) != null);
-                }
-                catch( InvalidOperationException )
-                {
-                    throw new ImplementationNotFoundException(type, $"can't find [Service] for interface {type.Name} in {type.Assembly.FullName}");
-                }
-            }
-            else
-                return type;
-        }
-
-        internal IStackEntryPoint GetStackEntryPoint ()
-        {
-            return (IStackEntryPoint)this.Instances.Find(i => typeof(IStackEntryPoint).IsInstanceOfType(i));
-        }
-
-
-
-
-
-        /// <summary>
         /// internal constructor.
         /// </summary>
-        internal StackWrapper ( StackWrapperSettings settings ) => this.Settings = settings;
+        internal StackWrapper ( StackWrapperSettings settings ) 
+            => this.Settings = settings;
+
+
 
         /// <summary>
-        /// Start this Wrapper
+        /// Start this StackWrapper with the specified entry point and get it's return type converted to the specified type
         /// </summary>
-        public void Start ()
+        public T Start<T> ()
         {
-            this.GetStackEntryPoint().EntryPoint();
+            return (T)this.GetStackEntryPoint().EntryPoint();
         }
+
+        /// <summary>
+        /// Start this StackWrapper with the specified entry point and get it's returned object in a generic form
+        /// </summary>
+        public object Start()
+        {
+            return this.GetStackEntryPoint().EntryPoint();
+        }
+
+
+        //todo StartAsync
+
+        //todo Clone
 
     }
 }

@@ -9,29 +9,30 @@ namespace StackInjector.TEST.SimpleStack1.Services.Implementations
     class SimpleThingsGenerator : IThingsGenerator
     {
         [Served]
-        IThingsFilter thingsFilter;
+        IThingsFilter ThingsFilter { get; set; }
 
         [Served]
-        IThingsConsumer thingsConsumer;
+        IThingsConsumer ThingsConsumer { get; set; }
 
 
         // this method contains the main core of the stack, used to call every other dependency
-        public void EntryPoint ()
+        public object EntryPoint ()
         {
             var thing = this.GenerateThing();
             Console.WriteLine($"generated {thing}");
 
-            var filteredthing = this.thingsFilter.FilterThing( thing );
+            var filteredthing = this.ThingsFilter.FilterThing( thing );
             Console.WriteLine( $"filtered {filteredthing}");
 
-            this.thingsConsumer.ConsumeThing(filteredthing);
+            this.ThingsConsumer.ConsumeThing(filteredthing);
 
+            return filteredthing;
         }
 
 
         public string GenerateThing ()
         {
-            return "123test";
+            return "123test45";
         }
     }
 }

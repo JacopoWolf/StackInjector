@@ -7,7 +7,7 @@ namespace StackInjector.Exceptions
     /// <summary>
     /// thrown when an implementation for a specific class has not been found
     /// </summary>
-    public sealed class ImplementationNotFoundException : ClassNotFoundException
+    public sealed class ImplementationNotFoundException : ClassException
     {
         internal ImplementationNotFoundException ()
         {

@@ -6,14 +6,11 @@ using StackInjector.Attributes;
 namespace StackInjector.TEST.SimpleStack1.Services.Implementations
 {
     [Service]
-    class SimpleThingsFilter : IThingsFilter
+    class SpecificThingSubFilter : IThingsFilter
     {
-        [Served]
-        SpecificThingSubFilter SpecificFilter { get; set; }
-
         public string FilterThing ( string raw )
         {
-            return this.SpecificFilter.FilterThing( raw.Remove(0, 3) );
+            return raw.Remove(raw.Length-2);
         }
     }
 }

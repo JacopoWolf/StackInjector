@@ -16,7 +16,9 @@ namespace StackInjector.TEST.SimpleStack1
         [Test]
         public void WithInterfaces()
         {
-            Injector.From<IThingsGenerator>().Start();
+            var result = Injector.From<IThingsGenerator>().Start<string>();
+
+            Assert.AreEqual("test", result);
         }
 
     }

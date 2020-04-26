@@ -12,6 +12,6 @@ namespace StackInjector
         /// <summary>
         /// This will be called once the stack is initialized
         /// </summary>
-        void EntryPoint ();
+        object EntryPoint ();
     }
 }
