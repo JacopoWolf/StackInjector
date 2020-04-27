@@ -2,9 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <RootNamespace>StackInjector</RootNamespace>
     <NeutralLanguage />
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <RootNamespace>StackInjector</RootNamespace>
+    <Optimize>true</Optimize>
+
+    <PackageId>StackInjector</PackageId>
+    <PackageTags>Dependency injection;</PackageTags>
+    <Authors>JacopoWolf</Authors>
+    <Company/>
+    <RepositoryUrl>https://github.com/JacopoWolf/StackInjector</RepositoryUrl>
+    <Description>Easy-to-use dependency injection for stack-structured applications</Description>
+    
+    
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -12,6 +22,7 @@
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
   </PropertyGroup>
 
   <ItemGroup>
