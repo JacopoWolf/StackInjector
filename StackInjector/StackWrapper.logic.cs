@@ -14,8 +14,9 @@ namespace StackInjector
         /// </summary>
         internal void ReadAssemblies ()
         {
-            this.AllServiceTypes =
-                this.Settings
+            this.ServicesWithInstances =
+                this
+                .Settings
                 ._registredAssemblies
                 .SelectMany
                 (
@@ -25,10 +26,11 @@ namespace StackInjector
                         .AsParallel()
                         .Where(t => t.IsClass && t.GetCustomAttribute<ServiceAttribute>() != null)
                 )
-                .ToHashSet();
-
-            // initializes the new instances list with the same number of the used types
-            this.Instances = new List<object>(this.AllServiceTypes.Count);
+                .ToDictionary
+                (
+                    t => t,
+                    t => new List<object>( 1 ) // new list with space for at least a new instance
+                );
         }
 
 
@@ -48,7 +50,7 @@ namespace StackInjector
 
             var instance = Activator.CreateInstance( type );
 
-            this.Instances.Add(instance);
+            this.ServicesWithInstances[type].Add(instance);
             return instance;
 
         }
@@ -58,11 +60,11 @@ namespace StackInjector
             if( type.GetCustomAttribute<ServiceAttribute>() == null )
                 throw new NotAServiceException(type, $"The type {type.FullName} is not annotated with [Service]");
 
-            if( !this.AllServiceTypes.Contains(type) )
+            if( !this.ServicesWithInstances.ContainsKey(type) )
                 throw new ClassNotFoundException(type,$"The type {type.FullName} is not in a registred assembly!");
 
 
-            var InstOfType = this.Instances.FindAll(i => type.IsAssignableFrom( i.GetType() ));
+            var InstOfType = this.ServicesWithInstances[type]; ////this.Instances.FindAll(i => type.IsAssignableFrom( i.GetType() ));
 
             if( InstOfType.Any() )
             {
@@ -98,7 +100,7 @@ namespace StackInjector
                 foreach( var serviceField in fields )
                 {
                     var serviceType = this.ClassOrFromInterface(serviceField.FieldType);
-                    var serviceInstance = this.OfTypeOrInstantiate(serviceType); //this.Instances.Find( i => serviceType.IsInstanceOfType(i) );
+                    var serviceInstance = this.OfTypeOrInstantiate(serviceType);
                     serviceField.SetValue(instance, serviceInstance);
 
                     instantiated.Add(serviceInstance);
@@ -148,12 +150,6 @@ namespace StackInjector
                 foreach( var service in usedServices )
                     toInject.Enqueue(service);
             }
-
-            ////foreach( var type in this.AllServiceTypes )
-            ////    this.InstantiateService(type);
-
-            ////foreach( var instance in this.Instances )
-            ////    this.InjectServicesInto(instance);
         }
 
         #region utilities
@@ -171,7 +167,7 @@ namespace StackInjector
                 try
                 {
                     //todo versioning logic here
-                    return this.AllServiceTypes.First(t => t.GetInterface(type.Name) != null);
+                    return this.ServicesWithInstances.Keys.First(t => t.GetInterface(type.Name) != null);
                 }
                 catch( InvalidOperationException )
                 {
@@ -188,7 +184,11 @@ namespace StackInjector
         /// <returns></returns>
         internal IStackEntryPoint GetStackEntryPoint ()
         {
-            return (IStackEntryPoint)this.Instances.Find(i => this.EntryPoint.IsInstanceOfType(i));
+            return 
+                (IStackEntryPoint)
+                this
+                    .ServicesWithInstances[this.ClassOrFromInterface(this.EntryPoint)]
+                    .First();
         }
 
         #endregion

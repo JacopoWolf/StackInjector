@@ -19,9 +19,10 @@ namespace StackInjector
 
         internal StackWrapperSettings Settings { get; set; }
 
-        internal HashSet<Type> AllServiceTypes { get; private set; }
+        private IDictionary<Type, List<object>> ServicesWithInstances { get; set; }
 
-        internal List<object> Instances { get; private set; }
+        ////internal HashSet<Type> AllServiceTypes { get; private set; }
+        ////internal List<object> Instances { get; private set; }
 
 
 
@@ -35,7 +36,8 @@ namespace StackInjector
 
 
         /// <summary>
-        /// Start this StackWrapper with the specified entry point and get it's return type converted to the specified type
+        /// Start this StackWrapper with the specified entry point and get it's return type converted to the specified type.
+        /// Throws an error on a wrongful conversion
         /// </summary>
         public T Start<T> ()
         {
