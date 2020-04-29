@@ -10,6 +10,11 @@ namespace StackInjector.Exceptions
     public sealed class ClassNotFoundException : ClassException
     {
 
+        internal ClassNotFoundException( Type type, string message ) : base(type,message)
+        {
+
+        }
+
         internal ClassNotFoundException ()
         {
 

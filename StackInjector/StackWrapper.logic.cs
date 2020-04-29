@@ -26,6 +26,9 @@ namespace StackInjector
                         .Where(t => t.IsClass && t.GetCustomAttribute<ServiceAttribute>() != null)
                 )
                 .ToHashSet();
+
+            // initializes the new instances list with the same number of the used types
+            this.Instances = new List<object>(this.AllServiceTypes.Count);
         }
 
 
@@ -54,6 +57,10 @@ namespace StackInjector
         {
             if( type.GetCustomAttribute<ServiceAttribute>() == null )
                 throw new NotAServiceException(type, $"The type {type.FullName} is not annotated with [Service]");
+
+            if( !this.AllServiceTypes.Contains(type) )
+                throw new ClassNotFoundException(type,$"The type {type.FullName} is not in a registred assembly!");
+
 
             var InstOfType = this.Instances.FindAll(i => type.IsAssignableFrom( i.GetType() ));
 

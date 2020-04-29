@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -11,7 +12,6 @@ namespace StackInjector
     /// <summary>
     /// wraps a series of classes
     /// </summary>
-    /// <typeparam name="T">Return type of the Entry Point</typeparam>
     public sealed partial class StackWrapper
     {
 
@@ -21,7 +21,7 @@ namespace StackInjector
 
         internal HashSet<Type> AllServiceTypes { get; private set; }
 
-        internal List<object> Instances { get; private set; } = new List<object>();
+        internal List<object> Instances { get; private set; }
 
 
 
