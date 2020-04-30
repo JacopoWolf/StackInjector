@@ -31,8 +31,8 @@ Now, before you read the brief rules, a couple of tips:
 
 - `master`: default branch for major releases
 - *development*
-  - `dev/M.m`: branch for holding changes of a specific version before merging to master. Code *documentation* can be added here.
-  - `dev/feature` or `dev/M.m/feature`: for development of a specific feature. If it is specific to a target future version (see milestones)
+  - `rel/M.m`: branch for holding changes of a specific major release version before merging to master. Code *documentation* can be added here.
+  - `dev/featurename` and `dev/feature/subfeature/etc`: for development of a specific feature. If it is specific to a target future version (see milestones)
 - *bugs*
   - `fix/12345` where *12345* is replaced by the relative issue id
 
