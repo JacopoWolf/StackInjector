@@ -6,7 +6,15 @@
 
 A **self-contained**, **performing**, **easy-to-use** dependency injection library, written for the **.NET Standard 2.1**
 
-![badges here!](https://img.shields.io/badge/badges-here-yellow)
+![badges here!](https://img.shields.io/badge/badges-here-inactive)
+
+## Roadmap
+
+roadmap to the next major version:
+
+![GitHub milestone](https://img.shields.io/github/milestones/progress-percent/jacopowolf/stackinjector/2)
+![GitHub milestone](https://img.shields.io/github/milestones/progress-percent/jacopowolf/stackinjector/3)
+![GitHub milestone](https://img.shields.io/github/milestones/progress-percent/jacopowolf/stackinjector/1)
 
 ## Installation
 
@@ -34,11 +42,13 @@ var myString = Injector.From<ISomeOperationEntryPoint>().Start<string>();
 
 ## Contributing
 
-![working on it](https://img.shields.io/badge/status-in_progress-orange)
+Read [contributing](CONTRIBUTING.md) and [code of conduct](CODE_OF_CONDUCT.md)
 
-## Licence
+Any contribution is appreciated! Thanks!
 
-![working on it](https://img.shields.io/badge/status-in_progress-orange)
+## License
+
+![GitHub](https://img.shields.io/github/license/jacopowolf/stackinjector)
 
 ---
 initial project and logo by [@JacopoWolf](https://github.com/JacopoWolf)
