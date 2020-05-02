@@ -2,10 +2,19 @@ name: .NET Core checks
 
 on:
   push:
-    branches: [ 'master', 'dev/**', 'rel/**', 'fix/**' ]
-    paths: [ 'StackInjector/**' , 'tests/**' ]
+    branches:
+      - 'master'
+      - 'dev/**'
+      - 'rel/**'
+      - 'fix/**'
+    paths:
+      - 'StackInjector/**'
+      - 'tests/**'
+      
   pull_request:
-    branches: [ 'master' , 'rel/**' ]
+    branches: 
+      - 'master'
+      - 'rel/**'
 
 jobs:
   build:
