@@ -64,7 +64,7 @@ namespace StackInjector
                 throw new ClassNotFoundException(type,$"The type {type.FullName} is not in a registred assembly!");
 
 
-            var InstOfType = this.ServicesWithInstances[type]; ////this.Instances.FindAll(i => type.IsAssignableFrom( i.GetType() ));
+            var InstOfType = this.ServicesWithInstances[type];
 
             if( InstOfType.Any() )
             {
