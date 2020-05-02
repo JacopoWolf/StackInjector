@@ -4,23 +4,31 @@
 </h1>
  
 
-A **self-contained**, **performing**, **easy-to-use** dependency injection library, written for the **.NET Standard 2.1**
+A **simple**, **performing**, **easy-to-use** dependency injection library for you stack-structured applications, like custom servers, interpreters, etc.
 
-![badges here!](https://img.shields.io/badge/badges-here-inactive)
+![csharp](https://img.shields.io/badge/-Standard_2.1-purple?logo=.net) 
 
 ## Roadmap
 
-roadmap to the next major version:
+| date | version |
+|-:|-|
+| \*08/05/2020 | ![GitHub milestone](https://img.shields.io/github/milestones/progress-percent/jacopowolf/stackinjector/2) |
+| \*22/05/2020 | ![GitHub milestone](https://img.shields.io/github/milestones/progress-percent/jacopowolf/stackinjector/3) |
+| 26/06/2020 | ![GitHub milestone](https://img.shields.io/github/milestones/progress-percent/jacopowolf/stackinjector/1) |
 
-![GitHub milestone](https://img.shields.io/github/milestones/progress-percent/jacopowolf/stackinjector/2)
-![GitHub milestone](https://img.shields.io/github/milestones/progress-percent/jacopowolf/stackinjector/3)
-![GitHub milestone](https://img.shields.io/github/milestones/progress-percent/jacopowolf/stackinjector/1)
+\* release date may vary for minor releases
 
 ## Installation
 
-![working on it](https://img.shields.io/badge/status-in_progress-orange)
+:construction: soon available!
 
 ## Usage
+
+For in-depth tutorials and explanations visit the [wiki](https://github.com/JacopoWolf/StackInjector/wiki)
+
+Below are shown the main features
+
+---
 
 Plan your components as **interfaces** and *implement* them, then it's as simple as:
 ```cs
