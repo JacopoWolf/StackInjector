@@ -21,9 +21,6 @@ namespace StackInjector
 
         private IDictionary<Type, List<object>> ServicesWithInstances { get; set; }
 
-        ////internal HashSet<Type> AllServiceTypes { get; private set; }
-        ////internal List<object> Instances { get; private set; }
-
 
 
 
