@@ -8,12 +8,16 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Optimize>true</Optimize>
 
+    <!-- nuget package -->
     <PackageId>StackInjector</PackageId>
     <PackageTags>Dependency injection;</PackageTags>
     <Authors>JacopoWolf</Authors>
     <Company />
     <RepositoryUrl>https://github.com/JacopoWolf/StackInjector</RepositoryUrl>
     <Description>Easy-to-use dependency injection for stack-structured applications</Description>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageIcon>logo.png</PackageIcon>
     
   </PropertyGroup>
 
@@ -30,6 +34,17 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\logo\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
