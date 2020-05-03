@@ -2,11 +2,15 @@
     <img src="logo/StackInjector_logo_notext.svg" height="35px" /> 
     StackInjector
 </h1>
- 
+
+
+![dotnetstandard2.1](https://img.shields.io/badge/-Standard_2.1-5C2D91?logo=.net) 
+![csharp8.0](https://img.shields.io/badge/-8.0-239120?logo=c-sharp)
 
 A **simple**, **performing**, **easy-to-use** dependency injection library for you stack-structured applications, like custom servers, interpreters, etc.
 
-![csharp](https://img.shields.io/badge/-Standard_2.1-purple?logo=.net) 
+![Maintenance](https://img.shields.io/maintenance/yes/2020)
+![GitHub open bug issues](https://img.shields.io/github/issues/jacopowolf/stackinjector/bug)
 
 ## Roadmap
 
