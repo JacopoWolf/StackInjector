@@ -12,7 +12,7 @@ A **simple**, **performing**, **easy-to-use** dependency injection library for y
 ![Maintenance](https://img.shields.io/maintenance/yes/2020)
 ![GitHub open bug issues](https://img.shields.io/github/issues/jacopowolf/stackinjector/bug)
 
-## Roadmap
+## Roadmap :date:
 
 | date | version |
 |-:|-|
@@ -22,11 +22,11 @@ A **simple**, **performing**, **easy-to-use** dependency injection library for y
 
 \* release date may vary for minor releases
 
-## Installation
+## Installation :electric_plug:
 
 :construction: soon available!
 
-## Usage
+## Usage :wrench:
 
 For in-depth tutorials and explanations visit the [wiki](https://github.com/JacopoWolf/StackInjector/wiki)
 
@@ -52,11 +52,14 @@ var myString = Injector.From<ISomeOperationEntryPoint>().Start<string>();
 > in milestone 0.2.0 I'm planning to add `AsyncStart<string>()` and implementation versioning
 
 
-## Contributing
+## Contributing :pencil2:
 
 Read [contributing](CONTRIBUTING.md) and [code of conduct](CODE_OF_CONDUCT.md)
 
 Any contribution is appreciated! Thanks!
+
+suggested editor: ![visualstudio](https://img.shields.io/badge/-Visual_Studio-5C2D91?logo=visual-studio)
+
 
 ## License
 
