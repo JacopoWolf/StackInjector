@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    
     <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>StackInjector</RootNamespace>
     <NeutralLanguage />
@@ -10,10 +11,9 @@
     <PackageId>StackInjector</PackageId>
     <PackageTags>Dependency injection;</PackageTags>
     <Authors>JacopoWolf</Authors>
-    <Company/>
+    <Company />
     <RepositoryUrl>https://github.com/JacopoWolf/StackInjector</RepositoryUrl>
     <Description>Easy-to-use dependency injection for stack-structured applications</Description>
-    
     
   </PropertyGroup>
 
@@ -26,7 +26,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.6">
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
