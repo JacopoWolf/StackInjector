@@ -22,9 +22,16 @@ A **simple**, **performing**, **easy-to-use** dependency injection library for y
 
 \* release date may vary for minor releases
 
+
 ## Installation :electric_plug:
 
-:construction: soon available!
+[![Nuget](https://img.shields.io/nuget/v/StackInjector?logo=nuget)](https://www.nuget.org/packages/StackInjector/)
+[![Nuget](https://img.shields.io/nuget/dt/StackInjector?logo=nuget)](https://www.nuget.org/packages/StackInjector/)
+
+```powershell
+dotnet add package StackInjector
+```
+
 
 ## Usage :wrench:
 
