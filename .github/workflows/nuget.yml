@@ -30,7 +30,7 @@ jobs:
     # get version
     - name: Extract version
       run: |
-        ::set-env name=RELEASE_VERSION::${GITHUB_REF:10}
+        echo ::set-env name=RELEASE_VERSION::${GITHUB_REF:10}
         echo "version is $RELEASE_VERSION"
       
     # pack and publish
