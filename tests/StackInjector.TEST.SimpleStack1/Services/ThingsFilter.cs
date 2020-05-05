@@ -7,9 +7,9 @@ namespace StackInjector.TEST.SimpleStack1.Services
         string FilterThing ( string raw );
     }
 
-    //? when generating a new StackWrapper from an interface if multiple classes implement said interface
-    //? the order in which those classes are defined matters. 
-    //? In this case it is suggested to use the specific class name.
+    // when generating a new StackWrapper from an interface if multiple classes implement said interface
+    // the order in which those classes are defined matters. 
+    // In this case it is suggested to use the specific class name.
 
     [Service]
     internal class SpecificThingSubFilter : IThingsFilter

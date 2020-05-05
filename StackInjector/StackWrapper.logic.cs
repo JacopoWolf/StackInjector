@@ -17,7 +17,7 @@ namespace StackInjector
             this.ServicesWithInstances =
                 this
                 .Settings
-                ._registredAssemblies
+                .registredAssemblies
                 .SelectMany
                 (
                     assembly =>

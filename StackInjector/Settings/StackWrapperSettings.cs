@@ -11,49 +11,14 @@ namespace StackInjector.Settings
     /// Used to manage the settings of a <see cref="StackWrapper"/>
     /// </summary>
     [Serializable]
-    public sealed class StackWrapperSettings
+    public sealed partial class StackWrapperSettings
     {
+
         // settings 
+        internal HashSet<Assembly>                  registredAssemblies = new HashSet<Assembly>();
+        internal ServedVersionTagettingMethod       targettingMethod;
+        internal DependencyGraphActions             graphActions;
 
-        internal HashSet<Assembly> _registredAssemblies = new HashSet<Assembly>();
-        internal ServedVersionTagetted _defaultTargetting;
-        internal bool _createDependencyGraph;
-        internal DepGraphActions GraphActions;
-
-
-        /// <summary>
-        /// register an assembly from wich you want classes to be laoded
-        /// </summary>
-        /// <param name="assemblies"></param>
-        /// <returns></returns>
-        public StackWrapperSettings Register( params Assembly[] assemblies )
-        {
-            foreach( var assembly in assemblies )
-                this._registredAssemblies.Add(assembly);
-            return this;
-        }
-
-        /// <summary>
-        /// Set the default targetting method
-        /// </summary>
-        /// <param name="targetMethod"></param>
-        /// <returns></returns>
-        public StackWrapperSettings VersionTargetting( ServedVersionTagetted targetMethod )
-        {
-            this._defaultTargetting = targetMethod;
-            return this;
-        }
-
-        /// <summary>
-        /// forbids two services from referencing each other
-        /// </summary>
-        /// <returns></returns>
-        public StackWrapperSettings ForbidDependencyLoops()
-        {
-            this._createDependencyGraph = true;
-            this.GraphActions |= DepGraphActions.avoidLoops;
-            return this;
-        }
 
 
         #region constructors
@@ -69,15 +34,17 @@ namespace StackInjector.Settings
             return new StackWrapperSettings();
         }
 
+        //todo add link to default settings Wiki page
         /// <summary>
-        /// Creates a new StackWrapperSettings with default parameters
+        /// Creates a new StackWrapperSettings with default parameters.
+        /// See what those are at 
         /// </summary>
         /// <returns></returns>
         public static StackWrapperSettings CreateDefault()
         {
             return
                 new StackWrapperSettings()
-                .VersionTargetting(ServedVersionTagetted.From);
+                    .VersioningMethod(ServedVersionTagettingMethod.From);
         }
 
         #endregion

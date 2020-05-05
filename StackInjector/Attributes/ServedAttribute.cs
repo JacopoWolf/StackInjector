@@ -19,7 +19,7 @@ namespace StackInjector.Attributes
         /// <summary>
         /// Target version of the service
         /// </summary>
-        public ServedVersionTagetted Target { get; set; } = ServedVersionTagetted.From;
+        public ServedVersionTagettingMethod Target { get; set; } = ServedVersionTagettingMethod.From;
 
     }
 

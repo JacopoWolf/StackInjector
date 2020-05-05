@@ -3,7 +3,7 @@
     /// <summary>
     /// Type of version targetting. If the condition is unsatisfied, throw an exception and consider the injection failed
     /// </summary>
-    public enum ServedVersionTagetted
+    public enum ServedVersionTagettingMethod
     {
         /// <summary>
         /// target the exact version of a service
