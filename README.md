@@ -12,6 +12,8 @@ A **simple**, **performing**, **easy-to-use** dependency injection library for y
 ![Maintenance](https://img.shields.io/maintenance/yes/2020)
 ![GitHub open bug issues](https://img.shields.io/github/issues/jacopowolf/stackinjector/bug)
 
+Visit the [Wiki](https://github.com/JacopoWolf/StackInjector/wiki) for more information!
+
 ## Roadmap :date:
 
 | date | version |
@@ -25,7 +27,7 @@ A **simple**, **performing**, **easy-to-use** dependency injection library for y
 
 ## Installation :electric_plug:
 
-[![Nuget](https://img.shields.io/nuget/v/StackInjector?logo=nuget)](https://www.nuget.org/packages/StackInjector/)
+[![Nuget](https://img.shields.io/nuget/vpre/StackInjector?logo=nuget)](https://www.nuget.org/packages/StackInjector/)
 [![Nuget](https://img.shields.io/nuget/dt/StackInjector?logo=nuget)](https://www.nuget.org/packages/StackInjector/)
 
 ```powershell
@@ -35,7 +37,7 @@ dotnet add package StackInjector
 
 ## Usage :wrench:
 
-For in-depth tutorials and explanations visit the [wiki](https://github.com/JacopoWolf/StackInjector/wiki)
+For in-depth tutorials and explanations visit the [wiki](https://github.com/JacopoWolf/StackInjector/wiki/Tutorial)
 
 Below are shown the main features
 
@@ -56,7 +58,7 @@ Since `From<T>()` requires `T` to extend/implement `IStackEntryPoint` you have f
 var myString = Injector.From<ISomeOperationEntryPoint>().Start<string>();
 ```
 
-> in milestone 0.2.0 I'm planning to add `AsyncStart<string>()` and implementation versioning
+> I'm planning to add `AsyncStart<string>()` soon
 
 
 ## Contributing :pencil2:
