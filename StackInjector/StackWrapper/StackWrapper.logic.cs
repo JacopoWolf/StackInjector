@@ -46,7 +46,11 @@ namespace StackInjector
             return
                 (IStackEntryPoint)
                 this
-                    .ServicesWithInstances[this.ClassOrFromInterface(this.EntryPoint)];
+                    .ServicesWithInstances
+                    .FirstOfType
+                    ( 
+                        this.ClassOrFromInterface(this.EntryPoint) 
+                    );
         }
 
         #endregion

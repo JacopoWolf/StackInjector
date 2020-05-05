@@ -14,7 +14,7 @@ namespace StackInjector
         //todo comment
         internal Type GetVersion ( Type oftype, ServedAttribute versioningInfo )
         {
-            var extensions = this.ServicesWithInstances.Keys.Where( t => oftype.IsAssignableFrom(t) );
+            var extensions = this.ServicesWithInstances.InheritingFrom( oftype ); //Keys.Where( t => oftype.IsAssignableFrom(t) );
 
             
 
@@ -35,7 +35,7 @@ namespace StackInjector
                 try
                 {
                     //todo remove versioning logic here
-                    return this.ServicesWithInstances.Keys.First(t => t.GetInterface(type.Name) != null);
+                    return this.ServicesWithInstances.GetTypes().First(t => t.GetInterface(type.Name) != null);
                 }
                 catch( InvalidOperationException )
                 {
@@ -52,8 +52,9 @@ namespace StackInjector
         /// </summary>
         internal void ReadAssemblies ()
         {
-            this.ServicesWithInstances =
-                this
+            foreach 
+            (
+                var t in this
                 .Settings
                 .registredAssemblies
                 .SelectMany
@@ -64,11 +65,16 @@ namespace StackInjector
                         .AsParallel()
                         .Where(t => t.IsClass && t.GetCustomAttribute<ServiceAttribute>() != null)
                 )
-                .ToDictionary
-                (
-                    keySelector:        t => t,
-                    elementSelector:    (Func<Type,object>)( t => null )
-                );
+            )
+            {
+                this.ServicesWithInstances.AddType(t);
+            }
+
+                ////.ToDictionary
+                ////(
+                ////    keySelector:        t => t,
+                ////    elementSelector:    (Func<Type,object>)( t => null )
+                ////);
         }
 
     }

@@ -24,7 +24,9 @@ namespace StackInjector
 
             var instance = Activator.CreateInstance( type );
 
-            this.ServicesWithInstances[type] = instance;
+            //this.ServicesWithInstances[type] = instance;
+            this.ServicesWithInstances.AddInstance(type, instance);
+
             return instance;
 
         }
@@ -34,11 +36,11 @@ namespace StackInjector
             if( type.GetCustomAttribute<ServiceAttribute>() == null )
                 throw new NotAServiceException(type, $"The type {type.FullName} is not annotated with [Service]");
 
-            if( !this.ServicesWithInstances.ContainsKey(type) )
+            if( !this.ServicesWithInstances.ContainsType(type) )
                 throw new ClassNotFoundException(type, $"The type {type.FullName} is not in a registred assembly!");
 
 
-            var InstOfType = this.ServicesWithInstances[type];
+            var InstOfType = this.ServicesWithInstances.FirstOfType(type);
 
             if( InstOfType is null )
             {

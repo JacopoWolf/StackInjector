@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using StackInjector.Behaviours;
 using StackInjector.Settings;
 
 namespace StackInjector
@@ -19,10 +20,12 @@ namespace StackInjector
         /// <returns>The Initialized StackWrapper</returns>
         public static IStackWrapper From<T> ( this StackWrapperSettings settings ) where T : IStackEntryPoint
         {
+            //todo edit the naming or check the settings
             // create a new stackwrapper with the specified settings
             var wrapper = new StackWrapper( settings )
             {
-                EntryPoint = typeof(T)
+                EntryPoint = typeof(T),
+                ServicesWithInstances = new SingleInstanceHolder()
             };
 
             wrapper.ReadAssemblies();

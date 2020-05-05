@@ -5,6 +5,10 @@
     /// </summary>
     public interface IStackWrapper
     {
+
+        
+
+
         /// <summary>
         /// Start this StackWrapper with the specified entry point and get it's returned object in a generic form
         /// </summary>
