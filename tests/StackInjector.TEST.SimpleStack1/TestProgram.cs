@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
-using StackInjector;
 using StackInjector.Exceptions;
 using StackInjector.TEST.SimpleStack1.Services;
-using StackInjector.TEST.SimpleStack1.Services.Implementations;
 
 namespace StackInjector.TEST.SimpleStack1
 {
-   
+
     // This whole project works as core for the testing-oriented development of the core of this library
 
-    class TestProgram
+    internal class TestProgram
     {
         [Test]
-        public void WithInterfaces()
+        public void WithInterfaces ()
         {
             var result = Injector.From<IThingsGenerator>().Start<string>();
 
@@ -23,14 +19,27 @@ namespace StackInjector.TEST.SimpleStack1
         }
 
         [Test]
-        public void NotAService()
+        public void NotAService ()
         {
             Assert.Throws
                 (
                     typeof(NotAServiceException),
                     () =>
                     {
-                        Injector.From<IBadThingsGenerator>().Start();
+                        Injector.From<NotAServiceGenerator>().Start();
+                    }
+                );
+        }
+
+        [Test]
+        public void NullReference ()
+        {
+            Assert.Throws
+                (
+                    typeof(NullReferenceException),
+                    () =>
+                    {
+                        Injector.From<NullReferenceGenerator>().Start();
                     }
                 );
         }

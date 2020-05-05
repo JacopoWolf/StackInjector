@@ -1,18 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using StackInjector.Attributes;
 
-namespace StackInjector.TEST.SimpleStack1.Services.Implementations
+namespace StackInjector.TEST.SimpleStack1.Services
 {
+    internal interface IThingsGenerator : IStackEntryPoint
+    {
+        string GenerateThing ();
+    }
+
     [Service]
-    class SimpleThingsGenerator : IThingsGenerator
+    internal class SimpleThingsGenerator : IThingsGenerator
     {
         [Served]
-        IThingsFilter ThingsFilter { get; set; }
+        private SimpleThingsFilter ThingsFilter { get; set; }
 
         [Served]
-        IThingsConsumer ThingsConsumer { get; set; }
+        private IThingsConsumer ThingsConsumer { get; set; }
 
 
         // this method contains the main core of the stack, used to call every other dependency
@@ -22,7 +25,7 @@ namespace StackInjector.TEST.SimpleStack1.Services.Implementations
             Console.WriteLine($"generated {thing}");
 
             var filteredthing = this.ThingsFilter.FilterThing( thing );
-            Console.WriteLine( $"filtered {filteredthing}");
+            Console.WriteLine($"filtered {filteredthing}");
 
             this.ThingsConsumer.ConsumeThing(filteredthing);
 
@@ -35,4 +38,5 @@ namespace StackInjector.TEST.SimpleStack1.Services.Implementations
             return "123test45";
         }
     }
+
 }
