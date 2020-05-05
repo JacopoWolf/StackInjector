@@ -10,7 +10,7 @@
 
     <!-- nuget package -->
     <PackageId>StackInjector</PackageId>
-    <PackageTags>Dependency injection;</PackageTags>
+    <PackageTags>dependencyinjection</PackageTags>
     <Authors>JacopoWolf</Authors>
     <Company />
     <RepositoryUrl>https://github.com/JacopoWolf/StackInjector</RepositoryUrl>
