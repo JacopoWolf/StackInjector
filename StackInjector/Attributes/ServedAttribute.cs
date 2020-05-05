@@ -11,15 +11,17 @@ namespace StackInjector.Attributes
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple =false, Inherited = true)]
     public sealed class ServedAttribute : Attribute
     {
+
         /// <summary>
-        /// the target version
+        /// The target version.
         /// </summary>
-        public Version Version { get; set; } = Version.Parse("0.0.0");
+        public double TargetVersion { get; set; } = 0.0;
+
 
         /// <summary>
         /// Target version of the service
         /// </summary>
-        public ServedVersionTagetted Target { get; set; } = ServedVersionTagetted.From;
+        public ServedVersionTagettingMethod TargettingMethod { get; set; }
 
     }
 

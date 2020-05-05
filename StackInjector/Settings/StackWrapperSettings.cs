@@ -1,9 +1,6 @@
-﻿using System.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
-using System.Runtime.InteropServices;
 
 namespace StackInjector.Settings
 {
@@ -11,49 +8,23 @@ namespace StackInjector.Settings
     /// Used to manage the settings of a <see cref="StackWrapper"/>
     /// </summary>
     [Serializable]
-    public sealed class StackWrapperSettings
+    public sealed partial class StackWrapperSettings
     {
-        // settings 
 
-        internal HashSet<Assembly> _registredAssemblies = new HashSet<Assembly>();
-        internal ServedVersionTagetted _defaultTargetting;
-        internal bool _createDependencyGraph;
-        internal DepGraphActions GraphActions;
+        #region settings
 
+        // assemblies
+        internal HashSet<Assembly>                  registredAssemblies = new HashSet<Assembly>();
+        internal bool                               registerEntryPointAssembly = false;
 
-        /// <summary>
-        /// register an assembly from wich you want classes to be laoded
-        /// </summary>
-        /// <param name="assemblies"></param>
-        /// <returns></returns>
-        public StackWrapperSettings Register( params Assembly[] assemblies )
-        {
-            foreach( var assembly in assemblies )
-                this._registredAssemblies.Add(assembly);
-            return this;
-        }
+        // versioning
+        internal ServedVersionTagettingMethod       targettingMethod;
+        internal bool                               overrideTargettingMethod;
 
-        /// <summary>
-        /// Set the default targetting method
-        /// </summary>
-        /// <param name="targetMethod"></param>
-        /// <returns></returns>
-        public StackWrapperSettings VersionTargetting( ServedVersionTagetted targetMethod )
-        {
-            this._defaultTargetting = targetMethod;
-            return this;
-        }
+        // dependency graph
+        internal DependencyGraphActions             graphActions;
 
-        /// <summary>
-        /// forbids two services from referencing each other
-        /// </summary>
-        /// <returns></returns>
-        public StackWrapperSettings ForbidDependencyLoops()
-        {
-            this._createDependencyGraph = true;
-            this.GraphActions |= DepGraphActions.avoidLoops;
-            return this;
-        }
+        #endregion
 
 
         #region constructors
@@ -62,22 +33,26 @@ namespace StackInjector.Settings
 
         /// <summary>
         /// generates a new empty <see cref="StackWrapperSettings"/>. Nothing is set.
+        /// High chance a NullReference might be thrown if not treated correctly.
         /// </summary>
         /// <returns></returns>
-        public static StackWrapperSettings Create ()
+        public static StackWrapperSettings Empty ()
         {
             return new StackWrapperSettings();
         }
 
+        //todo add link to default settings Wiki page
         /// <summary>
-        /// Creates a new StackWrapperSettings with default parameters
+        /// Creates a new StackWrapperSettings with default parameters.
+        /// See what those are at 
         /// </summary>
         /// <returns></returns>
-        public static StackWrapperSettings CreateDefault()
+        public static StackWrapperSettings Default ()
         {
             return
                 new StackWrapperSettings()
-                .VersionTargetting(ServedVersionTagetted.From);
+                    .RegisterEntryAssembly()
+                    .VersioningMethod(ServedVersionTagettingMethod.None, overrideOnServed: false); //todo implement served override if true
         }
 
         #endregion

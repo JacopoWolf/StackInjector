@@ -10,6 +10,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StackInjector.TEST.SimpleSt
 		{FF8663EB-B6F5-41B1-A99E-758E446D5E39} = {FF8663EB-B6F5-41B1-A99E-758E446D5E39}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StackInjector.TEST.Versioning", "tests\StackInjector.TEST.Versioning\StackInjector.TEST.Versioning.csproj", "{A095AA2C-B958-431F-B9CA-31CC81E5623B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 		{C9E08D89-7800-425A-8E73-EDEF57E492D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9E08D89-7800-425A-8E73-EDEF57E492D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9E08D89-7800-425A-8E73-EDEF57E492D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A095AA2C-B958-431F-B9CA-31CC81E5623B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A095AA2C-B958-431F-B9CA-31CC81E5623B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A095AA2C-B958-431F-B9CA-31CC81E5623B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A095AA2C-B958-431F-B9CA-31CC81E5623B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

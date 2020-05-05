@@ -3,7 +3,7 @@
 namespace StackInjector.Settings
 {
     [Flags]
-    internal enum DepGraphActions
+    internal enum DependencyGraphActions
     {
         avoidLoops
     }

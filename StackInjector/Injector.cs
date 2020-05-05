@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using StackInjector.Behaviours;
 using StackInjector.Settings;
 
 namespace StackInjector
@@ -17,12 +18,14 @@ namespace StackInjector
         /// <typeparam name="T">The type of the entry point</typeparam>
         /// <param name="settings">settings for this StackWrapper</param>
         /// <returns>The Initialized StackWrapper</returns>
-        public static StackWrapper With<T> ( this StackWrapperSettings settings ) where T : IStackEntryPoint
+        public static IStackWrapper From<T> ( this StackWrapperSettings settings ) where T : IStackEntryPoint
         {
+            
             // create a new stackwrapper with the specified settings
             var wrapper = new StackWrapper( settings )
             {
-                EntryPoint = typeof(T)
+                EntryPoint = typeof(T),
+                ServicesWithInstances = new SingleInstanceHolder() //todo assign this decently
             };
 
             wrapper.ReadAssemblies();
@@ -37,14 +40,14 @@ namespace StackInjector
         /// </summary>
         /// <typeparam name="T">The type of the entry point</typeparam>
         /// <returns>The initialized StackWrapper</returns>
-        public static StackWrapper From<T> () where T : IStackEntryPoint
+        public static IStackWrapper From<T> () where T : IStackEntryPoint
         {
             // default configuration
             return  
                 StackWrapperSettings
-                    .CreateDefault()
+                    .Default()
                     .Register(typeof(T).Assembly)
-                    .With<T>();
+                    .From<T>();
         }
 
     }
