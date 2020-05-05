@@ -7,7 +7,7 @@ using StackInjector.Exceptions;
 
 namespace StackInjector
 {
-    public sealed partial class StackWrapper
+    internal partial class StackWrapper
     {
 
 
@@ -43,11 +43,10 @@ namespace StackInjector
         /// <returns></returns>
         internal IStackEntryPoint GetStackEntryPoint ()
         {
-            return 
+            return
                 (IStackEntryPoint)
                 this
-                    .ServicesWithInstances[this.ClassOrFromInterface(this.EntryPoint)]
-                    .First();
+                    .ServicesWithInstances[this.ClassOrFromInterface(this.EntryPoint)];
         }
 
         #endregion

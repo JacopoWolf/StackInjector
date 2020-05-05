@@ -7,14 +7,14 @@ using StackInjector.Attributes;
 
 namespace StackInjector
 {
-    public sealed partial class StackWrapper
+    internal partial class StackWrapper
     {
         /// <summary>
         /// Injects services into the specified instance, instantiating them on necessity.
         /// </summary>
         /// <param name="instance"></param>
         /// <returns></returns>
-        internal IEnumerable<object> InjectServicesInto ( object instance )
+        internal virtual IEnumerable<object> InjectServicesInto ( object instance )
         {
             var instantiated = new List<object>();
             var type = instance.GetType();

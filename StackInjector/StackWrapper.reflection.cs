@@ -8,12 +8,14 @@ using StackInjector.Exceptions;
 
 namespace StackInjector
 {
-    public sealed partial class StackWrapper
+    internal partial class StackWrapper
     {
 
         //todo comment
         internal Type GetVersion ( Type oftype, ServedAttribute versioningInfo )
         {
+            var extensions = this.ServicesWithInstances.Keys.Where( t => oftype.IsAssignableFrom(t) );
+
             
 
             return null;
@@ -64,8 +66,8 @@ namespace StackInjector
                 )
                 .ToDictionary
                 (
-                    t => t,
-                    t => new List<object>(1) // new list with space for at least a new instance
+                    keySelector:        t => t,
+                    elementSelector:    (Func<Type,object>)( t => null )
                 );
         }
 

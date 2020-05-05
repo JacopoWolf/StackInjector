@@ -8,7 +8,7 @@ using StackInjector.Exceptions;
 
 namespace StackInjector
 {
-    public sealed partial class StackWrapper
+    internal partial class StackWrapper
     {
         /// <summary>
         /// Instantiates the specified [Served] type
@@ -24,7 +24,7 @@ namespace StackInjector
 
             var instance = Activator.CreateInstance( type );
 
-            this.ServicesWithInstances[type].Add(instance);
+            this.ServicesWithInstances[type] = instance;
             return instance;
 
         }
@@ -40,13 +40,14 @@ namespace StackInjector
 
             var InstOfType = this.ServicesWithInstances[type];
 
-            if( InstOfType.Any() )
+            if( InstOfType is null )
             {
-                return InstOfType.First(); //todo remove; versioning logic here
+                return this.InstantiateService(type);
+
             }
             else
             {
-                return this.InstantiateService(type);
+                return InstOfType; //todo remove; versioning logic here
             }
         }
     }
