@@ -19,16 +19,16 @@ namespace StackInjector
         internal StackWrapperSettings Settings { get; set; }
 
 
-        //private IDictionary<Type, object> ServicesWithInstances { get; set; }
+        ////private IDictionary<Type, object> ServicesWithInstances { get; set; }
         internal IInstancesHolder ServicesWithInstances { get; set; }
 
 
 
 
-    /// <summary>
-    /// internal constructor.
-    /// </summary>
-    internal StackWrapper ( StackWrapperSettings settings )
+        /// <summary>
+        /// internal constructor.
+        /// </summary>
+        internal StackWrapper ( StackWrapperSettings settings )
             => this.Settings = settings;
 
 

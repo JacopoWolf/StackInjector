@@ -6,11 +6,13 @@ namespace StackInjector.Behaviours
 {
     internal interface IInstancesHolder
     {
-        object FirstOfType ( Type type );
+        IEnumerable<object> OfType ( Type type );
 
-        IEnumerable<object> InheritingFrom ( Type type );
+        IEnumerable<object> InstanceAssignableFrom ( Type type );
 
-        IEnumerable<Type> GetTypes ();
+        IEnumerable<Type> TypesAssignableFrom ( Type type );
+
+        IEnumerable<Type> GetAllTypes ();
 
 
         void AddType ( Type type );

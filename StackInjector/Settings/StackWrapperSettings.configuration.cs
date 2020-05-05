@@ -20,6 +20,16 @@ namespace StackInjector.Settings
         }
 
         /// <summary>
+        /// register the entry point assembly when Starting
+        /// </summary>
+        /// <returns></returns>
+        public StackWrapperSettings RegisterEntryAssembly()
+        {
+            this.registerEntryPointAssembly = true;
+            return this;
+        }
+
+        /// <summary>
         /// Overrides default targetting method
         /// </summary>
         /// <param name="targetMethod">the new default targetting method</param>

@@ -40,17 +40,12 @@ namespace StackInjector
                 throw new ClassNotFoundException(type, $"The type {type.FullName} is not in a registred assembly!");
 
 
-            var InstOfType = this.ServicesWithInstances.FirstOfType(type);
+            var instanceOfType = this.ServicesWithInstances.OfType(type).First();
 
-            if( InstOfType is null )
-            {
+            if( instanceOfType is null )
                 return this.InstantiateService(type);
-
-            }
             else
-            {
-                return InstOfType; //todo remove; versioning logic here
-            }
+                return instanceOfType;
         }
     }
 }

@@ -20,12 +20,12 @@ namespace StackInjector
         /// <returns>The Initialized StackWrapper</returns>
         public static IStackWrapper From<T> ( this StackWrapperSettings settings ) where T : IStackEntryPoint
         {
-            //todo edit the naming or check the settings
+            
             // create a new stackwrapper with the specified settings
             var wrapper = new StackWrapper( settings )
             {
                 EntryPoint = typeof(T),
-                ServicesWithInstances = new SingleInstanceHolder()
+                ServicesWithInstances = new SingleInstanceHolder() //todo assign this decently
             };
 
             wrapper.ReadAssemblies();

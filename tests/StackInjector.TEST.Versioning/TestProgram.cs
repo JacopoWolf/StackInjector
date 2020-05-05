@@ -6,22 +6,28 @@ namespace StackInjector.TEST.Versioning
 {
     internal class TestProgram
     {
-        private StackWrapperSettings UsedSettings { get; set; }
 
-        [SetUp]
-        public void SetUp()
+        [Test]
+        public void MinorVersioning()
         {
-            this.UsedSettings =
-                StackWrapperSettings
-                    .Default()
-                    .Register( typeof(TestProgram).Assembly )
-                    .VersioningMethod( ServedVersionTagettingMethod.Exact );
+            StackWrapperSettings
+                .Default()
+                .VersioningMethod( ServedVersionTagettingMethod.LatestMinor )
+                .From<EntryPointTestMinor>()
+                .Start();
         }
 
         [Test]
-        public void Versioning()
+        public void MajorVersioning()
         {
-            Injector.From<EntryPointTest>(this.UsedSettings).Start();
+            StackWrapperSettings
+                .Default()
+                .VersioningMethod( ServedVersionTagettingMethod.LatestMajor )
+                .From<EntryPointTestMajor>()
+                .Start();
         }
+
+
+
     }
 }

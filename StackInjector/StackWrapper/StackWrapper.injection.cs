@@ -28,7 +28,7 @@ namespace StackInjector
 
                 foreach( var serviceField in fields )
                 {
-                    var serviceType = this.ClassOrFromInterface(serviceField.FieldType);
+                    var serviceType = this.ClassOrFromInterface(serviceField.FieldType, serviceField.GetCustomAttribute<ServedAttribute>());
                     var serviceInstance = this.OfTypeOrInstantiate(serviceType);
                     serviceField.SetValue(instance, serviceInstance);
 
@@ -45,7 +45,7 @@ namespace StackInjector
 
                 foreach( var propertyField in properties )
                 {
-                    var serviceType = this.ClassOrFromInterface( propertyField.PropertyType );
+                    var serviceType = this.ClassOrFromInterface( propertyField.PropertyType, propertyField.GetCustomAttribute<ServedAttribute>() );
                     var serviceInstance = this.OfTypeOrInstantiate( serviceType );
                     propertyField.SetValue(instance, serviceInstance);
 

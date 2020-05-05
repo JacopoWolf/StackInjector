@@ -7,22 +7,22 @@ namespace StackInjector.TEST.Versioning.Services
         bool IsNice ( int obj );
     }
 
-    [Service(Version = 2.0)]
-    class Nice : INiceFilter
+    [Service(Version = 2.00)]
+    class NiceFilter : INiceFilter
     {
-        public bool IsNice ( int obj ) => obj == 69;
+        public virtual bool IsNice ( int obj ) => obj == 69;
     }
 
-    [Service(Version = 1.0)]
+    [Service(Version = 1.00)]
     class TheAnswerFilter : INiceFilter
     {
         public bool IsNice ( int obj ) => obj == 42;
     }
 
     [Service(Version = 4.20)]
-    class BobFilter : Nice
+    class BobFilter : NiceFilter
     {
-        new public bool IsNice ( int obj ) => obj == 420;
+        public override bool IsNice ( int obj ) => obj == 420;
     }
 
 

@@ -7,24 +7,29 @@ namespace StackInjector.Behaviours
 {
     internal class SingleInstanceHolder : Dictionary<Type, object>, IInstancesHolder
     {
-        public void AddType ( Type type ) 
+        public void AddType ( Type type )
             => this[type] = null;
 
-        public void AddInstance ( Type type, object instance ) 
+        public void AddInstance ( Type type, object instance )
             => this[type] = instance;
 
-        public object FirstOfType ( Type type ) 
-            => this[type];
+        public IEnumerable<object> OfType ( Type type )
+            => new object[]{ this[type] };
 
-        public IEnumerable<object> InheritingFrom ( Type type )
+        public IEnumerable<object> InstanceAssignableFrom ( Type type )
             =>  this
                     .Where(p => type.IsAssignableFrom(p.Key))
                     .Select(p => p.Value);
 
+        public IEnumerable<Type> TypesAssignableFrom ( Type type )
+            => this
+                    .Keys
+                    .Where(p => type.IsAssignableFrom(p));
+
         public bool ContainsType ( Type type ) 
             => this.ContainsKey(type);
 
-        public IEnumerable<Type> GetTypes ()
+        public IEnumerable<Type> GetAllTypes ()
             => this.Keys;
     }
 }
