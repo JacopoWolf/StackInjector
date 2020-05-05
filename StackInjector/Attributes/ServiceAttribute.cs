@@ -10,19 +10,18 @@ namespace StackInjector.Attributes
     [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
     public sealed class ServiceAttribute : Attribute
     {
-        // See the attribute guidelines at 
-        //  http://go.microsoft.com/fwlink/?LinkId=85236
+
+        /// <summary>
+        /// The version of this service implementation
+        /// </summary>
+        public double Version { get; set; } = -0.0;
 
 
         /// <summary>
-        /// Indicates if the framework should use only one instance of this service across all clients
+        /// Indicates if the framework should use only one instance of this service across all clients.
+        /// Might be ignored by the settings.
         /// </summary>
-        public bool Unique { get; set; } = false;
-
-        /// <summary>
-        /// The version of this specific service
-        /// </summary>
-        public Version Version { get; set; } = Version.Parse("1.0.0");
+        public bool ReuseInstance { get; set; } = false;
 
     }
 }

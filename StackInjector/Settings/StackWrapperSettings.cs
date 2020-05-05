@@ -1,9 +1,6 @@
-﻿using System.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
-using System.Runtime.InteropServices;
 
 namespace StackInjector.Settings
 {
@@ -14,11 +11,19 @@ namespace StackInjector.Settings
     public sealed partial class StackWrapperSettings
     {
 
-        // settings 
+        #region settings
+
+        // assemblies
         internal HashSet<Assembly>                  registredAssemblies = new HashSet<Assembly>();
+
+        // versioning
         internal ServedVersionTagettingMethod       targettingMethod;
+        internal bool                               overrideTargettingMethod;
+
+        // dependency graph
         internal DependencyGraphActions             graphActions;
 
+        #endregion
 
 
         #region constructors
@@ -27,9 +32,10 @@ namespace StackInjector.Settings
 
         /// <summary>
         /// generates a new empty <see cref="StackWrapperSettings"/>. Nothing is set.
+        /// High chance a NullReference might be thrown if not treated correctly.
         /// </summary>
         /// <returns></returns>
-        public static StackWrapperSettings Create ()
+        public static StackWrapperSettings Empty ()
         {
             return new StackWrapperSettings();
         }
@@ -40,11 +46,11 @@ namespace StackInjector.Settings
         /// See what those are at 
         /// </summary>
         /// <returns></returns>
-        public static StackWrapperSettings CreateDefault()
+        public static StackWrapperSettings Default ()
         {
             return
                 new StackWrapperSettings()
-                    .VersioningMethod(ServedVersionTagettingMethod.From);
+                    .VersioningMethod(ServedVersionTagettingMethod.LatestMinor, overrideOnServed: false);
         }
 
         #endregion

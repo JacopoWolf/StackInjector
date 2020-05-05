@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using StackInjector.Settings;
+using StackInjector.TEST.Versioning.Services;
 
 namespace StackInjector.TEST.Versioning
 {
@@ -12,18 +13,15 @@ namespace StackInjector.TEST.Versioning
         {
             this.UsedSettings =
                 StackWrapperSettings
-                    .Create()
+                    .Default()
                     .Register( typeof(TestProgram).Assembly )
                     .VersioningMethod( ServedVersionTagettingMethod.Exact );
         }
 
         [Test]
-        public void VersioningV1()
+        public void Versioning()
         {
-
-            
-
-            Assert.Pass();
+            Injector.From<EntryPointTest>(this.UsedSettings).Start();
         }
     }
 }

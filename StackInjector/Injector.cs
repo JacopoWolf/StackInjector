@@ -17,7 +17,7 @@ namespace StackInjector
         /// <typeparam name="T">The type of the entry point</typeparam>
         /// <param name="settings">settings for this StackWrapper</param>
         /// <returns>The Initialized StackWrapper</returns>
-        public static StackWrapper With<T> ( this StackWrapperSettings settings ) where T : IStackEntryPoint
+        public static StackWrapper From<T> ( this StackWrapperSettings settings ) where T : IStackEntryPoint
         {
             // create a new stackwrapper with the specified settings
             var wrapper = new StackWrapper( settings )
@@ -42,9 +42,9 @@ namespace StackInjector
             // default configuration
             return  
                 StackWrapperSettings
-                    .CreateDefault()
+                    .Default()
                     .Register(typeof(T).Assembly)
-                    .With<T>();
+                    .From<T>();
         }
 
     }
