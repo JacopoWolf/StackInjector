@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using StackInjector.Exceptions;
 using StackInjector.Behaviours;
 using StackInjector.Settings;
 
@@ -18,6 +19,9 @@ namespace StackInjector
         /// <typeparam name="T">The type of the entry point</typeparam>
         /// <param name="settings">settings for this StackWrapper</param>
         /// <returns>The Initialized StackWrapper</returns>
+        /// <exception cref="ClassNotFoundException"></exception>
+        /// <exception cref="NotAServiceException"></exception>
+        /// <exception cref="ImplementationNotFoundException"></exception>
         public static IStackWrapper From<T> ( this StackWrapperSettings settings ) where T : IStackEntryPoint
         {
             
@@ -40,6 +44,9 @@ namespace StackInjector
         /// </summary>
         /// <typeparam name="T">The type of the entry point</typeparam>
         /// <returns>The initialized StackWrapper</returns>
+        /// <exception cref="ClassNotFoundException"></exception>
+        /// <exception cref="NotAServiceException"></exception>
+        /// <exception cref="ImplementationNotFoundException"></exception>
         public static IStackWrapper From<T> () where T : IStackEntryPoint
         {
             // default configuration

@@ -21,7 +21,7 @@ namespace StackInjector.Attributes
         /// <summary>
         /// Target version of the service
         /// </summary>
-        public ServedVersionTagettingMethod TargettingMethod { get; set; }
+        public ServedVersionTagettingMethod? TargettingMethod { get; set; } = null;
 
     }
 
