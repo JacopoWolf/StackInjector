@@ -14,9 +14,9 @@ namespace StackInjector.Exceptions
 
 
 
-        internal ClassException() { }
+        internal ClassException () { }
 
-        internal ClassException ( Type type, string message ) : this( message )
+        internal ClassException ( Type type, string message ) : this(message)
         {
             this.ClassType = type;
             this.SourceAssembly = type.Assembly;

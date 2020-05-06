@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
+﻿using System.Reflection;
 
 namespace StackInjector.Settings
 {
@@ -23,7 +20,7 @@ namespace StackInjector.Settings
         /// register the entry point assembly when Starting
         /// </summary>
         /// <returns></returns>
-        public StackWrapperSettings RegisterEntryAssembly()
+        public StackWrapperSettings RegisterEntryAssembly ()
         {
             this.registerEntryPointAssembly = true;
             return this;
@@ -35,7 +32,7 @@ namespace StackInjector.Settings
         /// <param name="targetMethod">the new default targetting method</param>
         /// <param name="override">if true, versioning methods for [Served] fields and properties are overriden</param>
         /// <returns></returns>
-        public StackWrapperSettings VersioningMethod ( ServedVersionTagettingMethod targetMethod , bool @override = false )
+        public StackWrapperSettings VersioningMethod ( ServedVersionTagettingMethod targetMethod, bool @override = false )
         {
             this.targettingMethod = targetMethod;
             this.overrideTargettingMethod = @override;

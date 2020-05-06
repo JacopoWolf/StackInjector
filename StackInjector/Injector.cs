@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
+﻿using StackInjector.Behaviours;
 using StackInjector.Exceptions;
-using StackInjector.Behaviours;
 using StackInjector.Settings;
 
 namespace StackInjector
@@ -24,7 +20,7 @@ namespace StackInjector
         /// <exception cref="ImplementationNotFoundException"></exception>
         public static IStackWrapper From<T> ( this StackWrapperSettings settings ) where T : IStackEntryPoint
         {
-            
+
             // create a new stackwrapper with the specified settings
             var wrapper = new StackWrapper( settings )
             {
@@ -50,7 +46,7 @@ namespace StackInjector
         public static IStackWrapper From<T> () where T : IStackEntryPoint
         {
             // default configuration
-            return  
+            return
                 StackWrapperSettings
                     .Default()
                     .Register(typeof(T).Assembly)

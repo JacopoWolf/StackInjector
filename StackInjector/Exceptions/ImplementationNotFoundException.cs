@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StackInjector.Exceptions
 {
@@ -13,7 +11,7 @@ namespace StackInjector.Exceptions
         {
         }
 
-        internal ImplementationNotFoundException ( Type type, string message ) : base( type, message )
+        internal ImplementationNotFoundException ( Type type, string message ) : base(type, message)
         {
 
         }

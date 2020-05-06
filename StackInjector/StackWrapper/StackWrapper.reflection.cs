@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
 using StackInjector.Attributes;
-using StackInjector.Behaviours;
 using StackInjector.Exceptions;
-using StackInjector.Settings;
 
 namespace StackInjector
 {
@@ -33,7 +28,7 @@ namespace StackInjector
                                 ? this.Settings.targettingMethod
                                 : servedAttribute?.TargettingMethod ?? this.Settings.targettingMethod;
 
-                    return this.Version( type, v, t );
+                    return this.Version(type, v, t);
 
                 }
                 catch( InvalidOperationException )
@@ -57,7 +52,7 @@ namespace StackInjector
             if( this.Settings.registerEntryPointAssembly )
                 this.Settings.registredAssemblies.Add(this.EntryPoint.Assembly);
 
-            foreach 
+            foreach
             (
                 var t in this
                 .Settings

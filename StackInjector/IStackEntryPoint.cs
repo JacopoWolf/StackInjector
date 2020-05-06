@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace StackInjector
+﻿namespace StackInjector
 {
     /// <summary>
     /// Entry point class for a simple stack
