@@ -9,7 +9,7 @@ namespace StackInjector
     internal partial class StackWrapper
     {
 
-        public Type Version
+        internal Type Version
         (
             Type targetType,
             double targetVersion,
