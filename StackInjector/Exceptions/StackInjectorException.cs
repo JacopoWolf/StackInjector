@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 
 namespace StackInjector.Exceptions
 {
@@ -21,7 +19,7 @@ namespace StackInjector.Exceptions
             this.SourceAssembly = assembly;
         }
 
-        internal StackInjectorException() : base( ) { }
+        internal StackInjectorException () : base() { }
 
         internal StackInjectorException ( string message ) : base(message) { }
 

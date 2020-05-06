@@ -6,7 +6,7 @@
     public interface IStackWrapper
     {
 
-        
+
 
 
         /// <summary>

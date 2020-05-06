@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StackInjector.Exceptions
 {
@@ -10,7 +8,7 @@ namespace StackInjector.Exceptions
     public sealed class ClassNotFoundException : ClassException
     {
 
-        internal ClassNotFoundException( Type type, string message ) : base(type,message)
+        internal ClassNotFoundException ( Type type, string message ) : base(type, message)
         {
 
         }

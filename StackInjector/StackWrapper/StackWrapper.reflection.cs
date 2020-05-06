@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using StackInjector.Attributes;
-using StackInjector.Behaviours;
 using StackInjector.Exceptions;
 
 namespace StackInjector
@@ -18,26 +15,21 @@ namespace StackInjector
         /// <param name="type"></param>
         /// <param name="servedAttribute"></param>
         /// <returns></returns>
+        /// <exception cref="ImplementationNotFoundException"></exception>
         internal Type ClassOrFromInterface ( Type type, ServedAttribute servedAttribute = null )
         {
             if( type.IsInterface )
             {
                 try
                 {
-                    if( servedAttribute is null )
-                        return
-                            this
-                                .ServicesWithInstances
-                                .GetAllTypes()
-                                .First(t => t.GetInterface(type.Name) != null);
-                    else
-                        return
-                            this.Version
-                            (
-                                type,
-                                servedAttribute,
-                                this.Settings.targettingMethod
-                            );
+                    var v = servedAttribute?.TargetVersion ?? 0.0;
+
+                    var t = ( this.Settings.overrideTargettingMethod )
+                                ? this.Settings.targettingMethod
+                                : servedAttribute?.TargettingMethod ?? this.Settings.targettingMethod;
+
+                    return this.Version(type, v, t);
+
                 }
                 catch( InvalidOperationException )
                 {
@@ -60,7 +52,7 @@ namespace StackInjector
             if( this.Settings.registerEntryPointAssembly )
                 this.Settings.registredAssemblies.Add(this.EntryPoint.Assembly);
 
-            foreach 
+            foreach
             (
                 var t in this
                 .Settings
@@ -77,12 +69,6 @@ namespace StackInjector
             {
                 this.ServicesWithInstances.AddType(t);
             }
-
-                ////.ToDictionary
-                ////(
-                ////    keySelector:        t => t,
-                ////    elementSelector:    (Func<Type,object>)( t => null )
-                ////);
         }
 
     }

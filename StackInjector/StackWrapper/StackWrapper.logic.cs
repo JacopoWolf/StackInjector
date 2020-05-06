@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using StackInjector.Attributes;
-using StackInjector.Exceptions;
 
 namespace StackInjector
 {
     internal partial class StackWrapper
     {
-
-
 
         //? could parallelize
         internal void ServeAll ()
@@ -24,7 +18,7 @@ namespace StackInjector
                     this.InstantiateService(this.EntryPoint)
                 );
 
-            while ( toInject.Any() )
+            while( toInject.Any() )
             {
                 var usedServices = this.InjectServicesInto(toInject.Dequeue());
 
@@ -32,8 +26,6 @@ namespace StackInjector
                     toInject.Enqueue(service);
             }
         }
-
-        #region utilities
 
 
 
@@ -48,12 +40,10 @@ namespace StackInjector
                 this
                     .ServicesWithInstances
                     .OfType
-                    ( 
-                        this.ClassOrFromInterface(this.EntryPoint) 
+                    (
+                        this.ClassOrFromInterface(this.EntryPoint)
                     )
                     .First();
         }
-
-        #endregion
     }
 }

@@ -52,7 +52,7 @@ namespace StackInjector.Settings
             return
                 new StackWrapperSettings()
                     .RegisterEntryAssembly()
-                    .VersioningMethod(ServedVersionTagettingMethod.None, overrideOnServed: false); //todo implement served override if true
+                    .VersioningMethod(ServedVersionTagettingMethod.None, @override: false); //todo implement served override if true
         }
 
         #endregion

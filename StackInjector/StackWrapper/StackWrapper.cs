@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using StackInjector.Attributes;
 using StackInjector.Behaviours;
-using StackInjector.Exceptions;
 using StackInjector.Settings;
 
 namespace StackInjector

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StackInjector.Exceptions
 {
@@ -14,7 +12,7 @@ namespace StackInjector.Exceptions
 
         }
 
-        internal NotAServiceException( Type type, string message ) : base(type, message)
+        internal NotAServiceException ( Type type, string message ) : base(type, message)
         {
 
         }

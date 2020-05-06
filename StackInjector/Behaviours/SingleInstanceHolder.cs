@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using StackInjector.Behaviours;
 
 namespace StackInjector.Behaviours
 {
@@ -14,10 +13,10 @@ namespace StackInjector.Behaviours
             => this[type] = instance;
 
         public IEnumerable<object> OfType ( Type type )
-            => new object[]{ this[type] };
+            => new object[] { this[type] };
 
         public IEnumerable<object> InstanceAssignableFrom ( Type type )
-            =>  this
+            => this
                     .Where(p => type.IsAssignableFrom(p.Key))
                     .Select(p => p.Value);
 
@@ -26,7 +25,7 @@ namespace StackInjector.Behaviours
                     .Keys
                     .Where(p => type.IsAssignableFrom(p));
 
-        public bool ContainsType ( Type type ) 
+        public bool ContainsType ( Type type )
             => this.ContainsKey(type);
 
         public IEnumerable<Type> GetAllTypes ()

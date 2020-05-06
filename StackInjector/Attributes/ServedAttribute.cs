@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using StackInjector.Settings;
 
 namespace StackInjector.Attributes
@@ -8,7 +6,7 @@ namespace StackInjector.Attributes
     /// <summary>
     /// Indicates this field or property should be injected
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple =false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
     public sealed class ServedAttribute : Attribute
     {
 
@@ -21,7 +19,7 @@ namespace StackInjector.Attributes
         /// <summary>
         /// Target version of the service
         /// </summary>
-        public ServedVersionTagettingMethod TargettingMethod { get; set; }
+        public ServedVersionTagettingMethod? TargettingMethod { get; set; } = null;
 
     }
 
