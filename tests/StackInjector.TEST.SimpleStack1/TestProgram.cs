@@ -44,5 +44,11 @@ namespace StackInjector.TEST.SimpleStack1
                 );
         }
 
+        [Test]
+        public void AccessWrapper()
+        {
+            Injector.From<AccessWrapperEntryPoint>().Start();
+        }
+
     }
 }

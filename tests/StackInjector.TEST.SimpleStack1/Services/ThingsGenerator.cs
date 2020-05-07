@@ -39,4 +39,19 @@ namespace StackInjector.TEST.SimpleStack1.Services
         }
     }
 
+
+    [Service]
+    internal class AccessWrapperEntryPoint : IStackEntryPoint
+    {
+        [Served]
+        IStackWrapper Wrapper { get; set; }
+
+        public object EntryPoint ()
+        {
+            Console.WriteLine( this.Wrapper.ToString() );
+
+            return null;
+        }
+    }
+
 }

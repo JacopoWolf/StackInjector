@@ -49,7 +49,7 @@ namespace StackInjector
             return
                 StackWrapperSettings
                     .Default()
-                    .Register(typeof(T).Assembly)
+                    .RegisterAssemblies(typeof(T).Assembly)
                     .From<T>();
         }
 
