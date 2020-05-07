@@ -17,6 +17,10 @@ namespace StackInjector
             var instantiated = new List<object>();
             var type = instance.GetType();
 
+            // setting for ignoring service of members. Defined in [Service] attribute
+            if( type.GetCustomAttribute<ServiceAttribute>()?.DoNotServeMembers ?? false )
+                return instantiated;
+
             // fields
             {
                 var fields =

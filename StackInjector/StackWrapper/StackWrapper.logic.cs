@@ -9,8 +9,14 @@ namespace StackInjector
         //? could parallelize
         internal void ServeAll ()
         {
+            // setting for referencing this object from instances inside
+            if( this.Settings.registerSelf )
+                this.ServicesWithInstances.AddInstance(typeof(StackWrapper), this);
+
+
 
             var toInject = new Queue<object>();
+
 
             // instantiates and enqueues the EntryPoint
             toInject.Enqueue

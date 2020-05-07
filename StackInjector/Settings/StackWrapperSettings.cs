@@ -15,7 +15,8 @@ namespace StackInjector.Settings
 
         // assemblies
         internal HashSet<Assembly>                  registredAssemblies = new HashSet<Assembly>();
-        internal bool                               registerEntryPointAssembly = false;
+        internal bool                               registerEntryPointAssembly;
+        internal bool                               registerSelf;
 
         // versioning
         internal ServedVersionTagettingMethod       targettingMethod;
@@ -52,6 +53,7 @@ namespace StackInjector.Settings
             return
                 new StackWrapperSettings()
                     .RegisterEntryAssembly()
+                    .RegisterWrapperAsService()
                     .VersioningMethod(ServedVersionTagettingMethod.None, @override: false); //todo implement served override if true
         }
 

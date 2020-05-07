@@ -21,5 +21,10 @@ namespace StackInjector.Attributes
         /// </summary>
         public bool ReuseInstance { get; set; } = false;
 
+        /// <summary>
+        /// if set to true, members of this object will not be served even if marked as such
+        /// </summary>
+        public bool DoNotServeMembers { get; set; } = false;
+
     }
 }
