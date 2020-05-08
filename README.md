@@ -43,7 +43,35 @@ Below are shown the main features
 
 ---
 
-Plan your components as **interfaces** and *implement* them, then it's as simple as:
+Plan your components as **interfaces** and *implement* them! Forget constructors, forget access modifiers!
+
+```cs
+interface IMyService
+{
+    string Filter( string element );
+}
+```
+```cs
+[Service]
+class MySimpleService : IMyService
+{
+    [Served]
+    IMyDatabaseAccess Database { get; set; }
+    
+    [Served]
+    IMyOtherSubFilter MinorFilter { get; set; }
+    
+    string Filter( string element ) 
+    {
+        this.Database.SomeMethod( element );
+        this.MinorFilter.SomeOtherMethod( element );
+        // do something here
+        return element;
+    }
+}
+```
+
+Then to initialize, after implementing an entry point `[Service]`, it's as simple as:
 ```cs
 using StackInjector;
 ```
@@ -52,13 +80,13 @@ using StackInjector;
 Injector.From<IMyAppEntryPoint>().Start();
 ```
 
-Since `From<T>()` requires `T` to extend/implement `IStackEntryPoint` you have full control of the execution flow of your application, being also allowed to instantiate a new self-contained automatically wired up stack at every point in your app and wait for a result! 
+Since `From<T>()` requires `T` to implement `IStackEntryPoint` you have full control of the execution flow of your application, being also allowed to instantiate a new self-contained automatically wired up stack at every point in your app and wait for a result! 
 
 ```cs
 var myString = Injector.From<ISomeOperationEntryPoint>().Start<string>();
 ```
 
-> I'm planning to add `AsyncStart<string>()` soon
+For **more** information and in-depth **tutorials**, look at the simple tutoriars in the [wiki](https://github.com/JacopoWolf/StackInjector/wiki)
 
 
 ## Contributing :pencil2:
