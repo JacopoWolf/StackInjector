@@ -68,6 +68,7 @@ namespace StackInjector
                 // managed resources
                 this.CancelPendingTasks.Cancel();
                 this.CancelPendingTasks.Dispose();
+                this.emptyListAwaiter.Dispose();
                 
                 // big objects
                 this.tasks.Clear();
