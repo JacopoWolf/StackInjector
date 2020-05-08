@@ -9,7 +9,7 @@ namespace StackInjector.TEST.SimpleStack1.Services
         void BadlyGenerate ();
     }
 
-    [Service]
+
     internal class NotAServiceGenerator : IBadThingsGenerator
     {
         // property is [Served] but List<string> is not a [Service]
@@ -28,7 +28,7 @@ namespace StackInjector.TEST.SimpleStack1.Services
         }
     }
 
-    [Service]
+ 
     internal class NullReferenceGenerator : IBadThingsGenerator
     {
         // no [Served] attribute

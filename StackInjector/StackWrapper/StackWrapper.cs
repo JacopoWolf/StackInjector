@@ -12,7 +12,7 @@ namespace StackInjector
 
         internal Type EntryPoint { get; set; }
 
-        internal StackWrapperSettings Settings { get; set; }
+        public StackWrapperSettings Settings { get; internal set; }
 
 
         internal IInstancesHolder ServicesWithInstances { get; set; }
@@ -30,13 +30,13 @@ namespace StackInjector
 
 
         /// <inheritdoc/>
-        T IStackWrapper.Start<T> ()
+        public T Start<T> ()
             => 
                 (T)this.GetStackEntryPoint().EntryPoint();
         
 
         /// <inheritdoc/>
-        object IStackWrapper.Start ()
+        public object Start ()
             =>
                 this.GetStackEntryPoint().EntryPoint();
         
@@ -45,7 +45,34 @@ namespace StackInjector
         public override string ToString ()
             =>
                 $"StackWrapper{{ {this.ServicesWithInstances.GetAllTypes().Count()} registered types; entry point: {this.EntryPoint.Name} }}";
-        
+
+
+
+        public IStackWrapper FromStructure<T> ( StackWrapperSettings overrideSettings = null ) where T : IStackEntryPoint
+        {
+            var clonedWrapper = new StackWrapper( overrideSettings ?? this.Settings )
+            {
+                EntryPoint = typeof(T),
+                ServicesWithInstances = this.ServicesWithInstances
+            };
+
+            clonedWrapper.ServeAll();
+
+            return clonedWrapper;
+        }
+
+        public IAsyncStackWrapper AsyncFromStructure<T> ( StackWrapperSettings overrideSettings = null ) where T : IAsyncStackEntryPoint
+        {
+            var clonedWrapper = new AsyncStackWrapper( overrideSettings ?? this.Settings )
+            {
+                EntryPoint = typeof(T),
+                ServicesWithInstances = this.ServicesWithInstances
+            };
+
+            clonedWrapper.ServeAll();
+
+            return clonedWrapper;
+        }
 
     }
 }

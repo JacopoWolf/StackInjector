@@ -22,8 +22,6 @@ namespace StackInjector.Settings
         internal ServedVersionTagettingMethod       targettingMethod;
         internal bool                               overrideTargettingMethod;
 
-        // dependency graph
-        internal DependencyGraphActions             graphActions;
 
         #endregion
 
