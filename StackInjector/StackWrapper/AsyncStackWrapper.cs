@@ -6,103 +6,79 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using StackInjector.Attributes;
 using StackInjector.Settings;
 
 namespace StackInjector
 {
-
-    internal class AsyncStackWrapper : StackWrapper, IAsyncStackWrapper
+    [Service(DoNotServeMembers = true, Version = 2.0)]
+    internal partial class AsyncStackWrapper : StackWrapper, IAsyncStackWrapper
     {
-        
-        public CancellationTokenSource CancelEveything { get; internal set; } = new CancellationTokenSource();
 
-        internal Type TargetType { get; set; } //! unused
-
-        private List<Task<object>> TaskList { get; set; } = new List<Task<object>>();
+        public CancellationTokenSource CancelPendingTasks { get; private set; } = new CancellationTokenSource();
 
 
+        // used to lock access to tasks
+        private readonly object listAccessLock = new object();
 
+        // asyncronously waited for new events if TaskList is empty
+        private readonly SemaphoreSlim emptyListAwaiter = new SemaphoreSlim(0);
+
+        private LinkedList<Task<object>> tasks = new LinkedList<Task<object>>();
+
+
+
+        /// <summary>
+        /// create a new AsyncStackWrapper
+        /// </summary>
+        /// <param name="settings"></param>
         internal AsyncStackWrapper( StackWrapperSettings settings ) : base(settings)
         {
             // in case the list is empty, release the empty event listener.
-            this.CancelEveything.Token.Register( this.ReleaseListAwaiter );
+            this.CancelPendingTasks.Token.Register( this.ReleaseListAwaiter );
         
         }
 
+
+        /// <summary>
+        /// call the semaphore
+        /// </summary>
         private void ReleaseListAwaiter ()
             =>
-                this.EmptyListAwaiter.Release();
+                this.emptyListAwaiter.Release();
 
 
-        // asyncronously waited for new events if TaskList is empty
-        private SemaphoreSlim EmptyListAwaiter = new SemaphoreSlim(0);
 
-        object ListAccessLock = new object();
+        public override string ToString ()
+            =>
+                $"AsyncStackWrapper{{ {this.ServicesWithInstances.GetAllTypes().Count()} registered types; " +
+                $"entry point: {this.EntryPoint.Name}; canceled: {this.CancelPendingTasks.IsCancellationRequested} }}";
 
-        ///<inheritdoc/>
-        public void Submit ( object submitted )
+
+
+        #region IDisposable Support
+
+        private bool disposedValue = false;
+
+        public void Dispose (  )
         {
-            var task = Task.Run
-                (
-                    () => this.GetAsyncEntryPoint().Digest(submitted),
-                    this.CancelEveything.Token
-                );
-
-
-            lock( this.ListAccessLock )
-                this.TaskList.Add(task);
-
-
-            // if the list was empty just an item ago, signal it's not anymore.
-            // this limit avoids useless cross thread calls that would slow everything down.
-            if( this.TaskList.Count == 1 )
-                this.ReleaseListAwaiter();
-        }
-
-        
-
-
-        public async IAsyncEnumerable<T> Elaborated<T> ()
-        {
-            while( !this.CancelEveything.IsCancellationRequested )
+            if( !this.disposedValue )
             {
-                // avoid deadlocks 
-                if( this.TaskList.Any() )
-                {
-                    var completed = await Task.WhenAny(this.TaskList).ConfigureAwait(false);
 
-                    lock( this.ListAccessLock )
-                        this.TaskList.Remove(completed);
+                // managed resources
+                this.CancelPendingTasks.Cancel();
+                this.CancelPendingTasks.Dispose();
+                
+                // big objects
+                this.tasks.Clear();
+                this.tasks = null;
 
-                    yield return (T)completed.Result;
-                }
-                else
-                {
-                    // wait for a signal of the list not being empty anymore
-                    await this.EmptyListAwaiter.WaitAsync().ConfigureAwait(true);
-                    continue;
-                }
+
+                this.disposedValue = true;
             }
         }
 
-        
-        /// <summary>
-        /// gets the entry point for this stack
-        /// </summary>
-        /// <returns></returns>
-        internal IAsyncStackEntryPoint GetAsyncEntryPoint()
-        {
-            return
-                (IAsyncStackEntryPoint)
-                this
-                    .ServicesWithInstances
-                    .OfType
-                    (
-                        this.ClassOrFromInterface(this.EntryPoint)
-                    )
-                    .First();
-        }
+        #endregion
 
-        
     }
 }

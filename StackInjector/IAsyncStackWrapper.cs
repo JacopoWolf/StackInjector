@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 namespace StackInjector
 {
     /// <summary>
-    /// Asyncronous stackwrapper. 
+    /// Wraps a Stack of dependency-injected classes, and manages an <see cref="IAsyncEnumerable{T}"/> of completed tasks.
     /// </summary>
-    public interface IAsyncStackWrapper //todo IDisposable
+    public interface IAsyncStackWrapper : IDisposable, IStackWrapperStructure
     {
         /// <summary>
         /// Used to cancel every pending job.
         /// </summary>
-        public CancellationTokenSource CancelEveything { get; }
+        public CancellationTokenSource CancelPendingTasks { get; }
 
         /// <summary>
         /// Submit a new object to be elaborated asyncronously in this stack

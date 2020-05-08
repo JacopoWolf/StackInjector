@@ -26,7 +26,11 @@ namespace StackInjector.TEST.Async
                     foreach( var item in feed )
                     {
                         asyncwrapper.Submit(item);
-                        Thread.Sleep(100);
+
+
+                        Thread.Sleep(10);   // <<<----- I want to highlight this this is for asyncronous testing purposes
+                                            // and it's the cause of the 100+ milliseconds of elaboration required for this test
+
                     }
                 } 
             );
@@ -38,10 +42,10 @@ namespace StackInjector.TEST.Async
                 else
                     break;
 
-            //? might be moved in a IDisposable implementation
             // stop the wrapper from waiting noting
-            asyncwrapper.CancelEveything.Cancel();
+            asyncwrapper.CancelPendingTasks.Cancel();
 
+            //? kinda useless... but i dunno. should rewrite it
             Assert.AreEqual(feed.Count(), counter);
 
         }
@@ -49,10 +53,10 @@ namespace StackInjector.TEST.Async
 
 
 
-        [Test][Ignore("yet to implement the class")]
+        [Test]
         public void ServeAsync ()
         {
-            Injector.From<TestGenerator>();
+            Injector.From<TestGenerator>().Start();
         }
     }
 }
