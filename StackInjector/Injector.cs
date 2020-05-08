@@ -1,4 +1,5 @@
-﻿using StackInjector.Behaviours;
+﻿using System;
+using StackInjector.Behaviours;
 using StackInjector.Exceptions;
 using StackInjector.Settings;
 
@@ -49,9 +50,16 @@ namespace StackInjector
             return
                 StackWrapperSettings
                     .Default()
-                    .RegisterAssemblies(typeof(T).Assembly)
                     .From<T>();
         }
+
+
+        //todo complete From Async
+        public static IAsyncStackWrapper FromAsync<T> ( this StackWrapperSettings settings ) where T : IAsyncStackEntryPoint
+        {
+            throw new NotImplementedException();
+        }
+
 
     }
 }

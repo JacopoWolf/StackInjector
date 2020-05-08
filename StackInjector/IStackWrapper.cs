@@ -1,13 +1,12 @@
-﻿namespace StackInjector
+﻿using System;
+
+namespace StackInjector
 {
     /// <summary>
     /// Wraps a Stack of dependency-injected classes.
     /// </summary>
-    public interface IStackWrapper
+    public interface IStackWrapper : ICloneable
     {
-
-
-
 
         /// <summary>
         /// Start this StackWrapper with the specified entry point and get it's returned object in a generic form
@@ -20,8 +19,5 @@
         /// </summary>
         T Start<T> ();
 
-        //todo StartAsync
-
-        //todo Clone
     }
 }

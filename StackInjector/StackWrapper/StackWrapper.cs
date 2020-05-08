@@ -30,13 +30,13 @@ namespace StackInjector
 
 
         /// <inheritdoc/>
-        T IStackWrapper.Start<T> ()
+        public T Start<T> ()
             => 
                 (T)this.GetStackEntryPoint().EntryPoint();
         
 
         /// <inheritdoc/>
-        object IStackWrapper.Start ()
+        public object Start ()
             =>
                 this.GetStackEntryPoint().EntryPoint();
         
@@ -45,7 +45,13 @@ namespace StackInjector
         public override string ToString ()
             =>
                 $"StackWrapper{{ {this.ServicesWithInstances.GetAllTypes().Count()} registered types; entry point: {this.EntryPoint.Name} }}";
+
+
         
 
+        public object Clone () => throw new NotImplementedException();
+
+
+        public IAsyncStackWrapper ToAsync () => throw new NotImplementedException();
     }
 }
