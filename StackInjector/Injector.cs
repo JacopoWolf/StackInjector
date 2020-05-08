@@ -54,10 +54,41 @@ namespace StackInjector
         }
 
 
-        //todo complete From Async
+        /// <summary>
+        /// Create a new asyncronous StackWrapper from the <typeparamref name="T"/> entry point
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="settings"></param>
+        /// <returns></returns>
         public static IAsyncStackWrapper FromAsync<T> ( this StackWrapperSettings settings ) where T : IAsyncStackEntryPoint
         {
-            throw new NotImplementedException();
+            // create a new async stack wrapper
+            var wrapper = new AsyncStackWrapper( settings )
+            {
+                EntryPoint = typeof(T),
+                //TargetType = typeof(TOut),
+                ServicesWithInstances = new SingleInstanceHolder() //todo assign decently too
+            };
+
+            wrapper.ReadAssemblies();
+            wrapper.ServeAll();
+
+            return wrapper;
+        }
+
+
+        /// <summary>
+        /// Create a new asyncronous StackWrapper from the <typeparamref name="T"/> entry point
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static IAsyncStackWrapper AsyncFrom<T>  ()
+            where T : IAsyncStackEntryPoint
+        {
+            return
+                StackWrapperSettings
+                .Default()
+                .FromAsync<T>();
         }
 
 

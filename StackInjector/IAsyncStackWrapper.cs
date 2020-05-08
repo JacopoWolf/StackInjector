@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace StackInjector
@@ -8,15 +9,19 @@ namespace StackInjector
     /// <summary>
     /// Asyncronous stackwrapper. 
     /// </summary>
-    public interface IAsyncStackWrapper : IStackWrapper
+    public interface IAsyncStackWrapper //todo IDisposable
     {
+        /// <summary>
+        /// Used to cancel every pending job.
+        /// </summary>
+        public CancellationTokenSource CancelEveything { get; }
 
         /// <summary>
         /// Submit a new object to be elaborated asyncronously in this stack
         /// </summary>
         /// <param name="submitted">The object to elaborate</param>
         /// <returns>The elaborated object</returns>
-        Task<object> Submit ( object submitted );
+        void Submit ( object submitted );
 
 
         /// <summary>

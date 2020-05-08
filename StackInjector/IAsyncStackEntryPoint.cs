@@ -13,10 +13,8 @@ namespace StackInjector
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="TIn"></typeparam>
-        /// <typeparam name="TOut"></typeparam>
         /// <returns></returns>
-        TOut Digest<TIn, TOut> ( TIn item );
+        object Digest ( object item );
 
     }
 }
