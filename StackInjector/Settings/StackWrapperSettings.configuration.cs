@@ -56,7 +56,7 @@ namespace StackInjector.Settings
         /// <param name="targetMethod">the new default targetting method</param>
         /// <param name="override">if true, versioning methods for [Served] fields and properties are overriden</param>
         /// <returns></returns>
-        public StackWrapperSettings VersioningMethod ( ServedVersionTagettingMethod targetMethod, bool @override = false )
+        public StackWrapperSettings VersioningMethod ( ServedVersionTagetingMethod targetMethod, bool @override = false )
         {
             this.targettingMethod = targetMethod;
             this.overrideTargettingMethod = @override;

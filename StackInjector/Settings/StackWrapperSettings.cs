@@ -19,7 +19,7 @@ namespace StackInjector.Settings
         internal bool                               registerSelf;
 
         // versioning
-        internal ServedVersionTagettingMethod       targettingMethod;
+        internal ServedVersionTagetingMethod       targettingMethod;
         internal bool                               overrideTargettingMethod;
 
 
@@ -52,7 +52,7 @@ namespace StackInjector.Settings
                 new StackWrapperSettings()
                     .RegisterEntryAssembly()
                     .RegisterWrapperAsService()
-                    .VersioningMethod(ServedVersionTagettingMethod.None, @override: false);
+                    .VersioningMethod(ServedVersionTagetingMethod.None, @override: false);
         }
 
         #endregion

@@ -12,7 +12,7 @@ namespace StackInjector.TEST.Versioning
         {
             StackWrapperSettings
                 .Default()
-                .VersioningMethod( ServedVersionTagettingMethod.LatestMinor )
+                .VersioningMethod( ServedVersionTagetingMethod.LatestMinor )
                 .From<EntryPointTestMinor>()
                 .Start();
         }
@@ -22,7 +22,7 @@ namespace StackInjector.TEST.Versioning
         {
             StackWrapperSettings
                 .Default()
-                .VersioningMethod( ServedVersionTagettingMethod.LatestMajor )
+                .VersioningMethod( ServedVersionTagetingMethod.LatestMajor )
                 .From<EntryPointTestMajor>()
                 .Start();
         }
