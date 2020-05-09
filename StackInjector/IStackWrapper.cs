@@ -1,7 +1,7 @@
 ﻿namespace StackInjector
 {
     /// <summary>
-    /// Wraps a Stack of dependency-injected classes.
+    /// Wraps a Stack of dependency-injected classes
     /// </summary>
     public interface IStackWrapper : IStackWrapperStructure
     {

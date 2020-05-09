@@ -6,17 +6,14 @@ namespace StackInjector
     internal partial class StackWrapper
     {
 
-        //? could parallelize
         internal void ServeAll ()
         {
+
             // setting for referencing this object from instances inside
             if( this.Settings.registerSelf )
                 this.ServicesWithInstances.AddInstance(this.GetType(), this);
 
-
-
             var toInject = new Queue<object>();
-
 
             // instantiates and enqueues the EntryPoint
             toInject.Enqueue
@@ -24,6 +21,7 @@ namespace StackInjector
                     this.InstantiateService(this.EntryPoint)
                 );
 
+            // enqueuing loop
             while( toInject.Any() )
             {
                 var usedServices = this.InjectServicesInto(toInject.Dequeue());

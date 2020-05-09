@@ -5,10 +5,16 @@ using StackInjector.Settings;
 namespace StackInjector
 {
     /// <summary>
-    /// Static class exposing methods to create a new StackWrapper
+    /// <para>Static factory class exposing methods to create new StackWrappers</para>
+    /// <para>Note that using any of the exposed methods will analyze the whole target assembly,
+    /// If you want to clone an existing structure, see 
+    /// <see cref="IStackWrapperStructure.FromStructure{T}(StackWrapperSettings)"/> and
+    /// <see cref="IStackWrapperStructure.AsyncFromStructure{T}(StackWrapperSettings)"/></para>
     /// </summary>
     public static class Injector
     {
+        //todo SingleInstanceHolder should depend upon a setting
+
         /// <summary>
         /// Create a new StackWrapper from the <typeparamref name="T"/> entry point with the specified settings
         /// </summary>
@@ -25,7 +31,7 @@ namespace StackInjector
             var wrapper = new StackWrapper( settings )
             {
                 EntryPoint = typeof(T),
-                ServicesWithInstances = new SingleInstanceHolder() //todo assign this decently
+                ServicesWithInstances = new SingleInstanceHolder()
             };
 
             wrapper.ReadAssemblies();
@@ -65,8 +71,7 @@ namespace StackInjector
             var wrapper = new AsyncStackWrapper( settings )
             {
                 EntryPoint = typeof(T),
-                //TargetType = typeof(TOut),
-                ServicesWithInstances = new SingleInstanceHolder() //todo assign decently too
+                ServicesWithInstances = new SingleInstanceHolder()
             };
 
             wrapper.ReadAssemblies();

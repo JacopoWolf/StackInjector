@@ -42,8 +42,6 @@ namespace StackInjector.TEST.Async
                 else
                     break;
 
-
-            //? kinda useless... but i dunno. should rewrite it
             Assert.AreEqual(feed.Count(), counter);
 
         }

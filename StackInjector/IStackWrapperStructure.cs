@@ -4,7 +4,7 @@ namespace StackInjector
 {
 
     /// <summary>
-    /// used to allow cloning of StackWrappers
+    /// used to allow cloning of StackWrappers structures
     /// </summary>
     public interface IStackWrapperStructure
     {
