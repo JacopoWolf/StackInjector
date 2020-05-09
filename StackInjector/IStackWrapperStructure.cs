@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using StackInjector.Settings;
+﻿using StackInjector.Settings;
 
 namespace StackInjector
 {

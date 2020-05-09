@@ -1,5 +1,4 @@
-﻿using System;
-using StackInjector.Behaviours;
+﻿using StackInjector.Behaviours;
 using StackInjector.Exceptions;
 using StackInjector.Settings;
 
@@ -82,7 +81,7 @@ namespace StackInjector
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static IAsyncStackWrapper AsyncFrom<T>  ()
+        public static IAsyncStackWrapper AsyncFrom<T> ()
             where T : IAsyncStackEntryPoint
         {
             return

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using StackInjector.Attributes;
@@ -35,11 +31,11 @@ namespace StackInjector
         /// create a new AsyncStackWrapper
         /// </summary>
         /// <param name="settings"></param>
-        internal AsyncStackWrapper( StackWrapperSettings settings ) : base(settings)
+        internal AsyncStackWrapper ( StackWrapperSettings settings ) : base(settings)
         {
             // in case the list is empty, release the empty event listener.
-            this.cancelPendingTasksSource.Token.Register( this.ReleaseListAwaiter );
-        
+            this.cancelPendingTasksSource.Token.Register(this.ReleaseListAwaiter);
+
         }
 
 
@@ -63,7 +59,7 @@ namespace StackInjector
 
         private bool disposedValue = false;
 
-        public void Dispose (  )
+        public void Dispose ()
         {
             if( !this.disposedValue )
             {
@@ -72,7 +68,7 @@ namespace StackInjector
                 this.cancelPendingTasksSource.Cancel();
                 this.cancelPendingTasksSource.Dispose();
                 this.emptyListAwaiter.Dispose();
-                
+
                 // big objects
                 this.tasks.Clear();
                 this.tasks = null;

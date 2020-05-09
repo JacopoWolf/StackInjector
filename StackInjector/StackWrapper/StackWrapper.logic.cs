@@ -11,7 +11,7 @@ namespace StackInjector
         {
             // setting for referencing this object from instances inside
             if( this.Settings.registerSelf )
-                this.ServicesWithInstances.AddInstance( this.GetType() , this );
+                this.ServicesWithInstances.AddInstance(this.GetType(), this);
 
 
 

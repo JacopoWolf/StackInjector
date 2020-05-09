@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Threading;
 
 namespace StackInjector.Settings
 {
@@ -45,7 +44,7 @@ namespace StackInjector.Settings
         /// Default is true.
         /// </summary>
         /// <returns></returns>
-        public StackWrapperSettings RegisterWrapperAsService( bool register = true )
+        public StackWrapperSettings RegisterWrapperAsService ( bool register = true )
         {
             this.registerSelf = register;
             return this;
