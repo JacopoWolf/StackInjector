@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using StackInjector.Attributes;
 
 namespace StackInjector.TEST.Async.Services
@@ -8,7 +10,7 @@ namespace StackInjector.TEST.Async.Services
     [Service]
     class MathService
     {
-        public double Calculate ( object item ) => Math.Pow((int)item, 2);
+        public object Calculate ( object item ) => Math.Pow((int)item, 2);
     }
 
 
@@ -19,6 +21,10 @@ namespace StackInjector.TEST.Async.Services
         [Served]
         MathService MathService { get; set; }
 
-        public object Digest ( object item ) => this.MathService.Calculate(item);
+
+        public Task<object> Digest ( object item, CancellationToken cancellationToken )
+            =>
+                 Task.Run(() => this.MathService.Calculate(item), cancellationToken);
+
     }
 }

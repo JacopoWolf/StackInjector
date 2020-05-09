@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace StackInjector
 {
@@ -13,8 +15,10 @@ namespace StackInjector
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="item"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        object Digest ( object item );
+        Task<object> Digest ( object item, CancellationToken cancellationToken );
 
     }
 }

@@ -14,7 +14,7 @@ namespace StackInjector
         /// <summary>
         /// Used to cancel every pending job.
         /// </summary>
-        public CancellationTokenSource CancelPendingTasks { get; }
+        public CancellationToken CancelPendingTasksToken { get; }
 
         /// <summary>
         /// Submit a new object to be elaborated asyncronously in this stack

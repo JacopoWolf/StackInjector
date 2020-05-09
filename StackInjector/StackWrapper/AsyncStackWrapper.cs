@@ -14,9 +14,11 @@ namespace StackInjector
     [Service(DoNotServeMembers = true, Version = 2.0)]
     internal partial class AsyncStackWrapper : StackWrapper, IAsyncStackWrapper
     {
+        // used to cancel everything
+        private readonly CancellationTokenSource cancelPendingTasksSource = new CancellationTokenSource();
 
-        public CancellationTokenSource CancelPendingTasks { get; private set; } = new CancellationTokenSource();
-
+        // exposes the token
+        public CancellationToken CancelPendingTasksToken { get => this.cancelPendingTasksSource.Token; }
 
         // used to lock access to tasks
         private readonly object listAccessLock = new object();
@@ -24,6 +26,7 @@ namespace StackInjector
         // asyncronously waited for new events if TaskList is empty
         private readonly SemaphoreSlim emptyListAwaiter = new SemaphoreSlim(0);
 
+        // pending tasks
         private LinkedList<Task<object>> tasks = new LinkedList<Task<object>>();
 
 
@@ -35,7 +38,7 @@ namespace StackInjector
         internal AsyncStackWrapper( StackWrapperSettings settings ) : base(settings)
         {
             // in case the list is empty, release the empty event listener.
-            this.CancelPendingTasks.Token.Register( this.ReleaseListAwaiter );
+            this.cancelPendingTasksSource.Token.Register( this.ReleaseListAwaiter );
         
         }
 
@@ -52,7 +55,7 @@ namespace StackInjector
         public override string ToString ()
             =>
                 $"AsyncStackWrapper{{ {this.ServicesWithInstances.GetAllTypes().Count()} registered types; " +
-                $"entry point: {this.EntryPoint.Name}; canceled: {this.CancelPendingTasks.IsCancellationRequested} }}";
+                $"entry point: {this.EntryPoint.Name}; canceled: {this.cancelPendingTasksSource.IsCancellationRequested} }}";
 
 
 
@@ -66,8 +69,8 @@ namespace StackInjector
             {
 
                 // managed resources
-                this.CancelPendingTasks.Cancel();
-                this.CancelPendingTasks.Dispose();
+                this.cancelPendingTasksSource.Cancel();
+                this.cancelPendingTasksSource.Dispose();
                 this.emptyListAwaiter.Dispose();
                 
                 // big objects
