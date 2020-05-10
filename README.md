@@ -14,15 +14,6 @@ A **simple**, **performing**, **easy-to-use** dependency injection library for y
 
 Visit the [Wiki](https://github.com/JacopoWolf/StackInjector/wiki) for more information!
 
-## Roadmap :date:
-
-| planned date | version |
-| -:|:- |
-| <del>26/06/2020</del> | ![GitHub milestone](https://img.shields.io/github/milestones/progress-percent/jacopowolf/stackinjector/1) |
-| TBD | ![planning](https://img.shields.io/badge/v2.0.0-planning-orange)
-
-**Note:** release date may vary
-
 
 ## Installation :electric_plug:
 
