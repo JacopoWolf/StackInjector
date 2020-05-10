@@ -15,14 +15,11 @@ namespace StackInjector
         /// <returns></returns>
         internal object InstantiateService ( Type type )
         {
-            //todo wrap in try-catch
-            //todo check for default constructor. If not present, throw exception
-
             type = this.ClassOrFromInterface(type);
 
+            //todo check for default constructor. If not present, throw custom exception
             var instance = Activator.CreateInstance( type );
 
-            //this.ServicesWithInstances[type] = instance;
             this.ServicesWithInstances.AddInstance(type, instance);
 
             return instance;

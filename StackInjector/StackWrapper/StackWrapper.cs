@@ -24,22 +24,22 @@ namespace StackInjector
         /// internal constructor.
         /// </summary>
         internal StackWrapper ( StackWrapperSettings settings )
-            => 
+            =>
                 this.Settings = settings;
 
 
 
         /// <inheritdoc/>
         public T Start<T> ()
-            => 
+            =>
                 (T)this.GetStackEntryPoint().EntryPoint();
-        
+
 
         /// <inheritdoc/>
         public object Start ()
             =>
                 this.GetStackEntryPoint().EntryPoint();
-        
+
 
 
         public override string ToString ()

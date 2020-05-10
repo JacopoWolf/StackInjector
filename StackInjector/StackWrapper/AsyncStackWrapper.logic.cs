@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace StackInjector
@@ -13,11 +11,7 @@ namespace StackInjector
         ///<inheritdoc/>
         public void Submit ( object submitted )
         {
-            var task = Task.Run
-                (
-                    () => this.GetAsyncEntryPoint().Digest(submitted),
-                    this.CancelPendingTasks.Token
-                );
+            var task = this.GetAsyncEntryPoint().Digest(submitted,this.cancelPendingTasksSource.Token);
 
 
             lock( this.listAccessLock )
@@ -35,7 +29,7 @@ namespace StackInjector
         /// <inheritdoc/>
         public async IAsyncEnumerable<T> Elaborated<T> ()
         {
-            while( !this.CancelPendingTasks.IsCancellationRequested )
+            while( !this.cancelPendingTasksSource.IsCancellationRequested )
             {
                 // avoid deadlocks 
                 if( this.tasks.Any() )

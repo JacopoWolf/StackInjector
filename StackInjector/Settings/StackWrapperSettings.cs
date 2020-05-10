@@ -5,7 +5,7 @@ using System.Reflection;
 namespace StackInjector.Settings
 {
     /// <summary>
-    /// Used to manage the settings of a <see cref="StackWrapper"/>
+    /// Used to manage the behaviour of <see cref="IStackWrapper"/> and <see cref="IAsyncStackWrapper"/>
     /// </summary>
     [Serializable]
     public sealed partial class StackWrapperSettings
@@ -19,8 +19,8 @@ namespace StackInjector.Settings
         internal bool                               registerSelf;
 
         // versioning
-        internal ServedVersionTagettingMethod       targettingMethod;
-        internal bool                               overrideTargettingMethod;
+        internal ServedVersionTargetingMethod       targetingMethod;
+        internal bool                               overrideTargetingMethod;
 
 
         #endregion
@@ -34,25 +34,24 @@ namespace StackInjector.Settings
         /// generates a new empty <see cref="StackWrapperSettings"/>. Nothing is set.
         /// High chance a NullReference might be thrown if not treated correctly.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>empty settings</returns>
         public static StackWrapperSettings Empty ()
         {
             return new StackWrapperSettings();
         }
 
-        //todo add link to default settings Wiki page
         /// <summary>
         /// Creates a new StackWrapperSettings with default parameters.
-        /// See what those are at 
+        /// See what those are at <see href="https://github.com/JacopoWolf/StackInjector/wiki/Default-Settings">the Wiki page</see>
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the default settings</returns>
         public static StackWrapperSettings Default ()
         {
             return
                 new StackWrapperSettings()
                     .RegisterEntryAssembly()
                     .RegisterWrapperAsService()
-                    .VersioningMethod(ServedVersionTagettingMethod.None, @override: false); //todo implement served override if true
+                    .VersioningMethod(ServedVersionTargetingMethod.None, @override: false);
         }
 
         #endregion

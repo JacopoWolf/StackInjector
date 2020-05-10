@@ -16,7 +16,7 @@ namespace StackInjector.TEST.Async
         {
             var feed = Enumerable.Range(1, 11);
 
-            var asyncwrapper = Injector.AsyncFrom<PowElaborator>();
+            using var asyncwrapper = Injector.AsyncFrom<PowElaborator>();
 
             // takes up to 1 second, waiting for 0.1 seconds every submission
             var feeder = Task.Run
@@ -42,10 +42,6 @@ namespace StackInjector.TEST.Async
                 else
                     break;
 
-            // stop the wrapper from waiting noting
-            asyncwrapper.CancelPendingTasks.Cancel();
-
-            //? kinda useless... but i dunno. should rewrite it
             Assert.AreEqual(feed.Count(), counter);
 
         }
