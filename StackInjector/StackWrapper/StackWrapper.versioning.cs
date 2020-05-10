@@ -13,19 +13,19 @@ namespace StackInjector
         (
             Type targetType,
             double targetVersion,
-            ServedVersionTagetingMethod method
+            ServedVersionTargetingMethod method
         )
         {
             var candidateTypes = this.ServicesWithInstances.TypesAssignableFrom(targetType);
 
             return method switch
             {
-                ServedVersionTagetingMethod.None
+                ServedVersionTargetingMethod.None
                     =>
                         candidateTypes.First(),
 
 
-                ServedVersionTagetingMethod.Exact
+                ServedVersionTargetingMethod.Exact
                     =>
                         candidateTypes
                         .First
@@ -36,7 +36,7 @@ namespace StackInjector
                         ),
 
 
-                ServedVersionTagetingMethod.LatestMajor
+                ServedVersionTargetingMethod.LatestMajor
                     =>
                         candidateTypes
                         .Where(t => t.GetCustomAttribute<ServiceAttribute>().Version >= targetVersion)
@@ -44,7 +44,7 @@ namespace StackInjector
                         .First(),
 
 
-                ServedVersionTagetingMethod.LatestMinor
+                ServedVersionTargetingMethod.LatestMinor
                     =>
                         candidateTypes
                         .Where

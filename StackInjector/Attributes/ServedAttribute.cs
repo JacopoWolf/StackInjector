@@ -19,7 +19,7 @@ namespace StackInjector.Attributes
         /// <summary>
         /// targetting version method
         /// </summary>
-        public ServedVersionTagetingMethod? TargetingMethod { get; set; } = null;
+        public ServedVersionTargetingMethod? TargetingMethod { get; set; } = null;
 
     }
 

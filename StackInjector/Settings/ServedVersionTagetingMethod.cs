@@ -3,7 +3,7 @@
     /// <summary>
     /// Type of version targetting. If the condition is unsatisfied, throw an exception and consider the injection failed
     /// </summary>
-    public enum ServedVersionTagetingMethod
+    public enum ServedVersionTargetingMethod
     {
         /// <summary>
         /// Ignore versioning. Target the first implementation available.

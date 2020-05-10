@@ -11,7 +11,7 @@ namespace StackInjector
     {
 
         /// <summary>
-        /// Used to signal cancellation every pending job.
+        /// Used to signal cancellation of every pending job.
         /// </summary>
         public CancellationToken CancelPendingTasksToken { get; }
 

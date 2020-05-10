@@ -19,8 +19,8 @@ namespace StackInjector.Settings
         internal bool                               registerSelf;
 
         // versioning
-        internal ServedVersionTagetingMethod       targettingMethod;
-        internal bool                               overrideTargettingMethod;
+        internal ServedVersionTargetingMethod       targetingMethod;
+        internal bool                               overrideTargetingMethod;
 
 
         #endregion
@@ -40,10 +40,9 @@ namespace StackInjector.Settings
             return new StackWrapperSettings();
         }
 
-        //todo add link to default settings Wiki page
         /// <summary>
         /// Creates a new StackWrapperSettings with default parameters.
-        /// See what those are at 
+        /// See what those are at <see href="https://github.com/JacopoWolf/StackInjector/wiki/Default-Settings">the Wiki page</see>
         /// </summary>
         /// <returns>the default settings</returns>
         public static StackWrapperSettings Default ()
@@ -52,7 +51,7 @@ namespace StackInjector.Settings
                 new StackWrapperSettings()
                     .RegisterEntryAssembly()
                     .RegisterWrapperAsService()
-                    .VersioningMethod(ServedVersionTagetingMethod.None, @override: false);
+                    .VersioningMethod(ServedVersionTargetingMethod.None, @override: false);
         }
 
         #endregion

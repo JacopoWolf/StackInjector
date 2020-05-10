@@ -24,9 +24,9 @@ namespace StackInjector
                 {
                     var v = servedAttribute?.TargetVersion ?? 0.0;
 
-                    var t = ( this.Settings.overrideTargettingMethod )
-                                ? this.Settings.targettingMethod
-                                : servedAttribute?.TargetingMethod ?? this.Settings.targettingMethod;
+                    var t = ( this.Settings.overrideTargetingMethod )
+                                ? this.Settings.targetingMethod
+                                : servedAttribute?.TargetingMethod ?? this.Settings.targetingMethod;
 
                     return this.Version(type, v, t);
 
