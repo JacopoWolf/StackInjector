@@ -16,13 +16,12 @@ Visit the [Wiki](https://github.com/JacopoWolf/StackInjector/wiki) for more info
 
 ## Roadmap :date:
 
-| date | version |
-|-:|-|
-| \*08/05/2020 | ![GitHub milestone](https://img.shields.io/github/milestones/progress-percent/jacopowolf/stackinjector/2) |
-| \*22/05/2020 | ![GitHub milestone](https://img.shields.io/github/milestones/progress-percent/jacopowolf/stackinjector/3) |
-| 26/06/2020 | ![GitHub milestone](https://img.shields.io/github/milestones/progress-percent/jacopowolf/stackinjector/1) |
+| planned date | version |
+| -:|:- |
+| <del>26/06/2020</del> | ![GitHub milestone](https://img.shields.io/github/milestones/progress-percent/jacopowolf/stackinjector/1) |
+| TBD | ![planning](https://img.shields.io/badge/v2.0.0-planning-orange)
 
-\* release date may vary for minor releases
+**Note:** release date may vary
 
 
 ## Installation :electric_plug:
@@ -33,7 +32,7 @@ Visit the [Wiki](https://github.com/JacopoWolf/StackInjector/wiki) for more info
 ```powershell
 dotnet add package StackInjector
 ```
-
+Or visit: https://www.nuget.org/packages/StackInjector
 
 ## Usage :wrench:
 
