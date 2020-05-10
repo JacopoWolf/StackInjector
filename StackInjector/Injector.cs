@@ -65,7 +65,7 @@ namespace StackInjector
         /// <typeparam name="T"></typeparam>
         /// <param name="settings"></param>
         /// <returns></returns>
-        public static IAsyncStackWrapper FromAsync<T> ( this StackWrapperSettings settings ) where T : IAsyncStackEntryPoint
+        public static IAsyncStackWrapper AsyncFrom<T> ( this StackWrapperSettings settings ) where T : IAsyncStackEntryPoint
         {
             // create a new async stack wrapper
             var wrapper = new AsyncStackWrapper( settings )
@@ -92,7 +92,7 @@ namespace StackInjector
             return
                 StackWrapperSettings
                 .Default()
-                .FromAsync<T>();
+                .AsyncFrom<T>();
         }
 
 
