@@ -78,6 +78,7 @@ namespace StackInjector
 
                 // clean instantiated objects
                 this.RemoveInstancesDiff();
+                this.instancesDiff.Clear();
 
 
                 this.disposedValue = true;

@@ -53,8 +53,10 @@ namespace StackInjector
 
         /// <inheritdoc/>
         public bool AnyTaskLeft ()
-            =>
-                this.tasks.Any();
+        {
+            lock( this.listAccessLock )
+                return this.tasks.Any();
+        }
 
 
         /// <summary>
