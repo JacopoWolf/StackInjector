@@ -22,6 +22,9 @@ namespace StackInjector.Settings
         internal ServedVersionTargetingMethod       targetingMethod;
         internal bool                               overrideTargetingMethod;
 
+        // disposing
+        internal bool                               trackInstancesDiff;
+        internal bool                               callDisposeOnInstanceDiff;
 
         #endregion
 
@@ -51,8 +54,11 @@ namespace StackInjector.Settings
                 new StackWrapperSettings()
                     .RegisterEntryAssembly()
                     .RegisterWrapperAsService()
+                    .TrackInstantiationDiff( false )
                     .VersioningMethod(ServedVersionTargetingMethod.None, @override: false);
         }
+
+        //todo maybe add a DefaultInner for nested wrappers
 
         #endregion
 

@@ -18,11 +18,22 @@ namespace StackInjector.TEST.SimpleStack1.Services
         {
             this.Filter.FilterThing("sas");
 
-            var wrapper = this.Wrapper.FromStructure<WrappedConsumerEntryPoint>();
 
-            wrapper.Start();
-            // now there should still be instances of a wrapped consumerEntryPoint and a ithingsconsumer
+            var settings = 
+                this.Wrapper
+                .Settings
+                .TrackInstantiationDiff();
 
+            using
+            ( 
+                var wrapper =
+                    this.Wrapper
+                    .FromStructure<WrappedConsumerEntryPoint>(overrideSettings: settings) 
+            )
+            {
+                wrapper.Start();
+                // at this point the wrapper will be disposed
+            }
 
             return null;
         }

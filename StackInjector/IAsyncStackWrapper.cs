@@ -7,7 +7,7 @@ namespace StackInjector
     /// <summary>
     /// Wraps a Stack of dependency-injected classes, and manages an <see cref="IAsyncEnumerable{T}"/> of completed tasks.
     /// </summary>
-    public interface IAsyncStackWrapper : IDisposable, IStackWrapperStructure
+    public interface IAsyncStackWrapper : IStackWrapperStructure
     {
 
         /// <summary>

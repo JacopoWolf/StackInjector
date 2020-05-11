@@ -18,6 +18,7 @@ namespace StackInjector.Behaviours
 
         void AddInstance ( Type type, object instance );
 
+        void RemoveInstance ( Type type, object instance );
 
         bool ContainsType ( Type type );
 

@@ -40,6 +40,7 @@ namespace StackInjector
                         this.tasks.Remove(completed);
 
                     yield return (T)completed.Result;
+                    continue;
                 }
                 else
                 {
