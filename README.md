@@ -27,7 +27,7 @@ Or visit: https://www.nuget.org/packages/StackInjector
 
 ## Usage :wrench:
 
-For in-depth tutorials and explanations visit the [wiki](https://github.com/JacopoWolf/StackInjector/wiki/Tutorial)
+For in-depth tutorials and explanations visit the [wiki](https://github.com/JacopoWolf/StackInjector/wiki/Tutorial_Introduction)
 
 Below are shown the main features
 
