@@ -33,5 +33,11 @@ namespace StackInjector
         /// <returns>An asyncronous enumerable of completed tasks</returns>
         IAsyncEnumerable<T> Elaborated<T> ();
 
+        /// <summary>
+        /// check if there are tasks left to elaborate
+        /// </summary>
+        /// <returns>true if there are pending tasks</returns>
+        bool AnyTaskLeft ();
+
     }
 }

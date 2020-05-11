@@ -50,5 +50,11 @@ namespace StackInjector.TEST.SimpleStack1
             Injector.From<AccessWrapperEntryPoint>().Start();
         }
 
+        [Test]
+        public void Cloning()
+        {
+            Injector.From<ServiceCloningEntryPoint>().Start();
+        }
+
     }
 }

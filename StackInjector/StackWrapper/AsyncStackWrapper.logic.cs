@@ -50,6 +50,11 @@ namespace StackInjector
             }
         }
 
+        /// <inheritdoc/>
+        public bool AnyTaskLeft ()
+            =>
+                this.tasks.Any();
+
 
         /// <summary>
         /// gets the entry point for this stack
