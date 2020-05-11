@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using StackInjector.Attributes;
 using StackInjector.Behaviours;
@@ -17,7 +18,7 @@ namespace StackInjector
 
         internal IInstancesHolder ServicesWithInstances { get; set; }
 
-
+        protected readonly List<object> instancesDiff = new List<object>();
 
 
         /// <summary>
@@ -74,5 +75,19 @@ namespace StackInjector
             return clonedWrapper;
         }
 
+
+        private bool disposed = false;
+
+        public void Dispose ()
+        {
+            if (!this.disposed)
+            {
+                // if any, remove tracked instances.
+                this.RemoveInstancesDiff();
+                this.instancesDiff.Clear();
+
+                this.disposed = true;
+            }
+        }
     }
 }

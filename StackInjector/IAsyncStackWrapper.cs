@@ -7,7 +7,7 @@ namespace StackInjector
     /// <summary>
     /// Wraps a Stack of dependency-injected classes, and manages an <see cref="IAsyncEnumerable{T}"/> of completed tasks.
     /// </summary>
-    public interface IAsyncStackWrapper : IDisposable, IStackWrapperStructure
+    public interface IAsyncStackWrapper : IStackWrapperStructure
     {
 
         /// <summary>
@@ -32,6 +32,12 @@ namespace StackInjector
         /// <exception cref="InvalidCastException"></exception>
         /// <returns>An asyncronous enumerable of completed tasks</returns>
         IAsyncEnumerable<T> Elaborated<T> ();
+
+        /// <summary>
+        /// check if there are tasks left to elaborate
+        /// </summary>
+        /// <returns>true if there are pending tasks</returns>
+        bool AnyTaskLeft ();
 
     }
 }

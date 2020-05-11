@@ -59,19 +59,26 @@ namespace StackInjector
 
         private bool disposedValue = false;
 
-        public void Dispose ()
+        public new void Dispose ()
         {
             if( !this.disposedValue )
             {
 
                 // managed resources
                 this.cancelPendingTasksSource.Cancel();
+                this.ReleaseListAwaiter();  // in case it's waiting on the empty list
+
                 this.cancelPendingTasksSource.Dispose();
                 this.emptyListAwaiter.Dispose();
+
 
                 // big objects
                 this.tasks.Clear();
                 this.tasks = null;
+
+                // clean instantiated objects
+                this.RemoveInstancesDiff();
+                this.instancesDiff.Clear();
 
 
                 this.disposedValue = true;

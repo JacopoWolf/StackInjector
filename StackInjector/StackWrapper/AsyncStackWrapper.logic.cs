@@ -40,6 +40,7 @@ namespace StackInjector
                         this.tasks.Remove(completed);
 
                     yield return (T)completed.Result;
+                    continue;
                 }
                 else
                 {
@@ -48,6 +49,13 @@ namespace StackInjector
                     continue;
                 }
             }
+        }
+
+        /// <inheritdoc/>
+        public bool AnyTaskLeft ()
+        {
+            lock( this.listAccessLock )
+                return this.tasks.Any();
         }
 
 

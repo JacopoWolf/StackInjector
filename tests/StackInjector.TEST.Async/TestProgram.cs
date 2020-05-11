@@ -40,7 +40,7 @@ namespace StackInjector.TEST.Async
                 if( counter++ < 10 )
                     Console.Write($"{result}; ");
                 else
-                    break;
+                    asyncwrapper.Dispose(); // test if disposing of asyncwrapper will stop the loop
 
             Assert.AreEqual(feed.Count(), counter);
 

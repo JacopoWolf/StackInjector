@@ -12,6 +12,9 @@ namespace StackInjector.Behaviours
         public void AddInstance ( Type type, object instance )
             => this[type] = instance;
 
+        public void RemoveInstance ( Type type, object instance )
+            => this[type] = null;
+
         public IEnumerable<object> OfType ( Type type )
             => new object[] { this[type] };
 
@@ -30,5 +33,8 @@ namespace StackInjector.Behaviours
 
         public IEnumerable<Type> GetAllTypes ()
             => this.Keys;
+
+
+
     }
 }

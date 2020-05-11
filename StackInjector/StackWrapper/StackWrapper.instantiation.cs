@@ -22,6 +22,10 @@ namespace StackInjector
 
             this.ServicesWithInstances.AddInstance(type, instance);
 
+            // if true, track instantiated objects
+            if( this.Settings.trackInstancesDiff )
+                this.instancesDiff.Add(instance);
+
             return instance;
 
         }
@@ -42,5 +46,26 @@ namespace StackInjector
             else
                 return instanceOfType;
         }
+
+
+        /// <summary>
+        /// removes instances of the tracked instantiated types and call their Dispose method
+        /// </summary>
+        protected void RemoveInstancesDiff ()
+        {
+            if( !this.Settings.trackInstancesDiff )
+                return;
+
+            foreach( var instance in this.instancesDiff )
+            {
+                this.ServicesWithInstances.RemoveInstance(instance.GetType(), instance);
+
+                // if the relative setting is true, check if the instance implements IDisposable and call it
+                if( this.Settings.callDisposeOnInstanceDiff && instance is IDisposable disposable )
+                    disposable.Dispose();
+            }
+
+        }
+
     }
 }

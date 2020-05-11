@@ -1,4 +1,5 @@
-﻿using StackInjector.Settings;
+﻿using System;
+using StackInjector.Settings;
 
 namespace StackInjector
 {
@@ -6,7 +7,7 @@ namespace StackInjector
     /// <summary>
     /// used to allow cloning of StackWrappers structures
     /// </summary>
-    public interface IStackWrapperStructure
+    public interface IStackWrapperStructure : IDisposable
     {
 
         /// <summary>
