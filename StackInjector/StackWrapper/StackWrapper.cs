@@ -18,7 +18,7 @@ namespace StackInjector
 
         internal IInstancesHolder ServicesWithInstances { get; set; }
 
-        protected readonly List<object> instancesDiff = new List<object>();
+        private protected readonly List<object> instancesDiff = new List<object>();
 
 
         /// <summary>
