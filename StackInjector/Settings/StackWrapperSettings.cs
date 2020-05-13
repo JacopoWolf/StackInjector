@@ -58,7 +58,7 @@ namespace StackInjector.Settings
                     .VersioningMethod(ServedVersionTargetingMethod.None, @override: false);
 
 
-        //todo maybe add a DefaultInner for nested wrappers
+        //? maybe add a DefaultInner for nested wrappers
 
         #endregion
 

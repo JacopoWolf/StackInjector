@@ -5,7 +5,7 @@ using StackInjector.Core;
 namespace StackInjector.Wrappers
 {
     [Service(Version = 1.0, DoNotServeMembers = true)]
-    internal class StackWrapper : StackWrapperCore, IStackWrapper
+    internal class StackWrapper : AsyncStackWrapperCore, IStackWrapper
     {
 
 

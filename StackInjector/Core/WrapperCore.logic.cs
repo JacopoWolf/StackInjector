@@ -8,12 +8,10 @@ namespace StackInjector.Core
 
         internal void ServeAll ()
         {
-
-            ////// setting for referencing this object from instances inside
-            ////if( this.settings.registerSelf )
-            ////    this.instances.AddInstance(this.GetType(), this);
-
             var toInject = new Queue<object>();
+
+            // saves time in later elaboration
+            this.entryPoint = this.ClassOrFromInterface(this.entryPoint);
 
             // instantiates and enqueues the EntryPoint
             toInject.Enqueue
@@ -29,6 +27,9 @@ namespace StackInjector.Core
                 foreach( var service in usedServices )
                     toInject.Enqueue(service);
             }
+
+
+
         }
 
 
@@ -42,10 +43,7 @@ namespace StackInjector.Core
             return
                 (T)this
                     .instances
-                    .OfType
-                    (
-                        this.ClassOrFromInterface(this.entryPoint)
-                    )
+                    .OfType( this.entryPoint )
                     .First();
         }
     }

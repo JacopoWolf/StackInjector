@@ -1,22 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace StackInjector.Wrappers
+namespace StackInjector.Core
 {
-
-    internal partial class AsyncStackWrapper
+    internal abstract partial class AsyncStackWrapperCore<T>
     {
-
-        ///<inheritdoc/>
-        public void Submit ( object submitted )
+        // call the semaphore
+        protected internal void ReleaseListAwaiter ()
         {
-            var task = this.GetAsyncEntryPoint().Digest(submitted,this.cancelPendingTasksSource.Token);
+            this.emptyListAwaiter.Release();
+        }
 
-
+        public void Submit ( Task<T> work )
+        {
             lock( this.listAccessLock )
-                this.tasks.AddLast(task);
-
+                this.tasks.AddLast( work );
 
             // if the list was empty just an item ago, signal it's not anymore.
             // this limit avoids useless cross thread calls that would slow everything down.
@@ -24,12 +25,15 @@ namespace StackInjector.Wrappers
                 this.ReleaseListAwaiter();
         }
 
-
-
-        /// <inheritdoc/>
-        public async IAsyncEnumerable<T> Elaborated<T> ()
+        public bool AnyTaskLeft ()
         {
-            while( !this.cancelPendingTasksSource.IsCancellationRequested )
+            lock( this.listAccessLock )
+                return this.tasks.Any();
+        }
+
+        public async IAsyncEnumerable<T> Elaborated ()
+        {
+            while( ! this.cancelPendingTasksSource.IsCancellationRequested )
             {
                 // avoid deadlocks 
                 if( this.tasks.Any() )
@@ -39,7 +43,7 @@ namespace StackInjector.Wrappers
                     lock( this.listAccessLock )
                         this.tasks.Remove(completed);
 
-                    yield return (T)completed.Result;
+                    yield return completed.Result;
                     continue;
                 }
                 else
@@ -50,22 +54,6 @@ namespace StackInjector.Wrappers
                 }
             }
         }
-
-        /// <inheritdoc/>
-        public bool AnyTaskLeft ()
-        {
-            lock( this.listAccessLock )
-                return this.tasks.Any();
-        }
-
-
-        /// <summary>
-        /// gets the entry point for this stack
-        /// </summary>
-        /// <returns></returns>
-        internal IAsyncStackEntryPoint GetAsyncEntryPoint ()
-            =>
-                this.Core.GetEntryPoint<IAsyncStackEntryPoint>();
 
     }
 }

@@ -4,7 +4,7 @@ using StackInjector.Settings;
 
 namespace StackInjector.Core
 {
-    internal abstract class StackWrapperCore : IStackWrapperCore
+    internal abstract class AsyncStackWrapperCore : IStackWrapperCore
     {
         public ref readonly StackWrapperSettings Settings
             => ref this.Core.settings;
@@ -13,7 +13,7 @@ namespace StackInjector.Core
         private protected readonly WrapperCore Core;
 
 
-        public StackWrapperCore ( WrapperCore core, Type toRegister )
+        public AsyncStackWrapperCore ( WrapperCore core, Type toRegister )
         {
             this.Core = core;
 

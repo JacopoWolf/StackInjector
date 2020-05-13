@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using StackInjector.Attributes;
+using StackInjector.Core;
 using StackInjector.Wrappers;
 
 namespace StackInjector.TEST.Async.Services
@@ -18,6 +19,9 @@ namespace StackInjector.TEST.Async.Services
 
     class PowElaborator : IAsyncStackEntryPoint
     {
+
+        [Served]
+        IStackWrapperCore wrapper;
 
         [Served]
         MathService MathService { get; set; }

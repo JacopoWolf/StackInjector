@@ -47,9 +47,9 @@ namespace StackInjector.TEST.Async.Services
                 List<double> results = new List<double>();
 
                 int counter = 2;
-                await foreach( var res in elaborationWrapper.Elaborated<double>() )
+                await foreach( var res in elaborationWrapper.Elaborated() )
                     if( counter++ < 18 ) // we don't want to wait forever.
-                        results.Add(res);
+                        results.Add( (double)res );
                     else
                         break;
 

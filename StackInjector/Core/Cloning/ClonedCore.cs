@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using StackInjector.Wrappers;
+using StackInjector.Wrappers.Generic;
 
 namespace StackInjector.Core.Cloning
 {
@@ -24,6 +25,10 @@ namespace StackInjector.Core.Cloning
 
             return wrapper;
         }
+
+        //todo implement
+        public IAsyncStackWrapper<TEntry, TIn, TOut> ToGenericAsync<TEntry, TIn, TOut> ( AsyncStackDigest<TEntry, TIn, TOut> digest ) 
+            => throw new NotImplementedException();
 
 
         public IStackWrapper ToWrapper<T> () where T : IStackEntryPoint
