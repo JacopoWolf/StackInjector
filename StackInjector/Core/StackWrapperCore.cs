@@ -1,7 +1,6 @@
 ﻿using System;
 using StackInjector.Core.Cloning;
 using StackInjector.Settings;
-using StackInjector.Wrappers;
 
 namespace StackInjector.Core
 {
@@ -33,40 +32,6 @@ namespace StackInjector.Core
 
             return new ClonedCore(clonedCore);
         }
-
-
-        ////public IStackWrapper FromStructure<T> ( StackWrapperSettings overrideSettings = null ) where T : IStackEntryPoint
-        ////{
-
-        ////    var clonedCore = new WrapperCore( overrideSettings ?? this.Core.settings )
-        ////    {
-        ////        entryPoint = typeof(T),
-        ////        instances = this.Core.instances
-        ////    };
-
-        ////    var wrapper = new StackWrapper( clonedCore );
-
-        ////    wrapper.Core.ServeAll();
-
-        ////    return wrapper;
-        ////}
-
-        ////public IAsyncStackWrapper AsyncFromStructure<T> ( StackWrapperSettings overrideSettings = null ) where T : IAsyncStackEntryPoint
-        ////{
-        ////    var clonedCore = new WrapperCore( overrideSettings ?? this.Core.settings )
-        ////    {
-        ////        entryPoint = typeof(T),
-        ////        instances = this.Core.instances
-        ////    };
-
-        ////    var wrapper = new AsyncStackWrapper( clonedCore );
-
-        ////    clonedCore.ServeAll();
-
-        ////    return wrapper;
-        ////}
-
-
 
 
         public abstract void Dispose ();

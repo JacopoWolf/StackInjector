@@ -1,5 +1,7 @@
 ﻿
 
+using StackInjector.Core;
+
 namespace StackInjector.Wrappers
 {
     /// <summary>

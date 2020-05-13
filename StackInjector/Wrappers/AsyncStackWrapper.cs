@@ -14,7 +14,7 @@ namespace StackInjector.Wrappers
         private readonly CancellationTokenSource cancelPendingTasksSource = new CancellationTokenSource();
 
         // exposes the token
-        public CancellationToken CancelPendingTasksToken { get => this.cancelPendingTasksSource.Token; }
+        public CancellationToken PendingTasksCancellationToken { get => this.cancelPendingTasksSource.Token; }
 
         // used to lock access to tasks
         private readonly object listAccessLock = new object();

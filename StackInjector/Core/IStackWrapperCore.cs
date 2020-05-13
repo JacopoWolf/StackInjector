@@ -2,11 +2,11 @@
 using StackInjector.Core.Cloning;
 using StackInjector.Settings;
 
-namespace StackInjector.Wrappers
+namespace StackInjector.Core
 {
 
     /// <summary>
-    /// used to allow cloning of StackWrappers structures
+    /// base interface for all stackwrappers
     /// </summary>
     public interface IStackWrapperCore : IDisposable, ICloneableCore
     {

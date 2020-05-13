@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using StackInjector.Core;
 
 namespace StackInjector.Wrappers
 {
     /// <summary>
     /// Wraps a Stack of dependency-injected classes, and manages an <see cref="IAsyncEnumerable{T}"/> of completed tasks.
     /// </summary>
-    public interface IAsyncStackWrapper : IStackWrapperCore
+    public interface IAsyncStackWrapper : IAsyncStackWrapperCore
     {
 
-        /// <summary>
-        /// Used to signal cancellation of every pending job.
-        /// </summary>
-        public CancellationToken CancelPendingTasksToken { get; }
+
 
 
         /// <summary>
@@ -33,11 +31,7 @@ namespace StackInjector.Wrappers
         /// <returns>An asyncronous enumerable of completed tasks</returns>
         IAsyncEnumerable<T> Elaborated<T> ();
 
-        /// <summary>
-        /// check if there are tasks left to elaborate
-        /// </summary>
-        /// <returns>true if there are pending tasks</returns>
-        bool AnyTaskLeft ();
+
 
     }
 }
