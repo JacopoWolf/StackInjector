@@ -64,17 +64,8 @@ namespace StackInjector
         /// </summary>
         /// <returns></returns>
         internal IAsyncStackEntryPoint GetAsyncEntryPoint ()
-        {
-            return
-                (IAsyncStackEntryPoint)
-                this
-                    .ServicesWithInstances
-                    .OfType
-                    (
-                        this.ClassOrFromInterface(this.EntryPoint)
-                    )
-                    .First();
-        }
+            =>
+                this.Core.GetEntryPoint<IAsyncStackEntryPoint>();
 
     }
 }

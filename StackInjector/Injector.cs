@@ -1,4 +1,5 @@
 ﻿using StackInjector.Behaviours;
+using StackInjector.Core;
 using StackInjector.Exceptions;
 using StackInjector.Settings;
 
@@ -24,39 +25,27 @@ namespace StackInjector
         /// <exception cref="ClassNotFoundException"></exception>
         /// <exception cref="NotAServiceException"></exception>
         /// <exception cref="ImplementationNotFoundException"></exception>
-        public static IStackWrapper From<T> ( this StackWrapperSettings settings ) where T : IStackEntryPoint
+        public static IStackWrapper From<T> ( StackWrapperSettings settings = null ) where T : IStackEntryPoint
         {
+            if( settings == null )
+                settings = StackWrapperSettings.Default;
 
             // create a new stackwrapper with the specified settings
-            var wrapper = new StackWrapper( settings )
+            var core = new WrapperCore( settings )
             {
-                EntryPoint = typeof(T),
-                ServicesWithInstances = new SingleInstanceHolder()
+                entryPoint = typeof(T)
             };
 
-            wrapper.ReadAssemblies();
-            wrapper.ServeAll();
+            // putting this here allows for registration of this object when serving
+            var wrapper = new StackWrapper(core);
+
+            core.ReadAssemblies();
+            core.ServeAll();
 
 
             return wrapper;
         }
 
-        /// <summary>
-        /// Create a new StackWrapper from the <typeparamref name="T"/> entry point
-        /// </summary>
-        /// <typeparam name="T">The type of the entry point</typeparam>
-        /// <returns>The initialized StackWrapper</returns>
-        /// <exception cref="ClassNotFoundException"></exception>
-        /// <exception cref="NotAServiceException"></exception>
-        /// <exception cref="ImplementationNotFoundException"></exception>
-        public static IStackWrapper From<T> () where T : IStackEntryPoint
-        {
-            // default configuration
-            return
-                StackWrapperSettings
-                    .Default()
-                    .From<T>();
-        }
 
 
         /// <summary>
@@ -65,34 +54,26 @@ namespace StackInjector
         /// <typeparam name="T"></typeparam>
         /// <param name="settings"></param>
         /// <returns></returns>
-        public static IAsyncStackWrapper AsyncFrom<T> ( this StackWrapperSettings settings ) where T : IAsyncStackEntryPoint
+        public static IAsyncStackWrapper AsyncFrom<T> ( StackWrapperSettings settings = null ) where T : IAsyncStackEntryPoint
         {
-            // create a new async stack wrapper
-            var wrapper = new AsyncStackWrapper( settings )
+            if( settings == null )
             {
-                EntryPoint = typeof(T),
-                ServicesWithInstances = new SingleInstanceHolder()
+                settings = StackWrapperSettings.Default;
+            }
+
+            // create a new async stack wrapper
+            var core = new WrapperCore( settings )
+            {
+                entryPoint = typeof(T),
+                instances = new SingleInstanceHolder()
             };
 
-            wrapper.ReadAssemblies();
-            wrapper.ServeAll();
+            var wrapper = new AsyncStackWrapper(core);
+
+            core.ReadAssemblies();
+            core.ServeAll();
 
             return wrapper;
-        }
-
-
-        /// <summary>
-        /// Create a new asyncronous StackWrapper from the <typeparamref name="T"/> entry point
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public static IAsyncStackWrapper AsyncFrom<T> ()
-            where T : IAsyncStackEntryPoint
-        {
-            return
-                StackWrapperSettings
-                .Default()
-                .AsyncFrom<T>();
         }
 
 

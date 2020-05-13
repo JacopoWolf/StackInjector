@@ -1,24 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace StackInjector
+namespace StackInjector.Core
 {
-    internal partial class StackWrapper
+    internal partial class WrapperCore
     {
 
-        internal void ServeAll ()
+        internal void ServeAll ( )
         {
 
-            // setting for referencing this object from instances inside
-            if( this.Settings.registerSelf )
-                this.ServicesWithInstances.AddInstance(this.GetType(), this);
+            ////// setting for referencing this object from instances inside
+            ////if( this.settings.registerSelf )
+            ////    this.instances.AddInstance(this.GetType(), this);
 
             var toInject = new Queue<object>();
 
             // instantiates and enqueues the EntryPoint
             toInject.Enqueue
                 (
-                    this.InstantiateService(this.EntryPoint)
+                    this.InstantiateService(this.entryPoint)
                 );
 
             // enqueuing loop
@@ -37,15 +38,14 @@ namespace StackInjector
         /// retrieves the entry point of the specified type
         /// </summary>
         /// <returns></returns>
-        internal IStackEntryPoint GetStackEntryPoint ()
+        internal T GetEntryPoint<T> ()
         {
             return
-                (IStackEntryPoint)
-                this
-                    .ServicesWithInstances
+                (T)this
+                    .instances
                     .OfType
                     (
-                        this.ClassOrFromInterface(this.EntryPoint)
+                        this.ClassOrFromInterface(this.entryPoint)
                     )
                     .First();
         }

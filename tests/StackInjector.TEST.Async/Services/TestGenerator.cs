@@ -60,8 +60,9 @@ namespace StackInjector.TEST.Async.Services
                 Console.Write($"{d}; ");
             Console.WriteLine();
 
-            
 
+            elaborationWrapper.Dispose();
+            Console.WriteLine(elaborationWrapper);
 
 
             return 0;

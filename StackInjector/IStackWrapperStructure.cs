@@ -1,4 +1,5 @@
 ﻿using System;
+using StackInjector.Core;
 using StackInjector.Settings;
 
 namespace StackInjector
@@ -13,7 +14,10 @@ namespace StackInjector
         /// <summary>
         /// the settings of this stackwrapper
         /// </summary>
-        StackWrapperSettings Settings { get; }
+        ref readonly StackWrapperSettings Settings { get; }
+
+
+        //todo modify those signatures for generics. Might help.
 
         /// <summary>
         /// Copy the structure of this existing wrapper and initialize a new one.

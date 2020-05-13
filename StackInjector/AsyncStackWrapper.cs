@@ -3,12 +3,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using StackInjector.Attributes;
+using StackInjector.Core;
 using StackInjector.Settings;
 
 namespace StackInjector
 {
     [Service(DoNotServeMembers = true, Version = 2.0)]
-    internal partial class AsyncStackWrapper : StackWrapper, IAsyncStackWrapper
+    internal partial class AsyncStackWrapper : StackWrapperBase, IAsyncStackWrapper
     {
         // used to cancel everything
         private readonly CancellationTokenSource cancelPendingTasksSource = new CancellationTokenSource();
@@ -30,10 +31,10 @@ namespace StackInjector
         /// <summary>
         /// create a new AsyncStackWrapper
         /// </summary>
-        /// <param name="settings"></param>
-        internal AsyncStackWrapper ( StackWrapperSettings settings ) : base(settings)
+        internal AsyncStackWrapper ( WrapperCore core ) : base(core,typeof(AsyncStackWrapper))
         {
-            // in case the list is empty, release the empty event listener.
+
+            // register an event that in case the list is empty, release the empty event listener.
             this.cancelPendingTasksSource.Token.Register(this.ReleaseListAwaiter);
 
         }
@@ -50,8 +51,8 @@ namespace StackInjector
 
         public override string ToString ()
             =>
-                $"AsyncStackWrapper{{ {this.ServicesWithInstances.GetAllTypes().Count()} registered types; " +
-                $"entry point: {this.EntryPoint.Name}; canceled: {this.cancelPendingTasksSource.IsCancellationRequested} }}";
+                $"AsyncStackWrapper{{ {this.Core.instances.GetAllTypes().Count()} registered types; " +
+                $"entry point: {this.Core.entryPoint.Name}; canceled: {this.cancelPendingTasksSource.IsCancellationRequested} }}";
 
 
 
@@ -59,7 +60,7 @@ namespace StackInjector
 
         private bool disposedValue = false;
 
-        public new void Dispose ()
+        public override void Dispose ()
         {
             if( !this.disposedValue )
             {
@@ -77,8 +78,7 @@ namespace StackInjector
                 this.tasks = null;
 
                 // clean instantiated objects
-                this.RemoveInstancesDiff();
-                this.instancesDiff.Clear();
+                this.Core.RemoveInstancesDiff();
 
 
                 this.disposedValue = true;

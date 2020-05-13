@@ -3,10 +3,13 @@ using System.Linq;
 using System.Reflection;
 using StackInjector.Attributes;
 
-namespace StackInjector
+namespace StackInjector.Core
 {
-    internal partial class StackWrapper
+    internal partial class WrapperCore
     {
+        //! maintainability of 52/100
+        //todo simplify this method
+
         /// <summary>
         /// Injects services into the specified instance, instantiating them on necessity.
         /// </summary>

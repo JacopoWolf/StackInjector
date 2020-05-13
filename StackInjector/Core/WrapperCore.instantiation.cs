@@ -4,9 +4,9 @@ using System.Reflection;
 using StackInjector.Attributes;
 using StackInjector.Exceptions;
 
-namespace StackInjector
+namespace StackInjector.Core
 {
-    internal partial class StackWrapper
+    internal partial class WrapperCore
     {
         /// <summary>
         /// Instantiates the specified [Served] type
@@ -20,10 +20,10 @@ namespace StackInjector
             //todo check for default constructor. If not present, throw custom exception
             var instance = Activator.CreateInstance( type );
 
-            this.ServicesWithInstances.AddInstance(type, instance);
+            this.instances.AddInstance(type, instance);
 
             // if true, track instantiated objects
-            if( this.Settings.trackInstancesDiff )
+            if( this.settings.trackInstancesDiff )
                 this.instancesDiff.Add(instance);
 
             return instance;
@@ -35,11 +35,11 @@ namespace StackInjector
             if( type.GetCustomAttribute<ServiceAttribute>() == null )
                 throw new NotAServiceException(type, $"The type {type.FullName} is not annotated with [Service]");
 
-            if( !this.ServicesWithInstances.ContainsType(type) )
+            if( !this.instances.ContainsType(type) )
                 throw new ClassNotFoundException(type, $"The type {type.FullName} is not in a registred assembly!");
 
 
-            var instanceOfType = this.ServicesWithInstances.OfType(type).First();
+            var instanceOfType = this.instances.OfType(type).First();
 
             if( instanceOfType is null )
                 return this.InstantiateService(type);
@@ -51,19 +51,21 @@ namespace StackInjector
         /// <summary>
         /// removes instances of the tracked instantiated types and call their Dispose method
         /// </summary>
-        protected void RemoveInstancesDiff ()
+        internal void RemoveInstancesDiff ()
         {
-            if( !this.Settings.trackInstancesDiff )
+            if( !this.settings.trackInstancesDiff )
                 return;
 
             foreach( var instance in this.instancesDiff )
             {
-                this.ServicesWithInstances.RemoveInstance(instance.GetType(), instance);
+                this.instances.RemoveInstance(instance.GetType(), instance);
 
                 // if the relative setting is true, check if the instance implements IDisposable and call it
-                if( this.Settings.callDisposeOnInstanceDiff && instance is IDisposable disposable )
+                if( this.settings.callDisposeOnInstanceDiff && instance is IDisposable disposable )
                     disposable.Dispose();
             }
+
+            this.instancesDiff.Clear();
 
         }
 

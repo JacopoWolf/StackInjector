@@ -27,10 +27,8 @@ namespace StackInjector.TEST.Async
                     {
                         asyncwrapper.Submit(item);
 
-
                         Thread.Sleep(10);   // <<<----- I want to highlight this this is for asyncronous testing purposes
                                             // and it's the cause of the 100+ milliseconds of elaboration required for this test
-
                     }
                 } 
             );
@@ -45,8 +43,6 @@ namespace StackInjector.TEST.Async
             Assert.AreEqual(feed.Count(), counter);
 
         }
-
-
 
 
         [Test]
