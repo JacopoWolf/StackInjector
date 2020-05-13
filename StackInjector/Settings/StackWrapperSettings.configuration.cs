@@ -56,7 +56,7 @@ namespace StackInjector.Settings
         /// <param name="track">if true, track instances diff</param>
         /// <param name="callDispose">if true, call Dispose on services implementing <see cref="System.IDisposable"/></param>
         /// <returns>the modified settings</returns>
-        public StackWrapperSettings TrackInstantiationDiff( bool track = true, bool callDispose = true )
+        public StackWrapperSettings TrackInstantiationDiff ( bool track = true, bool callDispose = true )
         {
             this.trackInstancesDiff = track;
             this.callDisposeOnInstanceDiff = callDispose;

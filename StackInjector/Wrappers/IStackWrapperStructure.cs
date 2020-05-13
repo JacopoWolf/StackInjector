@@ -1,5 +1,4 @@
 ﻿using System;
-using StackInjector.Core;
 using StackInjector.Settings;
 
 namespace StackInjector.Wrappers

@@ -42,7 +42,7 @@ namespace StackInjector.Settings
         public static StackWrapperSettings Empty
             =>
                 new StackWrapperSettings();
-        
+
 
         /// <summary>
         /// Creates a new StackWrapperSettings with default parameters.
@@ -54,9 +54,9 @@ namespace StackInjector.Settings
                 new StackWrapperSettings()
                     .RegisterEntryAssembly()
                     .RegisterWrapperAsService()
-                    .TrackInstantiationDiff( false )
+                    .TrackInstantiationDiff(false)
                     .VersioningMethod(ServedVersionTargetingMethod.None, @override: false);
-        
+
 
         //todo maybe add a DefaultInner for nested wrappers
 

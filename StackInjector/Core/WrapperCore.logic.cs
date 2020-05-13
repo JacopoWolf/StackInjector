@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace StackInjector.Core
@@ -7,7 +6,7 @@ namespace StackInjector.Core
     internal partial class WrapperCore
     {
 
-        internal void ServeAll ( )
+        internal void ServeAll ()
         {
 
             ////// setting for referencing this object from instances inside

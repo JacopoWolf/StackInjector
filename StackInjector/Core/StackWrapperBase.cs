@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using StackInjector.Behaviours;
-using StackInjector.Core;
 using StackInjector.Settings;
 using StackInjector.Wrappers;
 
@@ -10,7 +6,7 @@ namespace StackInjector.Core
 {
     internal abstract class StackWrapperBase : IStackWrapperStructure
     {
-        public ref readonly StackWrapperSettings Settings 
+        public ref readonly StackWrapperSettings Settings
             => ref this.Core.settings;
 
 
@@ -23,7 +19,7 @@ namespace StackInjector.Core
 
             // setting for referencing the calling wrapper as a service
             if( this.Core.settings.registerSelf )
-                this.Core.instances.AddInstance( toRegister , this );
+                this.Core.instances.AddInstance(toRegister, this);
         }
 
 

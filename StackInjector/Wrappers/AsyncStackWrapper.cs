@@ -4,8 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using StackInjector.Attributes;
 using StackInjector.Core;
-using StackInjector.Settings;
-using StackInjector.Wrappers;
 
 namespace StackInjector.Wrappers
 {
@@ -32,7 +30,7 @@ namespace StackInjector.Wrappers
         /// <summary>
         /// create a new AsyncStackWrapper
         /// </summary>
-        internal AsyncStackWrapper ( WrapperCore core ) : base(core,typeof(AsyncStackWrapper))
+        internal AsyncStackWrapper ( WrapperCore core ) : base(core, typeof(AsyncStackWrapper))
         {
 
             // register an event that in case the list is empty, release the empty event listener.
