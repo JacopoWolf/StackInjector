@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using StackInjector.Wrappers;
 
 namespace StackInjector.Settings
 {
@@ -38,27 +39,26 @@ namespace StackInjector.Settings
         /// High chance a NullReference might be thrown if not treated correctly.
         /// </summary>
         /// <returns>empty settings</returns>
-        public static StackWrapperSettings Empty ()
-        {
-            return new StackWrapperSettings();
-        }
+        public static StackWrapperSettings Empty
+            =>
+                new StackWrapperSettings();
+
 
         /// <summary>
         /// Creates a new StackWrapperSettings with default parameters.
         /// See what those are at <see href="https://github.com/JacopoWolf/StackInjector/wiki/Default-Settings">the Wiki page</see>
         /// </summary>
         /// <returns>the default settings</returns>
-        public static StackWrapperSettings Default ()
-        {
-            return
+        public static StackWrapperSettings Default
+            =>
                 new StackWrapperSettings()
                     .RegisterEntryAssembly()
                     .RegisterWrapperAsService()
-                    .TrackInstantiationDiff( false )
+                    .TrackInstantiationDiff(false)
                     .VersioningMethod(ServedVersionTargetingMethod.None, @override: false);
-        }
 
-        //todo maybe add a DefaultInner for nested wrappers
+
+        //? maybe add a DefaultInner for nested wrappers
 
         #endregion
 

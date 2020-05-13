@@ -10,21 +10,23 @@ namespace StackInjector.TEST.Versioning
         [Test]
         public void MinorVersioning()
         {
-            StackWrapperSettings
-                .Default()
-                .VersioningMethod( ServedVersionTargetingMethod.LatestMinor )
-                .From<EntryPointTestMinor>()
-                .Start();
+            var settings =
+                StackWrapperSettings
+                .Default
+                .VersioningMethod(ServedVersionTargetingMethod.LatestMinor);
+
+            Injector.From<EntryPointTestMinor>( settings ).Start();
         }
 
         [Test]
         public void MajorVersioning()
         {
-            StackWrapperSettings
-                .Default()
-                .VersioningMethod( ServedVersionTargetingMethod.LatestMajor )
-                .From<EntryPointTestMajor>()
-                .Start();
+            var settings =
+                StackWrapperSettings
+                .Default
+                .VersioningMethod(ServedVersionTargetingMethod.LatestMajor);
+
+            Injector.From<EntryPointTestMajor>( settings ).Start();
         }
 
 

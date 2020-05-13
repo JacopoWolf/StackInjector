@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
 using StackInjector.Attributes;
+using StackInjector.Core;
+using StackInjector.Wrappers;
 
 namespace StackInjector.TEST.SimpleStack1.Services
 {
@@ -12,7 +14,7 @@ namespace StackInjector.TEST.SimpleStack1.Services
         IThingsFilter Filter { get; set; }
 
         [Served]
-        IStackWrapperStructure Wrapper { get; set; }
+        IStackWrapperCore Wrapper { get; set; }
 
         public object EntryPoint ()
         {
@@ -25,10 +27,11 @@ namespace StackInjector.TEST.SimpleStack1.Services
                 .TrackInstantiationDiff();
 
             using
-            ( 
+            (
                 var wrapper =
                     this.Wrapper
-                    .FromStructure<WrappedConsumerEntryPoint>(overrideSettings: settings) 
+                    .CloneCore(settings)
+                    .ToWrapper<WrappedConsumerEntryPoint>()
             )
             {
                 wrapper.Start();

@@ -4,9 +4,9 @@ using System.Reflection;
 using StackInjector.Attributes;
 using StackInjector.Settings;
 
-namespace StackInjector
+namespace StackInjector.Core
 {
-    internal partial class StackWrapper
+    internal partial class WrapperCore
     {
 
         internal Type Version
@@ -16,7 +16,7 @@ namespace StackInjector
             ServedVersionTargetingMethod method
         )
         {
-            var candidateTypes = this.ServicesWithInstances.TypesAssignableFrom(targetType);
+            var candidateTypes = this.instances.TypesAssignableFrom(targetType);
 
             return method switch
             {

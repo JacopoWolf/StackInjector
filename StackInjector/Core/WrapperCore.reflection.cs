@@ -4,9 +4,9 @@ using System.Reflection;
 using StackInjector.Attributes;
 using StackInjector.Exceptions;
 
-namespace StackInjector
+namespace StackInjector.Core
 {
-    internal partial class StackWrapper
+    internal partial class WrapperCore
     {
         /// <summary>
         /// Returns type if it's a [Service] class,
@@ -24,9 +24,9 @@ namespace StackInjector
                 {
                     var v = servedAttribute?.TargetVersion ?? 0.0;
 
-                    var t = ( this.Settings.overrideTargetingMethod )
-                                ? this.Settings.targetingMethod
-                                : servedAttribute?.TargetingMethod ?? this.Settings.targetingMethod;
+                    var t = ( this.settings.overrideTargetingMethod )
+                                ? this.settings.targetingMethod
+                                : servedAttribute?.TargetingMethod ?? this.settings.targetingMethod;
 
                     return this.Version(type, v, t);
 
@@ -49,13 +49,13 @@ namespace StackInjector
         /// </summary>
         internal void ReadAssemblies ()
         {
-            if( this.Settings.registerEntryPointAssembly )
-                this.Settings.registredAssemblies.Add(this.EntryPoint.Assembly);
+            if( this.settings.registerEntryPointAssembly )
+                this.settings.registredAssemblies.Add(this.entryPoint.Assembly);
 
             foreach
             (
                 var t in this
-                .Settings
+                .settings
                 .registredAssemblies
                 .SelectMany
                 (
@@ -67,7 +67,7 @@ namespace StackInjector
                 )
             )
             {
-                this.ServicesWithInstances.AddType(t);
+                this.instances.AddType(t);
             }
         }
 
