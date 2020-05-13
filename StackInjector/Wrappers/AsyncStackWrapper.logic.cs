@@ -1,8 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using StackInjector.Attributes;
+using StackInjector.Core;
+using StackInjector.Settings;
+using StackInjector.Wrappers;
 
-namespace StackInjector
+namespace StackInjector.Wrappers
 {
 
     internal partial class AsyncStackWrapper

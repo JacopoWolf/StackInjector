@@ -7,15 +7,15 @@ using StackInjector.Behaviours;
 using StackInjector.Core;
 using StackInjector.Settings;
 
-namespace StackInjector
+namespace StackInjector.Wrappers
 {
     [Service(Version = 1.0, DoNotServeMembers = true)]
     internal class StackWrapper : StackWrapperBase, IStackWrapper
     {
 
 
-        internal StackWrapper(WrapperCore core) : base(core,typeof(StackWrapper))
-        {  }
+        internal StackWrapper ( WrapperCore core ) : base(core, typeof(StackWrapper))
+        { }
 
 
         /// <inheritdoc/>
@@ -45,7 +45,7 @@ namespace StackInjector
 
         public override void Dispose ()
         {
-            if (!this.disposed)
+            if( !this.disposed )
             {
                 this.Core.RemoveInstancesDiff();
 

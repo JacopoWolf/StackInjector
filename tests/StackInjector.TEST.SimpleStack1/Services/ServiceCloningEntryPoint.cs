@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
 using StackInjector.Attributes;
+using StackInjector.Wrappers;
 
 namespace StackInjector.TEST.SimpleStack1.Services
 {

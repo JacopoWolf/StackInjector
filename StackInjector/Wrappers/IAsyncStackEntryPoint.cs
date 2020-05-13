@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace StackInjector
+namespace StackInjector.Wrappers
 {
     /// <summary>
     /// Entry point for asyncronous StacksWrappers

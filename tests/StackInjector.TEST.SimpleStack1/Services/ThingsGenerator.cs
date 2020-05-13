@@ -1,5 +1,6 @@
 ﻿using System;
 using StackInjector.Attributes;
+using StackInjector.Wrappers;
 
 namespace StackInjector.TEST.SimpleStack1.Services
 {

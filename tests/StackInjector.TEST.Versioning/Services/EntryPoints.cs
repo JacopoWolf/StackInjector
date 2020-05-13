@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using StackInjector.Attributes;
 using StackInjector.Settings;
+using StackInjector.Wrappers;
 
 namespace StackInjector.TEST.Versioning.Services
 {

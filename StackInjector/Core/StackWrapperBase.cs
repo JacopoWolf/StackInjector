@@ -4,6 +4,7 @@ using System.Text;
 using StackInjector.Behaviours;
 using StackInjector.Core;
 using StackInjector.Settings;
+using StackInjector.Wrappers;
 
 namespace StackInjector.Core
 {

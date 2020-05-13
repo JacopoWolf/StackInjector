@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using StackInjector.Attributes;
 using StackInjector.Core;
 using StackInjector.Settings;
+using StackInjector.Wrappers;
 
-namespace StackInjector
+namespace StackInjector.Wrappers
 {
     [Service(DoNotServeMembers = true, Version = 2.0)]
     internal partial class AsyncStackWrapper : StackWrapperBase, IAsyncStackWrapper

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using StackInjector.Attributes;
+using StackInjector.Wrappers;
 
 namespace StackInjector.TEST.Async.Services
 {

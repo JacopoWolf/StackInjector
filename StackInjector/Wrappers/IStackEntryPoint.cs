@@ -1,4 +1,4 @@
-﻿namespace StackInjector
+﻿namespace StackInjector.Wrappers
 {
     /// <summary>
     /// Defines an entry point for a stack

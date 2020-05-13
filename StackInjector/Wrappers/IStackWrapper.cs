@@ -1,4 +1,6 @@
-﻿namespace StackInjector
+﻿
+
+namespace StackInjector.Wrappers
 {
     /// <summary>
     /// Wraps a Stack of dependency-injected classes

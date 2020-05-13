@@ -2,7 +2,7 @@
 using StackInjector.Core;
 using StackInjector.Settings;
 
-namespace StackInjector
+namespace StackInjector.Wrappers
 {
 
     /// <summary>
