@@ -5,6 +5,10 @@ using StackInjector.Settings;
 
 namespace StackInjector.Core
 {
+    /// <summary>
+    /// <para>The core common logic of every stack wrapper.</para>
+    /// <para>The jobs of this class are reflection, versioning, instantiation, and injection.</para>
+    /// </summary>
     internal partial class WrapperCore
     {
         // entry point object of this core

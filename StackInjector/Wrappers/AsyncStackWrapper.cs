@@ -8,7 +8,7 @@ using StackInjector.Core;
 namespace StackInjector.Wrappers
 {
     [Service(DoNotServeMembers = true, Version = 2.0)]
-    internal partial class AsyncStackWrapper : StackWrapperBase, IAsyncStackWrapper
+    internal partial class AsyncStackWrapper : StackWrapperCore, IAsyncStackWrapper
     {
         // used to cancel everything
         private readonly CancellationTokenSource cancelPendingTasksSource = new CancellationTokenSource();

@@ -5,7 +5,7 @@ namespace StackInjector.Wrappers
     /// <summary>
     /// Wraps a Stack of dependency-injected classes
     /// </summary>
-    public interface IStackWrapper : IStackWrapperStructure
+    public interface IStackWrapper : IStackWrapperCore
     {
 
         /// <summary>

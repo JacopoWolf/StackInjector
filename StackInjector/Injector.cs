@@ -6,12 +6,12 @@ using StackInjector.Wrappers;
 
 namespace StackInjector
 {
+    //todo edit documentation to allow clone cloning
     /// <summary>
     /// <para>Static factory class exposing methods to create new StackWrappers</para>
     /// <para>Note that using any of the exposed methods will analyze the whole target assembly,
     /// If you want to clone an existing structure, see 
-    /// <see cref="IStackWrapperStructure.FromStructure{T}(StackWrapperSettings)"/> and
-    /// <see cref="IStackWrapperStructure.AsyncFromStructure{T}(StackWrapperSettings)"/></para>
+    /// <see cref="Core.Cloning.ICloneableCore.CloneCore(StackWrapperSettings)"/></para>
     /// </summary>
     public static class Injector
     {
@@ -58,9 +58,8 @@ namespace StackInjector
         public static IAsyncStackWrapper AsyncFrom<T> ( StackWrapperSettings settings = null ) where T : IAsyncStackEntryPoint
         {
             if( settings == null )
-            {
                 settings = StackWrapperSettings.Default;
-            }
+            
 
             // create a new async stack wrapper
             var core = new WrapperCore( settings )

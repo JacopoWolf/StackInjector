@@ -32,7 +32,7 @@ namespace StackInjector.TEST.Async.Services
             Console.WriteLine( this.Wrapper.ToString() );
 
             // clone the existing structure and initialize a new asyncronous elaborator! Saves time
-            using var elaborationWrapper = this.Wrapper.AsyncFromStructure<PowElaborator>();
+            using var elaborationWrapper = this.Wrapper.CloneCore().ToAsyncWrapper<PowElaborator>();
 
             // logging
             Console.WriteLine(elaborationWrapper.ToString());
