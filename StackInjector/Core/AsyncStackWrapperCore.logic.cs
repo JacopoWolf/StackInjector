@@ -81,6 +81,7 @@ namespace StackInjector.Core
                     var list = listAwaiter();
                     var timeout = Task.Delay( this.Settings.asyncWaitTime );
 
+                    // if the timeout elapses first, then stop waiting
                     return (await Task.WhenAny(list, timeout).ConfigureAwait(true)) == timeout;
             }
         }
