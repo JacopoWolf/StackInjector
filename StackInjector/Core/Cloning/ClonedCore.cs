@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using StackInjector.Wrappers;
+﻿using StackInjector.Wrappers;
 using StackInjector.Wrappers.Generic;
 
 namespace StackInjector.Core.Cloning
@@ -11,8 +8,8 @@ namespace StackInjector.Core.Cloning
 
         private readonly WrapperCore clonedCore;
 
-        internal ClonedCore ( WrapperCore clonedCore ) 
-            => 
+        internal ClonedCore ( WrapperCore clonedCore )
+            =>
                 this.clonedCore = clonedCore;
 
 

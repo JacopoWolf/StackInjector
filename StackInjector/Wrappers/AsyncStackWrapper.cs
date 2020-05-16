@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using StackInjector.Attributes;
 using StackInjector.Core;
 
 namespace StackInjector.Wrappers
 {
     [Service(DoNotServeMembers = true, Version = 2.0)]
-    internal partial class AsyncStackWrapper : AsyncStackWrapperCore<object>, IAsyncStackWrapper 
+    internal partial class AsyncStackWrapper : AsyncStackWrapperCore<object>, IAsyncStackWrapper
     {
 
         /// <summary>
@@ -20,7 +17,7 @@ namespace StackInjector.Wrappers
 
         public void Submit ( object item )
         {
-            var task = 
+            var task =
                 this
                 .Core
                 .GetEntryPoint<IAsyncStackEntryPoint>()

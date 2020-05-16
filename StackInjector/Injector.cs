@@ -1,5 +1,4 @@
-﻿using StackInjector.Behaviours;
-using StackInjector.Core;
+﻿using StackInjector.Core;
 using StackInjector.Exceptions;
 using StackInjector.Settings;
 using StackInjector.Wrappers;
@@ -59,7 +58,7 @@ namespace StackInjector
         {
             if( settings == null )
                 settings = StackWrapperSettings.Default;
-            
+
 
             // create a new async stack wrapper
             var core = new WrapperCore( settings )
@@ -85,8 +84,8 @@ namespace StackInjector
         /// <param name="digest">delegate used to call the relative method to perform on submitted items</param>
         /// <param name="settings">the settings to use with this object. If null, use default.</param>
         /// <returns></returns>
-        public static IAsyncStackWrapper<TEntry,TIn,TOut> AsyncFrom<TEntry,TIn,TOut> 
-            ( 
+        public static IAsyncStackWrapper<TEntry, TIn, TOut> AsyncFrom<TEntry, TIn, TOut>
+            (
                 AsyncStackDigest<TEntry, TIn, TOut> digest,
                 StackWrapperSettings settings = null
             )

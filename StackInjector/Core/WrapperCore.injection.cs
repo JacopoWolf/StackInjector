@@ -31,7 +31,7 @@ namespace StackInjector.Core
 
         #region injection methods
 
-        private void InjectFields( Type type, object instance, ref List<object> instantiated )
+        private void InjectFields ( Type type, object instance, ref List<object> instantiated )
         {
             var fields =
                     type

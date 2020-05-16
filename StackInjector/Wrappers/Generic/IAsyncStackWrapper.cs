@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using StackInjector.Core;
@@ -18,11 +16,11 @@ namespace StackInjector.Wrappers.Generic
     /// <param name="item">the item to elaborate</param>
     /// <param name="cancellationToken">the cancellation token used to cancel the task</param>
     /// <returns>a task rappresenting the current job</returns>
-    public delegate Task<TOut> AsyncStackDigest<TEntry, in TIn, TOut> 
-        (  
+    public delegate Task<TOut> AsyncStackDigest<TEntry, in TIn, TOut>
+        (
             TEntry instance,
-            TIn item, 
-            CancellationToken cancellationToken 
+            TIn item,
+            CancellationToken cancellationToken
         );
 
 

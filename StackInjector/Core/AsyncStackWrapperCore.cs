@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using StackInjector.Wrappers;
 
 namespace StackInjector.Core
 {
@@ -16,7 +12,7 @@ namespace StackInjector.Core
         protected internal readonly CancellationTokenSource cancelPendingTasksSource = new CancellationTokenSource();
 
         // exposes the token
-        public CancellationToken PendingTasksCancellationToken 
+        public CancellationToken PendingTasksCancellationToken
             => this.cancelPendingTasksSource.Token;
 
         // used to lock access to tasks

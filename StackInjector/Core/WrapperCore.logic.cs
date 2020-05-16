@@ -43,7 +43,7 @@ namespace StackInjector.Core
             return
                 (T)this
                     .instances
-                    .OfType( this.entryPoint )
+                    .OfType(this.entryPoint)
                     .First();
         }
     }

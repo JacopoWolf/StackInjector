@@ -30,7 +30,7 @@ namespace StackInjector.Settings
         // async management
         internal AsyncWaitingMethod                 asyncWaitingMethod;
         internal int                                asyncWaitTime;
-        
+
 
         #endregion
 

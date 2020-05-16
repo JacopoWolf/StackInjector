@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using StackInjector.Settings;
 
@@ -20,7 +16,7 @@ namespace StackInjector.Core
         public void Submit ( Task<T> work )
         {
             lock( this.listAccessLock )
-                this.tasks.AddLast( work );
+                this.tasks.AddLast(work);
 
             // if the list was empty just an item ago, signal it's not anymore.
             // this limit avoids useless cross thread calls that would slow everything down.
@@ -36,7 +32,7 @@ namespace StackInjector.Core
 
         public async IAsyncEnumerable<T> Elaborated ()
         {
-            while( ! this.cancelPendingTasksSource.IsCancellationRequested )
+            while( !this.cancelPendingTasksSource.IsCancellationRequested )
             {
                 // avoid deadlocks 
                 if( this.AnyTaskLeft() )
@@ -67,7 +63,7 @@ namespace StackInjector.Core
 
             switch( this.Settings.asyncWaitingMethod )
             {
-                
+
                 case AsyncWaitingMethod.Exit:
                 default:
 
@@ -85,7 +81,7 @@ namespace StackInjector.Core
                     var list = listAwaiter();
                     var timeout = Task.Delay( this.Settings.asyncWaitTime );
 
-                    return ( await Task.WhenAny(list, timeout).ConfigureAwait(true) ) == timeout;
+                    return (await Task.WhenAny(list, timeout).ConfigureAwait(true)) == timeout;
             }
         }
 
@@ -93,7 +89,7 @@ namespace StackInjector.Core
         public bool AnyTaskCompleted ()
             =>
                 this.tasks.Any(t => t.IsCompleted);
-        
+
 
     }
 }
