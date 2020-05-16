@@ -33,7 +33,7 @@ namespace StackInjector.Core.Cloning
         /// <typeparam name="TOut">type of output elements</typeparam>
         /// <param name="digest">action to perform on elements</param>
         /// <returns>the new wrapper</returns>
-        IAsyncStackWrapper<TEntry, TIn, TOut> ToGenericAsync<TEntry, TIn, TOut> ( AsyncStackDigest<TEntry, TIn,TOut> digest );
+        IAsyncStackWrapper<TEntry, TIn, TOut> ToGenericAsync<TEntry, TIn, TOut> ( AsyncStackDigest<TEntry, TIn, TOut> digest );
 
     }
 

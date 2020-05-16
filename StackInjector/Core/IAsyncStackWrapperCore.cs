@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -38,5 +37,11 @@ namespace StackInjector.Core
         /// </summary>
         /// <returns>true if there are pending tasks</returns>
         bool AnyTaskLeft ();
+
+        /// <summary>
+        /// check if any pending task has been completed
+        /// </summary>
+        /// <returns>true if any task completed</returns>
+        bool AnyTaskCompleted ();
     }
 }

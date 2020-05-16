@@ -35,6 +35,6 @@ namespace StackInjector.Core
 
 
         public abstract void Dispose ();
-        
+
     }
 }

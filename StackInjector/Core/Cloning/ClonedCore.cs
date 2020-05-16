@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using StackInjector.Wrappers;
+﻿using StackInjector.Wrappers;
 using StackInjector.Wrappers.Generic;
 
 namespace StackInjector.Core.Cloning
@@ -11,8 +8,8 @@ namespace StackInjector.Core.Cloning
 
         private readonly WrapperCore clonedCore;
 
-        internal ClonedCore ( WrapperCore clonedCore ) 
-            => 
+        internal ClonedCore ( WrapperCore clonedCore )
+            =>
                 this.clonedCore = clonedCore;
 
 
@@ -26,9 +23,15 @@ namespace StackInjector.Core.Cloning
             return wrapper;
         }
 
-        //todo implement
-        public IAsyncStackWrapper<TEntry, TIn, TOut> ToGenericAsync<TEntry, TIn, TOut> ( AsyncStackDigest<TEntry, TIn, TOut> digest ) 
-            => throw new NotImplementedException();
+        public IAsyncStackWrapper<TEntry, TIn, TOut> ToGenericAsync<TEntry, TIn, TOut> ( AsyncStackDigest<TEntry, TIn, TOut> digest )
+        {
+            var wrapper = new AsyncStackWrapper<TEntry,TIn,TOut>( this.clonedCore );
+
+            this.clonedCore.entryPoint = typeof(TEntry);
+            this.clonedCore.ServeAll();
+
+            return wrapper;
+        }
 
 
         public IStackWrapper ToWrapper<T> () where T : IStackEntryPoint

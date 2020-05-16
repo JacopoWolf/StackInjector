@@ -27,10 +27,12 @@ namespace StackInjector.Settings
         internal bool                               trackInstancesDiff;
         internal bool                               callDisposeOnInstanceDiff;
 
+        // async management
+        internal AsyncWaitingMethod                 asyncWaitingMethod;
+        internal int                                asyncWaitTime;
+
+
         #endregion
-
-
-        #region constructors
 
         private StackWrapperSettings () { }
 
@@ -55,12 +57,11 @@ namespace StackInjector.Settings
                     .RegisterEntryAssembly()
                     .RegisterWrapperAsService()
                     .TrackInstantiationDiff(false)
-                    .VersioningMethod(ServedVersionTargetingMethod.None, @override: false);
+                    .VersioningMethod(ServedVersionTargetingMethod.None, @override: false)
+                    .WhenNoMoreTasks(AsyncWaitingMethod.Wait);
 
 
         //? maybe add a DefaultInner for nested wrappers
-
-        #endregion
 
     }
 }
