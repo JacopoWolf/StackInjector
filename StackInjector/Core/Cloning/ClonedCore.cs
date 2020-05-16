@@ -26,9 +26,15 @@ namespace StackInjector.Core.Cloning
             return wrapper;
         }
 
-        //todo implement
-        public IAsyncStackWrapper<TEntry, TIn, TOut> ToGenericAsync<TEntry, TIn, TOut> ( AsyncStackDigest<TEntry, TIn, TOut> digest ) 
-            => throw new NotImplementedException();
+        public IAsyncStackWrapper<TEntry, TIn, TOut> ToGenericAsync<TEntry, TIn, TOut> ( AsyncStackDigest<TEntry, TIn, TOut> digest )
+        {
+            var wrapper = new AsyncStackWrapper<TEntry,TIn,TOut>( this.clonedCore );
+
+            this.clonedCore.entryPoint = typeof(TEntry);
+            this.clonedCore.ServeAll();
+
+            return wrapper;
+        }
 
 
         public IStackWrapper ToWrapper<T> () where T : IStackEntryPoint
