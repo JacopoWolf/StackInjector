@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using StackInjector.Settings;
 
 namespace StackInjector.Core
 {
@@ -36,7 +39,7 @@ namespace StackInjector.Core
             while( ! this.cancelPendingTasksSource.IsCancellationRequested )
             {
                 // avoid deadlocks 
-                if( this.tasks.Any() )
+                if( this.AnyTaskLeft() )
                 {
                     var completed = await Task.WhenAny(this.tasks).ConfigureAwait(false);
 
@@ -48,12 +51,49 @@ namespace StackInjector.Core
                 }
                 else
                 {
-                    // wait for a signal of the list not being empty anymore
-                    await this.emptyListAwaiter.WaitAsync().ConfigureAwait(true);
-                    continue;
+                    if( await this.OnNoTasksLeft().ConfigureAwait(true) )
+                        break;
                 }
             }
         }
+
+        // true if outher loop is to break
+        private async Task<bool> OnNoTasksLeft ()
+        {
+            // to not repeat code
+            Task listAwaiter ()
+                => this.emptyListAwaiter.WaitAsync();
+
+
+            switch( this.Settings.asyncWaitingMethod )
+            {
+                
+                case AsyncWaitingMethod.Exit:
+                default:
+
+                    return true;
+
+
+                case AsyncWaitingMethod.Wait:
+
+                    // wait for a signal of the list not being empty anymore
+                    await listAwaiter().ConfigureAwait(true);
+                    return false;
+
+
+                case AsyncWaitingMethod.WaitTimeout:
+                    var list = listAwaiter();
+                    var timeout = Task.Delay( this.Settings.asyncWaitTime );
+
+                    return ( await Task.WhenAny(list, timeout).ConfigureAwait(true) ) == timeout;
+            }
+        }
+
+
+        public bool AnyTaskCompleted ()
+            =>
+                this.tasks.Any(t => t.IsCompleted);
+        
 
     }
 }

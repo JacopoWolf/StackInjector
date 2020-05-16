@@ -21,9 +21,6 @@ namespace StackInjector.TEST.Async.Services
     {
 
         [Served]
-        IStackWrapperCore wrapper;
-
-        [Served]
         MathService MathService { get; set; }
 
 

@@ -4,6 +4,9 @@ namespace StackInjector.Settings
 {
     public sealed partial class StackWrapperSettings
     {
+
+        #region Assembly registration
+
         /// <summary>
         /// register an external assembly from wich you want classes to be laoded
         /// </summary>
@@ -50,6 +53,9 @@ namespace StackInjector.Settings
             return this;
         }
 
+        #endregion
+
+
         /// <summary>
         /// Track every new instantiated class to be deleted upon Dispose.
         /// </summary>
@@ -75,5 +81,25 @@ namespace StackInjector.Settings
             this.overrideTargetingMethod = @override;
             return this;
         }
+
+
+        #region Asynchronous settings
+
+        /// <summary>
+        /// What to do when an <see cref="StackInjector.Wrappers.IAsyncStackWrapper"/> 
+        /// has no more pending tasks to execute
+        /// </summary>
+        /// <param name="waitingMethod">the new waiting method</param>
+        /// <param name="waitTime">if <see cref="AsyncWaitingMethod.WaitTimeout"/> is set, this will be max time to wait</param>
+        /// <returns>the modified settings</returns>
+        public StackWrapperSettings WhenNoMoreTasks ( AsyncWaitingMethod waitingMethod, int waitTime = 1000 )
+        {
+            this.asyncWaitingMethod = waitingMethod;
+            this.asyncWaitTime = waitTime;
+            return this;
+        }
+
+        #endregion
+
     }
 }
