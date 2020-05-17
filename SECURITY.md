@@ -2,11 +2,20 @@
 
 ## Supported Versions
 
-Currently security updates are actively being developed with the library
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 0.x.y   | :heavy_plus_sign:  |
+| 2.x     | :white_check_mark: |
+| 1.x     | :o2:               |
+
+
+:white_check_mark: LTS version
+
+:ballot_box_with_check: supported
+
+:o2: not supported
+
+:no_entry: not supported with critical bugs
 
 ## Reporting a Vulnerability
 
