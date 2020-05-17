@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using StackInjector.Attributes;
+using StackInjector.Settings;
 
 namespace StackInjector.Core
 {
@@ -17,26 +18,37 @@ namespace StackInjector.Core
         {
             var instantiated = new List<object>();
             var type = instance.GetType();
+            var serving = type.GetCustomAttribute<ServiceAttribute>()?.Serving ?? Injector.Defaults.ServingMethod;
 
-            // setting for ignoring service of members. Defined in [Service] attribute
-            if( type.GetCustomAttribute<ServiceAttribute>()?.DoNotServeMembers ?? false )
+            // don't waste time serving if not necessary
+            if( serving == ServingMethods.DoNotServe )
                 return instantiated;
 
-            this.InjectFields(type, instance, ref instantiated);
-            this.InjectProperties(type, instance, ref instantiated);
+            // if false avoids going though the properties/fields list a second time to filter
+            var onlyWithAttrib = serving.HasFlag(ServingMethods.Strict);
+
+
+            if ( serving.HasFlag(ServingMethods.Fields) )
+                this.InjectFields(type, instance, ref instantiated, onlyWithAttrib);
+
+            if ( serving.HasFlag(ServingMethods.Properties) )
+                this.InjectProperties(type, instance, ref instantiated, onlyWithAttrib);
 
 
             return instantiated;
         }
 
+
+
         #region injection methods
 
-        private void InjectFields ( Type type, object instance, ref List<object> instantiated )
+        private void InjectFields ( Type type, object instance, ref List<object> instantiated, bool hasAttribute )
         {
-            var fields =
-                    type
-                        .GetFields( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance )
-                        .Where( field => field.GetCustomAttribute<ServedAttribute>() != null );
+            IEnumerable<FieldInfo> fields =
+                    type.GetFields( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
+
+            if ( hasAttribute )
+                fields = fields.Where( field => field.GetCustomAttribute<ServedAttribute>() != null );
 
             foreach( var serviceField in fields )
             {
@@ -48,12 +60,14 @@ namespace StackInjector.Core
             }
         }
 
-        private void InjectProperties ( Type type, object instance, ref List<object> instantiated )
+
+        private void InjectProperties ( Type type, object instance, ref List<object> instantiated, bool hasAttribute )
         {
-            var properties =
-                    type
-                        .GetProperties( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance )
-                        .Where( property => property.GetCustomAttribute<ServedAttribute>() != null );
+            IEnumerable<PropertyInfo> properties =
+                    type.GetProperties( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
+
+            if ( hasAttribute )
+                properties = properties.Where( property => property.GetCustomAttribute<ServedAttribute>() != null );
 
             foreach( var propertyField in properties )
             {
