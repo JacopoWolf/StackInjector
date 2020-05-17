@@ -9,13 +9,11 @@ namespace StackInjector.TEST.SimpleStack1.Services
         string GenerateThing ();
     }
 
-    [Service]
+    [Service(Serving = Injector.Defaults.ServeAll)]
     internal class SimpleThingsGenerator : IThingsGenerator
     {
-        [Served]
         private SimpleThingsFilter ThingsFilter { get; set; }
 
-        [Served]
         private IThingsConsumer ThingsConsumer { get; set; }
 
 

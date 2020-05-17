@@ -1,10 +1,11 @@
 ﻿using System.Linq;
 using StackInjector.Attributes;
 using StackInjector.Core;
+using StackInjector.Settings;
 
 namespace StackInjector.Wrappers
 {
-    [Service(DoNotServeMembers = true, Version = 2.0)]
+    [Service(Version = 2.0, Serving = ServingMethods.DoNotServe)]
     internal partial class AsyncStackWrapper : AsyncStackWrapperCore<object>, IAsyncStackWrapper
     {
 

@@ -12,7 +12,7 @@ namespace StackInjector
     /// If you want to clone an existing structure, see 
     /// <see cref="Core.Cloning.ICloneableCore.CloneCore(StackWrapperSettings)"/></para>
     /// </summary>
-    public static class Injector
+    public static partial class Injector
     {
         //todo SingleInstanceHolder should depend upon a setting
 

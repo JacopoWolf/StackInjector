@@ -1,4 +1,5 @@
 ﻿using System;
+using StackInjector.Settings;
 
 namespace StackInjector.Attributes
 {
@@ -22,9 +23,9 @@ namespace StackInjector.Attributes
         public bool ReuseInstance { get; set; } = false;
 
         /// <summary>
-        /// if set to true, members of this object will not be served even if marked as such
+        /// how properties and fields of this service should be served
         /// </summary>
-        public bool DoNotServeMembers { get; set; } = false;
-
+        public ServingMethods Serving { get; set; } = Injector.Defaults.ServingMethod;
     }
+
 }
