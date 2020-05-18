@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace StackInjector.Behaviours
 {
+    //? should this be documented internally
     internal interface IInstancesHolder
     {
         IEnumerable<object> OfType ( Type type );

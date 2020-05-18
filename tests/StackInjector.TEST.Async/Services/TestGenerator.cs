@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using StackInjector.Attributes;
+using StackInjector.Wrappers;
 
 namespace StackInjector.TEST.Async.Services
 {
@@ -31,7 +32,7 @@ namespace StackInjector.TEST.Async.Services
             Console.WriteLine( this.Wrapper.ToString() );
 
             // clone the existing structure and initialize a new asyncronous elaborator! Saves time
-            using var elaborationWrapper = this.Wrapper.AsyncFromStructure<PowElaborator>();
+            using var elaborationWrapper = this.Wrapper.CloneCore().ToAsyncWrapper<PowElaborator>();
 
             // logging
             Console.WriteLine(elaborationWrapper.ToString());
@@ -46,9 +47,9 @@ namespace StackInjector.TEST.Async.Services
                 List<double> results = new List<double>();
 
                 int counter = 2;
-                await foreach( var res in elaborationWrapper.Elaborated<double>() )
+                await foreach( var res in elaborationWrapper.Elaborated() )
                     if( counter++ < 18 ) // we don't want to wait forever.
-                        results.Add(res);
+                        results.Add( (double)res );
                     else
                         break;
 
@@ -60,8 +61,9 @@ namespace StackInjector.TEST.Async.Services
                 Console.Write($"{d}; ");
             Console.WriteLine();
 
-            
 
+            elaborationWrapper.Dispose();
+            Console.WriteLine(elaborationWrapper);
 
 
             return 0;

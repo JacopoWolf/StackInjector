@@ -11,12 +11,17 @@ namespace StackInjector.TEST.Async
 {
     public class Tests
     {
-        [Test][Retry(5)]
+        [Test][Retry(3)]
         public async Task TestAsync ()
         {
             var feed = Enumerable.Range(1, 11);
 
-            using var asyncwrapper = Injector.AsyncFrom<PowElaborator>();
+            // wait for a maximum of 500 milliseconds
+            var settings =
+                StackWrapperSettings.Default
+                .WhenNoMoreTasks(AsyncWaitingMethod.Timeout, 500 );
+
+            using var asyncwrapper = Injector.AsyncFrom<PowElaborator>( settings );
 
             // takes up to 1 second, waiting for 0.1 seconds every submission
             var feeder = Task.Run
@@ -26,27 +31,63 @@ namespace StackInjector.TEST.Async
                     foreach( var item in feed )
                     {
                         asyncwrapper.Submit(item);
-
-
-                        Thread.Sleep(10);   // <<<----- I want to highlight this this is for asyncronous testing purposes
-                                            // and it's the cause of the 100+ milliseconds of elaboration required for this test
-
                     }
                 } 
             );
 
-            var counter = 0;
-            await foreach( var result in asyncwrapper.Elaborated<double>() )
-                if( counter++ < 10 )
-                    Console.Write($"{result}; ");
-                else
-                    asyncwrapper.Dispose(); // test if disposing of asyncwrapper will stop the loop
+            // submit a new element ~100 milliseconds before the wrapper exits the loop
+            var test = Task.Run( async () => { await Task.Delay(400); asyncwrapper.Submit(42); });
 
-            Assert.AreEqual(feed.Count(), counter);
+
+            var resStr = "";
+
+            await foreach( var result in asyncwrapper.Elaborated() )
+                resStr += $"{result}; ";
+
+            await test;
+            await feeder;
+
+            Assert.AreEqual( resStr , "1; 4; 9; 16; 25; 36; 49; 64; 81; 100; 121; 1764; " );
 
         }
 
 
+        // this test is 5-10 milliseconds FASTER than the generic counterpart.
+        // I guess type safety really fastens it up a lot
+        [Test]
+        public async Task TestGenericAsync()
+        {
+            var feed = Enumerable.Range(1, 11);
+
+            var settings =
+                StackWrapperSettings.Default
+                .WhenNoMoreTasks(AsyncWaitingMethod.Exit);
+
+            using var wrapper = 
+                Injector.AsyncFrom<PowElaborator,int,double>
+                ( 
+                    // could call any method here
+                    async (i,e,t) => (double) await i.Digest(e,t), 
+                    settings 
+                );
+
+            Console.WriteLine(wrapper);
+
+
+            foreach( var item in feed )
+                wrapper.Submit(item);
+
+
+            var counter = 0;
+            await foreach( var result in wrapper.Elaborated() )
+            {
+                counter++;
+                Console.Write($"{result}; ");
+            }
+
+            Assert.AreEqual(feed.Count(), counter);
+
+        }
 
 
         [Test]

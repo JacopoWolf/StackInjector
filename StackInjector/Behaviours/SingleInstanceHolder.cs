@@ -34,7 +34,6 @@ namespace StackInjector.Behaviours
         public IEnumerable<Type> GetAllTypes ()
             => this.Keys;
 
-
-
     }
+
 }
