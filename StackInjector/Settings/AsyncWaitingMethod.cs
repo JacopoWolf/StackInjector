@@ -19,10 +19,10 @@
         Wait,
 
         /// <summary>
-        /// <para>don't immediately exit the loop, but rather wait a certain amount of time before exiting the loop</para>
+        /// <para>don't immediately exit the loop, but rather wait a certain amount of time for 
+        /// new tasks to be submitted tobefore exiting the loop</para>
         /// </summary>
-        WaitTimeout
-
+        Timeout
 
     }
 }

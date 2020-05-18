@@ -7,7 +7,7 @@ using StackInjector.Settings;
 
 namespace StackInjector.Core
 {
-    internal partial class WrapperCore
+    internal partial class InjectionCore
     {
         /// <summary>
         /// Injects services into the specified instance, instantiating them on necessity.
@@ -28,10 +28,10 @@ namespace StackInjector.Core
             var onlyWithAttrib = serving.HasFlag(ServingMethods.Strict);
 
 
-            if ( serving.HasFlag(ServingMethods.Fields) )
+            if( serving.HasFlag(ServingMethods.Fields) )
                 this.InjectFields(type, instance, ref instantiated, onlyWithAttrib);
 
-            if ( serving.HasFlag(ServingMethods.Properties) )
+            if( serving.HasFlag(ServingMethods.Properties) )
                 this.InjectProperties(type, instance, ref instantiated, onlyWithAttrib);
 
 
@@ -47,8 +47,8 @@ namespace StackInjector.Core
             IEnumerable<FieldInfo> fields =
                     type.GetFields( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
 
-            if ( hasAttribute )
-                fields = fields.Where( field => field.GetCustomAttribute<ServedAttribute>() != null );
+            if( hasAttribute )
+                fields = fields.Where(field => field.GetCustomAttribute<ServedAttribute>() != null);
 
             foreach( var serviceField in fields )
             {
@@ -66,8 +66,8 @@ namespace StackInjector.Core
             IEnumerable<PropertyInfo> properties =
                     type.GetProperties( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
 
-            if ( hasAttribute )
-                properties = properties.Where( property => property.GetCustomAttribute<ServedAttribute>() != null );
+            if( hasAttribute )
+                properties = properties.Where(property => property.GetCustomAttribute<ServedAttribute>() != null);
 
             foreach( var propertyField in properties )
             {

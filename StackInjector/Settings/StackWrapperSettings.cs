@@ -31,10 +31,11 @@ namespace StackInjector.Settings
         internal AsyncWaitingMethod                 asyncWaitingMethod;
         internal int                                asyncWaitTime;
 
-
         #endregion
 
+
         private StackWrapperSettings () { }
+
 
         /// <summary>
         /// generates a new empty <see cref="StackWrapperSettings"/>. Nothing is set.

@@ -77,7 +77,7 @@ namespace StackInjector.Core
                     return false;
 
 
-                case AsyncWaitingMethod.WaitTimeout:
+                case AsyncWaitingMethod.Timeout:
                     var list = listAwaiter();
                     var timeout = Task.Delay( this.Settings.asyncWaitTime );
 

@@ -6,7 +6,7 @@ using StackInjector.Exceptions;
 
 namespace StackInjector.Core
 {
-    internal partial class WrapperCore
+    internal partial class InjectionCore
     {
         /// <summary>
         /// Instantiates the specified [Served] type

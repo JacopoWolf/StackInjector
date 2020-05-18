@@ -4,16 +4,19 @@ using StackInjector.Settings;
 
 namespace StackInjector.Core
 {
-    internal abstract class AsyncStackWrapperCore : IStackWrapperCore
+    /// <summary>
+    /// Base implementation for stack wrappers
+    /// </summary>
+    internal abstract class StackWrapperCore : IStackWrapperCore
     {
         public ref readonly StackWrapperSettings Settings
             => ref this.Core.settings;
 
 
-        private protected readonly WrapperCore Core;
+        private protected readonly InjectionCore Core;
 
 
-        public AsyncStackWrapperCore ( WrapperCore core, Type toRegister )
+        public StackWrapperCore ( InjectionCore core, Type toRegister )
         {
             this.Core = core;
 
@@ -25,7 +28,7 @@ namespace StackInjector.Core
 
         public IClonedCore CloneCore ( StackWrapperSettings settings = null )
         {
-            var clonedCore = new WrapperCore( settings ?? this.Core.settings )
+            var clonedCore = new InjectionCore( settings ?? this.Core.settings )
             {
                 instances = this.Core.instances
             };

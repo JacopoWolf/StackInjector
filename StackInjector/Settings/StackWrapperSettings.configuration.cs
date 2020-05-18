@@ -90,7 +90,7 @@ namespace StackInjector.Settings
         /// has no more pending tasks to execute
         /// </summary>
         /// <param name="waitingMethod">the new waiting method</param>
-        /// <param name="waitTime">if <see cref="AsyncWaitingMethod.WaitTimeout"/> is set, this will be max time to wait</param>
+        /// <param name="waitTime">if <see cref="AsyncWaitingMethod.Timeout"/> is set, this will be max time to wait</param>
         /// <returns>the modified settings</returns>
         public StackWrapperSettings WhenNoMoreTasks ( AsyncWaitingMethod waitingMethod, int waitTime = 1000 )
         {

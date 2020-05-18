@@ -6,9 +6,9 @@ namespace StackInjector.Core.Cloning
     internal class ClonedCore : IClonedCore
     {
 
-        private readonly WrapperCore clonedCore;
+        private readonly InjectionCore clonedCore;
 
-        internal ClonedCore ( WrapperCore clonedCore )
+        internal ClonedCore ( InjectionCore clonedCore )
             =>
                 this.clonedCore = clonedCore;
 
@@ -23,7 +23,7 @@ namespace StackInjector.Core.Cloning
             return wrapper;
         }
 
-        public IAsyncStackWrapper<TEntry, TIn, TOut> ToGenericAsync<TEntry, TIn, TOut> ( AsyncStackDigest<TEntry, TIn, TOut> digest )
+        public IAsyncStackWrapper<TEntry, TIn, TOut> ToAsyncWrapper<TEntry, TIn, TOut> ( AsyncStackDigest<TEntry, TIn, TOut> digest )
         {
             var wrapper = new AsyncStackWrapper<TEntry,TIn,TOut>( this.clonedCore );
 

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using StackInjector.Attributes;
+﻿using StackInjector.Attributes;
 using StackInjector.Settings;
-using StackInjector.Wrappers;
 
 namespace StackInjector
 {

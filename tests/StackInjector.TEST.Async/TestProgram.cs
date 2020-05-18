@@ -19,7 +19,7 @@ namespace StackInjector.TEST.Async
             // wait for a maximum of 500 milliseconds
             var settings =
                 StackWrapperSettings.Default
-                .WhenNoMoreTasks(AsyncWaitingMethod.WaitTimeout, 500 );
+                .WhenNoMoreTasks(AsyncWaitingMethod.Timeout, 500 );
 
             using var asyncwrapper = Injector.AsyncFrom<PowElaborator>( settings );
 

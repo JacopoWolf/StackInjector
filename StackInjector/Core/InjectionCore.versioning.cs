@@ -6,7 +6,7 @@ using StackInjector.Settings;
 
 namespace StackInjector.Core
 {
-    internal partial class WrapperCore
+    internal partial class InjectionCore
     {
 
         internal Type Version
