@@ -11,7 +11,7 @@ namespace StackInjector.Wrappers.Generic
 
         public AsyncStackDigest<TEntry, TIn, TOut> StackDigest { get; internal set; }
 
-        public AsyncStackWrapper ( WrapperCore core ) : base(core, typeof(AsyncStackWrapper<TEntry, TIn, TOut>))
+        public AsyncStackWrapper ( InjectionCore core ) : base(core, typeof(AsyncStackWrapper<TEntry, TIn, TOut>))
         { }
 
         public void Submit ( TIn item )

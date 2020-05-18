@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace StackInjector.Core
 {
-    internal abstract partial class AsyncStackWrapperCore<T> : AsyncStackWrapperCore, IAsyncStackWrapperCore<T>
+    internal abstract partial class AsyncStackWrapperCore<T> : StackWrapperCore, IAsyncStackWrapperCore<T>
     {
 
         // used to cancel everything
@@ -25,7 +25,7 @@ namespace StackInjector.Core
         protected internal LinkedList<Task<T>> tasks = new LinkedList<Task<T>>();
 
 
-        internal AsyncStackWrapperCore ( WrapperCore core, Type toRegister ) : base(core, toRegister)
+        internal AsyncStackWrapperCore ( InjectionCore core, Type toRegister ) : base(core, toRegister)
         {
             // register an event that in case the list is empty, release the empty event listener.
             this.cancelPendingTasksSource.Token.Register(this.ReleaseListAwaiter);
@@ -63,6 +63,6 @@ namespace StackInjector.Core
         }
 
         #endregion
-
     }
+
 }

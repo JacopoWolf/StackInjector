@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace StackInjector.Core
 {
-    internal partial class WrapperCore
+    internal partial class InjectionCore
     {
 
         internal void ServeAll ()

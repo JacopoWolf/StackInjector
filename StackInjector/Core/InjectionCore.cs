@@ -9,7 +9,7 @@ namespace StackInjector.Core
     /// <para>The core common logic of every stack wrapper.</para>
     /// <para>The jobs of this class are reflection, versioning, instantiation, and injection.</para>
     /// </summary>
-    internal partial class WrapperCore
+    internal partial class InjectionCore
     {
         // entry point object of this core
         internal Type entryPoint;
@@ -24,7 +24,7 @@ namespace StackInjector.Core
         internal readonly List<object> instancesDiff;
 
 
-        internal WrapperCore ( StackWrapperSettings settings )
+        internal InjectionCore ( StackWrapperSettings settings )
         {
             this.settings = settings;
 

@@ -6,11 +6,11 @@ using StackInjector.Settings;
 namespace StackInjector.Wrappers
 {
     [Service(Version = 1.0, Serving = ServingMethods.DoNotServe)]
-    internal class StackWrapper : AsyncStackWrapperCore, IStackWrapper
+    internal class StackWrapper : StackWrapperCore, IStackWrapper
     {
 
 
-        internal StackWrapper ( WrapperCore core ) : base(core, typeof(StackWrapper))
+        internal StackWrapper ( InjectionCore core ) : base(core, typeof(StackWrapper))
         { }
 
 

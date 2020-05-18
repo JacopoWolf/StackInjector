@@ -31,7 +31,7 @@ namespace StackInjector
                 settings = StackWrapperSettings.Default;
 
             // create a new stackwrapper with the specified settings
-            var core = new WrapperCore( settings )
+            var core = new InjectionCore( settings )
             {
                 entryPoint = typeof(T)
             };
@@ -61,7 +61,7 @@ namespace StackInjector
 
 
             // create a new async stack wrapper
-            var core = new WrapperCore( settings )
+            var core = new InjectionCore( settings )
             {
                 entryPoint = typeof(T)
             };
@@ -94,7 +94,7 @@ namespace StackInjector
                 settings = StackWrapperSettings.Default;
 
             // create a new generic async wrapper
-            var core = new WrapperCore( settings )
+            var core = new InjectionCore( settings )
             {
                 entryPoint = typeof(TEntry)
             };

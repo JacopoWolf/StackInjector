@@ -12,7 +12,7 @@ namespace StackInjector.Wrappers
         /// <summary>
         /// create a new AsyncStackWrapper
         /// </summary>
-        internal AsyncStackWrapper ( WrapperCore core ) : base(core, typeof(AsyncStackWrapper))
+        internal AsyncStackWrapper ( InjectionCore core ) : base(core, typeof(AsyncStackWrapper))
         { }
 
 
