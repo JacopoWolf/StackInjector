@@ -25,7 +25,10 @@ namespace StackInjector.Core.Cloning
 
         public IAsyncStackWrapper<TEntry, TIn, TOut> ToAsyncWrapper<TEntry, TIn, TOut> ( AsyncStackDigest<TEntry, TIn, TOut> digest )
         {
-            var wrapper = new AsyncStackWrapper<TEntry,TIn,TOut>( this.clonedCore );
+            var wrapper = new AsyncStackWrapper<TEntry,TIn,TOut>( this.clonedCore )
+            {
+                StackDigest = digest
+            };
 
             this.clonedCore.entryPoint = typeof(TEntry);
             this.clonedCore.ServeAll();
