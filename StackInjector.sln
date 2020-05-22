@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StackInjector", "StackInjector\StackInjector.csproj", "{FF8663EB-B6F5-41B1-A99E-758E446D5E39}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StackInjector.TEST.SimpleStack1", "tests\StackInjector.TEST.SimpleStack1\StackInjector.TEST.SimpleStack1.csproj", "{C9E08D89-7800-425A-8E73-EDEF57E492D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StackInjector.TEST.SimpleStack1", "tests\StackInjector.TEST.SimpleStack\StackInjector.TEST.SimpleStack.csproj", "{C9E08D89-7800-425A-8E73-EDEF57E492D4}"
 	ProjectSection(ProjectDependencies) = postProject
 		{FF8663EB-B6F5-41B1-A99E-758E446D5E39} = {FF8663EB-B6F5-41B1-A99E-758E446D5E39}
 	EndProjectSection
