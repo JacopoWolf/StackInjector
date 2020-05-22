@@ -16,7 +16,7 @@ namespace StackInjector.Wrappers.Generic
 
         public void Submit ( TIn item )
         {
-            base.Submit
+            this.Submit
                 (
                     this.StackDigest.Invoke
                     (
