@@ -22,14 +22,7 @@ namespace StackInjector.Core
             {
                 try
                 {
-                    var v = servedAttribute?.TargetVersion ?? 0.0;
-
-                    var t = ( this.settings.overrideTargetingMethod )
-                                ? this.settings.targetingMethod
-                                : servedAttribute?.TargetingMethod ?? this.settings.targetingMethod;
-
-                    return this.Version(type, v, t);
-
+                    return this.Version(type, servedAttribute).First();
                 }
                 catch( InvalidOperationException )
                 {

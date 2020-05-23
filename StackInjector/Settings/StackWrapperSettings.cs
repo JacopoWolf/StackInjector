@@ -15,21 +15,24 @@ namespace StackInjector.Settings
         #region settings
 
         // assemblies
-        internal HashSet<Assembly>                  registredAssemblies = new HashSet<Assembly>();
-        internal bool                               registerEntryPointAssembly;
-        internal bool                               registerSelf;
+        internal HashSet<Assembly>                  registredAssemblies                     = new HashSet<Assembly>();
+        internal bool                               registerEntryPointAssembly              = false;
+        internal bool                               registerSelf                            = false;
 
         // versioning
-        internal ServedVersionTargetingMethod       targetingMethod;
-        internal bool                               overrideTargetingMethod;
+        internal ServedVersionTargetingMethod       targetingMethod                         = ServedVersionTargetingMethod.None;
+        internal bool                               overrideTargetingMethod                 = false;
 
         // disposing
-        internal bool                               trackInstancesDiff;
-        internal bool                               callDisposeOnInstanceDiff;
+        internal bool                               trackInstancesDiff                      = false;
+        internal bool                               callDisposeOnInstanceDiff               = false;
 
         // async management
-        internal AsyncWaitingMethod                 asyncWaitingMethod;
-        internal int                                asyncWaitTime;
+        internal AsyncWaitingMethod                 asyncWaitingMethod                      = AsyncWaitingMethod.Exit;
+        internal int                                asyncWaitTime                           = 500;
+
+        // features
+        internal bool                               serveEnumerables                        = false;
 
         #endregion
 
@@ -38,8 +41,7 @@ namespace StackInjector.Settings
 
 
         /// <summary>
-        /// generates a new empty <see cref="StackWrapperSettings"/>. Nothing is set.
-        /// High chance a NullReference might be thrown if not treated correctly.
+        /// generates a new <see cref="StackWrapperSettings"/> with everything set to false
         /// </summary>
         /// <returns>empty settings</returns>
         public static StackWrapperSettings Empty
@@ -59,7 +61,8 @@ namespace StackInjector.Settings
                     .RegisterWrapperAsService()
                     .TrackInstantiationDiff(false)
                     .VersioningMethod(ServedVersionTargetingMethod.None, @override: false)
-                    .WhenNoMoreTasks(AsyncWaitingMethod.Wait);
+                    .WhenNoMoreTasks(AsyncWaitingMethod.Wait)
+                    .ServeIEnumerables();
 
 
         //? maybe add a DefaultInner for nested wrappers

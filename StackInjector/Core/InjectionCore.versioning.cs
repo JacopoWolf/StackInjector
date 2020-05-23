@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using StackInjector.Attributes;
@@ -9,26 +10,28 @@ namespace StackInjector.Core
     internal partial class InjectionCore
     {
 
-        internal Type Version
-        (
-            Type targetType,
-            double targetVersion,
-            ServedVersionTargetingMethod method
-        )
+        internal IEnumerable<Type> Version ( Type targetType, ServedAttribute servedAttribute )
         {
+
+            var targetVersion = servedAttribute?.TargetVersion ?? 0.0;
+            var method = ( this.settings.overrideTargetingMethod )
+                                ? this.settings.targetingMethod
+                                : servedAttribute?.TargetingMethod ?? this.settings.targetingMethod;
+
             var candidateTypes = this.instances.TypesAssignableFrom(targetType);
+
 
             return method switch
             {
                 ServedVersionTargetingMethod.None
                     =>
-                        candidateTypes.First(),
+                        candidateTypes,
 
 
                 ServedVersionTargetingMethod.Exact
                     =>
                         candidateTypes
-                        .First
+                        .Where
                         (
                             t =>
                                 t.GetCustomAttribute<ServiceAttribute>()
@@ -39,9 +42,13 @@ namespace StackInjector.Core
                 ServedVersionTargetingMethod.LatestMajor
                     =>
                         candidateTypes
-                        .Where(t => t.GetCustomAttribute<ServiceAttribute>().Version >= targetVersion)
-                        .OrderByDescending(t => t.GetCustomAttribute<ServiceAttribute>().Version)
-                        .First(),
+                        .Where
+                        (
+                            t =>
+                                t.GetCustomAttribute<ServiceAttribute>()
+                                    .Version >= targetVersion
+                        )
+                        .OrderByDescending(t => t.GetCustomAttribute<ServiceAttribute>().Version),
 
 
                 ServedVersionTargetingMethod.LatestMinor
@@ -58,8 +65,7 @@ namespace StackInjector.Core
                                     v < Math.Floor(targetVersion + 1);
                             }
                         )
-                        .OrderByDescending(t => t.GetCustomAttribute<ServiceAttribute>().Version)
-                        .First(),
+                        .OrderByDescending(t => t.GetCustomAttribute<ServiceAttribute>().Version),
 
 
                 _ => throw new NotImplementedException()

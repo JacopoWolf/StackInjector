@@ -4,7 +4,7 @@ using StackInjector.Attributes;
 namespace StackInjector.Settings
 {
     /// <summary>
-    /// 
+    /// Defines how injection in this service shall be performed
     /// </summary>
     [Flags]
     public enum ServingMethods

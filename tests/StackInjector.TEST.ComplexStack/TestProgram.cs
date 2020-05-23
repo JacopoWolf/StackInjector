@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using NUnit.Framework;
+using StackInjector.Settings;
 
 namespace StackInjector.TEST.ComplexStack
 {
@@ -10,7 +11,7 @@ namespace StackInjector.TEST.ComplexStack
         [Test]
         public void Performance ()
         {
-            var watch = Stopwatch.StartNew();
+            var watch = Stopwatch.StartNew( );
 
             using var wrapper = Injector.From<IBaseService>();
 

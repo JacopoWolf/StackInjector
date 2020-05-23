@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -52,11 +53,14 @@ namespace StackInjector.Core
 
             foreach( var serviceField in fields )
             {
-                var serviceType = this.ClassOrFromInterface(serviceField.FieldType, serviceField.GetCustomAttribute<ServedAttribute>());
-                var serviceInstance = this.OfTypeOrInstantiate(serviceType);
+                var serviceInstance = 
+                    this.InstTypeOrServiceEnum
+                    ( 
+                        serviceField.FieldType, 
+                        serviceField.GetCustomAttribute<ServedAttribute>(), 
+                        ref instantiated 
+                    );
                 serviceField.SetValue(instance, serviceInstance);
-
-                instantiated.Add(serviceInstance);
             }
         }
 
@@ -71,11 +75,58 @@ namespace StackInjector.Core
 
             foreach( var propertyField in properties )
             {
-                var serviceType = this.ClassOrFromInterface( propertyField.PropertyType, propertyField.GetCustomAttribute<ServedAttribute>() );
-                var serviceInstance = this.OfTypeOrInstantiate( serviceType );
+                var serviceInstance = 
+                    this.InstTypeOrServiceEnum
+                    ( 
+                        propertyField.PropertyType, 
+                        propertyField.GetCustomAttribute<ServedAttribute>(), 
+                        ref instantiated 
+                    );
                 propertyField.SetValue(instance, serviceInstance);
+            }
+        }
 
-                instantiated.Add(serviceInstance);
+
+        /// <summary>
+        /// returns the instantiated object 
+        /// </summary>
+        private object InstTypeOrServiceEnum ( Type type, ServedAttribute servedAttribute, ref List<object> instantiated )
+        {
+            if
+            (
+                this.settings.serveEnumerables
+                &&
+                type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)
+            )
+            {
+
+                var generic = type.GetGenericArguments()[0];
+                // list of sorted valid types
+                var validTypes = this.Version( generic, servedAttribute ).ToArray();
+                ////this.instances.TypesAssignableFrom(generic).ToArray();
+
+                // creates generic list using reflection
+                var listType = typeof(List<>).MakeGenericType(generic);
+                // cast to allow calling .Add()
+                var instances = (IList)Activator.CreateInstance( listType );
+
+                // gather instances if necessary
+                foreach( var requestedType in validTypes )
+                {
+                    var obj = this.OfTypeOrInstantiate(requestedType);
+                    instances.Add(obj);
+                    instantiated.Add(obj);
+                }
+
+
+                return instances;
+            }
+            else
+            {
+                var serviceType = this.ClassOrFromInterface( type, servedAttribute );
+                var obj = this.OfTypeOrInstantiate(serviceType);
+                instantiated.Add(obj);
+                return obj;
             }
         }
 
