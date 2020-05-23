@@ -53,10 +53,14 @@ namespace StackInjector.Core
 
             foreach( var serviceField in fields )
             {
-                var serviceInstance = this.InstTypeOrServiceEnum( serviceField.FieldType, serviceField.GetCustomAttribute<ServedAttribute>() );
+                var serviceInstance = 
+                    this.InstTypeOrServiceEnum
+                    ( 
+                        serviceField.FieldType, 
+                        serviceField.GetCustomAttribute<ServedAttribute>(), 
+                        ref instantiated 
+                    );
                 serviceField.SetValue(instance, serviceInstance);
-
-                instantiated.Add(serviceInstance);
             }
         }
 
@@ -71,10 +75,14 @@ namespace StackInjector.Core
 
             foreach( var propertyField in properties )
             {
-                var serviceInstance = this.InstTypeOrServiceEnum( propertyField.PropertyType, propertyField.GetCustomAttribute<ServedAttribute>() );
+                var serviceInstance = 
+                    this.InstTypeOrServiceEnum
+                    ( 
+                        propertyField.PropertyType, 
+                        propertyField.GetCustomAttribute<ServedAttribute>(), 
+                        ref instantiated 
+                    );
                 propertyField.SetValue(instance, serviceInstance);
-
-                instantiated.Add(serviceInstance);
             }
         }
 
@@ -82,9 +90,8 @@ namespace StackInjector.Core
         /// <summary>
         /// returns the instantiated object 
         /// </summary>
-        private object InstTypeOrServiceEnum ( Type type, ServedAttribute servedAttribute )
+        private object InstTypeOrServiceEnum ( Type type, ServedAttribute servedAttribute, ref List<object> instantiated )
         {
-            // if serve enumerables and 
             if
             (
                 this.settings.serveEnumerables
@@ -105,14 +112,21 @@ namespace StackInjector.Core
 
                 // gather instances if necessary
                 foreach( var requestedType in validTypes )
-                    instances.Add(this.OfTypeOrInstantiate(requestedType));
+                {
+                    var obj = this.OfTypeOrInstantiate(requestedType);
+                    instances.Add(obj);
+                    instantiated.Add(obj);
+                }
+
 
                 return instances;
             }
             else
             {
                 var serviceType = this.ClassOrFromInterface( type, servedAttribute );
-                return this.OfTypeOrInstantiate(serviceType);
+                var obj = this.OfTypeOrInstantiate(serviceType);
+                instantiated.Add(obj);
+                return obj;
             }
         }
 

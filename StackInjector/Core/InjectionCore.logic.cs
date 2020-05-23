@@ -14,18 +14,22 @@ namespace StackInjector.Core
             this.entryPoint = this.ClassOrFromInterface(this.entryPoint);
 
             // instantiates and enqueues the EntryPoint
-            toInject.Enqueue
-                (
-                    this.InstantiateService(this.entryPoint)
-                );
+            toInject.Enqueue( this.InstantiateService(this.entryPoint) );
 
             // enqueuing loop
             while( toInject.Any() )
             {
-                var usedServices = this.InjectServicesInto(toInject.Dequeue());
+                var next = toInject.Dequeue();
+                var usedServices = this.InjectServicesInto(next);
 
+                // this object has been ionjected
+                this.instances.SetInjectionStatus(next);
+
+                // foreach injected object check if it has already been injected. 
+                // saves time in most situations
                 foreach( var service in usedServices )
-                    toInject.Enqueue(service);
+                    if ( ! this.instances.IsInjected(service) )
+                        toInject.Enqueue(service);
             }
 
 

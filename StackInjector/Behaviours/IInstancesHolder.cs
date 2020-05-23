@@ -23,5 +23,9 @@ namespace StackInjector.Behaviours
 
         bool ContainsType ( Type type );
 
+
+        bool IsInjected ( object instance );
+
+        void SetInjectionStatus ( object instance, bool injected = true );
     }
 }
