@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 using StackInjector.Attributes;
 using StackInjector.Settings;
 
@@ -83,7 +82,7 @@ namespace StackInjector.Core
         /// <summary>
         /// returns the instantiated object 
         /// </summary>
-        private object InstTypeOrServiceEnum( Type type, ServedAttribute servedAttribute )
+        private object InstTypeOrServiceEnum ( Type type, ServedAttribute servedAttribute )
         {
             // if serve enumerables and 
             if
@@ -102,7 +101,7 @@ namespace StackInjector.Core
                 // creates generic list using reflection
                 var listType = typeof(List<>).MakeGenericType(generic);
                 // cast to allow calling .Add()
-                IList instances = (IList)Activator.CreateInstance( listType );
+                var instances = (IList)Activator.CreateInstance( listType );
 
                 // gather instances if necessary
                 foreach( var requestedType in validTypes )

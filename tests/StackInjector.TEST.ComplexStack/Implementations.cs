@@ -12,17 +12,21 @@ namespace StackInjector.TEST.ComplexStack
     class Application : IBaseService
     {
         [Served]
-        ILogger logger;
+        ILogger Logger { get; set; }
 
         [Served]
-        IAnsweringService answerer;
+        IAnsweringService Answerer { get; set; }
 
         // allows cloning
         [Served]
-        ICloneableCore wrapper;
+        ICloneableCore Wrapper { get; set; }
 
         [Served]
-        IEnumerable<IRunBeforeStart> runs;
+        IEnumerable<IRunBeforeStart> Runs { get; set; }
+
+        // this shall be inserted as a class and not as an Ienumerable<service>
+        [Served]
+        ITrickyEnumerable Trick { get; set; }
 
         // internal clone
         IAsyncStackWrapper<IReadingService,string,string> asyncStack;
@@ -47,20 +51,20 @@ namespace StackInjector.TEST.ComplexStack
 
         public object EntryPoint ()
         {
-            foreach( var run in this.runs )
-                this.logger.Log( 100, $"run: {run.Run()}" );
+            foreach( var run in this.Runs )
+                this.Logger.Log( 100, $"run: {run.Run()}" );
 
-            this.logger.Log(10, "entry point");
+            this.Logger.Log(10, "entry point");
 
             this.asyncStack = 
-                this.wrapper
+                this.Wrapper
                 .CloneCore()
                 .ToAsyncWrapper<IReadingService, string, string>
                 (
                     async ( instance, entry, cancellation ) =>
                     {
                         var noise = await instance.ReadAsync(cancellation);
-                        return this.answerer.ResponseTo( noise + entry );
+                        return this.Answerer.ResponseTo( noise + entry );
                     }
                 );
 
@@ -69,7 +73,7 @@ namespace StackInjector.TEST.ComplexStack
                 async () =>
                 {
                     await foreach( var str in this.asyncStack.Elaborated() )
-                        this.logger.Log(64, str);
+                        this.Logger.Log(64, str);
                 }
             );
 
@@ -130,6 +134,11 @@ namespace StackInjector.TEST.ComplexStack
         public bool LogLevel ( byte gravity ) => gravity >= 5;
     }
 
+    [Service]
+    class TrickyEnumerable : List<int>, ITrickyEnumerable
+    {
+        public void Trick () => throw new NotImplementedException();
+    }
 
     [Service]
     class Run1 : IRunBeforeStart

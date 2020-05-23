@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
+using System.Threading;
 using System.Threading.Tasks;
 using StackInjector.Wrappers;
 
@@ -24,6 +26,10 @@ namespace StackInjector.TEST.ComplexStack
 		string ResponseTo ( string to );
 	}
 
+	interface ITrickyEnumerable : IEnumerable<int>
+	{
+		void Trick ();
+	}
 
 	// simple logging service with logging filter
 	interface ILogger

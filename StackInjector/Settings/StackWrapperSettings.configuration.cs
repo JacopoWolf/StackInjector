@@ -21,8 +21,8 @@ namespace StackInjector.Settings
         }
 
         /// <summary>
-        /// Register the assembly of the specified type. 
-        /// Same as <see cref="RegisterAssemblies(Assembly[])"/> but withouth iteration.
+        /// Register the assembly of the specified type.
+        /// Same as <see cref="RegisterAssemblies(Assembly[])"/>.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns>the modified settings</returns>
@@ -33,8 +33,9 @@ namespace StackInjector.Settings
         }
 
         /// <summary>
-        /// register the entry point assembly when Starting.
-        /// Default is true.
+        /// <para>register the entry point assembly when Starting.</para>
+        /// <para>If set, there is no need to specify the entry assembly in <see cref="RegisterAssemblyOf{T}"/></para>
+        /// <para>Default is true.</para>
         /// </summary>
         /// <returns>the modified settings</returns>
         public StackWrapperSettings RegisterEntryAssembly ( bool register = true )
@@ -88,7 +89,7 @@ namespace StackInjector.Settings
         /// </summary>
         /// <param name="serve">if true, serve</param>
         /// <returns>the modified settings</returns>
-        public StackWrapperSettings ServeMultiple( bool serve = true )
+        public StackWrapperSettings ServeIEnumerables ( bool serve = true )
         {
             this.serveEnumerables = serve;
             return this;
@@ -98,7 +99,7 @@ namespace StackInjector.Settings
         #region Asynchronous settings
 
         /// <summary>
-        /// What to do when an <see cref="StackInjector.Wrappers.IAsyncStackWrapper"/> 
+        /// What to do when an <see cref="Wrappers.IAsyncStackWrapper"/> 
         /// has no more pending tasks to execute
         /// </summary>
         /// <param name="waitingMethod">the new waiting method</param>

@@ -11,13 +11,9 @@ namespace StackInjector.TEST.ComplexStack
         [Test]
         public void Performance ()
         {
-            var settings =
-                StackWrapperSettings.Default
-                .ServeMultiple();
-
             var watch = Stopwatch.StartNew( );
 
-            using var wrapper = Injector.From<IBaseService>( settings );
+            using var wrapper = Injector.From<IBaseService>();
 
             watch.Stop();
             Console.WriteLine($"Time taken: {watch.ElapsedMilliseconds}ms");

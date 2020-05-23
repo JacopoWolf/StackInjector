@@ -32,7 +32,7 @@ namespace StackInjector.Settings
         internal int                                asyncWaitTime                           = 500;
 
         // features
-        internal bool                               serveEnumerables                        = false; //todo add this to wiki's default settings
+        internal bool                               serveEnumerables                        = false;
 
         #endregion
 
@@ -61,7 +61,8 @@ namespace StackInjector.Settings
                     .RegisterWrapperAsService()
                     .TrackInstantiationDiff(false)
                     .VersioningMethod(ServedVersionTargetingMethod.None, @override: false)
-                    .WhenNoMoreTasks(AsyncWaitingMethod.Wait);
+                    .WhenNoMoreTasks(AsyncWaitingMethod.Wait)
+                    .ServeIEnumerables();
 
 
         //? maybe add a DefaultInner for nested wrappers

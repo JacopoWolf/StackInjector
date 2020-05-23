@@ -10,7 +10,7 @@ namespace StackInjector.Core
     internal partial class InjectionCore
     {
 
-        internal IEnumerable<Type> Version( Type targetType, ServedAttribute servedAttribute )
+        internal IEnumerable<Type> Version ( Type targetType, ServedAttribute servedAttribute )
         {
 
             var targetVersion = servedAttribute?.TargetVersion ?? 0.0;
@@ -44,7 +44,7 @@ namespace StackInjector.Core
                         candidateTypes
                         .Where
                         (
-                            t => 
+                            t =>
                                 t.GetCustomAttribute<ServiceAttribute>()
                                     .Version >= targetVersion
                         )
