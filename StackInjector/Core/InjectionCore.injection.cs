@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using StackInjector.Attributes;
 using StackInjector.Settings;
 
@@ -52,8 +54,7 @@ namespace StackInjector.Core
 
             foreach( var serviceField in fields )
             {
-                var serviceType = this.ClassOrFromInterface(serviceField.FieldType, serviceField.GetCustomAttribute<ServedAttribute>());
-                var serviceInstance = this.OfTypeOrInstantiate(serviceType);
+                var serviceInstance = this.InstTypeOrServiceEnum( serviceField.FieldType );
                 serviceField.SetValue(instance, serviceInstance);
 
                 instantiated.Add(serviceInstance);
@@ -71,11 +72,46 @@ namespace StackInjector.Core
 
             foreach( var propertyField in properties )
             {
-                var serviceType = this.ClassOrFromInterface( propertyField.PropertyType, propertyField.GetCustomAttribute<ServedAttribute>() );
-                var serviceInstance = this.OfTypeOrInstantiate( serviceType );
+                var serviceInstance = this.InstTypeOrServiceEnum( propertyField.PropertyType );
                 propertyField.SetValue(instance, serviceInstance);
 
                 instantiated.Add(serviceInstance);
+            }
+        }
+
+
+        /// <summary>
+        /// returns the instantiated object 
+        /// </summary>
+        private object InstTypeOrServiceEnum( Type type )
+        {
+            // if serve enumerables and 
+            if
+            (
+                this.settings.serveEnumerables
+                &&
+                type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)
+            )
+            {
+
+                var generic = type.GetGenericArguments()[0];
+                var validTypes = this.instances.TypesAssignableFrom(generic).ToArray();
+
+                // creates generic list using reflection
+                var listType = typeof(List<>).MakeGenericType(generic);
+                // cast to allow calling .Add()
+                IList instances = (IList)Activator.CreateInstance( listType );
+
+                // gather instances if necessary
+                foreach( var requestedType in validTypes )
+                    instances.Add(this.OfTypeOrInstantiate(requestedType));
+
+                return instances;
+            }
+            else
+            {
+                var serviceType = this.ClassOrFromInterface( type, type.GetCustomAttribute<ServedAttribute>() );
+                return this.OfTypeOrInstantiate(serviceType);
             }
         }
 

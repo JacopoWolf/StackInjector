@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using NUnit.Framework;
+using StackInjector.Settings;
 
 namespace StackInjector.TEST.ComplexStack
 {
@@ -10,9 +11,13 @@ namespace StackInjector.TEST.ComplexStack
         [Test]
         public void Performance ()
         {
-            var watch = Stopwatch.StartNew();
+            var settings =
+                StackWrapperSettings.Default
+                .ServeMultiple();
 
-            using var wrapper = Injector.From<IBaseService>();
+            var watch = Stopwatch.StartNew( );
+
+            using var wrapper = Injector.From<IBaseService>( settings );
 
             watch.Stop();
             Console.WriteLine($"Time taken: {watch.ElapsedMilliseconds}ms");

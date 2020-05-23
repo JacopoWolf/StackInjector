@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 
 namespace StackInjector.Settings
 {
@@ -82,6 +83,17 @@ namespace StackInjector.Settings
             return this;
         }
 
+        /// <summary>
+        /// Allows <see cref="IEnumerable{T}"/> to be injected with a list of every service implementing T
+        /// </summary>
+        /// <param name="serve">if true, serve</param>
+        /// <returns>the modified settings</returns>
+        public StackWrapperSettings ServeMultiple( bool serve = true )
+        {
+            this.serveEnumerables = serve;
+            return this;
+        }
+
 
         #region Asynchronous settings
 
@@ -100,6 +112,7 @@ namespace StackInjector.Settings
         }
 
         #endregion
+
 
     }
 }

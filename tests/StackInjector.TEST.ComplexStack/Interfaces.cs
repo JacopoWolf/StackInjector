@@ -4,6 +4,11 @@ using StackInjector.Wrappers;
 
 namespace StackInjector.TEST.ComplexStack
 {
+	interface IRunBeforeStart
+	{
+		int Run ();
+	}
+
 	interface IBaseService : IStackEntryPoint
 	{
 		void Elaborate ();

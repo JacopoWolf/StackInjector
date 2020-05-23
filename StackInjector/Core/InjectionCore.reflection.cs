@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using StackInjector.Attributes;
@@ -28,7 +29,7 @@ namespace StackInjector.Core
                                 ? this.settings.targetingMethod
                                 : servedAttribute?.TargetingMethod ?? this.settings.targetingMethod;
 
-                    return this.Version(type, v, t);
+                    return this.Version(type, v, t).First();
 
                 }
                 catch( InvalidOperationException )

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using StackInjector.Attributes;
@@ -19,6 +20,9 @@ namespace StackInjector.TEST.ComplexStack
         // allows cloning
         [Served]
         ICloneableCore wrapper;
+
+        [Served]
+        IEnumerable<IRunBeforeStart> runs;
 
         // internal clone
         IAsyncStackWrapper<IReadingService,string,string> asyncStack;
@@ -43,7 +47,10 @@ namespace StackInjector.TEST.ComplexStack
 
         public object EntryPoint ()
         {
-            this.logger.Log(1, "entry point");
+            foreach( var run in this.runs )
+                this.logger.Log( 100, $"run: {run.Run()}" );
+
+            this.logger.Log(10, "entry point");
 
             this.asyncStack = 
                 this.wrapper
@@ -124,5 +131,22 @@ namespace StackInjector.TEST.ComplexStack
     }
 
 
+    [Service]
+    class Run1 : IRunBeforeStart
+    {
+        public int Run () => 1;
+    }
+
+    [Service]
+    class Run2 : IRunBeforeStart
+    {
+        public int Run () => 2;
+    }
+
+    [Service]
+    class Run3 : IRunBeforeStart
+    {
+        public int Run () => 3;
+    }
 
 }
