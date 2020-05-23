@@ -10,14 +10,16 @@ namespace StackInjector.Core
     internal partial class InjectionCore
     {
 
-        internal IEnumerable<Type> Version
-        (
-            Type targetType,
-            double targetVersion,
-            ServedVersionTargetingMethod method
-        )
+        internal IEnumerable<Type> Version( Type targetType, ServedAttribute servedAttribute )
         {
+
+            var targetVersion = servedAttribute?.TargetVersion ?? 0.0;
+            var method = ( this.settings.overrideTargetingMethod )
+                                ? this.settings.targetingMethod
+                                : servedAttribute?.TargetingMethod ?? this.settings.targetingMethod;
+
             var candidateTypes = this.instances.TypesAssignableFrom(targetType);
+
 
             return method switch
             {

@@ -54,7 +54,7 @@ namespace StackInjector.Core
 
             foreach( var serviceField in fields )
             {
-                var serviceInstance = this.InstTypeOrServiceEnum( serviceField.FieldType );
+                var serviceInstance = this.InstTypeOrServiceEnum( serviceField.FieldType, serviceField.GetCustomAttribute<ServedAttribute>() );
                 serviceField.SetValue(instance, serviceInstance);
 
                 instantiated.Add(serviceInstance);
@@ -72,7 +72,7 @@ namespace StackInjector.Core
 
             foreach( var propertyField in properties )
             {
-                var serviceInstance = this.InstTypeOrServiceEnum( propertyField.PropertyType );
+                var serviceInstance = this.InstTypeOrServiceEnum( propertyField.PropertyType, propertyField.GetCustomAttribute<ServedAttribute>() );
                 propertyField.SetValue(instance, serviceInstance);
 
                 instantiated.Add(serviceInstance);
@@ -83,7 +83,7 @@ namespace StackInjector.Core
         /// <summary>
         /// returns the instantiated object 
         /// </summary>
-        private object InstTypeOrServiceEnum( Type type )
+        private object InstTypeOrServiceEnum( Type type, ServedAttribute servedAttribute )
         {
             // if serve enumerables and 
             if
@@ -95,7 +95,9 @@ namespace StackInjector.Core
             {
 
                 var generic = type.GetGenericArguments()[0];
-                var validTypes = this.instances.TypesAssignableFrom(generic).ToArray();
+                // list of sorted valid types
+                var validTypes = this.Version( generic, servedAttribute ).ToArray();
+                ////this.instances.TypesAssignableFrom(generic).ToArray();
 
                 // creates generic list using reflection
                 var listType = typeof(List<>).MakeGenericType(generic);
@@ -110,7 +112,7 @@ namespace StackInjector.Core
             }
             else
             {
-                var serviceType = this.ClassOrFromInterface( type, type.GetCustomAttribute<ServedAttribute>() );
+                var serviceType = this.ClassOrFromInterface( type, servedAttribute );
                 return this.OfTypeOrInstantiate(serviceType);
             }
         }
