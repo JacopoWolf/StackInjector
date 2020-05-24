@@ -8,7 +8,7 @@ namespace StackInjector.Behaviours
     {
         IEnumerable<object> OfType ( Type type );
 
-        IEnumerable<object> InstanceAssignableFrom ( Type type );
+        IEnumerable<object> InstancesAssignableFrom ( Type type );
 
         IEnumerable<Type> TypesAssignableFrom ( Type type );
 

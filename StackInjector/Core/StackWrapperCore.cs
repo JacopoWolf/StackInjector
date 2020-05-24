@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using StackInjector.Core.Cloning;
 using StackInjector.Settings;
 
@@ -24,6 +26,15 @@ namespace StackInjector.Core
             if( this.Core.settings.registerSelf )
                 this.Core.instances.AddInstance(toRegister, this);
         }
+
+
+        public IEnumerable<T> GetServices<T> ()
+            =>
+                this.Core
+                .instances
+                .InstancesAssignableFrom(typeof(T))
+                .Select( o => (T)o );
+        
 
 
         public IClonedCore CloneCore ( StackWrapperSettings settings = null )

@@ -8,6 +8,9 @@ using StackInjector.Wrappers.Generic;
 
 namespace StackInjector.TEST.ComplexStack
 {
+
+#pragma warning disable IDE0051, IDE0044
+
     [Service]
     class Application : IBaseService
     {
@@ -26,7 +29,9 @@ namespace StackInjector.TEST.ComplexStack
 
         // this shall be inserted as a class and not as an Ienumerable<service>
         [Served]
+
         ITrickyEnumerable Trick { get; set; }
+
 
         // internal clone
         IAsyncStackWrapper<IReadingService,string,string> asyncStack;
