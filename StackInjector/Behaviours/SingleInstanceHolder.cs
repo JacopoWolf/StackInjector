@@ -49,6 +49,15 @@ namespace StackInjector.Behaviours
             else
                 this.injected.Remove(instance);
         }
+
+
+        public IInstancesHolder CloneStructure ()
+        {
+            var clonedholder = new SingleInstanceHolder();
+            foreach( var pair in this.objects )
+                clonedholder.AddType(pair.Key);
+            return clonedholder;
+        }
     }
 
 }

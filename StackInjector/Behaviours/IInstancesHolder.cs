@@ -27,5 +27,8 @@ namespace StackInjector.Behaviours
         bool IsInjected ( object instance );
 
         void SetInjectionStatus ( object instance, bool injected = true );
+
+
+        IInstancesHolder CloneStructure ();
     }
 }

@@ -36,8 +36,18 @@ namespace StackInjector.Core
             return new ClonedCore(clonedCore);
         }
 
+        public IClonedCore DeepCloneCore ( StackWrapperSettings settings = null )
+        {
+            var clonedCore = new InjectionCore( settings ??  this.Core.settings.Copy() )
+            {
+                instances = this.Core.instances.CloneStructure()
+            };
+
+            return new ClonedCore(clonedCore);
+        }
+
 
         public abstract void Dispose ();
-
+        
     }
 }
