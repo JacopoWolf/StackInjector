@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using StackInjector.Attributes;
 using StackInjector.Core.Cloning;
+using StackInjector.Wrappers;
 using StackInjector.Wrappers.Generic;
 
 namespace StackInjector.TEST.ComplexStack
@@ -91,6 +92,22 @@ namespace StackInjector.TEST.ComplexStack
 
 
     }
+
+    interface INoImplementation
+    {
+        void Test ();
+    }
+    
+    [Service]
+    class EmptyEnumApplication : IStackEntryPoint
+    {
+
+        [Served]
+        internal IEnumerable<INoImplementation> tricks;
+
+        public object EntryPoint () => null;
+    }
+
 
     [Service]
     class Reader : IReadingService

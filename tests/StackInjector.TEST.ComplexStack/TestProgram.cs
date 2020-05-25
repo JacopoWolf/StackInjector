@@ -38,5 +38,16 @@ namespace StackInjector.TEST.ComplexStack
 
             Assert.AreEqual( typeof(Application), candidates.First().GetType() );
         }
+
+        [Test]
+        public void NoServiceInEnum()
+        {
+            using var wrapper = Injector.From<EmptyEnumApplication>();
+
+            var application = wrapper.GetServices<EmptyEnumApplication>().First();
+
+            CollectionAssert.IsEmpty(application.tricks);
+
+        }
     }
 }
