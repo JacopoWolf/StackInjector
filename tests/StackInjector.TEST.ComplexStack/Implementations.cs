@@ -4,10 +4,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using StackInjector.Attributes;
 using StackInjector.Core.Cloning;
+using StackInjector.Wrappers;
 using StackInjector.Wrappers.Generic;
 
 namespace StackInjector.TEST.ComplexStack
 {
+
+#pragma warning disable IDE0051, IDE0044
+
     [Service]
     class Application : IBaseService
     {
@@ -26,7 +30,9 @@ namespace StackInjector.TEST.ComplexStack
 
         // this shall be inserted as a class and not as an Ienumerable<service>
         [Served]
+
         ITrickyEnumerable Trick { get; set; }
+
 
         // internal clone
         IAsyncStackWrapper<IReadingService,string,string> asyncStack;
@@ -86,6 +92,22 @@ namespace StackInjector.TEST.ComplexStack
 
 
     }
+
+    interface INoImplementation
+    {
+        void Test ();
+    }
+    
+    [Service]
+    class EmptyEnumApplication : IStackEntryPoint
+    {
+
+        [Served]
+        internal IEnumerable<INoImplementation> tricks;
+
+        public object EntryPoint () => null;
+    }
+
 
     [Service]
     class Reader : IReadingService

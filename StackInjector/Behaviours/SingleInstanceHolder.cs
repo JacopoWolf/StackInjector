@@ -22,9 +22,9 @@ namespace StackInjector.Behaviours
         public IEnumerable<object> OfType ( Type type )
             => new object[] { this.objects[type] };
 
-        public IEnumerable<object> InstanceAssignableFrom ( Type type )
+        public IEnumerable<object> InstancesAssignableFrom ( Type type )
             => this.objects
-                    .Where(p => type.IsAssignableFrom(p.Key))
+                    .Where(p => type.IsAssignableFrom(p.Key) && p.Value != null)
                     .Select(p => p.Value);
 
         public IEnumerable<Type> TypesAssignableFrom ( Type type )
@@ -48,6 +48,15 @@ namespace StackInjector.Behaviours
                 this.injected.Add(instance);
             else
                 this.injected.Remove(instance);
+        }
+
+
+        public IInstancesHolder CloneStructure ()
+        {
+            var clonedholder = new SingleInstanceHolder();
+            foreach( var pair in this.objects )
+                clonedholder.AddType(pair.Key);
+            return clonedholder;
         }
     }
 

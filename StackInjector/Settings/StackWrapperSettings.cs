@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using StackInjector.Wrappers;
 
@@ -41,6 +42,21 @@ namespace StackInjector.Settings
 
 
         /// <summary>
+        /// creates a deep copy of this settings object
+        /// </summary>
+        /// <returns></returns>
+        public StackWrapperSettings Copy ()
+        {
+            var settingsCopy = (StackWrapperSettings)this.MemberwiseClone();
+            // creats a deep copy of reference objects
+            settingsCopy.registredAssemblies = this.registredAssemblies.ToHashSet();
+
+            return settingsCopy;
+        }
+
+
+
+        /// <summary>
         /// generates a new <see cref="StackWrapperSettings"/> with everything set to false
         /// </summary>
         /// <returns>empty settings</returns>
@@ -63,9 +79,6 @@ namespace StackInjector.Settings
                     .VersioningMethod(ServedVersionTargetingMethod.None, @override: false)
                     .WhenNoMoreTasks(AsyncWaitingMethod.Wait)
                     .ServeIEnumerables();
-
-
-        //? maybe add a DefaultInner for nested wrappers
 
     }
 }

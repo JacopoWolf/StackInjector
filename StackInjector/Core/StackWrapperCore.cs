@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using StackInjector.Core.Cloning;
 using StackInjector.Settings;
 
@@ -26,11 +28,30 @@ namespace StackInjector.Core
         }
 
 
+        public IEnumerable<T> GetServices<T> ()
+            =>
+                this.Core
+                .instances
+                .InstancesAssignableFrom(typeof(T))
+                .Select(o => (T)o);
+
+
+
         public IClonedCore CloneCore ( StackWrapperSettings settings = null )
         {
             var clonedCore = new InjectionCore( settings ?? this.Core.settings )
             {
                 instances = this.Core.instances
+            };
+
+            return new ClonedCore(clonedCore);
+        }
+
+        public IClonedCore DeepCloneCore ( StackWrapperSettings settings = null )
+        {
+            var clonedCore = new InjectionCore( settings ??  this.Core.settings.Copy() )
+            {
+                instances = this.Core.instances.CloneStructure()
             };
 
             return new ClonedCore(clonedCore);
