@@ -33,8 +33,8 @@ namespace StackInjector.Core
                 this.Core
                 .instances
                 .InstancesAssignableFrom(typeof(T))
-                .Select( o => (T)o );
-        
+                .Select(o => (T)o);
+
 
 
         public IClonedCore CloneCore ( StackWrapperSettings settings = null )
@@ -59,6 +59,6 @@ namespace StackInjector.Core
 
 
         public abstract void Dispose ();
-        
+
     }
 }

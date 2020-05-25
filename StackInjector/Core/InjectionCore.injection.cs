@@ -53,12 +53,12 @@ namespace StackInjector.Core
 
             foreach( var serviceField in fields )
             {
-                var serviceInstance = 
+                var serviceInstance =
                     this.InstTypeOrServiceEnum
-                    ( 
-                        serviceField.FieldType, 
-                        serviceField.GetCustomAttribute<ServedAttribute>(), 
-                        ref instantiated 
+                    (
+                        serviceField.FieldType,
+                        serviceField.GetCustomAttribute<ServedAttribute>(),
+                        ref instantiated
                     );
                 serviceField.SetValue(instance, serviceInstance);
             }
@@ -75,12 +75,12 @@ namespace StackInjector.Core
 
             foreach( var propertyField in properties )
             {
-                var serviceInstance = 
+                var serviceInstance =
                     this.InstTypeOrServiceEnum
-                    ( 
-                        propertyField.PropertyType, 
-                        propertyField.GetCustomAttribute<ServedAttribute>(), 
-                        ref instantiated 
+                    (
+                        propertyField.PropertyType,
+                        propertyField.GetCustomAttribute<ServedAttribute>(),
+                        ref instantiated
                     );
                 propertyField.SetValue(instance, serviceInstance);
             }

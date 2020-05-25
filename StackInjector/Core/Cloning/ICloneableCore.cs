@@ -25,7 +25,7 @@ namespace StackInjector.Core.Cloning
         /// <param name="settings">if set, overrides the previus core settings.</param>
         /// <returns>A generic object allowing conversion of the cloned core</returns>
         IClonedCore DeepCloneCore ( StackWrapperSettings settings = null );
-        
+
 
     }
 
