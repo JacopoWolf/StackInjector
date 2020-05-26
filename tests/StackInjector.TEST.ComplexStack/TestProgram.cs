@@ -27,6 +27,15 @@ namespace StackInjector.TEST.ComplexStack
         }
 
         [Test]
+        public void GenericWrapper()
+        {
+            using var wrapper = Injector.OutOf<IBaseService>();
+
+            wrapper.Start( app => app.EntryPoint() );
+        }
+
+
+        [Test]
         public void GetServices()
         {
             using var wrapper = Injector.From<IBaseService>();

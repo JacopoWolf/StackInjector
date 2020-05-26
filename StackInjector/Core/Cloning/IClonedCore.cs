@@ -16,6 +16,12 @@ namespace StackInjector.Core.Cloning
         /// <returns>the new wrapper</returns>
         IStackWrapper ToWrapper<T> () where T : IStackEntryPoint;
 
+        /// <summary>
+        /// converts this to an <see cref="IStackWrapper{TEntry}"/>
+        /// </summary>
+        /// <typeparam name="T">entry point of the new wrapper</typeparam>
+        /// <returns>the new wrapper</returns>
+        IStackWrapper<T> ToGenericWrapper<T> ();
 
         /// <summary>
         /// convert this to an <see cref="IAsyncStackWrapper"/>

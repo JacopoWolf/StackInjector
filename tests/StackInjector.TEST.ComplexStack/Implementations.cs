@@ -57,6 +57,8 @@ namespace StackInjector.TEST.ComplexStack
 
         public object EntryPoint ()
         {
+            this.Logger.Log(255, this.Wrapper.ToString());
+
             foreach( var run in this.Runs )
                 this.Logger.Log( 100, $"run: {run.Run()}" );
 
