@@ -10,7 +10,7 @@ namespace StackInjector.Core
     internal partial class InjectionCore
     {
 
-        internal IEnumerable<Type> Version ( Type targetType, ServedAttribute servedAttribute )
+        private IEnumerable<Type> Version ( Type targetType, ServedAttribute servedAttribute )
         {
 
             var targetVersion = servedAttribute?.TargetVersion ?? 0.0;

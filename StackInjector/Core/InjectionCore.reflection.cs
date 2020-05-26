@@ -16,7 +16,7 @@ namespace StackInjector.Core
         /// <param name="servedAttribute"></param>
         /// <returns></returns>
         /// <exception cref="ImplementationNotFoundException"></exception>
-        internal Type ClassOrFromInterface ( Type type, ServedAttribute servedAttribute = null )
+        private Type ClassOrFromInterface ( Type type, ServedAttribute servedAttribute = null )
         {
             if( type.IsInterface )
             {
