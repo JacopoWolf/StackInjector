@@ -1,6 +1,4 @@
-﻿
-
-using StackInjector.Core;
+﻿using StackInjector.Core;
 
 namespace StackInjector.Wrappers
 {

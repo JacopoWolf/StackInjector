@@ -36,6 +36,15 @@ namespace StackInjector.Core.Cloning
             return wrapper;
         }
 
+        public IStackWrapper<T> ToGenericWrapper<T> ()
+        {
+            var wrapper = new StackWrapper<T>(this.clonedCore);
+
+            this.clonedCore.entryPoint = typeof(T);
+            this.clonedCore.ServeAll();
+
+            return wrapper;
+        }
 
         public IStackWrapper ToWrapper<T> () where T : IStackEntryPoint
         {

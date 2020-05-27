@@ -13,7 +13,7 @@ namespace StackInjector.Core
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        internal object InstantiateService ( Type type )
+        private object InstantiateService ( Type type )
         {
             type = this.ClassOrFromInterface(type);
 
@@ -30,7 +30,7 @@ namespace StackInjector.Core
 
         }
 
-        internal object OfTypeOrInstantiate ( Type type )
+        private object OfTypeOrInstantiate ( Type type )
         {
             if( type.GetCustomAttribute<ServiceAttribute>() == null )
                 throw new NotAServiceException(type, $"The type {type.FullName} is not annotated with [Service]");
@@ -51,7 +51,7 @@ namespace StackInjector.Core
         /// <summary>
         /// removes instances of the tracked instantiated types and call their Dispose method
         /// </summary>
-        internal void RemoveInstancesDiff ()
+        protected internal void RemoveInstancesDiff ()
         {
             if( !this.settings.trackInstancesDiff )
                 return;

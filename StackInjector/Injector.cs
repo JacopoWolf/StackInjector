@@ -16,6 +16,8 @@ namespace StackInjector
     {
         //todo SingleInstanceHolder should depend upon a setting
 
+        #region normal
+
         /// <summary>
         /// Create a new StackWrapper from the <typeparamref name="T"/> entry point with the specified settings
         /// </summary>
@@ -74,6 +76,41 @@ namespace StackInjector
             return wrapper;
         }
 
+        #endregion
+
+        #region Generic
+
+
+        /// <summary>
+        /// Create a new <see cref="StackWrapper{TEntry}"/> from the <typeparamref name="T"/> entry point with the specified settings
+        /// </summary>
+        /// <typeparam name="T">The type of the entry point</typeparam>
+        /// <param name="settings">settings for this StackWrapper</param>
+        /// <returns>The Initialized StackWrapper</returns>
+        /// <exception cref="ClassNotFoundException"></exception>
+        /// <exception cref="NotAServiceException"></exception>
+        /// <exception cref="ImplementationNotFoundException"></exception>
+        public static IStackWrapper<T> OutOf<T> ( StackWrapperSettings settings = null )
+        {
+            if( settings == null )
+                settings = StackWrapperSettings.Default;
+
+            var core = new InjectionCore( settings )
+            {
+                entryPoint = typeof(T)
+            };
+
+            var wrapper = new StackWrapper<T>(core);
+
+            core.ReadAssemblies();
+            core.ServeAll();
+
+
+            return wrapper;
+        }
+
+
+
         /// <summary>
         /// Create a new generic asyncronous StackWrapper from the <typeparamref name="TEntry"/>
         /// entry class with the specified delegate to apply to apply as digest
@@ -110,6 +147,7 @@ namespace StackInjector
             return wrapper;
         }
 
+        #endregion
 
     }
 }

@@ -15,7 +15,7 @@ namespace StackInjector.Core
         /// </summary>
         /// <param name="instance"></param>
         /// <returns></returns>
-        internal IEnumerable<object> InjectServicesInto ( object instance )
+        private IEnumerable<object> InjectServicesInto ( object instance )
         {
             var instantiated = new List<object>();
             var type = instance.GetType();
