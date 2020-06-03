@@ -3,20 +3,27 @@
 ![GitHub](https://img.shields.io/github/license/jacopowolf/stackinjector?style=flat-square)
 ![Maintenance](https://img.shields.io/maintenance/yes/2020?style=flat-square)
 ![GitHub open bug issues](https://img.shields.io/github/issues/jacopowolf/stackinjector/bug?style=flat-square)
-[![Nuget](https://img.shields.io/nuget/vpre/StackInjector?logo=nuget&style=flat-square)](https://www.nuget.org/packages/StackInjector/)
-[![Nuget](https://img.shields.io/nuget/dt/StackInjector?logo=nuget&style=flat-square)](https://www.nuget.org/packages/StackInjector/)
+[![Nuget](https://img.shields.io/nuget/vpre/StackInjector?logo=nuget&style=flat-square)](https://www.nuget.org/packages/StackInjector)
+[![Nuget](https://img.shields.io/nuget/dt/StackInjector?logo=nuget&style=flat-square)](https://www.nuget.org/packages/StackInjector)
 
 
 <br/>
 <p align="center">
 
-<img src="logo/StackInjector_logo.svg" height="80" /> 
+<img src="logo/StackInjector_logo.svg" height="128" /> 
 <h1 align="center">Stack Injector</h1>
 
 <p align="center">
 Simple, fast and easy-to-use dependency injection
 <br/>
 <strong><a href="https://github.com/JacopoWolf/StackInjector/wiki">Documentation »<a></strong>
+<br>
+<br>
+<a href="https://www.nuget.org/packages/StackInjector">Download</a>
+·
+<a href="https://github.com/JacopoWolf/StackInjector/issues/new/choose">Report Bug</a>
+·
+<a href="https://github.com/JacopoWolf/StackInjector/issues/new/choose">Request Feature</a>
 </p>
 
 </p>
