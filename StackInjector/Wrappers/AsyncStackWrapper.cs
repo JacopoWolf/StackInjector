@@ -30,7 +30,7 @@ namespace StackInjector.Wrappers
 
         public override string ToString ()
             =>
-                $"AsyncStackWrapper{{ {this.Core.instances.GetAllTypes().Count()} registered types; " +
+                $"AsyncStackWrapper{{ {this.Core.instances.AllTypes().Count()} registered types; " +
                 $"entry point: {this.Core.entryPoint.Name}; canceled: {this.cancelPendingTasksSource.IsCancellationRequested} }}";
 
     }

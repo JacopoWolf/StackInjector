@@ -28,7 +28,7 @@ namespace StackInjector.Wrappers.Generic
 
         public override string ToString ()
             =>
-                $"StackWrapper<{typeof(TEntry).Name}>{{ {this.Core.instances.GetAllTypes().Count()} registered types }}";
+                $"StackWrapper<{typeof(TEntry).Name}>{{ {this.Core.instances.AllTypes().Count()} registered types }}";
 
 
         private bool disposed = false;

@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace StackInjector.Behaviours
 {
-    //? should this be documented internally
     internal interface IInstancesHolder
     {
-        IEnumerable<object> OfType ( Type type );
+        IEnumerable<Type> AllTypes ();
 
-        IEnumerable<object> InstancesAssignableFrom ( Type type );
+        IEnumerable<object> OfType ( Type type );
 
         IEnumerable<Type> TypesAssignableFrom ( Type type );
 
-        IEnumerable<Type> GetAllTypes ();
+        IEnumerable<object> InstancesAssignableFrom ( Type type );
+
 
 
         void AddType ( Type type );
@@ -21,12 +21,14 @@ namespace StackInjector.Behaviours
 
         void RemoveInstance ( Type type, object instance );
 
+
         bool ContainsType ( Type type );
 
 
         bool IsInjected ( object instance );
 
         void SetInjectionStatus ( object instance, bool injected = true );
+
 
 
         IInstancesHolder CloneStructure ();

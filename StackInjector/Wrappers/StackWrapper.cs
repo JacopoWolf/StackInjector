@@ -29,7 +29,7 @@ namespace StackInjector.Wrappers
 
         public override string ToString ()
             =>
-                $"StackWrapper{{ {this.Core.instances.GetAllTypes().Count()} registered types; entry point: {this.Core.entryPoint.Name} }}";
+                $"StackWrapper{{ {this.Core.instances.AllTypes().Count()} registered types; entry point: {this.Core.entryPoint.Name} }}";
 
 
 
