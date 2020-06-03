@@ -23,6 +23,8 @@ namespace StackInjector.Core
         // tracks instantiated objects
         internal readonly List<object> instancesDiff;
 
+        private readonly object _lock = new object();
+
 
         internal InjectionCore ( StackWrapperSettings settings )
         {

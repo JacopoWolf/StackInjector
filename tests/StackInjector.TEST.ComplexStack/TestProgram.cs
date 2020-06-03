@@ -9,21 +9,17 @@ namespace StackInjector.TEST.ComplexStack
     public class Tests
     {
 
-        [Test]
+        [Test][Retry(3)][Order(0)]
         public void Performance ()
         {
             var watch = Stopwatch.StartNew( );
 
-            using var wrapper = Injector.From<IBaseService>();
+                using var wrapper = Injector.From<IBaseService>();
 
             watch.Stop();
             Console.WriteLine($"Time taken: {watch.ElapsedMilliseconds}ms");
-            watch.Restart();
 
-            wrapper.Start();
-
-            watch.Stop();
-            Console.WriteLine($"Time taken: {watch.ElapsedMilliseconds}ms");
+            Assert.AreEqual(30, watch.ElapsedMilliseconds, 30);
         }
 
         [Test]
