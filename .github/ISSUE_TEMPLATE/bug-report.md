@@ -1,7 +1,7 @@
 ---
-name: Bug report
-about: Create a report to help us improve
-title: BUG
+name: Bug Report
+about: 'Create a report to help us improve. Please use the "Bug: [obj]" format'
+title: 'Bug: '
 labels: bug
 assignees: ''
 
@@ -19,13 +19,12 @@ Steps to reproduce the behavior:
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
-**trace**
+**Trace**
 If applicable, the trace of the error you encountered.
 
 **Platform (please complete the following information):**
- - OS: [e.g. Windows]
- - .NET version [e.g Core 3.1.200]
- - Version [e.g. 1.0.0]
+ **.NET version:**   [e.g Core 3.1.200]
+**StackInjector Version:**    [e.g. 2.3.0]
 
 
 **Additional context**
