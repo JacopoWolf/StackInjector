@@ -1,34 +1,55 @@
-<h1> 
-    <img src="logo/StackInjector_logo_notext.svg" height="35px" /> 
-    StackInjector
-</h1>
+![dotNetStandard2.1](https://img.shields.io/badge/-Standard_2.1-5C2D91?logo=.net&style=flat-square) 
+![csharp8.0](https://img.shields.io/badge/-8.0-239120?logo=c-sharp&style=flat-square)
+![GitHub](https://img.shields.io/github/license/jacopowolf/stackinjector?style=flat-square)
+![Maintenance](https://img.shields.io/maintenance/yes/2020?style=flat-square)
+![GitHub open bug issues](https://img.shields.io/github/issues/jacopowolf/stackinjector/bug?style=flat-square)
+[![Nuget](https://img.shields.io/nuget/vpre/StackInjector?logo=nuget&style=flat-square)](https://www.nuget.org/packages/StackInjector/)
+[![Nuget](https://img.shields.io/nuget/dt/StackInjector?logo=nuget&style=flat-square)](https://www.nuget.org/packages/StackInjector/)
 
 
-![dotNetStandard2.1](https://img.shields.io/badge/-Standard_2.1-5C2D91?logo=.net) 
-![csharp8.0](https://img.shields.io/badge/-8.0-239120?logo=c-sharp)
+<br/>
+<p align="center">
 
-A **simple**, **performing**, **easy-to-use** dependency injection library for you stack-structured applications, like custom servers, interpreters, etc.
+<img src="logo/StackInjector_logo.svg" height="80" /> 
+<h1 align="center">Stack Injector</h1>
 
-![Maintenance](https://img.shields.io/maintenance/yes/2020)
-![GitHub open bug issues](https://img.shields.io/github/issues/jacopowolf/stackinjector/bug)
+<p align="center">
+Simple, fast and easy-to-use dependency injection
+<br/>
+<strong><a href="https://github.com/JacopoWolf/StackInjector/wiki">Documentation »<a></strong>
+</p>
 
-Visit the [Wiki](https://github.com/JacopoWolf/StackInjector/wiki) for more information!
+</p>
 
 
+---
 
-## Installation :electric_plug:
+- [About](#about)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Acknowledgements](#acknowledgements)
 
-[![Nuget](https://img.shields.io/nuget/vpre/StackInjector?logo=nuget)](https://www.nuget.org/packages/StackInjector/)
-[![Nuget](https://img.shields.io/nuget/dt/StackInjector?logo=nuget)](https://www.nuget.org/packages/StackInjector/)
+
+## About
+
+There are a lot of dependency injection frameworks for .NET, but every single one of them has some complicated specifics you have to learn (like active registration of components) and sometimes you don't really have full control of what to inject into your instances.
+
+If you want to use an extremely easy dependency injection framework, then *StackInjector* is made for you! 
+
+
+## Installation
 
 ```powershell
 dotnet add package StackInjector
 ```
-Or visit the [Nuget page](https://www.nuget.org/packages/StackInjector)
+
+Or visit the [Nuget page](https://www.nuget.org/packages/StackInjector) for more options.
 
 
 
-## Usage :mortar_board:
+## Usage
 
 In-depth tutorials and explanations can be found in the [wiki tutorials section](https://github.com/JacopoWolf/StackInjector/wiki/Tutorial_Introduction)
 
@@ -48,30 +69,26 @@ interface IFooFilter
 ```cs
 using StackInjector.Attributes;
 
-// you can specify a version for your service implementation!
+// you can optionally specify a version for your service implementation!
 [Service(Version=1.0)]
 class SimpleFooFilter : IFooFilter
 {
     // both fields and properties, to explicitly annotate with [Served]
+    // if you want them injected
 
     [Served]
     IDatabaseAccess database { get; set; }
     
-    // you can have multiple implementations and require a specific one 
-    // either by requesting it's version or by specifying the class
-
-    [Served(TargetVersion=2.0)]
-    IFooFilter advancedFilter { get; set; }
-
+    // works with properties too!
     [Served]
-    AnotherFooFilter anotherFilter;
+    IFooFilter filter;
 
     
     string Filter( string element ) 
     {
         // those are just random examples! 
         var item = this.Database.SomeMethod( element );
-        this.advancedFilter.Filter( anotherFilter.Filter(item) );
+        this.filter.Filter( item );
         return element;
     }
 }
@@ -82,8 +99,6 @@ Everything **must** have an attribute, allowing for **extremely readable code** 
 --- 
 
 You then have multiple options on how you want to initialize your application! 
-
-Remember that you can initialize a new wrapper on-the-fly anywhere in your application!
 
 ```cs
 using StackInjector;
@@ -96,24 +111,24 @@ Injector.From<IMyAppEntryPoint>().Start();
 
 **asynchronous**
 ```cs
-using var App = Injector.AsyncFrom<MyAsyncAppEntryPoint>();
+// using allows for safe disposing of the resources when no more needed
+using var app = Injector.AsyncFrom<MyAsyncAppEntryPoint>();
 
-// atomic call, can be called from anywhere and guarantee consistency
-App.Submit( someInput );
+// can be called from anywhere and guarantee consistency
+app.Submit( someInput );
 
 // waiting for completed tasks is as simple as an await foreach loop
-await foreach ( var result in App.Elaborated<string>() )
+await foreach ( var result in app.Elaborated<string>() )
     Console.WriteLine( result );
 ```
 
-**asynchronous with custom logic**
+**generics**
+
+For users who do care about type safety, there are also generic options! Both synchronous and asynchronous.
 
 ```cs
-using StackInjector.Generics;
-```
-
-```cs
-using var App = 
+// generic asynchronous wrapper
+using var app = 
     Injector.AsyncFrom<MyAsyncAppEntryPoint,string,int>
         (
             async (entryPoint,element,cancellationToken)
@@ -127,19 +142,27 @@ For **more** information and in-depth **tutorials**, look at the simple tutorial
 
 
 
-## Contributing :pencil2:
+## Contributing
 
-Any contribution is appreciated! Thanks!
+Any contribution is appreciated! Especially bug reports, which mean you've been using this library I've been hard working on!
 
-But first read [contributing](CONTRIBUTING.md) and [code of conduct](CODE_OF_CONDUCT.md)
+But first read [contributing](CONTRIBUTING.md) and [code of conduct](CODE_OF_CONDUCT.md) (I promise they're short)
 
-suggested editor: ![visualStudio](https://img.shields.io/badge/-Visual_Studio-5C2D91?logo=visual-studio)
+*suggested editor: ![visualStudio](https://img.shields.io/badge/-Visual_Studio-5C2D91?logo=visual-studio&style=flat-square)*
 
 
 
-## License :scroll:
+## License
 
-![GitHub](https://img.shields.io/github/license/jacopowolf/stackinjector)
+Distributed under the `General Public Licence v3.0`.
+
+See [LICENSE](LICENSE).
+
+
+## Acknowledgements
+
+- [Shields.io](https://shields.io/)
+- [Readme-Template](https://github.com/othneildrew/Best-README-Template)
 
 ---
-initial project and logo by [@JacopoWolf](https://github.com/JacopoWolf) as of 04/2020
+initial project and logo by [@JacopoWolf](https://github.com/JacopoWolf), 04/2020

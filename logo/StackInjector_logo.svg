@@ -10,10 +10,10 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg4707"
    version="1.1"
-   viewBox="0 0 135.46666 135.46667"
-   height="512"
+   viewBox="0 0 135.46666 82.550098"
+   height="312"
    width="512"
-   sodipodi:docname="StackInjector_logo.svg"
+   sodipodi:docname="StackInjector_logo_notext.svg"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
   <sodipodi:namedview
      pagecolor="#ffffff"
@@ -29,12 +29,14 @@
      id="namedview18"
      showgrid="false"
      inkscape:zoom="1.3037281"
-     inkscape:cx="204.94995"
-     inkscape:cy="280.30273"
+     inkscape:cx="225.19277"
+     inkscape:cy="266.0262"
      inkscape:window-x="1432"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer2" />
+     inkscape:current-layer="layer2"
+     inkscape:pagecheckerboard="true"
+     inkscape:showpageshadow="false" />
   <defs
      id="defs4701">
     <linearGradient
@@ -65,98 +67,73 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      style="display:inline"
-     transform="translate(0,-161.53332)"
+     transform="translate(0,-214.4499)"
      id="layer1" />
   <g
      style="display:inline"
-     id="layer2">
-    <text
-       id="text5796"
-       y="31.482914"
-       x="128.36076"
-       style="font-style:normal;font-weight:normal;font-size:15.36947823px;line-height:1.25;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#003090;fill-opacity:1;stroke:none;stroke-width:0.38423696"
-       xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Fira Code';-inkscape-font-specification:'Fira Code';text-align:center;text-anchor:middle;fill:#003090;fill-opacity:1;stroke-width:0.38423696"
-         y="31.482914"
-         x="67.937103"
-         id="tspan5794">StackInjector</tspan></text>
-    <g
-       id="g1098"
-       transform="matrix(0.92827015,0,0,0.92827015,9.5262071,24.102817)">
-      <g
-         id="layer1-2"
-         transform="translate(0,-161.53332)"
-         style="display:inline" />
-      <g
-         id="g1207"
-         transform="matrix(1.0772726,0,0,1.0772726,-9.1154955,-12.682836)">
-        <g
-           id="layer1-6"
-           transform="translate(0,-161.53332)"
-           style="display:inline" />
-        <rect
-           transform="scale(-1)"
-           y="-43.646297"
-           x="-123.77988"
-           height="13.137511"
-           width="114.22222"
-           id="rect5784"
-           style="display:inline;opacity:1;fill:#eae2b7;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.32779393;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-        <rect
-           transform="scale(-1)"
-           y="-58.721249"
-           x="-97.258888"
-           height="13.137518"
-           width="61.180214"
-           id="rect5786"
-           style="display:inline;opacity:1;fill:#f4e3d7;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.20840417;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-        <rect
-           transform="scale(-1)"
-           y="-74.000038"
-           x="-64.900696"
-           height="13.137497"
-           width="55.383797"
-           id="rect5790"
-           style="display:inline;opacity:1;fill:#f77f00;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.16455138;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-        <rect
-           transform="scale(-1)"
-           y="-106.58725"
-           x="-123.82066"
-           height="30.343912"
-           width="114.30375"
-           id="rect5792"
-           style="display:inline;opacity:1;fill:#d62828;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.34484056;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-        <rect
-           transform="scale(-1)"
-           y="-74.000038"
-           x="-123.82066"
-           height="13.137497"
-           width="55.383797"
-           id="rect5790-4"
-           style="display:inline;opacity:1;fill:#f4e3d7;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.16455138;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-        <rect
-           transform="rotate(165)"
-           y="-91.270386"
-           x="-111.82491"
-           height="13.137497"
-           width="55.383797"
-           id="rect5790-4-5"
-           style="display:inline;opacity:1;fill:#f77f00;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.16455138;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-        <rect
-           transform="rotate(-165)"
-           y="-40.985195"
-           x="-73.922592"
-           height="13.137518"
-           width="61.180206"
-           id="rect5786-5"
-           style="display:inline;opacity:1;fill:#fcbf49;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.20840417;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      </g>
-    </g>
+     id="layer2"
+     transform="translate(0,-52.916723)">
+    <rect
+       transform="scale(-1)"
+       y="-69.44606"
+       x="-124.84444"
+       height="13.137511"
+       width="114.22222"
+       id="rect5784"
+       style="display:inline;opacity:1;fill:#eae2b7;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.32779393;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       transform="scale(-1)"
+       y="-84.521019"
+       x="-98.323441"
+       height="13.137518"
+       width="61.18021"
+       id="rect5786"
+       style="display:inline;opacity:1;fill:#f4e3d7;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.20840417;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       transform="scale(-1)"
+       y="-99.799812"
+       x="-65.965256"
+       height="13.137497"
+       width="55.383797"
+       id="rect5790"
+       style="display:inline;opacity:1;fill:#f77f00;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.16455138;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       transform="scale(-1)"
+       y="-132.38701"
+       x="-124.88521"
+       height="30.34391"
+       width="114.30375"
+       id="rect5792"
+       style="display:inline;opacity:1;fill:#d62828;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.34484056;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       transform="scale(-1)"
+       y="-99.799812"
+       x="-124.88521"
+       height="13.137497"
+       width="55.383797"
+       id="rect5790-4"
+       style="display:inline;opacity:1;fill:#f4e3d7;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.16455138;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       transform="rotate(165)"
+       y="-116.46658"
+       x="-106.17574"
+       height="13.137497"
+       width="55.383797"
+       id="rect5790-4-5"
+       style="display:inline;opacity:1;fill:#f77f00;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.16455138;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       transform="rotate(-165)"
+       y="-65.630333"
+       x="-81.628349"
+       height="13.137518"
+       width="61.18021"
+       id="rect5786-5"
+       style="display:inline;opacity:1;fill:#fcbf49;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.20840417;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
   </g>
 </svg>
