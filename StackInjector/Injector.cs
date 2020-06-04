@@ -27,6 +27,7 @@ namespace StackInjector
         /// <exception cref="ClassNotFoundException"></exception>
         /// <exception cref="NotAServiceException"></exception>
         /// <exception cref="ImplementationNotFoundException"></exception>
+        [System.Obsolete("The relative wrapper will be deprecated in a future relase. Use the generic option instead.", false)]
         public static IStackWrapper From<T> ( StackWrapperSettings settings = null ) where T : IStackEntryPoint
         {
             if( settings == null )
@@ -56,6 +57,7 @@ namespace StackInjector
         /// <typeparam name="T"></typeparam>
         /// <param name="settings"></param>
         /// <returns></returns>
+        [System.Obsolete("The relative wrapper will be deprecated in a future relase. Use the generic option instead.", false)]
         public static IAsyncStackWrapper AsyncFrom<T> ( StackWrapperSettings settings = null ) where T : IAsyncStackEntryPoint
         {
             if( settings == null )

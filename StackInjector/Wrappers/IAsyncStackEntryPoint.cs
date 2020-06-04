@@ -6,6 +6,7 @@ namespace StackInjector.Wrappers
     /// <summary>
     /// Entry point for asyncronous StacksWrappers
     /// </summary>
+    [System.Obsolete("The wrapper for this entry point will be deprecated in a future relase. Use the generic option instead.", false)]
     public interface IAsyncStackEntryPoint
     {
 
