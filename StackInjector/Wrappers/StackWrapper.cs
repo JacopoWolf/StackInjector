@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using StackInjector.Attributes;
 using StackInjector.Core;
 using StackInjector.Settings;
 
 namespace StackInjector.Wrappers
 {
+    [Obsolete]
     [Service(Version = 1.0, Serving = ServingMethods.DoNotServe)]
     internal class StackWrapper : StackWrapperCore, IStackWrapper
     {
@@ -29,7 +31,7 @@ namespace StackInjector.Wrappers
 
         public override string ToString ()
             =>
-                $"StackWrapper{{ {this.Core.instances.GetAllTypes().Count()} registered types; entry point: {this.Core.entryPoint.Name} }}";
+                $"StackWrapper{{ {this.Core.instances.AllTypes().Count()} registered types; entry point: {this.Core.entryPoint.Name} }}";
 
 
 

@@ -3,6 +3,7 @@
     /// <summary>
     /// Defines an entry point for a stack
     /// </summary>
+    [System.Obsolete("The wrapper for this entry point will be deprecated in a future relase. Use the generic option instead.", false)]
     public interface IStackEntryPoint
     {
         /// <summary>

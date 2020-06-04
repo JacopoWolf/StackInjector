@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using StackInjector.Attributes;
 using StackInjector.Core;
 using StackInjector.Settings;
 
 namespace StackInjector.Wrappers
 {
+    [Obsolete]
     [Service(Version = 2.0, Serving = ServingMethods.DoNotServe)]
     internal partial class AsyncStackWrapper : AsyncStackWrapperCore<object>, IAsyncStackWrapper
     {
@@ -30,7 +32,7 @@ namespace StackInjector.Wrappers
 
         public override string ToString ()
             =>
-                $"AsyncStackWrapper{{ {this.Core.instances.GetAllTypes().Count()} registered types; " +
+                $"AsyncStackWrapper{{ {this.Core.instances.AllTypes().Count()} registered types; " +
                 $"entry point: {this.Core.entryPoint.Name}; canceled: {this.cancelPendingTasksSource.IsCancellationRequested} }}";
 
     }

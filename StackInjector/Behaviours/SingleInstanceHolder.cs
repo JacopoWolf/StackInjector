@@ -6,7 +6,9 @@ namespace StackInjector.Behaviours
 {
     internal class SingleInstanceHolder : IInstancesHolder
     {
+        // objects dictionary to access easily by type
         private readonly Dictionary<Type,object> objects = new Dictionary<Type, object>();
+        // flags inhected objects
         private readonly HashSet<object> injected = new HashSet<object>();
 
 
@@ -17,7 +19,10 @@ namespace StackInjector.Behaviours
             => this.objects[type] = instance;
 
         public void RemoveInstance ( Type type, object instance )
-            => this.objects[type] = null;
+        { 
+            this.objects[type] = null; 
+            this.injected.Remove(instance);
+        }
 
         public IEnumerable<object> OfType ( Type type )
             => new object[] { this.objects[type] };
@@ -35,7 +40,7 @@ namespace StackInjector.Behaviours
         public bool ContainsType ( Type type )
             => this.objects.ContainsKey(type);
 
-        public IEnumerable<Type> GetAllTypes ()
+        public IEnumerable<Type> AllTypes ()
             => this.objects.Keys;
 
 
@@ -54,6 +59,7 @@ namespace StackInjector.Behaviours
         public IInstancesHolder CloneStructure ()
         {
             var clonedholder = new SingleInstanceHolder();
+            // add just types and not the instance reference
             foreach( var pair in this.objects )
                 clonedholder.AddType(pair.Key);
             return clonedholder;
