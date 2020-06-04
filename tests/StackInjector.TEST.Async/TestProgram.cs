@@ -47,7 +47,7 @@ namespace StackInjector.TEST.Async
             await test;
             await feeder;
 
-            Assert.AreEqual( resStr , "1; 4; 9; 16; 25; 36; 49; 64; 81; 100; 121; 1764; " );
+            Assert.AreEqual("1; 4; 9; 16; 25; 36; 49; 64; 81; 100; 121; 1764; ", resStr );
 
         }
 
