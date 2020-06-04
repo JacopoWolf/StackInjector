@@ -10,7 +10,7 @@ using StackInjector.Wrappers.Generic;
 namespace StackInjector.TEST.ComplexStack
 {
 
-#pragma warning disable IDE0051, IDE0044
+#pragma warning disable IDE0051, IDE0044, CS0649
 
     [Service]
     class Application : IBaseService
