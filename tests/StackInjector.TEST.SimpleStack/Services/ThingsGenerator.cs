@@ -1,11 +1,13 @@
 ﻿using System;
 using StackInjector.Attributes;
-using StackInjector.Wrappers;
+using StackInjector;
+using StackInjector.Core;
 
 namespace StackInjector.TEST.SimpleStack1.Services
 {
-    internal interface IThingsGenerator : IStackEntryPoint
+    internal interface IThingsGenerator
     {
+        object StartGenerating ();
         string GenerateThing ();
     }
 
@@ -18,7 +20,7 @@ namespace StackInjector.TEST.SimpleStack1.Services
 
 
         // this method contains the main core of the stack, used to call every other dependency
-        public object EntryPoint ()
+        public object StartGenerating ()
         {
             var thing = this.GenerateThing();
             Console.WriteLine($"generated {thing}");
@@ -40,10 +42,10 @@ namespace StackInjector.TEST.SimpleStack1.Services
 
 
     [Service]
-    internal class AccessWrapperEntryPoint : IStackEntryPoint
+    internal class AccessWrapperEntryPoint
     {
         [Served]
-        IStackWrapper Wrapper { get; set; }
+        IStackWrapperCore Wrapper { get; set; }
 
         public object EntryPoint ()
         {

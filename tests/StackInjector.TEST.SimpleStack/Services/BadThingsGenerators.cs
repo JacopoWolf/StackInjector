@@ -5,7 +5,7 @@ using StackInjector.Wrappers;
 
 namespace StackInjector.TEST.SimpleStack1.Services
 {
-    internal interface IBadThingsGenerator : IStackEntryPoint
+    internal interface IBadThingsGenerator
     {
         void BadlyGenerate ();
     }

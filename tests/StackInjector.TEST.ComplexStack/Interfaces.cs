@@ -11,8 +11,10 @@ namespace StackInjector.TEST.ComplexStack
 		int Run ();
 	}
 
-	interface IBaseService : IStackEntryPoint
+	interface IBaseService
 	{
+		object EntryPoint ();
+
 		void Elaborate ();
 	}
 

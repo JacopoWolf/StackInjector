@@ -1,4 +1,5 @@
-﻿using StackInjector.Attributes;
+﻿using System;
+using StackInjector.Attributes;
 
 namespace StackInjector.TEST.SimpleStack1.Services
 {
@@ -16,6 +17,7 @@ namespace StackInjector.TEST.SimpleStack1.Services
     {
         public string FilterThing ( string raw )
         {
+            Console.WriteLine(raw);
             return raw.Remove(raw.Length - 2);
         }
     }

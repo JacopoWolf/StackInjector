@@ -99,7 +99,7 @@ namespace StackInjector.Settings
         #region Asynchronous settings
 
         /// <summary>
-        /// What to do when an <see cref="Wrappers.IAsyncStackWrapper"/> 
+        /// What to do when an <see cref="Wrappers.IAsyncStackWrapper{TEntry, TIn, TOut}"/> 
         /// has no more pending tasks to execute
         /// </summary>
         /// <param name="waitingMethod">the new waiting method</param>

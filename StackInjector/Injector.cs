@@ -2,7 +2,6 @@
 using StackInjector.Exceptions;
 using StackInjector.Settings;
 using StackInjector.Wrappers;
-using StackInjector.Wrappers.Generic;
 
 namespace StackInjector
 {
@@ -16,72 +15,6 @@ namespace StackInjector
     {
         //todo SingleInstanceHolder should depend upon a setting
 
-        #region normal
-
-        /// <summary>
-        /// Create a new StackWrapper from the <typeparamref name="T"/> entry point with the specified settings
-        /// </summary>
-        /// <typeparam name="T">The type of the entry point</typeparam>
-        /// <param name="settings">settings for this StackWrapper</param>
-        /// <returns>The Initialized StackWrapper</returns>
-        /// <exception cref="ClassNotFoundException"></exception>
-        /// <exception cref="NotAServiceException"></exception>
-        /// <exception cref="ImplementationNotFoundException"></exception>
-        [System.Obsolete("The relative wrapper will be deprecated in a future relase. Use the generic option instead.", false)]
-        public static IStackWrapper From<T> ( StackWrapperSettings settings = null ) where T : IStackEntryPoint
-        {
-            if( settings == null )
-                settings = StackWrapperSettings.Default;
-
-            // create a new stackwrapper with the specified settings
-            var core = new InjectionCore( settings )
-            {
-                entryPoint = typeof(T)
-            };
-
-            // putting this here allows for registration of this object when serving
-            var wrapper = new StackWrapper(core);
-
-            core.ReadAssemblies();
-            core.ServeAll();
-
-
-            return wrapper;
-        }
-
-
-
-        /// <summary>
-        /// Create a new asyncronous StackWrapper from the <typeparamref name="T"/> entry point
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="settings"></param>
-        /// <returns></returns>
-        [System.Obsolete("The relative wrapper will be deprecated in a future relase. Use the generic option instead.", false)]
-        public static IAsyncStackWrapper AsyncFrom<T> ( StackWrapperSettings settings = null ) where T : IAsyncStackEntryPoint
-        {
-            if( settings == null )
-                settings = StackWrapperSettings.Default;
-
-
-            // create a new async stack wrapper
-            var core = new InjectionCore( settings )
-            {
-                entryPoint = typeof(T)
-            };
-
-            var wrapper = new AsyncStackWrapper(core);
-
-            core.ReadAssemblies();
-            core.ServeAll();
-
-            return wrapper;
-        }
-
-        #endregion
-
-        #region Generic
-
 
         /// <summary>
         /// Create a new <see cref="StackWrapper{TEntry}"/> from the <typeparamref name="T"/> entry point with the specified settings
@@ -92,18 +25,20 @@ namespace StackInjector
         /// <exception cref="ClassNotFoundException"></exception>
         /// <exception cref="NotAServiceException"></exception>
         /// <exception cref="ImplementationNotFoundException"></exception>
-        public static IStackWrapper<T> OutOf<T> ( StackWrapperSettings settings = null )
+        public static IStackWrapper<T> From<T> ( StackWrapperSettings settings = null )
         {
             if( settings == null )
                 settings = StackWrapperSettings.Default;
 
+            // create the core and wrap it
             var core = new InjectionCore( settings )
-            {
-                entryPoint = typeof(T)
-            };
+                {
+                    entryPoint = typeof(T)
+                };
 
             var wrapper = new StackWrapper<T>(core);
 
+            // initialize the injection process
             core.ReadAssemblies();
             core.ServeAll();
 
@@ -132,24 +67,23 @@ namespace StackInjector
             if( settings == null )
                 settings = StackWrapperSettings.Default;
 
-            // create a new generic async wrapper
+            // create the core and wrap it
             var core = new InjectionCore( settings )
-            {
-                entryPoint = typeof(TEntry)
-            };
+                {
+                    entryPoint = typeof(TEntry)
+                };
 
             var wrapper = new AsyncStackWrapper<TEntry, TIn,TOut>(core)
-            {
-                StackDigest = digest
-            };
+                {
+                    StackDigest = digest
+                };
 
+            // initialize the injection process
             core.ReadAssemblies();
             core.ServeAll();
 
             return wrapper;
         }
-
-        #endregion
 
     }
 }

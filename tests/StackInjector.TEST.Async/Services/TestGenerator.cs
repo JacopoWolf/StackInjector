@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using StackInjector.Attributes;
+using StackInjector.Core;
 using StackInjector.Wrappers;
 
 namespace StackInjector.TEST.Async.Services
 {
     // [Service] is not necessary since this class is not a service, but an entry point.
     // it would've been necessary if it implemented and interface and that was the entry point.
-    class TestGenerator : IStackEntryPoint
+    class TestGenerator
     {
         // this object is being server in an asyncronous wrapper, therefore we can refence it's container!
         [Served]
-        IStackWrapper Wrapper { get; set; }
+        IStackWrapperCore Wrapper { get; set; }
 
         [Served]
         AnswerFilter Filter { get; set; }
@@ -32,7 +33,7 @@ namespace StackInjector.TEST.Async.Services
             Console.WriteLine( this.Wrapper.ToString() );
 
             // clone the existing structure and initialize a new asyncronous elaborator! Saves time
-            using var elaborationWrapper = this.Wrapper.CloneCore().ToAsyncWrapper<PowElaborator>();
+            using var elaborationWrapper = this.Wrapper.CloneCore().ToAsyncWrapper<PowElaborator,int,int>( (e,i,t) => e.Digest(i,t) );
 
             // logging
             Console.WriteLine(elaborationWrapper.ToString());

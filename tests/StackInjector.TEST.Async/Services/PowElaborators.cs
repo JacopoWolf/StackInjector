@@ -12,19 +12,19 @@ namespace StackInjector.TEST.Async.Services
     [Service]
     class MathService
     {
-        public object Calculate ( object item ) => Math.Pow((int)item, 2);
+        public int Calculate ( int item ) => (int)Math.Pow(item, 2);
     }
 
 
 
-    class PowElaborator : IAsyncStackEntryPoint
+    class PowElaborator
     {
 
         [Served]
         MathService MathService { get; set; }
 
 
-        public Task<object> Digest ( object item, CancellationToken cancellationToken )
+        public Task<int> Digest ( int item, CancellationToken cancellationToken )
             =>
                  Task.Run(() => this.MathService.Calculate(item), cancellationToken);
 

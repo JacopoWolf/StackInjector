@@ -13,7 +13,7 @@ namespace StackInjector.TEST.SimpleStack1
         [Test]
         public void WithInterfaces ()
         {
-            var result = Injector.From<IThingsGenerator>().Start();
+            var result = Injector.From<IThingsGenerator>().Start( e => e.StartGenerating() );
 
             Assert.AreEqual("test", result);
         }
@@ -26,7 +26,7 @@ namespace StackInjector.TEST.SimpleStack1
                     typeof(NotAServiceException),
                     () =>
                     {
-                        Injector.From<NotAServiceGenerator>().Start();
+                        Injector.From<NotAServiceGenerator>().Start( e => e.EntryPoint()  );
                     }
                 );
         }
@@ -39,7 +39,7 @@ namespace StackInjector.TEST.SimpleStack1
                     typeof(NullReferenceException),
                     () =>
                     {
-                        Injector.From<NullReferenceGenerator>().Start();
+                        Injector.From<NullReferenceGenerator>().Start( e => e.EntryPoint() );
                     }
                 );
         }
@@ -47,13 +47,13 @@ namespace StackInjector.TEST.SimpleStack1
         [Test]
         public void AccessWrapper()
         {
-            Injector.From<AccessWrapperEntryPoint>().Start();
+            Injector.From<AccessWrapperEntryPoint>().Start( e => e.EntryPoint() );
         }
 
         [Test]
         public void Cloning()
         {
-            Injector.From<ServiceCloningEntryPoint>().Start();
+            Injector.From<ServiceCloningEntryPoint>().Start( e => e.EntryPoint() );
         }
 
     }
