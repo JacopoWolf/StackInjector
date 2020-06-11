@@ -6,6 +6,7 @@ using StackInjector.TEST.Async.Services;
 using System;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace StackInjector.TEST.Async
 {
@@ -21,33 +22,30 @@ namespace StackInjector.TEST.Async
                 StackWrapperSettings.Default
                 .WhenNoMoreTasks(AsyncWaitingMethod.Timeout, 500 );
 
-            using var asyncwrapper = Injector.AsyncFrom<PowElaborator>( settings );
+            using var asyncwrapper = Injector.AsyncFrom<PowElaborator,int,int>( (e,i,t) => e.Digest(i,t),  settings );
 
-            // takes up to 1 second, waiting for 0.1 seconds every submission
             var feeder = Task.Run
             ( 
                 () =>
                 {
                     foreach( var item in feed )
-                    {
                         asyncwrapper.Submit(item);
-                    }
                 } 
             );
 
             // submit a new element ~100 milliseconds before the wrapper exits the loop
-            var test = Task.Run( async () => { await Task.Delay(400); asyncwrapper.Submit(42); });
+            var test = Task.Run( () => { Task.Delay(400).Wait(); asyncwrapper.Submit(42); });
 
 
-            var resStr = "";
+            var resStr = new List<int>();
 
             await foreach( var result in asyncwrapper.Elaborated() )
-                resStr += $"{result}; ";
+                resStr.Add(result);
 
             await test;
             await feeder;
 
-            Assert.AreEqual("1; 4; 9; 16; 25; 36; 49; 64; 81; 100; 121; 1764; ", resStr );
+            CollectionAssert.AreEquivalent( new int[] { 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 1764 }, resStr );
 
         }
 
@@ -93,7 +91,7 @@ namespace StackInjector.TEST.Async
         [Test]
         public void ServeAsync ()
         {
-            Injector.From<TestGenerator>().Start();
+            Injector.From<TestGenerator>().Start( e => e.EntryPoint() );
         }
     }
 }
