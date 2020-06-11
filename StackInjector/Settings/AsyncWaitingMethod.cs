@@ -2,7 +2,7 @@
 {
 
     /// <summary>
-    /// How should an <see cref="StackInjector.Wrappers.IAsyncStackWrapper"/> behave when there are no tasks?
+    /// How should an <see cref="Wrappers.IAsyncStackWrapper{TEntry, TIn, TOut}"/> behave when there are no tasks?
     /// </summary>
     public enum AsyncWaitingMethod
     {

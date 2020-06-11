@@ -17,7 +17,7 @@ namespace StackInjector.TEST.Async.Services
 
 
 
-    class PowElaborator : IAsyncStackEntryPoint
+    class PowElaborator
     {
 
         [Served]

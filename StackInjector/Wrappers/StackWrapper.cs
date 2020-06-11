@@ -1,46 +1,37 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using StackInjector.Attributes;
 using StackInjector.Core;
 using StackInjector.Settings;
 
 namespace StackInjector.Wrappers
 {
-    [Obsolete]
-    [Service(Version = 1.0, Serving = ServingMethods.DoNotServe)]
-    internal class StackWrapper : StackWrapperCore, IStackWrapper
+    [Service(Version = 1.1, Serving = ServingMethods.DoNotServe)]
+    internal class StackWrapper<TEntry> : StackWrapperCore, IStackWrapper<TEntry>
     {
 
-
-        internal StackWrapper ( InjectionCore core ) : base(core, typeof(StackWrapper))
-        { }
+        internal StackWrapper ( InjectionCore core ) : base(core, typeof(StackWrapper<TEntry>)) { }
 
 
-        /// <inheritdoc/>
-        public T Start<T> ()
+
+        public void Start ( Action<TEntry> stackDigest )
             =>
-                (T)this.Core.GetEntryPoint<IStackEntryPoint>().EntryPoint();
+                stackDigest.Invoke(this.Core.GetEntryPoint<TEntry>());
 
-
-        /// <inheritdoc/>
-        public object Start ()
+        public TOut Start<TOut> ( Func<TEntry, TOut> stackDigest )
             =>
-                this.Core.GetEntryPoint<IStackEntryPoint>().EntryPoint();
+                stackDigest.Invoke(this.Core.GetEntryPoint<TEntry>());
 
 
 
         public override string ToString ()
             =>
-                $"StackWrapper{{ {this.Core.instances.AllTypes().Count()} registered types; entry point: {this.Core.entryPoint.Name} }}";
-
-
-
-
-
+                $"StackWrapper<{typeof(TEntry).Name}>{{ {this.Core.instances.AllTypes().Count()} registered types }}";
 
 
         private bool disposed = false;
-
         public override void Dispose ()
         {
             if( !this.disposed )

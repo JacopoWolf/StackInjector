@@ -7,7 +7,7 @@ using StackInjector.Wrappers;
 namespace StackInjector.Settings
 {
     /// <summary>
-    /// Used to manage the behaviour of <see cref="IStackWrapper"/> and <see cref="IAsyncStackWrapper"/>
+    /// Used to manage the behaviour of <see cref="IStackWrapper{TEntry}"/> and <see cref="IAsyncStackWrapper{TEntry, TIn, TOut}"/>
     /// </summary>
     [Serializable]
     public sealed partial class StackWrapperSettings
