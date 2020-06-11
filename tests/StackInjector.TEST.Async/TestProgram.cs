@@ -50,8 +50,7 @@ namespace StackInjector.TEST.Async
         }
 
 
-        // this test is 5-10 milliseconds FASTER than the generic counterpart.
-        // I guess type safety really fastens it up a lot
+        //? this should be reworked
         [Test]
         public async Task TestGenericAsync()
         {
