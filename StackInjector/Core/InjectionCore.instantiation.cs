@@ -23,7 +23,7 @@ namespace StackInjector.Core
             this.instances.AddInstance(type, instance);
 
             // if true, track instantiated objects
-            if( this.settings.trackInstancesDiff )
+            if( this.settings._trackInstancesDiff )
                 this.instancesDiff.Add(instance);
 
             return instance;
@@ -53,7 +53,7 @@ namespace StackInjector.Core
         /// </summary>
         protected internal void RemoveInstancesDiff ()
         {
-            if( !this.settings.trackInstancesDiff )
+            if( !this.settings._trackInstancesDiff )
                 return;
 
             // ensures that two threads are not trying to Dispose and InjectAll at the same time
@@ -64,7 +64,7 @@ namespace StackInjector.Core
                     this.instances.RemoveInstance(instance.GetType(), instance);
 
                     // if the relative setting is true, check if the instance implements IDisposable and call it
-                    if( this.settings.callDisposeOnInstanceDiff && instance is IDisposable disposable )
+                    if( this.settings._callDisposeOnInstanceDiff && instance is IDisposable disposable )
                         disposable.Dispose();
                 }
 

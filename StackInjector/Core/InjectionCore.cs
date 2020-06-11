@@ -33,7 +33,7 @@ namespace StackInjector.Core
 
             this.instances = new SingleInstanceHolder();
 
-            if( this.settings.trackInstancesDiff )
+            if( this.settings._trackInstancesDiff )
                 this.instancesDiff = new List<object>();
         }
     }

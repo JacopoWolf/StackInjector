@@ -17,7 +17,18 @@ namespace StackInjector.Attributes
         /// <summary>
         /// How properties and fields of this service should be served
         /// </summary>
-        public ServingMethods Serving { get; set; } = Injector.Defaults.ServingMethod;
+        public ServingMethods Serving 
+        { 
+            get => this._serving; 
+            set 
+            { 
+                this._servingDefined = true; 
+                this._serving = value;  
+            } 
+        }
+
+        private ServingMethods _serving;
+        internal bool _servingDefined = false;
     }
 
 }

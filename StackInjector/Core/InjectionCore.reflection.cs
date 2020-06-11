@@ -42,14 +42,14 @@ namespace StackInjector.Core
         /// </summary>
         internal void ReadAssemblies ()
         {
-            if( this.settings.registerEntryPointAssembly )
-                this.settings.registredAssemblies.Add(this.entryPoint.Assembly);
+            if( this.settings._registerEntryPointAssembly )
+                this.settings._registredAssemblies.Add(this.entryPoint.Assembly);
 
             foreach
             (
                 var t in this
                 .settings
-                .registredAssemblies
+                ._registredAssemblies
                 .SelectMany
                 (
                     assembly =>
