@@ -2,7 +2,6 @@
 using StackInjector.Exceptions;
 using StackInjector.Settings;
 using StackInjector.Wrappers;
-using StackInjector.Wrappers.Generic;
 
 namespace StackInjector
 {

@@ -8,7 +8,7 @@ using StackInjector.Wrappers;
 
 namespace StackInjector.TEST.SimpleStack1.Services
 {
-    class ServiceCloningEntryPoint : IStackEntryPoint
+    class ServiceCloningEntryPoint
     {
         [Served]
         IThingsFilter Filter { get; set; }
@@ -34,7 +34,7 @@ namespace StackInjector.TEST.SimpleStack1.Services
                     .ToWrapper<WrappedConsumerEntryPoint>()
             )
             {
-                wrapper.Start();
+                wrapper.Start( e => e.EntryPoint() );
                 // at this point the wrapper will be disposed
             }
 
@@ -43,7 +43,7 @@ namespace StackInjector.TEST.SimpleStack1.Services
     }
 
 
-    class WrappedConsumerEntryPoint : IStackEntryPoint
+    class WrappedConsumerEntryPoint
     {
         [Served]
         IThingsConsumer Consumer { get; set; }

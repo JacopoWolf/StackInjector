@@ -1,5 +1,4 @@
 ﻿using StackInjector.Wrappers;
-using StackInjector.Wrappers.Generic;
 
 namespace StackInjector.Core.Cloning
 {
