@@ -8,7 +8,7 @@ namespace StackInjector.TEST.Versioning.Services
 {
 
     [Service(Version = 1.0)]
-    class EntryPointTestMinor : IStackEntryPoint
+    class EntryPointTestMinor
     {
         [Served(TargetVersion = 1.0)] 
         INiceFilter Answer { get; set; }
@@ -43,7 +43,7 @@ namespace StackInjector.TEST.Versioning.Services
     }
 
 
-    class EntryPointTestMajor : IStackEntryPoint
+    class EntryPointTestMajor
     {
         [Served]
         INiceFilter Bob { get; set; }

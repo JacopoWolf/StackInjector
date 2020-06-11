@@ -30,13 +30,15 @@ namespace StackInjector
             if( settings == null )
                 settings = StackWrapperSettings.Default;
 
+            // create the core and wrap it
             var core = new InjectionCore( settings )
-            {
-                entryPoint = typeof(T)
-            };
+                {
+                    entryPoint = typeof(T)
+                };
 
             var wrapper = new StackWrapper<T>(core);
 
+            // initialize the injection process
             core.ReadAssemblies();
             core.ServeAll();
 
@@ -65,17 +67,18 @@ namespace StackInjector
             if( settings == null )
                 settings = StackWrapperSettings.Default;
 
-            // create a new generic async wrapper
+            // create the core and wrap it
             var core = new InjectionCore( settings )
-            {
-                entryPoint = typeof(TEntry)
-            };
+                {
+                    entryPoint = typeof(TEntry)
+                };
 
             var wrapper = new AsyncStackWrapper<TEntry, TIn,TOut>(core)
-            {
-                StackDigest = digest
-            };
+                {
+                    StackDigest = digest
+                };
 
+            // initialize the injection process
             core.ReadAssemblies();
             core.ServeAll();
 

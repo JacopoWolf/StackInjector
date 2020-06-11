@@ -11,34 +11,25 @@ namespace StackInjector.TEST.SimpleStack1.Services
     class ServiceCloningEntryPoint
     {
         [Served]
-        IThingsFilter Filter { get; set; }
-
-        [Served]
         IStackWrapperCore Wrapper { get; set; }
 
-        public object EntryPoint ()
+        public void EntryPoint ()
         {
-            this.Filter.FilterThing("sas");
-
 
             var settings = 
                 this.Wrapper
                 .Settings
                 .TrackInstantiationDiff();
 
-            using
-            (
-                var wrapper =
-                    this.Wrapper
-                    .CloneCore(settings)
-                    .ToWrapper<WrappedConsumerEntryPoint>()
-            )
-            {
-                wrapper.Start( e => e.EntryPoint() );
-                // at this point the wrapper will be disposed
-            }
+            using var wrapper =
+                this.Wrapper
+                .CloneCore(settings)
+                .ToWrapper<WrappedConsumerEntryPoint>();
+           
+            wrapper.Start( e => e.EntryPoint("sas") );
 
-            return null;
+
+            // at this point the wrapper will be disposed
         }
     }
 
@@ -48,11 +39,9 @@ namespace StackInjector.TEST.SimpleStack1.Services
         [Served]
         IThingsConsumer Consumer { get; set; }
 
-        public object EntryPoint ()
+        public void EntryPoint ( string str = null )
         {
-            this.Consumer.ConsumeThing("sus");
-
-            return null;
+            this.Consumer.ConsumeThing( str ?? "sus");
         }
     }
 }

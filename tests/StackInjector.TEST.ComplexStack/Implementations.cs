@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using StackInjector.Attributes;
 using StackInjector.Core.Cloning;
 using StackInjector.Wrappers;
-using StackInjector.Wrappers.Generic;
-
 namespace StackInjector.TEST.ComplexStack
 {
 
@@ -44,7 +42,7 @@ namespace StackInjector.TEST.ComplexStack
 
             for( int i = 0; i < 20; i++ )
             {
-                var time = rnd.Next(0, 50);
+                var time = rnd.Next(0, 10);
 
                 this.asyncStack.Submit($"test{time}");
 
@@ -101,7 +99,7 @@ namespace StackInjector.TEST.ComplexStack
     }
     
     [Service]
-    class EmptyEnumApplication : IStackEntryPoint
+    class EmptyEnumApplication
     {
 
         [Served]

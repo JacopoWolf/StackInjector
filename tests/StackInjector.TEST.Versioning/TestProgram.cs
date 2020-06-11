@@ -15,7 +15,7 @@ namespace StackInjector.TEST.Versioning
                 .Default
                 .VersioningMethod(ServedVersionTargetingMethod.LatestMinor);
 
-            Injector.From<EntryPointTestMinor>( settings ).Start();
+            Injector.From<EntryPointTestMinor>( settings ).Start( e => e.EntryPoint() );
         }
 
         [Test]
@@ -26,7 +26,7 @@ namespace StackInjector.TEST.Versioning
                 .Default
                 .VersioningMethod(ServedVersionTargetingMethod.LatestMajor);
 
-            Injector.From<EntryPointTestMajor>( settings ).Start();
+            Injector.From<EntryPointTestMajor>( settings ).Start( e => e.EntryPoint() );
         }
 
 
