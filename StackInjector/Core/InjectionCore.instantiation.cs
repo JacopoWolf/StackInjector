@@ -9,11 +9,7 @@ namespace StackInjector.Core
 {
     internal partial class InjectionCore
     {
-        /// <summary>
-        /// Instantiates the specified [Served] type
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
+        // Instantiates the specified [Served] type
         private object InstantiateService ( Type type )
         {
             type = this.ClassOrFromInterface(type);
@@ -61,9 +57,7 @@ namespace StackInjector.Core
         }
 
 
-        /// <summary>
-        /// removes instances of the tracked instantiated types and call their Dispose method. Thread safe.
-        /// </summary>
+        // removes instances of the tracked instantiated types and call their Dispose method. Thread safe.
         protected internal void RemoveInstancesDiff ()
         {
             if( !this.settings._trackInstancesDiff )

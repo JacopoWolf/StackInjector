@@ -42,10 +42,8 @@ namespace StackInjector.Core
 
 
 
-        /// <summary>
-        /// retrieves the entry point of the specified type
-        /// </summary>
-        /// <returns></returns>
+
+        // retrieves the entry point of the specified type
         internal T GetEntryPoint<T> ()
         {
             return
