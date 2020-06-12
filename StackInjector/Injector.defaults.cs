@@ -16,7 +16,7 @@ namespace StackInjector
             /// <summary>
             /// The default serving method
             /// </summary>
-            public const ServingMethods ServingMethod =
+            public const ServingMethods ServeAllStrict =
                 ( ServingMethods.Fields | ServingMethods.Properties | ServingMethods.Strict);
 
             /// <summary>

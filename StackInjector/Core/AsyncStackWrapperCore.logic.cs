@@ -61,7 +61,7 @@ namespace StackInjector.Core
                 => this.emptyListAwaiter.WaitAsync();
 
 
-            switch( this.Settings.asyncWaitingMethod )
+            switch( this.Settings._asyncWaitingMethod )
             {
 
                 case AsyncWaitingMethod.Exit:
@@ -79,7 +79,7 @@ namespace StackInjector.Core
 
                 case AsyncWaitingMethod.Timeout:
                     var list = listAwaiter();
-                    var timeout = Task.Delay( this.Settings.asyncWaitTime );
+                    var timeout = Task.Delay( this.Settings._asyncWaitTime );
 
                     // if the timeout elapses first, then stop waiting
                     return (await Task.WhenAny(list, timeout).ConfigureAwait(true)) == timeout;

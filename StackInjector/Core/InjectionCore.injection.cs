@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using StackInjector.Attributes;
 using StackInjector.Settings;
 
@@ -19,7 +20,16 @@ namespace StackInjector.Core
         {
             var instantiated = new List<object>();
             var type = instance.GetType();
-            var serving = type.GetCustomAttribute<ServiceAttribute>()?.Serving ?? Injector.Defaults.ServingMethod;
+            var serviceAtt = type.GetCustomAttribute<ServiceAttribute>();
+
+            // if override is set to true, then use the settings's serving methods
+            // otherwise check if the type has a service attribute and
+            // if it's property has been defined.
+            var serving = ( this.settings._overrideServingMethod )
+                            ? this.settings._servingMethod
+                            : ( serviceAtt != null && serviceAtt._servingDefined )
+                                ? serviceAtt.Serving 
+                                : this.settings._servingMethod;
 
             // don't waste time serving if not necessary
             if( serving == ServingMethods.DoNotServe )
@@ -31,6 +41,7 @@ namespace StackInjector.Core
 
             if( serving.HasFlag(ServingMethods.Fields) )
                 this.InjectFields(type, instance, ref instantiated, onlyWithAttrib);
+
 
             if( serving.HasFlag(ServingMethods.Properties) )
                 this.InjectProperties(type, instance, ref instantiated, onlyWithAttrib);
@@ -94,7 +105,7 @@ namespace StackInjector.Core
         {
             if
             (
-                this.settings.serveEnumerables
+                this.settings._serveEnumerables
                 &&
                 type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)
             )

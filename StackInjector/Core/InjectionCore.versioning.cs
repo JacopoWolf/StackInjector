@@ -14,9 +14,9 @@ namespace StackInjector.Core
         {
 
             var targetVersion = servedAttribute?.TargetVersion ?? 0.0;
-            var method = ( this.settings.overrideTargetingMethod )
-                                ? this.settings.targetingMethod
-                                : servedAttribute?.TargetingMethod ?? this.settings.targetingMethod;
+            var method = ( this.settings._overrideTargetingMethod )
+                                ? this.settings._targetingMethod
+                                : servedAttribute?.TargetingMethod ?? this.settings._targetingMethod;
 
             var candidateTypes = this.instances.TypesAssignableFrom(targetType);
 

@@ -6,7 +6,7 @@ namespace StackInjector.Settings
     public sealed partial class StackWrapperSettings
     {
 
-        #region Assembly registration
+        #region registration
 
         /// <summary>
         /// register an external assembly from wich you want classes to be laoded
@@ -16,7 +16,7 @@ namespace StackInjector.Settings
         public StackWrapperSettings RegisterAssemblies ( params Assembly[] assemblies )
         {
             foreach( var assembly in assemblies )
-                this.registredAssemblies.Add(assembly);
+                this._registredAssemblies.Add(assembly);
             return this;
         }
 
@@ -28,7 +28,7 @@ namespace StackInjector.Settings
         /// <returns>the modified settings</returns>
         public StackWrapperSettings RegisterAssemblyOf<T> ()
         {
-            this.registredAssemblies.Add(typeof(T).Assembly);
+            this._registredAssemblies.Add(typeof(T).Assembly);
             return this;
         }
 
@@ -40,7 +40,7 @@ namespace StackInjector.Settings
         /// <returns>the modified settings</returns>
         public StackWrapperSettings RegisterEntryAssembly ( bool register = true )
         {
-            this.registerEntryPointAssembly = register;
+            this._registerEntryPointAssembly = register;
             return this;
         }
 
@@ -51,12 +51,14 @@ namespace StackInjector.Settings
         /// <returns>the modified settings</returns>
         public StackWrapperSettings RegisterWrapperAsService ( bool register = true )
         {
-            this.registerSelf = register;
+            this._registerSelf = register;
             return this;
         }
 
         #endregion
 
+
+        #region disposing
 
         /// <summary>
         /// Track every new instantiated class to be deleted upon Dispose.
@@ -66,37 +68,14 @@ namespace StackInjector.Settings
         /// <returns>the modified settings</returns>
         public StackWrapperSettings TrackInstantiationDiff ( bool track = true, bool callDispose = true )
         {
-            this.trackInstancesDiff = track;
-            this.callDisposeOnInstanceDiff = callDispose;
+            this._trackInstancesDiff = track;
+            this._callDisposeOnInstanceDiff = callDispose;
             return this;
         }
 
-        /// <summary>
-        /// Overrides default targetting method
-        /// </summary>
-        /// <param name="targetMethod">the new default targetting method</param>
-        /// <param name="override">if true, versioning methods for [Served] fields and properties are overriden</param>
-        /// <returns>the modified settings</returns>
-        public StackWrapperSettings VersioningMethod ( ServedVersionTargetingMethod targetMethod, bool @override = false )
-        {
-            this.targetingMethod = targetMethod;
-            this.overrideTargetingMethod = @override;
-            return this;
-        }
+        #endregion
 
-        /// <summary>
-        /// Allows <see cref="IEnumerable{T}"/> to be injected with a list of every service implementing T
-        /// </summary>
-        /// <param name="serve">if true, serve</param>
-        /// <returns>the modified settings</returns>
-        public StackWrapperSettings ServeIEnumerables ( bool serve = true )
-        {
-            this.serveEnumerables = serve;
-            return this;
-        }
-
-
-        #region Asynchronous settings
+        #region async
 
         /// <summary>
         /// What to do when an <see cref="Wrappers.IAsyncStackWrapper{TEntry, TIn, TOut}"/> 
@@ -107,13 +86,60 @@ namespace StackInjector.Settings
         /// <returns>the modified settings</returns>
         public StackWrapperSettings WhenNoMoreTasks ( AsyncWaitingMethod waitingMethod, int waitTime = 1000 )
         {
-            this.asyncWaitingMethod = waitingMethod;
-            this.asyncWaitTime = waitTime;
+            this._asyncWaitingMethod = waitingMethod;
+            this._asyncWaitTime = waitTime;
             return this;
         }
 
         #endregion
 
+
+        #region injection
+
+        /// <summary>
+        /// Overrides default targetting method
+        /// </summary>
+        /// <param name="targetMethod">the new default targetting method</param>
+        /// <param name="override">if true, versioning methods for [Served] fields and properties are overriden</param>
+        /// <returns>the modified settings</returns>
+        public StackWrapperSettings InjectionVersioningMethod ( ServedVersionTargetingMethod targetMethod, bool @override = false )
+        {
+            this._targetingMethod = targetMethod;
+            this._overrideTargetingMethod = @override;
+            return this;
+        }
+
+        /// <summary>
+        /// Overrides default serving method
+        /// </summary>
+        /// <param name="methods">the new default serving method for all services</param>
+        /// <param name="override">if true, serving methods for [Service] calsses are overridden with the specified one</param>
+        /// <returns>the modified settings</returns>
+        public StackWrapperSettings InjectionServingMethods ( ServingMethods methods, bool @override = false )
+        {
+            this._servingMethod = methods;
+            this._overrideServingMethod = @override;
+            return this;
+        }
+
+        #endregion
+
+
+
+        #region features 
+
+        /// <summary>
+        /// Allows <see cref="IEnumerable{T}"/> to be injected with a list of every service implementing T
+        /// </summary>
+        /// <param name="serve">if true, serve</param>
+        /// <returns>the modified settings</returns>
+        public StackWrapperSettings ServeIEnumerables ( bool serve = true )
+        {
+            this._serveEnumerables = serve;
+            return this;
+        }
+
+        #endregion
 
     }
 }
