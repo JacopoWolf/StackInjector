@@ -1,9 +1,9 @@
 ﻿using System;
 using NUnit.Framework;
 using StackInjector.Exceptions;
-using StackInjector.TEST.SimpleStack1.Services;
+using StackInjector.TEST.SimpleStack.Services;
 
-namespace StackInjector.TEST.SimpleStack1
+namespace StackInjector.TEST.SimpleStack
 {
 
     // This whole project works as core for the testing-oriented development of the core of this library
@@ -43,6 +43,20 @@ namespace StackInjector.TEST.SimpleStack1
                     }
                 );
         }
+
+        [Test]
+        public void BadEntryPoint()
+        {
+            Assert.Throws
+                (
+                    typeof(InvalidEntryTypeException),
+                    () =>
+                    {
+                        Injector.From<BadEntryPointGenerator>();
+                    }
+                );
+        }
+
 
         [Test]
         public void AccessWrapper()
