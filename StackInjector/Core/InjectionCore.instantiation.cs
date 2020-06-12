@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using StackInjector.Attributes;
 using StackInjector.Exceptions;
+using StackInjector.Settings;
 
 namespace StackInjector.Core
 {
@@ -32,19 +33,31 @@ namespace StackInjector.Core
 
         private object OfTypeOrInstantiate ( Type type )
         {
-            if( type.GetCustomAttribute<ServiceAttribute>() == null )
+            var serviceAtt = type.GetCustomAttribute<ServiceAttribute>();
+
+            // manage exceptions
+            if( serviceAtt == null )
                 throw new NotAServiceException(type, $"The type {type.FullName} is not annotated with [Service]");
 
             if( !this.instances.ContainsType(type) )
                 throw new ClassNotFoundException(type, $"The type {type.FullName} is not in a registred assembly!");
 
 
-            var instanceOfType = this.instances.OfType(type).First();
+            switch ( serviceAtt.Pattern )
+            {
+                default:
+                case InstantiationPattern.Singleton:
+                    var instanceOfType = this.instances.OfType(type).First();
 
-            if( instanceOfType is null )
-                return this.InstantiateService(type);
-            else
-                return instanceOfType;
+                    return ( instanceOfType is null ) 
+                            ? this.InstantiateService(type) 
+                            : instanceOfType;
+
+                // always create doesn't track instantiated classes
+                case InstantiationPattern.AlwaysCreate:
+                    return this.InstantiateService(type);
+            }
+
         }
 
 

@@ -114,7 +114,6 @@ namespace StackInjector.Core
                 var generic = type.GetGenericArguments()[0];
                 // list of sorted valid types
                 var validTypes = this.Version( generic, servedAttribute ).ToArray();
-                ////this.instances.TypesAssignableFrom(generic).ToArray();
 
                 // creates generic list using reflection
                 var listType = typeof(List<>).MakeGenericType(generic);
