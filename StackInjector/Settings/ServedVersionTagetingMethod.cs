@@ -1,7 +1,7 @@
 ﻿namespace StackInjector.Settings
 {
     /// <summary>
-    /// Type of version targetting. If the condition is unsatisfied, throw an exception and consider the injection failed
+    /// Type of version targetting. If the condition is unsatisfied, throw an exception and consider the injection failed.
     /// </summary>
     public enum ServedVersionTargetingMethod
     {

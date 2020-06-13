@@ -36,7 +36,7 @@ namespace StackInjector.Core
                 throw new NotAServiceException(type, $"The type {type.FullName} is not annotated with [Service]");
 
             if( !this.instances.ContainsType(type) )
-                throw new ClassNotFoundException(type, $"The type {type.FullName} is not in a registred assembly!");
+                throw new ServiceNotFoundException(type, $"The type {type.FullName} is not in a registred assembly!");
 
 
             switch ( serviceAtt.Pattern )

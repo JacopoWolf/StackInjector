@@ -4,7 +4,7 @@ namespace StackInjector.Core.Cloning
 {
 
     /// <summary>
-    /// Allows for a wrapper to have its core cloned.
+    /// Clone the core of this wrapper.
     /// </summary>
     public interface ICloneableCore
     {

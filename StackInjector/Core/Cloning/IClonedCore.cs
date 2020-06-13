@@ -3,7 +3,7 @@
 namespace StackInjector.Core.Cloning
 {
     /// <summary>
-    /// A cloned structure of a wrapper.
+    /// A cloned core of a wrapper.
     /// </summary>
     public interface IClonedCore
     {
