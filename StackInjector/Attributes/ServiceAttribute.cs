@@ -4,13 +4,13 @@ using StackInjector.Settings;
 namespace StackInjector.Attributes
 {
     /// <summary>
-    /// Indicates this class can be used as a Service
+    /// Allows a class to be used a service for other classes.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
     public sealed class ServiceAttribute : Attribute
     {
         /// <summary>
-        /// The version of this service implementation
+        /// The version of this service.
         /// </summary>
         public double Version { get; set; } = -0.0;
 
@@ -21,7 +21,7 @@ namespace StackInjector.Attributes
 
 
         /// <summary>
-        /// How properties and fields of this service should be served
+        /// How properties and fields of this service should be injected.
         /// </summary>
         public ServingMethods Serving 
         { 

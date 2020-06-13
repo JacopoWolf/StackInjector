@@ -3,9 +3,9 @@
 namespace StackInjector.Exceptions
 {
     /// <summary>
-    /// Thrown when the entry point is invalid
+    /// Thrown when the entry point is invalid.
     /// </summary>
-    public class InvalidEntryTypeException : ClassException
+    public class InvalidEntryTypeException : StackInjectorException
     {
         internal InvalidEntryTypeException ()
         {

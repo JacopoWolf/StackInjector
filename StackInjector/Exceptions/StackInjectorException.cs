@@ -4,19 +4,18 @@ using System.Reflection;
 namespace StackInjector.Exceptions
 {
     /// <summary>
-    /// Base class for all 
+    /// Base class for every StackWrapper exception
     /// </summary>
     public abstract class StackInjectorException : Exception
     {
         /// <summary>
-        /// the assembly who thew this exception
+        /// The source class of the exception
         /// </summary>
-        public Assembly SourceAssembly { get; private protected set; } = null;
+        public Type ClassType { get; private protected set; } = null;
 
-
-        internal StackInjectorException ( Assembly assembly, string message ) : this(message)
+        internal StackInjectorException ( Type assembly, string message ) : this(message)
         {
-            this.SourceAssembly = assembly;
+            this.ClassType = assembly;
         }
 
         internal StackInjectorException () : base() { }

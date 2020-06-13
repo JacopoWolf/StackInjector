@@ -3,13 +3,13 @@
 namespace StackInjector.Exceptions
 {
     /// <summary>
-    /// thrown when the specified class is NOT a [Service]
+    /// Thrown when the specified class is NOT a marked with <see cref="Attributes.ServiceAttribute"/>.
     /// </summary>
-    public class NotAServiceException : ClassException
+    public class NotAServiceException : StackInjectorException
     {
         internal NotAServiceException ()
         {
-
+            
         }
 
         internal NotAServiceException ( Type type, string message ) : base(type, message)

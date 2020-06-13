@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace StackInjector.Core
 {
     /// <summary>
-    /// base interface for all asyncronous stackwrappers.
+    /// Base interface for all asyncronous stackwrappers.
     /// </summary>
     /// <typeparam name="T">the type tasks will return</typeparam>
     public interface IAsyncStackWrapperCore<T> : IStackWrapperCore

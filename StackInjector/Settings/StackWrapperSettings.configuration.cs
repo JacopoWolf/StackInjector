@@ -9,7 +9,7 @@ namespace StackInjector.Settings
         #region registration
 
         /// <summary>
-        /// register an external assembly from wich you want classes to be laoded
+        /// Register an external assembly from wich you want classes to be laoded.
         /// </summary>
         /// <param name="assemblies"></param>
         /// <returns>the modified settings</returns>
@@ -33,8 +33,8 @@ namespace StackInjector.Settings
         }
 
         /// <summary>
-        /// <para>register the entry point assembly when Starting.</para>
-        /// <para>If set, there is no need to specify the entry assembly in <see cref="RegisterAssemblyOf{T}"/></para>
+        /// <para>Register the entry point assembly when starting.</para>
+        /// <para>If set, there is no need to specify the entry assembly in <see cref="RegisterAssemblyOf{T}"/>.</para>
         /// <para>Default is true.</para>
         /// </summary>
         /// <returns>the modified settings</returns>
