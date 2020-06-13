@@ -6,7 +6,7 @@ using StackInjector.Attributes;
 using StackInjector.Core;
 using StackInjector.Wrappers;
 
-namespace StackInjector.TEST.SimpleStack1.Services
+namespace StackInjector.TEST.SimpleStack.Services
 {
     class ServiceCloningEntryPoint
     {

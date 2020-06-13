@@ -9,7 +9,7 @@ namespace StackInjector.Core
 {
     internal partial class InjectionCore
     {
-
+        // performs versioning on the specified type
         private IEnumerable<Type> Version ( Type targetType, ServedAttribute servedAttribute )
         {
 

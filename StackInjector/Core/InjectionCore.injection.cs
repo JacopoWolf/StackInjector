@@ -11,11 +11,8 @@ namespace StackInjector.Core
 {
     internal partial class InjectionCore
     {
-        /// <summary>
-        /// Injects services into the specified instance, instantiating them on necessity.
-        /// </summary>
-        /// <param name="instance"></param>
-        /// <returns></returns>
+
+        // Injects services into the specified instance, instantiating them on necessity.
         private IEnumerable<object> InjectServicesInto ( object instance )
         {
             var instantiated = new List<object>();
@@ -98,9 +95,7 @@ namespace StackInjector.Core
         }
 
 
-        /// <summary>
-        /// returns the instantiated object 
-        /// </summary>
+        // returns the instantiated object 
         private object InstTypeOrServiceEnum ( Type type, ServedAttribute servedAttribute, ref List<object> instantiated )
         {
             if
@@ -114,7 +109,6 @@ namespace StackInjector.Core
                 var generic = type.GetGenericArguments()[0];
                 // list of sorted valid types
                 var validTypes = this.Version( generic, servedAttribute ).ToArray();
-                ////this.instances.TypesAssignableFrom(generic).ToArray();
 
                 // creates generic list using reflection
                 var listType = typeof(List<>).MakeGenericType(generic);

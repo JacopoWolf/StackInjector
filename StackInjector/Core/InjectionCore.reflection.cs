@@ -8,14 +8,8 @@ namespace StackInjector.Core
 {
     internal partial class InjectionCore
     {
-        /// <summary>
-        /// Returns type if it's a [Service] class,
-        /// otherwise searches for a [Service] implementing the specified interface
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="servedAttribute"></param>
-        /// <returns></returns>
-        /// <exception cref="ImplementationNotFoundException"></exception>
+        // Returns type if it's a [Service] class,
+        // otherwise searches for a [Service] implementing the specified interface
         private Type ClassOrFromInterface ( Type type, ServedAttribute servedAttribute = null )
         {
             if( type.IsInterface )
@@ -37,13 +31,12 @@ namespace StackInjector.Core
         }
 
 
-        /// <summary>
-        /// reads all [Service] classes 
-        /// </summary>
+
+        // reads all [Service] classes 
         internal void ReadAssemblies ()
         {
             if( this.settings._registerEntryPointAssembly )
-                this.settings._registredAssemblies.Add(this.entryPoint.Assembly);
+                this.settings._registredAssemblies.Add(this.EntryPoint.Assembly);
 
             foreach
             (

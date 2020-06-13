@@ -15,6 +15,12 @@ namespace StackInjector.Attributes
         public double Version { get; set; } = -0.0;
 
         /// <summary>
+        /// The instantiation pattern for this service.
+        /// </summary>
+        public InstantiationPattern Pattern { get; set; } = InstantiationPattern.Singleton;
+
+
+        /// <summary>
         /// How properties and fields of this service should be served
         /// </summary>
         public ServingMethods Serving 

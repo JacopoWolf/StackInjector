@@ -3,7 +3,7 @@ using StackInjector.Attributes;
 using StackInjector;
 using StackInjector.Core;
 
-namespace StackInjector.TEST.SimpleStack1.Services
+namespace StackInjector.TEST.SimpleStack.Services
 {
     internal interface IThingsGenerator
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using StackInjector.Attributes;
 
-namespace StackInjector.TEST.SimpleStack1.Services
+namespace StackInjector.TEST.SimpleStack.Services
 {
     internal interface IThingsConsumer
     {
