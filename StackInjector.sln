@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StackInjector", "StackInjector\StackInjector.csproj", "{FF8663EB-B6F5-41B1-A99E-758E446D5E39}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StackInjector.TEST.BlackBox", "tests\StackInjector.TEST.BlackBox\StackInjector.TEST.BlackBox.csproj", "{6AE7F918-D84F-4AEC-A49F-A232DB8F442F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StackInjector.TEST.ExternalAssembly", "tests\StackInjector.TEST.ExternalAssembly\StackInjector.TEST.ExternalAssembly.csproj", "{BCCEE1DD-59FB-4A11-8D48-6213C2D750CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{FF8663EB-B6F5-41B1-A99E-758E446D5E39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF8663EB-B6F5-41B1-A99E-758E446D5E39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF8663EB-B6F5-41B1-A99E-758E446D5E39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AE7F918-D84F-4AEC-A49F-A232DB8F442F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AE7F918-D84F-4AEC-A49F-A232DB8F442F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AE7F918-D84F-4AEC-A49F-A232DB8F442F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AE7F918-D84F-4AEC-A49F-A232DB8F442F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCCEE1DD-59FB-4A11-8D48-6213C2D750CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCCEE1DD-59FB-4A11-8D48-6213C2D750CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCCEE1DD-59FB-4A11-8D48-6213C2D750CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCCEE1DD-59FB-4A11-8D48-6213C2D750CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
