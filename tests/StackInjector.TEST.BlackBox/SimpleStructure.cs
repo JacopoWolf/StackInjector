@@ -1,16 +1,13 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
 using StackInjector.Attributes;
 using StackInjector.Core;
 using StackInjector.Core.Cloning;
 using StackInjector.Settings;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StackInjector.TEST.BlackBox.SimpleStructure
 {
 
-// set as readonly, unused field
+    // set as readonly, unused field
 #pragma warning disable CS0649, IDE0044, IDE0051
 
     /*
@@ -20,30 +17,30 @@ namespace StackInjector.TEST.BlackBox.SimpleStructure
 
     #region base
 
-    interface IBase { int Logic (); }
+    internal interface IBase { int Logic (); }
 
     [Service(Version = 1.0)]
-    class Base : IBase
+    internal class Base : IBase
     {
         [Served]
-        Level1A level1A;
+        private Level1A level1A;
 
         [Served]
-        Level1B level1B;
+        private Level1B level1B;
 
         public int Logic () => (this.level1A.Logic + 5) + this.level1B.Logic;
     }
 
 
     [Service(Version = 2.0)]
-    class VersionedBase
+    internal class VersionedBase
     {
         [Served(TargetingMethod = ServedVersionTargetingMethod.Exact, TargetVersion = 1.2)]
         public ILevel1 level1;
     }
 
     [Service]
-    class ForgotTheServedAttributeBase
+    internal class ForgotTheServedAttributeBase
     {
         public Level1A level1A;
 
@@ -53,7 +50,7 @@ namespace StackInjector.TEST.BlackBox.SimpleStructure
     }
 
     [Service]
-    class AccessWrapperBase
+    internal class AccessWrapperBase
     {
         [Served]
         public ICloneableCore wrapper;
@@ -64,7 +61,7 @@ namespace StackInjector.TEST.BlackBox.SimpleStructure
     }
 
     [Service]
-    class AllLevel1Base
+    internal class AllLevel1Base
     {
         [Served]
         public IEnumerable<ILevel1> level1s;
@@ -75,30 +72,30 @@ namespace StackInjector.TEST.BlackBox.SimpleStructure
 
     #region level 1
 
-    interface ILevel1 { int Logic { get; } }
+    internal interface ILevel1 { int Logic { get; } }
 
     [Service(Version = 1.1)]
-    class Level1A : ILevel1
+    internal class Level1A : ILevel1
     {
         [Served]
-        Level2 level2;
+        private Level2 level2;
 
         [Ignored]
         public int Logic => this.level2.Logic2 + 15;
     }
 
     [Service(Version = 1.2)]
-    class Level1B : ILevel1
+    internal class Level1B : ILevel1
     {
         [Served]
-        Level2 level2;
+        private Level2 level2;
 
         [Ignored]
         public int Logic => this.level2.Logic2 + 20;
     }
 
     [Service(Version = 5.0)]
-    class Level1LatestVersion : ILevel1
+    internal class Level1LatestVersion : ILevel1
     {
         [Ignored]
         public int Logic => 123;
@@ -108,10 +105,10 @@ namespace StackInjector.TEST.BlackBox.SimpleStructure
 
     #region level 2
 
-    interface ILevel2 { int Logic2 { get; } }
+    internal interface ILevel2 { int Logic2 { get; } }
 
     [Service(Version = 1.0)]
-    class Level2 : ILevel2
+    internal class Level2 : ILevel2
     {
         [Ignored]
         public int Logic2 => 1;

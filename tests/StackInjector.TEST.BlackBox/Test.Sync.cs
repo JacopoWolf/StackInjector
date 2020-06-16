@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using NUnit.Framework;
 using StackInjector.Attributes;
 using StackInjector.Settings;
@@ -69,9 +68,9 @@ namespace StackInjector.TEST.BlackBox
         }
 
 
-        [Service] private class ReferenceLoopA { [Served] public ReferenceLoopB loopB; }
+        [Service] private class ReferenceLoopA {[Served] public ReferenceLoopB loopB; }
 
-        [Service] private class ReferenceLoopB { [Served] public ReferenceLoopA loopA; }
+        [Service] private class ReferenceLoopB {[Served] public ReferenceLoopA loopA; }
 
         [Test]
         public void CircularReference ()
@@ -109,10 +108,10 @@ namespace StackInjector.TEST.BlackBox
 
             var cloneWrapper = wrapper.Entry.Clone();
 
-            CollectionAssert.AreEquivalent( wrapper.GetServices<object>(), cloneWrapper.GetServices<object>() );
+            CollectionAssert.AreEquivalent(wrapper.GetServices<object>(), cloneWrapper.GetServices<object>());
         }
 
-        
+
         [Test]
         public void ServeEnum ()
         {
@@ -121,7 +120,7 @@ namespace StackInjector.TEST.BlackBox
             CollectionAssert.AreEquivalent
                 (
                     new Type[] { typeof(Level1A), typeof(Level1B), typeof(Level1LatestVersion) },
-                    injected.Select( i => i.GetType() ) 
+                    injected.Select(i => i.GetType())
                 );
         }
 

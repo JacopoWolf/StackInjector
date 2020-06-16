@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
 using StackInjector.Attributes;
 using StackInjector.Exceptions;
@@ -34,7 +33,7 @@ namespace StackInjector.TEST.BlackBox
 
 
         [Test]
-        public void ExternalAssemblyReference()
+        public void ExternalAssemblyReference ()
         {
             var settings =
                 StackWrapperSettings.Default
