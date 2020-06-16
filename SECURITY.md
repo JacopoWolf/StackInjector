@@ -3,19 +3,25 @@
 ## Supported Versions
 
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 2.x     | :white_check_mark: |
-| 1.x     | :o2:               |
+| Version | Supported               |
+| ------- | ----------------------- |
+| 3.x     | :construction:          |
+| 2.3     | :ballot_box_with_check: |
+| 1.1     | :no_entry:              |
 
 
-:white_check_mark: LTS version
+---
 
-:ballot_box_with_check: supported
 
-:o2: not supported
+:white_check_mark: supported
 
-:no_entry: not supported with critical bugs
+:ballot_box_with_check: supported, end of life
+
+:construction: under development
+
+:o2: NOT supported
+
+:no_entry: NOT supported, critical bugs
 
 ## Reporting a Vulnerability
 
