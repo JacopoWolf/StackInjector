@@ -58,7 +58,7 @@ Or visit the [Nuget page](https://www.nuget.org/packages/StackInjector) for more
 
 ## Usage
 
-In-depth tutorials and explanations can be found in the [wiki tutorials section](https://github.com/JacopoWolf/StackInjector/wiki/Tutorial_Introduction)
+In-depth tutorials and explanations can be found in the [wiki](https://github.com/JacopoWolf/StackInjector/wiki)
 
 ---
 
@@ -84,7 +84,7 @@ class SimpleFooFilter : IFooFilter
     // if you want them injected
 
     [Served]
-    IDatabaseAccess database { get; set; }
+    IDatabaseAccess Database { get; set; }
     
     // works with properties too!
     [Served]
@@ -105,7 +105,7 @@ Everything **must** have an attribute, allowing for **extremely readable code** 
 
 --- 
 
-You then have multiple options on how you want to initialize your application! 
+You then have multiple options on how you want to initialize your application, and every single one of them type-safe!
 
 ```cs
 using StackInjector;
@@ -113,39 +113,25 @@ using StackInjector;
 
 **synchronous**
 ```cs
-Injector.From<IMyAppEntryPoint>().Start();
+Injector.From<IMyAppEntryPoint>().Start( app => app.Work() );
+```
+or 
+```cs
+Injector.From<IMyAppEntryPoint>().Entry.Work();
 ```
 
 **asynchronous**
 ```cs
-// using allows for safe disposing of the resources when no more needed
-using var app = Injector.AsyncFrom<MyAsyncAppEntryPoint>();
+// the using keyword allows for safe disposing of the resources
+using var app = Injector.AsyncFrom<MyAsyncAppEntryPoint>( (e,i,t) => e.Elaborate(i,t) );
 
 // can be called from anywhere and guarantee consistency
 app.Submit( someInput );
 
-// waiting for completed tasks is as simple as an await foreach loop
-await foreach ( var result in app.Elaborated<string>() )
+// waiting for completed tasks is this simple
+await foreach ( var result in app.Elaborated() )
     Console.WriteLine( result );
 ```
-
-**generics**
-
-For users who do care about type safety, there are also generic options! Both synchronous and asynchronous.
-
-```cs
-// generic asynchronous wrapper
-using var app = 
-    Injector.AsyncFrom<MyAsyncAppEntryPoint,string,int>
-        (
-            async (entryPoint,element,cancellationToken)
-                => await entryPoint.MyCustomLogic(element)
-        );
-```
-
----
-
-For **more** information and in-depth **tutorials**, look at the simple tutorials in the [wiki](https://github.com/JacopoWolf/StackInjector/wiki)
 
 
 
