@@ -16,11 +16,11 @@ namespace StackInjector.Wrappers
 
         public void Start ( Action<TEntry> stackDigest )
             =>
-                stackDigest.Invoke(this.Core.GetEntryPoint<TEntry>());
+                stackDigest.Invoke(this.Entry);
 
         public TOut Start<TOut> ( Func<TEntry, TOut> stackDigest )
             =>
-                stackDigest.Invoke(this.Core.GetEntryPoint<TEntry>());
+                stackDigest.Invoke(this.Entry);
 
 
 

@@ -12,9 +12,9 @@ namespace StackInjector.Exceptions
         /// </summary>
         public Type ClassType { get; private protected set; } = null;
 
-        internal StackInjectorException ( Type assembly, string message ) : this(message)
+        internal StackInjectorException ( Type type, string message ) : this(message)
         {
-            this.ClassType = assembly;
+            this.ClassType = type;
         }
 
         internal StackInjectorException () : base() { }

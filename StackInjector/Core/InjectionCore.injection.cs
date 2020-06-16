@@ -20,7 +20,7 @@ namespace StackInjector.Core
 
             // if override is set to true, then use the settings's serving methods
             // otherwise check if the type has a service attribute and
-            // if it's property has been defined.
+            // if its property has been defined.
             var serving = ( this.settings._overrideServingMethod )
                             ? this.settings._servingMethod
                             : ( serviceAtt != null && serviceAtt._servingDefined )
