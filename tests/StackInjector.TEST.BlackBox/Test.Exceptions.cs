@@ -8,10 +8,12 @@ using StackInjector.TEST.ExternalAssembly;
 
 namespace StackInjector.TEST.BlackBox
 {
+
 #pragma warning disable IDE0051, IDE0044, CS0169, CS0649
 
     internal class TestExceptions
     {
+
         private class BaseNotAServiceThrower {[Served] private List<int> integers; }
 
         [Test]
@@ -20,13 +22,16 @@ namespace StackInjector.TEST.BlackBox
             Assert.Throws<NotAServiceException>(() => Injector.From<BaseNotAServiceThrower>());
         }
 
+
         // references class in unregistred external assembly
         private class BaseServiceNotFoundThrower {[Served] public Externalclass externalClass; }
+
         [Test]
         public void ThrowsServiceNotFound ()
         {
             Assert.Throws<ServiceNotFoundException>(() => Injector.From<BaseServiceNotFoundThrower>());
         }
+
 
         [Test]
         public void ExternalAssemblyReference()
@@ -50,5 +55,13 @@ namespace StackInjector.TEST.BlackBox
             Assert.Throws<ImplementationNotFoundException>(() => Injector.From<BaseNoImplementationThrower>());
         }
 
+
+        [Service(Pattern = InstantiationPattern.AlwaysCreate)] private class InvalidEntryTypeThrower { }
+
+        [Test]
+        public void ThrowsInvalidEntryType ()
+        {
+            Assert.Throws<InvalidEntryTypeException>(() => Injector.From<InvalidEntryTypeThrower>());
+        }
     }
 }

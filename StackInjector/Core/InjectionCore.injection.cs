@@ -53,7 +53,8 @@ namespace StackInjector.Core
         private void InjectFields ( Type type, object instance, ref List<object> instantiated, bool hasAttribute )
         {
             IEnumerable<FieldInfo> fields =
-                    type.GetFields( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
+                    type.GetFields( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance )
+                    .Where( f => f.GetCustomAttribute<IgnoredAttribute>() is null ); ;
 
             if( hasAttribute )
                 fields = fields.Where(field => field.GetCustomAttribute<ServedAttribute>() != null);
@@ -75,7 +76,8 @@ namespace StackInjector.Core
         private void InjectProperties ( Type type, object instance, ref List<object> instantiated, bool hasAttribute )
         {
             IEnumerable<PropertyInfo> properties =
-                    type.GetProperties( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
+                    type.GetProperties( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance )
+                    .Where( p => p.GetCustomAttribute<IgnoredAttribute>() is null );
 
             if( hasAttribute )
                 properties = properties.Where(property => property.GetCustomAttribute<ServedAttribute>() != null);

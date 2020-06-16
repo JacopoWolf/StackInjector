@@ -1,4 +1,5 @@
-﻿using StackInjector.Attributes;
+﻿using NUnit.Framework;
+using StackInjector.Attributes;
 using StackInjector.Settings;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,15 @@ namespace StackInjector.TEST.BlackBox.SimpleStructure
         public ILevel1 level1;
     }
 
+    [Service]
+    class ForgotTheServedAttributeBase
+    {
+        public Level1A level1A;
+
+        public Level1B Level1B { get; set; }
+
+        public int SomeMethod () => this.level1A.Logic + this.Level1B.Logic;
+    }
 
 
     #endregion
@@ -52,6 +62,8 @@ namespace StackInjector.TEST.BlackBox.SimpleStructure
     {
         [Served]
         Level2 level2;
+
+        [Ignored]
         public int Logic => this.level2.Logic2 + 15;
     }
 
@@ -61,12 +73,14 @@ namespace StackInjector.TEST.BlackBox.SimpleStructure
         [Served]
         Level2 level2;
 
+        [Ignored]
         public int Logic => this.level2.Logic2 + 20;
     }
 
     [Service(Version = 5.0)]
     class Level1LatestVersion : ILevel1
     {
+        [Ignored]
         public int Logic => 123;
     }
 
@@ -79,6 +93,7 @@ namespace StackInjector.TEST.BlackBox.SimpleStructure
     [Service(Version = 1.0)]
     class Level2 : ILevel2
     {
+        [Ignored]
         public int Logic2 => 1;
     }
 
