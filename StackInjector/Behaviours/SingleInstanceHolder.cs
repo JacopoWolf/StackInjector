@@ -19,8 +19,8 @@ namespace StackInjector.Behaviours
             => this.objects[type] = instance;
 
         public void RemoveInstance ( Type type, object instance )
-        { 
-            this.objects[type] = null; 
+        {
+            this.objects[type] = null;
             this.injected.Remove(instance);
         }
 

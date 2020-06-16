@@ -32,9 +32,9 @@ namespace StackInjector
 
             // create the core and wrap it
             var core = new InjectionCore( settings )
-                {
-                    EntryPoint = typeof(T)
-                };
+            {
+                EntryPoint = typeof(T)
+            };
 
             var wrapper = new StackWrapper<T>(core);
 
@@ -74,14 +74,14 @@ namespace StackInjector
 
             // create the core and wrap it
             var core = new InjectionCore( settings )
-                {
-                    EntryPoint = typeof(TEntry)
-                };
+            {
+                EntryPoint = typeof(TEntry)
+            };
 
             var wrapper = new AsyncStackWrapper<TEntry, TIn,TOut>(core)
-                {
-                    StackDigest = digest
-                };
+            {
+                StackDigest = digest
+            };
 
             // initialize the injection process
             core.ReadAssemblies();

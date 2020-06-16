@@ -16,10 +16,10 @@ namespace StackInjector.Core
     {
         // entry point object of this core
         private Type _entryPoint;
-        internal Type EntryPoint 
-        { 
-            get 
-                => this._entryPoint; 
+        internal Type EntryPoint
+        {
+            get
+                => this._entryPoint;
             set
             {
                 var serviceAtt = value.GetCustomAttribute<ServiceAttribute>();

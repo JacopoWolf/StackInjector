@@ -11,6 +11,11 @@ namespace StackInjector.Wrappers
 
         public AsyncStackDigest<TEntry, TIn, TOut> StackDigest { get; internal set; }
 
+        public TEntry Entry
+            =>
+                this.Core.GetEntryPoint<TEntry>();
+
+
         public AsyncStackWrapper ( InjectionCore core ) : base(core, typeof(AsyncStackWrapper<TEntry, TIn, TOut>))
         { }
 
