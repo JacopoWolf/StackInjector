@@ -23,14 +23,14 @@ namespace StackInjector.Attributes
         /// <summary>
         /// How properties and fields of this service should be injected.
         /// </summary>
-        public ServingMethods Serving 
-        { 
-            get => this._serving; 
-            set 
-            { 
-                this._servingDefined = true; 
-                this._serving = value;  
-            } 
+        public ServingMethods Serving
+        {
+            get => this._serving;
+            set
+            {
+                this._servingDefined = true;
+                this._serving = value;
+            }
         }
 
         private ServingMethods _serving;

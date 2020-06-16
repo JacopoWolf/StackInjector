@@ -30,7 +30,7 @@ namespace StackInjector.Wrappers
     /// <typeparam name="TEntry"></typeparam>
     /// <typeparam name="TIn">type submitted to the digest function</typeparam>
     /// <typeparam name="TOut">return type of the Digest function</typeparam>
-    public interface IAsyncStackWrapper<TEntry, in TIn, TOut> : IAsyncStackWrapperCore<TOut>
+    public interface IAsyncStackWrapper<TEntry, in TIn, TOut> : IAsyncStackWrapperCore<TOut>, IEntryGetter<TEntry>
     {
         /// <summary>
         /// <para>Called to elaborate submitted items.</para>

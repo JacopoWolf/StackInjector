@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using StackInjector.Attributes;
 using StackInjector.Core;
 using StackInjector.Settings;
@@ -26,12 +24,20 @@ namespace StackInjector.Wrappers
 
 
 
+        public TEntry Entry
+            =>
+                this.Core.GetEntryPoint<TEntry>();
+
+
+
         public override string ToString ()
             =>
                 $"StackWrapper<{typeof(TEntry).Name}>{{ {this.Core.instances.AllTypes().Count()} registered types }}";
 
 
+
         private bool disposed = false;
+
         public override void Dispose ()
         {
             if( !this.disposed )

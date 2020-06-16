@@ -9,7 +9,7 @@ namespace StackInjector.Exceptions
     {
         internal NotAServiceException ()
         {
-            
+
         }
 
         internal NotAServiceException ( Type type, string message ) : base(type, message)

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using StackInjector.Core;
 
 namespace StackInjector.Wrappers
@@ -9,7 +7,7 @@ namespace StackInjector.Wrappers
     /// Wraps a stack of auto injected classes from the specific entry point.
     /// </summary>
     /// <typeparam name="TEntry">The entry point of the stack</typeparam>
-    public interface IStackWrapper<TEntry> : IStackWrapperCore
+    public interface IStackWrapper<TEntry> : IStackWrapperCore, IEntryGetter<TEntry>
     {
         /// <summary>
         /// call the function you prefer on your entry point 
@@ -24,6 +22,5 @@ namespace StackInjector.Wrappers
         /// <param name="stackDigest">the method to call on the entry instance</param>
         /// <returns>The object returned by the called function</returns>
         TOut Start<TOut> ( Func<TEntry, TOut> stackDigest );
-
     }
 }

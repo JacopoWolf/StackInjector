@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using StackInjector.Attributes;
 using StackInjector.Settings;
 
@@ -25,7 +24,7 @@ namespace StackInjector.Core
             var serving = ( this.settings._overrideServingMethod )
                             ? this.settings._servingMethod
                             : ( serviceAtt != null && serviceAtt._servingDefined )
-                                ? serviceAtt.Serving 
+                                ? serviceAtt.Serving
                                 : this.settings._servingMethod;
 
             // don't waste time serving if not necessary

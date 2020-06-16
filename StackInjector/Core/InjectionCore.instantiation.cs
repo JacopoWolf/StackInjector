@@ -39,14 +39,14 @@ namespace StackInjector.Core
                 throw new ServiceNotFoundException(type, $"The type {type.FullName} is not in a registred assembly!");
 
 
-            switch ( serviceAtt.Pattern )
+            switch( serviceAtt.Pattern )
             {
                 default:
                 case InstantiationPattern.Singleton:
                     var instanceOfType = this.instances.OfType(type).First();
 
-                    return ( instanceOfType is null ) 
-                            ? this.InstantiateService(type) 
+                    return (instanceOfType is null)
+                            ? this.InstantiateService(type)
                             : instanceOfType;
 
                 // always create doesn't track instantiated classes
