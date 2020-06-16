@@ -1,4 +1,7 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using NUnit.Framework;
 using StackInjector.Attributes;
 using StackInjector.Settings;
 using StackInjector.TEST.BlackBox.SimpleStructure;
@@ -88,5 +91,39 @@ namespace StackInjector.TEST.BlackBox
 
             Assert.That(new object[] { entry.level1A, entry.Level1B }, Is.All.Null);
         }
+
+
+        [Test]
+        public void AccessWrapper ()
+        {
+            var wrapper = Injector.From<AccessWrapperBase>();
+
+            Assert.AreSame(wrapper, wrapper.Entry.wrapper);
+        }
+
+
+        [Test]
+        public void CloneSame ()
+        {
+            var wrapper = Injector.From<AccessWrapperBase>();
+
+            var cloneWrapper = wrapper.Entry.Clone();
+
+            CollectionAssert.AreEquivalent( wrapper.GetServices<object>(), cloneWrapper.GetServices<object>() );
+        }
+
+        
+        [Test]
+        public void ServeEnum ()
+        {
+            var injected = Injector.From<AllLevel1Base>().Entry.level1s;
+
+            CollectionAssert.AreEquivalent
+                (
+                    new Type[] { typeof(Level1A), typeof(Level1B), typeof(Level1LatestVersion) },
+                    injected.Select( i => i.GetType() ) 
+                );
+        }
+
     }
 }

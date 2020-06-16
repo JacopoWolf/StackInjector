@@ -1,5 +1,7 @@
 ﻿using NUnit.Framework;
 using StackInjector.Attributes;
+using StackInjector.Core;
+using StackInjector.Core.Cloning;
 using StackInjector.Settings;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ namespace StackInjector.TEST.BlackBox.SimpleStructure
 {
 
 // set as readonly, unused field
-#pragma warning disable CS0649, IDE0044
+#pragma warning disable CS0649, IDE0044, IDE0051
 
     /*
      * Base -> Level1(A,B) -> Level2
@@ -48,6 +50,24 @@ namespace StackInjector.TEST.BlackBox.SimpleStructure
         public Level1B Level1B { get; set; }
 
         public int SomeMethod () => this.level1A.Logic + this.Level1B.Logic;
+    }
+
+    [Service]
+    class AccessWrapperBase
+    {
+        [Served]
+        public ICloneableCore wrapper;
+
+        public IStackWrapperCore Clone ()
+            =>
+                this.wrapper.CloneCore().ToWrapper<AccessWrapperBase>();
+    }
+
+    [Service]
+    class AllLevel1Base
+    {
+        [Served]
+        public IEnumerable<ILevel1> level1s;
     }
 
 
