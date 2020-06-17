@@ -3,7 +3,6 @@ using System.Linq;
 using NUnit.Framework;
 using StackInjector.Attributes;
 using StackInjector.Settings;
-using StackInjector.TEST.BlackBox.SimpleStructure;
 
 namespace StackInjector.TEST.BlackBox
 {

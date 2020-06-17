@@ -4,14 +4,14 @@ using StackInjector.Core;
 using StackInjector.Core.Cloning;
 using StackInjector.Settings;
 
-namespace StackInjector.TEST.BlackBox.SimpleStructure
+namespace StackInjector.TEST.BlackBox
 {
 
     // set as readonly, unused field
 #pragma warning disable CS0649, IDE0044, IDE0051
 
     /*
-     * Base -> Level1(A,B) -> Level2
+     * base -> level 1 (A,B) -> level 2
      */
 
 
@@ -28,7 +28,7 @@ namespace StackInjector.TEST.BlackBox.SimpleStructure
         [Served]
         private Level1B level1B;
 
-        public int Logic () => (this.level1A.Logic + 5) + this.level1B.Logic;
+        public int Logic () => this.level1A.Logic + 5 + this.level1B.Logic;
     }
 
 
