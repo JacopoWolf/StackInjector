@@ -14,10 +14,6 @@ namespace StackInjector.TEST.BlackBox
 
     internal class TestAsync
     {
-        private static StackWrapperSettings DefaultAsyncSettings =
-            StackWrapperSettings.Default
-            .WhenNoMoreTasks(AsyncWaitingMethod.Exit);
-
 
         [Test][Timeout(500)][Retry(3)]
         public async Task Simple ()
@@ -25,7 +21,7 @@ namespace StackInjector.TEST.BlackBox
             using var wrapper = Injector.AsyncFrom
                 (
                     ( BaseAsync e, int i, CTkn t ) => e.Logic( i, t ),
-                    DefaultAsyncSettings
+                    StackWrapperSettings.Default
                 );
 
 
