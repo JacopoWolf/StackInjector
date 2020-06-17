@@ -20,12 +20,11 @@ namespace StackInjector.Core
 
             // if override is set to true, then use the settings's serving methods
             // otherwise check if the type has a service attribute and
-            // if it's property has been defined.
-            var serving = ( this.settings._overrideServingMethod )
-                            ? this.settings._servingMethod
-                            : ( serviceAtt != null && serviceAtt._servingDefined )
-                                ? serviceAtt.Serving
-                                : this.settings._servingMethod;
+            // if its property has been defined.
+            var serving =
+                (this.settings._overrideServingMethod || serviceAtt is null || !(serviceAtt._servingDefined))
+                    ? this.settings._servingMethod
+                    : serviceAtt.Serving;
 
             // don't waste time serving if not necessary
             if( serving == ServingMethods.DoNotServe )
@@ -52,8 +51,9 @@ namespace StackInjector.Core
 
         private void InjectFields ( Type type, object instance, ref List<object> instantiated, bool hasAttribute )
         {
-            IEnumerable<FieldInfo> fields =
-                    type.GetFields( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
+            var fields =
+                    type.GetFields( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance )
+                    .Where( f => f.GetCustomAttribute<IgnoredAttribute>() is null ); ;
 
             if( hasAttribute )
                 fields = fields.Where(field => field.GetCustomAttribute<ServedAttribute>() != null);
@@ -74,8 +74,9 @@ namespace StackInjector.Core
 
         private void InjectProperties ( Type type, object instance, ref List<object> instantiated, bool hasAttribute )
         {
-            IEnumerable<PropertyInfo> properties =
-                    type.GetProperties( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
+            var properties =
+                    type.GetProperties( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance )
+                    .Where( p => p.GetCustomAttribute<IgnoredAttribute>() is null );
 
             if( hasAttribute )
                 properties = properties.Where(property => property.GetCustomAttribute<ServedAttribute>() != null);

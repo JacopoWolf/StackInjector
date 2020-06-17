@@ -82,8 +82,17 @@ namespace StackInjector.Settings
                     .TrackInstantiationDiff(false, callDispose: false)
                     .InjectionVersioningMethod(ServedVersionTargetingMethod.None, @override: false)
                     .InjectionServingMethods(Injector.Defaults.ServeAllStrict, @override: false)
-                    .WhenNoMoreTasks(AsyncWaitingMethod.Wait, waitTime: 10000) // 10 seconds
+                    .WhenNoMoreTasks(AsyncWaitingMethod.Exit)
                     .ServeIEnumerables();
 
+
+        /// <summary>
+        /// Creates a new StackWrapperSettings with default parameters, but for subtraction class design: <br/>
+        /// everything is served by default, and you must instead use <c>[Ignored]</c> on properties and fields you don't want injected
+        /// </summary>
+        /// <seealso cref="Attributes.IgnoredAttribute"/>
+        public static StackWrapperSettings DefaultBySubtraction
+            =>
+                Default.InjectionServingMethods(Injector.Defaults.ServeAll, @override: true);
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using StackInjector.Attributes;
 using StackInjector.Settings;
 
@@ -14,9 +15,10 @@ namespace StackInjector.Core
         {
 
             var targetVersion = servedAttribute?.TargetVersion ?? 0.0;
-            var method = ( this.settings._overrideTargetingMethod )
-                                ? this.settings._targetingMethod
-                                : servedAttribute?.TargetingMethod ?? this.settings._targetingMethod;
+            var method = 
+                (this.settings._overrideTargetingMethod || servedAttribute is null || !(servedAttribute._targetingDefined))
+                    ? this.settings._targetingMethod
+                    : servedAttribute.TargetingMethod;
 
             var candidateTypes = this.instances.TypesAssignableFrom(targetType);
 

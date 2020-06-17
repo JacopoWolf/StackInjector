@@ -9,7 +9,7 @@ namespace StackInjector.Wrappers
     internal class AsyncStackWrapper<TEntry, TIn, TOut> : AsyncStackWrapperCore<TOut>, IAsyncStackWrapper<TEntry, TIn, TOut>
     {
 
-        public AsyncStackDigest<TEntry, TIn, TOut> StackDigest { get; internal set; }
+        internal AsyncStackDigest<TEntry, TIn, TOut> StackDigest { private get; set; }
 
         public TEntry Entry
             =>

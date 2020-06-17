@@ -19,7 +19,19 @@ namespace StackInjector.Attributes
         /// <para>How the specified TargetVersion should be found.</para>
         /// <para>could be overriden by <see cref="StackWrapperSettings"/></para>
         /// </summary>
-        public ServedVersionTargetingMethod? TargetingMethod { get; set; } = null;
+        public ServedVersionTargetingMethod TargetingMethod
+        {
+            get => this._targeting;
+            set
+            {
+                this._targetingDefined = true;
+                this._targeting = value;
+            }
+        }
+
+
+        private ServedVersionTargetingMethod _targeting;
+        internal bool _targetingDefined = false;
 
     }
 
