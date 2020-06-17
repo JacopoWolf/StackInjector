@@ -1,24 +1,27 @@
-![dotNetStandard2.1](https://img.shields.io/badge/-Standard_2.1-5C2D91?logo=.net&style=flat-square) 
-![csharp8.0](https://img.shields.io/badge/-8.0-239120?logo=c-sharp&style=flat-square)
 ![GitHub](https://img.shields.io/github/license/jacopowolf/stackinjector?style=flat-square)
+![GitHub contributors](https://img.shields.io/github/contributors-anon/jacopowolf/stackinjector?color=informational&style=flat-square)
 ![Maintenance](https://img.shields.io/maintenance/yes/2020?style=flat-square)
 ![GitHub open bug issues](https://img.shields.io/github/issues/jacopowolf/stackinjector/bug?style=flat-square)
 [![Nuget](https://img.shields.io/nuget/vpre/StackInjector?logo=nuget&style=flat-square)](https://www.nuget.org/packages/StackInjector)
 [![Nuget](https://img.shields.io/nuget/dt/StackInjector?logo=nuget&style=flat-square)](https://www.nuget.org/packages/StackInjector)
 
 
+
 <br/>
 <p align="center">
-
 <img src="logo/StackInjector_logo.svg" height="128" /> 
+</p>
+
 <h1 align="center">Stack Injector</h1>
 
 <p align="center">
-Simple, fast and easy-to-use dependency injection
-<br/>
+<img src="https://img.shields.io/badge/-Standard_2.1-5C2D91?logo=.net&style=for-the-badge"/>
+<img src="https://img.shields.io/badge/-8.0-239120?logo=c-sharp&style=for-the-badge"/>
+<img src="https://img.shields.io/badge/made%20with-%E2%99%A5-FF69B4?style=for-the-badge"/>
+<br><br>
+Simple, Easy-to-use and Fast dependency injection<br>
 <strong><a href="https://github.com/JacopoWolf/StackInjector/wiki">Documentation »<a></strong>
-<br>
-<br>
+<br><br>
 <a href="https://www.nuget.org/packages/StackInjector">Download</a>
 ·
 <a href="https://github.com/JacopoWolf/StackInjector/issues/new/choose">Report Bug</a>
@@ -26,11 +29,11 @@ Simple, fast and easy-to-use dependency injection
 <a href="https://github.com/JacopoWolf/StackInjector/issues/new/choose">Request Feature</a>
 </p>
 
-</p>
 
 
 ---
 
+Table of Contents
 - [About](#about)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -43,7 +46,9 @@ Simple, fast and easy-to-use dependency injection
 
 There are a lot of dependency injection frameworks for .NET, but every single one of them has some complicated specifics you have to learn (like active registration of components) and sometimes you don't really have full control of what to inject into your instances.
 
-If you want to use an extremely easy dependency injection framework, then *StackInjector* is made for you! 
+If you want to use an extremely easy dependency injection framework, and also use the latest features the C# language has to offer, then *StackInjector* is made for you!
+
+*Also ships with some nice settings presets to suit your coding style!*
 
 
 ## Installation
@@ -58,11 +63,11 @@ Or visit the [Nuget page](https://www.nuget.org/packages/StackInjector) for more
 
 ## Usage
 
-In-depth tutorials and explanations can be found in the [wiki tutorials section](https://github.com/JacopoWolf/StackInjector/wiki/Tutorial_Introduction)
+In-depth tutorials and explanations can be found in the repository's [Wiki](https://github.com/JacopoWolf/StackInjector/wiki)
 
 ---
 
-Plan your components as **interfaces** and *implement* them! 
+You can plan your components as **interfaces** and *implement* them! 
 
 As clean as you can get!
 
@@ -80,13 +85,12 @@ using StackInjector.Attributes;
 [Service(Version=1.0)]
 class SimpleFooFilter : IFooFilter
 {
-    // both fields and properties, to explicitly annotate with [Served]
-    // if you want them injected
+    // by default settings, you have to explicitly annotate with [Served]
+    // the properties or fields you want injected
 
     [Served]
-    IDatabaseAccess database { get; set; }
+    IDatabaseAccess Database { get; set; }
     
-    // works with properties too!
     [Served]
     IFooFilter filter;
 
@@ -101,51 +105,35 @@ class SimpleFooFilter : IFooFilter
 }
 ```
 
-Everything **must** have an attribute, allowing for **extremely readable code** and for **granular control** over the injection process.
+Everything **must** be explicit (`[Service]`,`[Served]` and `[Ignored]` attributes) allowing for **extremely readable code** and for **granular control** over the injection process.
 
 --- 
 
-You then have multiple options on how you want to initialize your application! 
-
-```cs
-using StackInjector;
-```
+You then have multiple options on how to initialize your application, and every single one of them type-safe!
 
 **synchronous**
+
+use a delegate
 ```cs
-Injector.From<IMyAppEntryPoint>().Start();
+Injector.From<IMyAppEntryPoint>().Start( app => app.Work() );
+```
+or just get the instance of the entry point
+```cs
+Injector.From<IMyAppEntryPoint>().Entry.Work();
 ```
 
 **asynchronous**
 ```cs
-// using allows for safe disposing of the resources when no more needed
-using var app = Injector.AsyncFrom<MyAsyncAppEntryPoint>();
+// the using keyword allows for safe disposing of the resources
+using var app = Injector.AsyncFrom<IMyAsyncAppEntryPoint>( (e,i,t) => e.Elaborate(i,t) );
 
 // can be called from anywhere and guarantee consistency
 app.Submit( someInput );
 
-// waiting for completed tasks is as simple as an await foreach loop
-await foreach ( var result in app.Elaborated<string>() )
+// waiting for completed tasks is this simple
+await foreach ( var result in app.Elaborated() )
     Console.WriteLine( result );
 ```
-
-**generics**
-
-For users who do care about type safety, there are also generic options! Both synchronous and asynchronous.
-
-```cs
-// generic asynchronous wrapper
-using var app = 
-    Injector.AsyncFrom<MyAsyncAppEntryPoint,string,int>
-        (
-            async (entryPoint,element,cancellationToken)
-                => await entryPoint.MyCustomLogic(element)
-        );
-```
-
----
-
-For **more** information and in-depth **tutorials**, look at the simple tutorials in the [wiki](https://github.com/JacopoWolf/StackInjector/wiki)
 
 
 
