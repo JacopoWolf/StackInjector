@@ -3,11 +3,11 @@
 ## Supported Versions
 
 
-| Version | Supported               |
-| ------- | ----------------------- |
-| 3.x     | :construction:          |
-| 2.3     | :ballot_box_with_check: |
-| 1.1     | :no_entry:              |
+| Version | Supported          | Notes                       |
+| ------: | :----------------- | --------------------------- |
+|     3.x | :white_check_mark: |                             |
+|     2.3 | :o2:               | *tutorials still available* |
+|     1.1 | :o2:               |                             |
 
 
 ---
@@ -16,8 +16,6 @@
 :white_check_mark: supported
 
 :ballot_box_with_check: supported, end of life
-
-:construction: under development
 
 :o2: NOT supported
 
