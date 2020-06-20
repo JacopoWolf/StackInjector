@@ -6,7 +6,7 @@ using StackInjector.Settings;
 
 namespace StackInjector.Wrappers
 {
-    [Service(Version = 1.1, Serving = ServingMethods.DoNotServe)]
+    [Service(Version = 3.0, Serving = ServingMethods.DoNotServe)]
     internal class StackWrapper<TEntry> : StackWrapperCore, IStackWrapper<TEntry>
     {
 

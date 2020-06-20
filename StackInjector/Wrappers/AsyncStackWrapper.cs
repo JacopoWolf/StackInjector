@@ -5,7 +5,7 @@ using StackInjector.Settings;
 
 namespace StackInjector.Wrappers
 {
-    [Service(Version = 2.1, Serving = ServingMethods.DoNotServe)]
+    [Service(Version = 3.0, Serving = ServingMethods.DoNotServe)]
     internal class AsyncStackWrapper<TEntry, TIn, TOut> : AsyncStackWrapperCore<TOut>, IAsyncStackWrapper<TEntry, TIn, TOut>
     {
 
