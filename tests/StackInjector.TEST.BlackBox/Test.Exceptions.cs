@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using StackInjector.Attributes;
 using StackInjector.Exceptions;
@@ -61,6 +62,15 @@ namespace StackInjector.TEST.BlackBox
         public void ThrowsInvalidEntryType ()
         {
             Assert.Throws<InvalidEntryTypeException>(() => Injector.From<InvalidEntryTypeThrower>());
+        }
+
+
+        [Service] private class ConstructorWithParameters { public int test; public ConstructorWithParameters ( int test ) => this.test = test; }
+
+        [Test]
+        public void ThrowsMissingParameterlessConstructor ()
+        {
+            Assert.Throws<MissingParameterlessConstructorException>(() => Injector.From<ConstructorWithParameters>());
         }
     }
 }

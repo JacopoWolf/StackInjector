@@ -14,8 +14,17 @@ namespace StackInjector.Core
         {
             type = this.ClassOrFromInterface(type);
 
-            //todo check for default constructor. If not present, throw custom exception
-            var instance = Activator.CreateInstance( type );
+
+            object instance;
+
+            try
+            {
+                instance = Activator.CreateInstance(type);
+            }
+            catch( MissingMethodException mme )
+            {
+                throw new MissingParameterlessConstructorException(type, mme.Message, mme);
+            }
 
             this.instances.AddInstance(type, instance);
 
