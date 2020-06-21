@@ -65,12 +65,13 @@ namespace StackInjector.TEST.BlackBox
         }
 
 
-        [Service] private class ConstructorWithParameters { public int test; public ConstructorWithParameters ( int test ) => this.test = test; }
+        [Service] private class BaseNoParameterlessConstructorThrower 
+        { public int test; public BaseNoParameterlessConstructorThrower ( int test ) => this.test = test; }
 
         [Test]
         public void ThrowsMissingParameterlessConstructor ()
         {
-            Assert.Throws<MissingParameterlessConstructorException>(() => Injector.From<ConstructorWithParameters>());
+            Assert.Throws<MissingParameterlessConstructorException>(() => Injector.From<BaseNoParameterlessConstructorThrower>());
         }
     }
 }
