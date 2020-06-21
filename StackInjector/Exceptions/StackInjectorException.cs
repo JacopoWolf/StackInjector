@@ -8,13 +8,13 @@ namespace StackInjector.Exceptions
     public abstract class StackInjectorException : Exception
     {
         /// <summary>
-        /// The source class of the exception
+        /// The source type of the exception
         /// </summary>
-        public Type ClassType { get; private protected set; } = null;
+        public Type SourceType { get; private protected set; } = null;
 
         internal StackInjectorException ( Type type, string message ) : this(message)
         {
-            this.ClassType = type;
+            this.SourceType = type;
         }
 
         internal StackInjectorException () : base() { }

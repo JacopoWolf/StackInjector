@@ -7,25 +7,13 @@ namespace StackInjector.Exceptions
     /// </summary>
     public class InvalidEntryTypeException : StackInjectorException
     {
-        internal InvalidEntryTypeException ()
-        {
+        internal InvalidEntryTypeException () { }
 
-        }
+        internal InvalidEntryTypeException ( Type type, string message ) : base(type, message) { }
 
-        internal InvalidEntryTypeException ( Type type, string message ) : base(type, message)
-        {
+        internal InvalidEntryTypeException ( string message ) : base(message) { }
 
-        }
-
-        internal InvalidEntryTypeException ( string message ) : base(message)
-        {
-
-        }
-
-        internal InvalidEntryTypeException ( string message, Exception innerException ) : base(message, innerException)
-        {
-
-        }
+        internal InvalidEntryTypeException ( string message, Exception innerException ) : base(message, innerException) { }
 
     }
 

@@ -7,22 +7,12 @@ namespace StackInjector.Exceptions
     /// </summary>
     public class NotAServiceException : StackInjectorException
     {
-        internal NotAServiceException ()
-        {
+        internal NotAServiceException () { }
 
-        }
+        internal NotAServiceException ( Type type, string message ) : base(type, message) { }
 
-        internal NotAServiceException ( Type type, string message ) : base(type, message)
-        {
+        internal NotAServiceException ( string message ) : base(message) { }
 
-        }
-
-        internal NotAServiceException ( string message ) : base(message)
-        {
-        }
-
-        internal NotAServiceException ( string message, Exception innerException ) : base(message, innerException)
-        {
-        }
+        internal NotAServiceException ( string message, Exception innerException ) : base(message, innerException) { }
     }
 }
