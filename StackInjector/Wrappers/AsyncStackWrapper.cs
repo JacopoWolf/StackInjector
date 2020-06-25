@@ -1,39 +1,42 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using StackInjector.Attributes;
 using StackInjector.Core;
 using StackInjector.Settings;
 
 namespace StackInjector.Wrappers
 {
-    [Obsolete]
-    [Service(Version = 2.0, Serving = ServingMethods.DoNotServe)]
-    internal partial class AsyncStackWrapper : AsyncStackWrapperCore<object>, IAsyncStackWrapper
+    [Service(Version = 3.0, Serving = ServingMethods.DoNotServe)]
+    internal class AsyncStackWrapper<TEntry, TIn, TOut> : AsyncStackWrapperCore<TOut>, IAsyncStackWrapper<TEntry, TIn, TOut>
     {
 
-        /// <summary>
-        /// create a new AsyncStackWrapper
-        /// </summary>
-        internal AsyncStackWrapper ( InjectionCore core ) : base(core, typeof(AsyncStackWrapper))
+        internal AsyncStackDigest<TEntry, TIn, TOut> StackDigest { private get; set; }
+
+        public TEntry Entry
+            =>
+                this.Core.GetEntryPoint<TEntry>();
+
+
+        public AsyncStackWrapper ( InjectionCore core ) : base(core, typeof(AsyncStackWrapper<TEntry, TIn, TOut>))
         { }
 
-
-        public void Submit ( object item )
+        public void Submit ( TIn item )
         {
-            var task =
-                this
-                .Core
-                .GetEntryPoint<IAsyncStackEntryPoint>()
-                .Digest(item, this.PendingTasksCancellationToken);
-
-            base.Submit(task);
+            this.Submit
+                (
+                    this.StackDigest.Invoke
+                    (
+                        this.Core.GetEntryPoint<TEntry>(),
+                        item,
+                        this.PendingTasksCancellationToken
+                    )
+                );
         }
-
 
         public override string ToString ()
             =>
-                $"AsyncStackWrapper{{ {this.Core.instances.AllTypes().Count()} registered types; " +
-                $"entry point: {this.Core.entryPoint.Name}; canceled: {this.cancelPendingTasksSource.IsCancellationRequested} }}";
+                $"AsyncStackWrapper<{typeof(TEntry).Name},{typeof(TIn).Name},{typeof(TOut).Name}>" +
+                $"{{ {this.Core.instances.AllTypes().Count()} registered types; " +
+                $"canceled: {this.cancelPendingTasksSource.IsCancellationRequested} }}";
 
     }
 }

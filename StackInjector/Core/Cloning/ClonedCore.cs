@@ -1,5 +1,4 @@
 ﻿using StackInjector.Wrappers;
-using StackInjector.Wrappers.Generic;
 
 namespace StackInjector.Core.Cloning
 {
@@ -13,16 +12,6 @@ namespace StackInjector.Core.Cloning
                 this.clonedCore = clonedCore;
 
 
-        public IAsyncStackWrapper ToAsyncWrapper<T> () where T : IAsyncStackEntryPoint
-        {
-            var wrapper = new AsyncStackWrapper( this.clonedCore );
-
-            this.clonedCore.entryPoint = typeof(T);
-            this.clonedCore.ServeAll();
-
-            return wrapper;
-        }
-
         public IAsyncStackWrapper<TEntry, TIn, TOut> ToAsyncWrapper<TEntry, TIn, TOut> ( AsyncStackDigest<TEntry, TIn, TOut> digest )
         {
             var wrapper = new AsyncStackWrapper<TEntry,TIn,TOut>( this.clonedCore )
@@ -30,27 +19,17 @@ namespace StackInjector.Core.Cloning
                 StackDigest = digest
             };
 
-            this.clonedCore.entryPoint = typeof(TEntry);
+            this.clonedCore.EntryPoint = typeof(TEntry);
             this.clonedCore.ServeAll();
 
             return wrapper;
         }
 
-        public IStackWrapper<T> ToGenericWrapper<T> ()
+        public IStackWrapper<T> ToWrapper<T> ()
         {
             var wrapper = new StackWrapper<T>(this.clonedCore);
 
-            this.clonedCore.entryPoint = typeof(T);
-            this.clonedCore.ServeAll();
-
-            return wrapper;
-        }
-
-        public IStackWrapper ToWrapper<T> () where T : IStackEntryPoint
-        {
-            var wrapper = new StackWrapper( this.clonedCore );
-
-            this.clonedCore.entryPoint = typeof(T);
+            this.clonedCore.EntryPoint = typeof(T);
             this.clonedCore.ServeAll();
 
             return wrapper;

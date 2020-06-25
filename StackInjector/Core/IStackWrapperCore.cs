@@ -7,19 +7,19 @@ namespace StackInjector.Core
 {
 
     /// <summary>
-    /// base interface for all stackwrappers
+    /// Base interface for all StackWrappers.
     /// </summary>
     public interface IStackWrapperCore : IDisposable, ICloneableCore
     {
 
         /// <summary>
-        /// the settings of this stackwrapper
+        /// The settings of this stackwrapper.
         /// </summary>
         ref readonly StackWrapperSettings Settings { get; }
 
 
         /// <summary>
-        /// Find every service valid for the given class or interface 
+        /// Find every service valid for the given class or interface.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>

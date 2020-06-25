@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+using StackInjector.Attributes;
 using StackInjector.Behaviours;
+using StackInjector.Exceptions;
 using StackInjector.Settings;
 
 namespace StackInjector.Core
@@ -12,7 +15,21 @@ namespace StackInjector.Core
     internal partial class InjectionCore
     {
         // entry point object of this core
-        internal Type entryPoint;
+        private Type _entryPoint;
+        internal Type EntryPoint
+        {
+            get
+                => this._entryPoint;
+            set
+            {
+                var serviceAtt = value.GetCustomAttribute<ServiceAttribute>();
+                if( serviceAtt != null && serviceAtt.Pattern == InstantiationPattern.AlwaysCreate )
+                    throw new InvalidEntryTypeException(value, $"Entry point {value.Name} cannot have {InstantiationPattern.AlwaysCreate} as instantiation pattern.");
+
+                this._entryPoint = value;
+            }
+        }
+
 
         // manage settings
         internal StackWrapperSettings settings;
@@ -27,14 +44,16 @@ namespace StackInjector.Core
         private readonly object _lock = new object();
 
 
+
         internal InjectionCore ( StackWrapperSettings settings )
         {
             this.settings = settings;
 
             this.instances = new SingleInstanceHolder();
 
-            if( this.settings.trackInstancesDiff )
+            if( this.settings._trackInstancesDiff )
                 this.instancesDiff = new List<object>();
         }
+
     }
 }

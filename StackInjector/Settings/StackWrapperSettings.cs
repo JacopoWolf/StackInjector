@@ -7,33 +7,37 @@ using StackInjector.Wrappers;
 namespace StackInjector.Settings
 {
     /// <summary>
-    /// Used to manage the behaviour of <see cref="IStackWrapper"/> and <see cref="IAsyncStackWrapper"/>
+    /// Used to manage the behaviour of <see cref="IStackWrapper{TEntry}"/> and <see cref="IAsyncStackWrapper{TEntry, TIn, TOut}"/>
     /// </summary>
     [Serializable]
     public sealed partial class StackWrapperSettings
     {
 
+        // list of settings and their initial empty definition
         #region settings
 
-        // assemblies
-        internal HashSet<Assembly>                  registredAssemblies                     = new HashSet<Assembly>();
-        internal bool                               registerEntryPointAssembly              = false;
-        internal bool                               registerSelf                            = false;
-
-        // versioning
-        internal ServedVersionTargetingMethod       targetingMethod                         = ServedVersionTargetingMethod.None;
-        internal bool                               overrideTargetingMethod                 = false;
+        // registration
+        internal HashSet<Assembly>                  _registredAssemblies                    = new HashSet<Assembly>();
+        internal bool                               _registerEntryPointAssembly             = false;
+        internal bool                               _registerSelf                           = false;
 
         // disposing
-        internal bool                               trackInstancesDiff                      = false;
-        internal bool                               callDisposeOnInstanceDiff               = false;
+        internal bool                               _trackInstancesDiff                     = false;
+        internal bool                               _callDisposeOnInstanceDiff              = false;
 
         // async management
-        internal AsyncWaitingMethod                 asyncWaitingMethod                      = AsyncWaitingMethod.Exit;
-        internal int                                asyncWaitTime                           = 500;
+        internal AsyncWaitingMethod                 _asyncWaitingMethod                     = AsyncWaitingMethod.Exit;
+        internal int                                _asyncWaitTime                          = 500;
+
+        // injection
+        internal ServedVersionTargetingMethod       _targetingMethod                        = ServedVersionTargetingMethod.None;
+        internal bool                               _overrideTargetingMethod                = false;
+
+        internal ServingMethods                     _servingMethod                          = ServingMethods.DoNotServe;
+        internal bool                               _overrideServingMethod                  = false;
 
         // features
-        internal bool                               serveEnumerables                        = false;
+        internal bool                               _serveEnumerables                       = false;
 
         #endregion
 
@@ -49,7 +53,7 @@ namespace StackInjector.Settings
         {
             var settingsCopy = (StackWrapperSettings)this.MemberwiseClone();
             // creats a deep copy of reference objects
-            settingsCopy.registredAssemblies = this.registredAssemblies.ToHashSet();
+            settingsCopy._registredAssemblies = this._registredAssemblies.ToHashSet();
 
             return settingsCopy;
         }
@@ -75,10 +79,20 @@ namespace StackInjector.Settings
                 new StackWrapperSettings()
                     .RegisterEntryAssembly()
                     .RegisterWrapperAsService()
-                    .TrackInstantiationDiff(false)
-                    .VersioningMethod(ServedVersionTargetingMethod.None, @override: false)
-                    .WhenNoMoreTasks(AsyncWaitingMethod.Wait)
+                    .TrackInstantiationDiff(false, callDispose: false)
+                    .InjectionVersioningMethod(ServedVersionTargetingMethod.None, @override: false)
+                    .InjectionServingMethods(Injector.Defaults.ServeAllStrict, @override: false)
+                    .WhenNoMoreTasks(AsyncWaitingMethod.Exit)
                     .ServeIEnumerables();
 
+
+        /// <summary>
+        /// Creates a new StackWrapperSettings with default parameters, but for subtraction class design: <br/>
+        /// everything is served by default, and you must instead use <c>[Ignored]</c> on properties and fields you don't want injected
+        /// </summary>
+        /// <seealso cref="Attributes.IgnoredAttribute"/>
+        public static StackWrapperSettings DefaultBySubtraction
+            =>
+                Default.InjectionServingMethods(Injector.Defaults.ServeAll, @override: true);
     }
 }

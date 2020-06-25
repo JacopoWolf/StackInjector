@@ -9,14 +9,15 @@ namespace StackInjector.Core
 {
     internal partial class InjectionCore
     {
-
+        // performs versioning on the specified type
         private IEnumerable<Type> Version ( Type targetType, ServedAttribute servedAttribute )
         {
 
             var targetVersion = servedAttribute?.TargetVersion ?? 0.0;
-            var method = ( this.settings.overrideTargetingMethod )
-                                ? this.settings.targetingMethod
-                                : servedAttribute?.TargetingMethod ?? this.settings.targetingMethod;
+            var method =
+                (this.settings._overrideTargetingMethod || servedAttribute is null || !(servedAttribute._targetingDefined))
+                    ? this.settings._targetingMethod
+                    : servedAttribute.TargetingMethod;
 
             var candidateTypes = this.instances.TypesAssignableFrom(targetType);
 

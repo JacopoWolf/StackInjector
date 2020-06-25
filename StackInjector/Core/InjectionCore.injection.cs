@@ -10,16 +10,21 @@ namespace StackInjector.Core
 {
     internal partial class InjectionCore
     {
-        /// <summary>
-        /// Injects services into the specified instance, instantiating them on necessity.
-        /// </summary>
-        /// <param name="instance"></param>
-        /// <returns></returns>
+
+        // Injects services into the specified instance, instantiating them on necessity.
         private IEnumerable<object> InjectServicesInto ( object instance )
         {
             var instantiated = new List<object>();
             var type = instance.GetType();
-            var serving = type.GetCustomAttribute<ServiceAttribute>()?.Serving ?? Injector.Defaults.ServingMethod;
+            var serviceAtt = type.GetCustomAttribute<ServiceAttribute>();
+
+            // if override is set to true, then use the settings's serving methods
+            // otherwise check if the type has a service attribute and
+            // if its property has been defined.
+            var serving =
+                (this.settings._overrideServingMethod || serviceAtt is null || !(serviceAtt._servingDefined))
+                    ? this.settings._servingMethod
+                    : serviceAtt.Serving;
 
             // don't waste time serving if not necessary
             if( serving == ServingMethods.DoNotServe )
@@ -31,6 +36,7 @@ namespace StackInjector.Core
 
             if( serving.HasFlag(ServingMethods.Fields) )
                 this.InjectFields(type, instance, ref instantiated, onlyWithAttrib);
+
 
             if( serving.HasFlag(ServingMethods.Properties) )
                 this.InjectProperties(type, instance, ref instantiated, onlyWithAttrib);
@@ -45,8 +51,9 @@ namespace StackInjector.Core
 
         private void InjectFields ( Type type, object instance, ref List<object> instantiated, bool hasAttribute )
         {
-            IEnumerable<FieldInfo> fields =
-                    type.GetFields( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
+            var fields =
+                    type.GetFields( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance )
+                    .Where( f => f.GetCustomAttribute<IgnoredAttribute>() is null ); ;
 
             if( hasAttribute )
                 fields = fields.Where(field => field.GetCustomAttribute<ServedAttribute>() != null);
@@ -67,8 +74,9 @@ namespace StackInjector.Core
 
         private void InjectProperties ( Type type, object instance, ref List<object> instantiated, bool hasAttribute )
         {
-            IEnumerable<PropertyInfo> properties =
-                    type.GetProperties( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
+            var properties =
+                    type.GetProperties( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance )
+                    .Where( p => p.GetCustomAttribute<IgnoredAttribute>() is null );
 
             if( hasAttribute )
                 properties = properties.Where(property => property.GetCustomAttribute<ServedAttribute>() != null);
@@ -87,14 +95,12 @@ namespace StackInjector.Core
         }
 
 
-        /// <summary>
-        /// returns the instantiated object 
-        /// </summary>
+        // returns the instantiated object 
         private object InstTypeOrServiceEnum ( Type type, ServedAttribute servedAttribute, ref List<object> instantiated )
         {
             if
             (
-                this.settings.serveEnumerables
+                this.settings._serveEnumerables
                 &&
                 type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)
             )
@@ -103,7 +109,6 @@ namespace StackInjector.Core
                 var generic = type.GetGenericArguments()[0];
                 // list of sorted valid types
                 var validTypes = this.Version( generic, servedAttribute ).ToArray();
-                ////this.instances.TypesAssignableFrom(generic).ToArray();
 
                 // creates generic list using reflection
                 var listType = typeof(List<>).MakeGenericType(generic);

@@ -6,36 +6,33 @@ using StackInjector.Settings;
 
 namespace StackInjector.Wrappers
 {
-    [Obsolete]
-    [Service(Version = 1.0, Serving = ServingMethods.DoNotServe)]
-    internal class StackWrapper : StackWrapperCore, IStackWrapper
+    [Service(Version = 3.0, Serving = ServingMethods.DoNotServe)]
+    internal class StackWrapper<TEntry> : StackWrapperCore, IStackWrapper<TEntry>
     {
 
-
-        internal StackWrapper ( InjectionCore core ) : base(core, typeof(StackWrapper))
-        { }
+        internal StackWrapper ( InjectionCore core ) : base(core, typeof(StackWrapper<TEntry>)) { }
 
 
-        /// <inheritdoc/>
-        public T Start<T> ()
+
+        public void Start ( Action<TEntry> stackDigest )
             =>
-                (T)this.Core.GetEntryPoint<IStackEntryPoint>().EntryPoint();
+                stackDigest.Invoke(this.Entry);
 
-
-        /// <inheritdoc/>
-        public object Start ()
+        public TOut Start<TOut> ( Func<TEntry, TOut> stackDigest )
             =>
-                this.Core.GetEntryPoint<IStackEntryPoint>().EntryPoint();
+                stackDigest.Invoke(this.Entry);
+
+
+
+        public TEntry Entry
+            =>
+                this.Core.GetEntryPoint<TEntry>();
 
 
 
         public override string ToString ()
             =>
-                $"StackWrapper{{ {this.Core.instances.AllTypes().Count()} registered types; entry point: {this.Core.entryPoint.Name} }}";
-
-
-
-
+                $"StackWrapper<{typeof(TEntry).Name}>{{ {this.Core.instances.AllTypes().Count()} registered types }}";
 
 
 

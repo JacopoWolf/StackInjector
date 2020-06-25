@@ -3,27 +3,33 @@ using System.Linq;
 using System.Reflection;
 using StackInjector.Attributes;
 using StackInjector.Exceptions;
+using StackInjector.Settings;
 
 namespace StackInjector.Core
 {
     internal partial class InjectionCore
     {
-        /// <summary>
-        /// Instantiates the specified [Served] type
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
+        // Instantiates the specified [Served] type
         private object InstantiateService ( Type type )
         {
             type = this.ClassOrFromInterface(type);
 
-            //todo check for default constructor. If not present, throw custom exception
-            var instance = Activator.CreateInstance( type );
+
+            object instance;
+
+            try
+            {
+                instance = Activator.CreateInstance(type);
+            }
+            catch( MissingMethodException mme )
+            {
+                throw new MissingParameterlessConstructorException(type, mme.Message, mme);
+            }
 
             this.instances.AddInstance(type, instance);
 
             // if true, track instantiated objects
-            if( this.settings.trackInstancesDiff )
+            if( this.settings._trackInstancesDiff )
                 this.instancesDiff.Add(instance);
 
             return instance;
@@ -32,28 +38,38 @@ namespace StackInjector.Core
 
         private object OfTypeOrInstantiate ( Type type )
         {
-            if( type.GetCustomAttribute<ServiceAttribute>() == null )
+            var serviceAtt = type.GetCustomAttribute<ServiceAttribute>();
+
+            // manage exceptions
+            if( serviceAtt == null )
                 throw new NotAServiceException(type, $"The type {type.FullName} is not annotated with [Service]");
 
             if( !this.instances.ContainsType(type) )
-                throw new ClassNotFoundException(type, $"The type {type.FullName} is not in a registred assembly!");
+                throw new ServiceNotFoundException(type, $"The type {type.FullName} is not in a registred assembly!");
 
 
-            var instanceOfType = this.instances.OfType(type).First();
+            switch( serviceAtt.Pattern )
+            {
+                default:
+                case InstantiationPattern.Singleton:
+                    var instanceOfType = this.instances.OfType(type).First();
 
-            if( instanceOfType is null )
-                return this.InstantiateService(type);
-            else
-                return instanceOfType;
+                    return (instanceOfType is null)
+                            ? this.InstantiateService(type)
+                            : instanceOfType;
+
+                // always create doesn't track instantiated classes
+                case InstantiationPattern.AlwaysCreate:
+                    return this.InstantiateService(type);
+            }
+
         }
 
 
-        /// <summary>
-        /// removes instances of the tracked instantiated types and call their Dispose method. Thread safe.
-        /// </summary>
+        // removes instances of the tracked instantiated types and call their Dispose method. Thread safe.
         protected internal void RemoveInstancesDiff ()
         {
-            if( !this.settings.trackInstancesDiff )
+            if( !this.settings._trackInstancesDiff )
                 return;
 
             // ensures that two threads are not trying to Dispose and InjectAll at the same time
@@ -64,7 +80,7 @@ namespace StackInjector.Core
                     this.instances.RemoveInstance(instance.GetType(), instance);
 
                     // if the relative setting is true, check if the instance implements IDisposable and call it
-                    if( this.settings.callDisposeOnInstanceDiff && instance is IDisposable disposable )
+                    if( this.settings._callDisposeOnInstanceDiff && instance is IDisposable disposable )
                         disposable.Dispose();
                 }
 

@@ -1,24 +1,26 @@
-﻿using StackInjector.Core;
+﻿using System;
+using StackInjector.Core;
 
 namespace StackInjector.Wrappers
 {
     /// <summary>
-    /// Wraps a Stack of dependency-injected classes
+    /// Wraps a stack of auto injected classes from the specific entry point.
     /// </summary>
-    [System.Obsolete("This interface and its implementation will be deprecated in a future release. Use the generic option instead.", false)]
-    public interface IStackWrapper : IStackWrapperCore
+    /// <typeparam name="TEntry">The entry point of the stack</typeparam>
+    public interface IStackWrapper<TEntry> : IStackWrapperCore, IEntryGetter<TEntry>
     {
+        /// <summary>
+        /// call the function you prefer on your entry point 
+        /// </summary>
+        /// <param name="stackDigest">the method to call on the entry instance</param>
+        void Start ( Action<TEntry> stackDigest );
 
         /// <summary>
-        /// Start this StackWrapper with the specified entry point and get it's returned object in a generic form
+        /// call the function you prefer on your entry point and catch its return value
         /// </summary>
-        object Start ();
-
-        /// <summary>
-        /// Start this StackWrapper with the specified entry point and get it's return type converted to the specified type.
-        /// Throws an error on a wrongful conversion
-        /// </summary>
-        T Start<T> ();
-
+        /// <typeparam name="TOut">the return type</typeparam>
+        /// <param name="stackDigest">the method to call on the entry instance</param>
+        /// <returns>The object returned by the called function</returns>
+        TOut Start<TOut> ( Func<TEntry, TOut> stackDigest );
     }
 }
