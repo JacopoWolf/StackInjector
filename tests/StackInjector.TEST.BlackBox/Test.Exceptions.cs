@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
 using StackInjector.Attributes;
 using StackInjector.Exceptions;
@@ -65,7 +64,8 @@ namespace StackInjector.TEST.BlackBox
         }
 
 
-        [Service] private class BaseNoParameterlessConstructorThrower 
+        [Service]
+        private class BaseNoParameterlessConstructorThrower
         { public int test; public BaseNoParameterlessConstructorThrower ( int test ) => this.test = test; }
 
         [Test]
@@ -73,5 +73,16 @@ namespace StackInjector.TEST.BlackBox
         {
             Assert.Throws<MissingParameterlessConstructorException>(() => Injector.From<BaseNoParameterlessConstructorThrower>());
         }
+
+
+        [Service]
+        private class BaseNoSetterThrower {[Served] public Base Base { get; } }
+
+        [Test]
+        public void ThrowsNoSetter ()
+        {
+            Assert.Throws<NoSetterException>(() => Injector.From<BaseNoSetterThrower>());
+        }
+
     }
 }
