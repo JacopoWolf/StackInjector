@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using StackInjector.Attributes;
-using StackInjector.Core;
-using StackInjector.Core.Cloning;
-using StackInjector.Settings;
 
 namespace StackInjector.TEST.BlackBox
 {
@@ -20,10 +16,10 @@ namespace StackInjector.TEST.BlackBox
 
 
     [Service]
-    class BaseAsync
+    internal class BaseAsync
     {
         [Served]
-        ILevel1Async Level1Async;
+        private ILevel1Async Level1Async;
 
         public int toSum = 10;
 
@@ -35,23 +31,23 @@ namespace StackInjector.TEST.BlackBox
 
             return await this.Level1Async.OperateOn(this.toSum, item);
         }
-        
+
     }
 
     #endregion
 
     #region level 1
 
-    interface ILevel1Async
+    internal interface ILevel1Async
     {
         Task<int> OperateOn ( int a, int b );
     }
 
     [Service]
-    class Level1Async : ILevel1Async
+    internal class Level1Async : ILevel1Async
     {
         [Served]
-        Delayer delayer;
+        private Delayer delayer;
 
         public async Task<int> OperateOn ( int a, int b )
         {
@@ -66,7 +62,7 @@ namespace StackInjector.TEST.BlackBox
     #region level 2
 
     [Service]
-    class Delayer
+    internal class Delayer
     {
         public async Task SlowAsyncMethod ()
         {

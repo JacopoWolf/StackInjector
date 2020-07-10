@@ -15,7 +15,9 @@ namespace StackInjector.TEST.BlackBox
     internal class TestAsync
     {
 
-        [Test][Timeout(500)][Retry(3)]
+        [Test]
+        [Timeout(500)]
+        [Retry(3)]
         public async Task Simple ()
         {
             using var wrapper = Injector.AsyncFrom
