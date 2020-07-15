@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StackInjector.Exceptions
 {
@@ -11,7 +9,7 @@ namespace StackInjector.Exceptions
     {
         internal MissingParameterlessConstructorException () { }
 
-        internal MissingParameterlessConstructorException ( Type type, string message, MissingMethodException inner ) : base( message, inner )
+        internal MissingParameterlessConstructorException ( Type type, string message, MissingMethodException inner ) : base(message, inner)
         {
             this.SourceType = type;
         }

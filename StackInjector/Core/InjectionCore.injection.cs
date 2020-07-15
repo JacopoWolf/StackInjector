@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using StackInjector.Attributes;
+using StackInjector.Exceptions;
 using StackInjector.Settings;
 
 namespace StackInjector.Core
@@ -53,7 +54,7 @@ namespace StackInjector.Core
         {
             var fields =
                     type.GetFields( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance )
-                    .Where( f => f.GetCustomAttribute<IgnoredAttribute>() is null ); ;
+                    .Where( f => f.GetCustomAttribute<IgnoredAttribute>() is null );
 
             if( hasAttribute )
                 fields = fields.Where(field => field.GetCustomAttribute<ServedAttribute>() != null);
@@ -81,16 +82,20 @@ namespace StackInjector.Core
             if( hasAttribute )
                 properties = properties.Where(property => property.GetCustomAttribute<ServedAttribute>() != null);
 
-            foreach( var propertyField in properties )
+            foreach( var serviceProperty in properties )
             {
+                if( serviceProperty.GetSetMethod() is null )
+                    throw new NoSetterException(type, $"Property {serviceProperty.Name} of {type.FullName} has no setter!");
+
                 var serviceInstance =
                     this.InstTypeOrServiceEnum
                     (
-                        propertyField.PropertyType,
-                        propertyField.GetCustomAttribute<ServedAttribute>(),
+                        serviceProperty.PropertyType,
+                        serviceProperty.GetCustomAttribute<ServedAttribute>(),
                         ref instantiated
                     );
-                propertyField.SetValue(instance, serviceInstance);
+
+                serviceProperty.SetValue(instance, serviceInstance);
             }
         }
 
