@@ -84,23 +84,18 @@ namespace StackInjector.Core
 
             foreach( var serviceProperty in properties )
             {
-                
-                var serviceInstance =
-                this.InstTypeOrServiceEnum
-                (
-                    serviceProperty.PropertyType,
-                    serviceProperty.GetCustomAttribute<ServedAttribute>(),
-                    ref instantiated
-                );
-
-                if (serviceProperty.GetSetMethod() is null)
+                if( serviceProperty.GetSetMethod() is null )
                     throw new NoSetterException(type, $"Property {serviceProperty.Name} of {type.FullName} has no setter!");
 
+                var serviceInstance =
+                    this.InstTypeOrServiceEnum
+                    (
+                        serviceProperty.PropertyType,
+                        serviceProperty.GetCustomAttribute<ServedAttribute>(),
+                        ref instantiated
+                    );
+
                 serviceProperty.SetValue(instance, serviceInstance);
-                
-
-
-
             }
         }
 
