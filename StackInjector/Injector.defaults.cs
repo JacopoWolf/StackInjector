@@ -24,6 +24,12 @@ namespace StackInjector
             /// </summary>
             public const ServingMethods ServeAll =
                 ( ServingMethods.Fields | ServingMethods.Properties );
+
+
+            /// <summary>
+            /// Default regex to filter system assemblies
+            /// </summary>
+            public const string AssemblyRegexFilter = "^(System)|(Microsoft)";
         }
     }
 }

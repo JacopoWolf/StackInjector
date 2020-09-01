@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace StackInjector.Settings
 {
@@ -17,6 +20,25 @@ namespace StackInjector.Settings
         {
             foreach( var assembly in assemblies )
                 this._registredAssemblies.Add(assembly);
+            return this;
+        }
+
+        /// <summary>
+        /// Automatically register all domain assemblies, filtering the specified ones.<br/>
+        /// <b>Warning: CPU expensive</b>
+        /// </summary>
+        /// <param name="regexFilter">a regex string used to filter unwanted matching assemblies</param>
+        /// <returns>the modified settings</returns>
+        public StackWrapperSettings RegisterDomain ( string regexFilter = Injector.Defaults.AssemblyRegexFilter )
+        {
+            this.RegisterAssemblies
+                (
+                    AppDomain.CurrentDomain
+                        .GetAssemblies()
+                        .Where( a => !Regex.IsMatch(a.FullName,regexFilter) )
+                        .ToArray()
+                );
+
             return this;
         }
 
@@ -51,7 +73,7 @@ namespace StackInjector.Settings
         /// <returns>the modified settings</returns>
         public StackWrapperSettings RegisterWrapperAsService ( bool register = true )
         {
-            this._registerSelf = register;
+            this._registerWrapAsService = register;
             return this;
         }
 
