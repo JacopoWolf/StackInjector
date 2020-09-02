@@ -26,7 +26,7 @@ namespace StackInjector.Core
                     var next = toInject.Dequeue();
                     var usedServices = this.InjectServicesInto(next);
 
-                    // this object has been ionjected
+                    // this object has been injected
                     this.instances.SetInjectionStatus(next);
 
                     // foreach injected object check if it has already been injected. 

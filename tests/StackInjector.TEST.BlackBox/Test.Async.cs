@@ -44,5 +44,34 @@ namespace StackInjector.TEST.BlackBox
             );
         }
 
+        [Test][Retry(3)]
+        public void AsyncConcurrentExecution ()
+        {
+            var settings = StackWrapperSettings
+                .Default
+                .WhenNoMoreTasks(AsyncWaitingMethod.Exit);
+
+
+            // does nothing but waiting
+            var wrapper = Injector.AsyncFrom<BaseAsync,int,int>
+                (
+                    // enough delay for T1 to NOT FINISH execution before the second method call,
+                    // if T1 has finished executing then the second method will run empty withouth errors
+                    async (e, i, t) => { await Task.Delay(100); return i; },
+                    settings
+                );
+
+            // test submit
+            wrapper.Submit(420);
+            wrapper.OnElaborated += ( i ) => Console.Write(i); // also testing callbacks
+
+            var t1 = wrapper.Elaborate();
+
+            // second method call. If t1 is still elaborating this is an invalid operation
+            Assert.Throws<InvalidOperationException>(() => wrapper.Elaborate());
+            t1.Wait();
+
+        }
+
     }
 }
