@@ -79,7 +79,7 @@ namespace StackInjector.Core
                     await foreach( var res in this.Elaborated() )
                         this.OnElaborated?.Invoke(res);
                 });
-            
+
         }
 
 
@@ -116,7 +116,7 @@ namespace StackInjector.Core
             }
         }
 
-        private void EnsureExclusiveExecution( bool set = false )
+        private void EnsureExclusiveExecution ( bool set = false )
         {
             lock( this.listAccessLock ) // reused lock
             {

@@ -35,7 +35,7 @@ namespace StackInjector.Settings
                 (
                     AppDomain.CurrentDomain
                         .GetAssemblies()
-                        .Where( a => !Regex.IsMatch(a.FullName,regexFilter) )
+                        .Where(a => !Regex.IsMatch(a.FullName, regexFilter))
                         .ToArray()
                 );
 

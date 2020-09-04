@@ -50,7 +50,7 @@ namespace StackInjector.TEST.BlackBox
             var settings =
                 StackWrapperSettings.Default
                 .RegisterDomain();
-                
+
 
             var externalClass = Injector.From<BaseServiceNotFoundThrower>(settings).Entry.externalClass;
 
