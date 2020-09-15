@@ -10,7 +10,7 @@ namespace StackInjector.Exceptions
         /// <summary>
         /// The source type of the exception
         /// </summary>
-        public Type SourceType { get; private protected set; } = null;
+        public Type SourceType { get; private protected set; }
 
         internal StackInjectorException ( Type type, string message ) : this(message)
         {

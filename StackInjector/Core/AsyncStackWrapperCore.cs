@@ -22,7 +22,7 @@ namespace StackInjector.Core
         private readonly object listAccessLock = new object();
 
         // used to endure Elaborated() and Elaborate() are called together
-        private bool exclusiveExecution = false;
+        private bool exclusiveExecution;
 
         // asyncronously waited for new events if TaskList is empty
         private readonly SemaphoreSlim emptyListAwaiter = new SemaphoreSlim(0);
@@ -41,7 +41,7 @@ namespace StackInjector.Core
 
         #region IDisposable Support
 
-        private bool disposedValue = false;
+        private bool disposedValue;
 
         public override void Dispose ()
         {
