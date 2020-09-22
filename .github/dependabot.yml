@@ -6,7 +6,7 @@
 version: 2
 updates:
 
-    # root dependencies 
+    # nuget dependencies 
   - package-ecosystem: "nuget" 
     directory: "/StackInjector"
     schedule:
@@ -18,7 +18,7 @@ updates:
       
     # test dependencies
   - package-ecosystem: "nuget" 
-    directory: "/tests/StackInjector.TEST.BlackBox"
+    directory: "/tests"
     schedule:
       interval: "weekly"
       day: "saturday"
@@ -37,6 +37,5 @@ updates:
     labels:
       - "dependencies"
       - "actions"
-    open-pull-requests-limit: 1
       
       
