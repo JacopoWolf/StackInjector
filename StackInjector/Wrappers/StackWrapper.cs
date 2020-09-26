@@ -36,7 +36,7 @@ namespace StackInjector.Wrappers
 
 
 
-        private bool disposed = false;
+        private bool disposed;
 
         public override void Dispose ()
         {

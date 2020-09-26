@@ -13,7 +13,7 @@ namespace StackInjector.Attributes
         /// <summary>
         /// The target version.
         /// </summary>
-        public double TargetVersion { get; set; } = 0.0;
+        public double TargetVersion { get; set; }
 
         /// <summary>
         /// <para>How the specified TargetVersion should be found.</para>
@@ -31,7 +31,7 @@ namespace StackInjector.Attributes
 
 
         private ServedVersionTargetingMethod _targeting;
-        internal bool _targetingDefined = false;
+        internal bool _targetingDefined;
 
     }
 

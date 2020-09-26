@@ -34,7 +34,7 @@ namespace StackInjector.Attributes
         }
 
         private ServingMethods _serving;
-        internal bool _servingDefined = false;
+        internal bool _servingDefined;
     }
 
 }

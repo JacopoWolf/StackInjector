@@ -44,6 +44,19 @@ namespace StackInjector.TEST.BlackBox
             Assert.That(externalClass, Is.TypeOf<Externalclass>());
         }
 
+        [Test]
+        public void ExternalAllAssemblyReference ()
+        {
+            var settings =
+                StackWrapperSettings.Default
+                .RegisterDomain();
+
+
+            var externalClass = Injector.From<BaseServiceNotFoundThrower>(settings).Entry.externalClass;
+
+            Assert.That(externalClass, Is.TypeOf<Externalclass>());
+        }
+
 
         private interface INoImplementationThrower { void SomeMethod (); }
         private class BaseNoImplementationThrower {[Served] private INoImplementationThrower no; }
