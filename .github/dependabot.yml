@@ -6,7 +6,8 @@
 version: 2
 updates:
 
-    # root dependencies 
+
+    # prod 
   - package-ecosystem: "nuget" 
     directory: "/StackInjector"
     schedule:
@@ -15,8 +16,8 @@ updates:
     labels:
       - "dependencies"
       
-      
-    # test dependencies
+    
+    # test blackbox
   - package-ecosystem: "nuget" 
     directory: "/tests/StackInjector.TEST.BlackBox"
     schedule:
@@ -26,8 +27,11 @@ updates:
       - "dependencies"
       - "testing"
       
-      
-    # github actions dependencies
+
+    #todo: add TEST.WhiteBox
+  
+  
+    # ci
   - package-ecosystem: "github-actions"
     # Workflow files stored in the
     # default location of `.github/workflows`
@@ -37,6 +41,5 @@ updates:
     labels:
       - "dependencies"
       - "actions"
-    open-pull-requests-limit: 1
       
       

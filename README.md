@@ -1,32 +1,35 @@
-![GitHub](https://img.shields.io/github/license/jacopowolf/stackinjector?style=flat-square)
-![GitHub contributors](https://img.shields.io/github/contributors-anon/jacopowolf/stackinjector?color=informational&style=flat-square)
-![Maintenance](https://img.shields.io/maintenance/yes/2020?style=flat-square)
-![GitHub open bug issues](https://img.shields.io/github/issues/jacopowolf/stackinjector/bug?style=flat-square)
-[![Nuget](https://img.shields.io/nuget/vpre/StackInjector?logo=nuget&style=flat-square)](https://www.nuget.org/packages/StackInjector)
-[![Nuget](https://img.shields.io/nuget/dt/StackInjector?logo=nuget&style=flat-square)](https://www.nuget.org/packages/StackInjector)
-
-
-
 <br/>
 <p align="center">
-<img src="logo/StackInjector_logo.svg" height="128" /> 
+<img src="logo/StackInjector_logo.svg" height="96" /> 
 </p>
 
 <h1 align="center">Stack Injector</h1>
 
+
 <p align="center">
-<img src="https://img.shields.io/badge/-Standard_2.1-5C2D91?logo=.net&style=for-the-badge"/>
-<img src="https://img.shields.io/badge/-8.0-239120?logo=c-sharp&style=for-the-badge"/>
-<img src="https://img.shields.io/badge/made%20with-%E2%99%A5-FF69B4?style=for-the-badge"/>
-<br><br>
-Simple, Easy-to-use and Fast dependency injection<br>
-<strong><a href="https://github.com/JacopoWolf/StackInjector/wiki">Documentation »<a></strong>
-<br><br>
+Modern, easy-to-use and fast dependency injection framework.<br><br>
+<strong><a href="https://github.com/JacopoWolf/StackInjector/wiki">Documentation<a></strong>
+<br>
 <a href="https://www.nuget.org/packages/StackInjector">Download</a>
 ·
 <a href="https://github.com/JacopoWolf/StackInjector/issues/new/choose">Report Bug</a>
 ·
 <a href="https://github.com/JacopoWolf/StackInjector/issues/new/choose">Request Feature</a>
+</p>
+
+
+---
+
+
+<p align=center>
+<img src="https://img.shields.io/github/license/jacopowolf/stackinjector">
+<img src="https://img.shields.io/maintenance/yes/2020">
+<img src="https://img.shields.io/github/issues/jacopowolf/stackinjector/bug">
+<img src="https://img.shields.io/nuget/dt/StackInjector?logo=nuget">
+<br>
+<img src="https://img.shields.io/badge/-Standard_2.1-5C2D91?logo=.net"/>
+<img src="https://img.shields.io/badge/-8.0-239120?logo=c-sharp"/>
+<img src="https://img.shields.io/nuget/vpre/StackInjector?label=">
 </p>
 
 
@@ -81,8 +84,7 @@ interface IFooFilter
 ```cs
 using StackInjector.Attributes;
 
-// you can optionally specify a version for your service implementation!
-[Service(Version=1.0)]
+[Service]
 class SimpleFooFilter : IFooFilter
 {
     // by default settings, you have to explicitly annotate with [Served]
@@ -113,28 +115,27 @@ You then have multiple options on how to initialize your application, and every 
 
 **synchronous**
 
-use a delegate
+a simple call to a static method and you're done!
 ```cs
-Injector.From<IMyAppEntryPoint>().Start( app => app.Work() );
-```
-or just get the instance of the entry point
-```cs
-Injector.From<IMyAppEntryPoint>().Entry.Work();
+// call DoWork() on a dependency-injected instance of IMyAppEntryPoint
+Injector.From<IMyAppEntryPoint>().Entry.DoWork();
 ```
 
 **asynchronous**
-```cs
-// the using keyword allows for safe disposing of the resources
-using var app = Injector.AsyncFrom<IMyAsyncAppEntryPoint>( (e,i,t) => e.Elaborate(i,t) );
 
-// can be called from anywhere and guarantee consistency
-app.Submit( someInput );
+with C# 8's asynchronous enumerables waiting for task to complete is really this easy!
+
+```cs
+// the "using" keyword allows for safe disposing of the resources
+using var app = Injector.AsyncFrom<IMyAsyncAppEntryPoint>( (e,i,t) => e.AsyncWork(i,t) );
+
+// can be called from anywhere
+app.Submit( "someInput" );
 
 // waiting for completed tasks is this simple
 await foreach ( var result in app.Elaborated() )
     Console.WriteLine( result );
 ```
-
 
 
 ## Contributing
@@ -143,7 +144,7 @@ Any contribution is appreciated! Especially bug reports, which mean you've been 
 
 But first read [contributing](CONTRIBUTING.md) and [code of conduct](CODE_OF_CONDUCT.md) (I promise they're short)
 
-*suggested editor: ![visualStudio](https://img.shields.io/badge/-Visual_Studio-5C2D91?logo=visual-studio&style=flat-square)*
+*suggested editor: ![visualStudio](https://img.shields.io/badge/-Visual_Studio-5C2D91?logo=visual-studio)*
 
 
 
