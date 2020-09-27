@@ -4,12 +4,12 @@ using NUnit.Framework;
 using StackInjector.Attributes;
 using StackInjector.Settings;
 
-namespace StackInjector.TEST.BlackBox
+namespace StackInjector.TEST.BlackBox.UseCases
 {
 
 #pragma warning disable IDE0051, IDE0044, CS0169, CS0649
 
-    internal class TestSync
+    internal class Sync
     {
 
         [Test]

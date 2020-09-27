@@ -10,7 +10,7 @@ namespace StackInjector.TEST.BlackBox
 
 #pragma warning disable IDE0051, IDE0044, CS0169, CS0649
 
-    internal class TestExceptions
+    internal class Exceptions
     {
 
         private class BaseNotAServiceThrower {[Served] private List<int> integers; }
