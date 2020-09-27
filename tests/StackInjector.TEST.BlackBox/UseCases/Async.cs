@@ -8,12 +8,12 @@ using StackInjector.Attributes;
 using StackInjector.Settings;
 using CTkn = System.Threading.CancellationToken;
 
-namespace StackInjector.TEST.BlackBox
+namespace StackInjector.TEST.BlackBox.UseCases
 {
 
 #pragma warning disable IDE0051, IDE0044, CS0169, CS0649
 
-    internal class TestAsync
+    internal class Async
     {
         //todo test is broken. Rewrite.
         /*x
@@ -68,7 +68,7 @@ namespace StackInjector.TEST.BlackBox
                 );
 
             // test callback
-            wrapper.OnElaborated += ( i ) => Console.Write(i); 
+            wrapper.OnElaborated += ( i ) => Console.Write(i);
 
             // test submit
             wrapper.Submit(420);
