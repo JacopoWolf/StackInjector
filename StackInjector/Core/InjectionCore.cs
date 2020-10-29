@@ -15,18 +15,18 @@ namespace StackInjector.Core
     internal partial class InjectionCore
     {
         // entry point object of this core
-        private Type _entryPoint;
-        internal Type EntryPoint
+        private Type _entryType;
+        internal Type EntryType
         {
             get
-                => this._entryPoint;
+                => this._entryType;
             set
             {
                 var serviceAtt = value.GetCustomAttribute<ServiceAttribute>();
                 if( serviceAtt != null && serviceAtt.Pattern == InstantiationPattern.AlwaysCreate )
                     throw new InvalidEntryTypeException(value, $"Entry point {value.Name} cannot have {InstantiationPattern.AlwaysCreate} as instantiation pattern.");
 
-                this._entryPoint = value;
+                this._entryType = value;
             }
         }
 

@@ -33,7 +33,7 @@ namespace StackInjector
             // create the core and wrap it
             var core = new InjectionCore( settings )
             {
-                EntryPoint = typeof(T)
+                EntryType = typeof(T)
             };
 
             var wrapper = new StackWrapper<T>(core);
@@ -75,7 +75,7 @@ namespace StackInjector
             // create the core and wrap it
             var core = new InjectionCore( settings )
             {
-                EntryPoint = typeof(TEntry)
+                EntryType = typeof(TEntry)
             };
 
             var wrapper = new AsyncStackWrapper<TEntry, TIn,TOut>(core)

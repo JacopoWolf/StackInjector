@@ -15,10 +15,10 @@ namespace StackInjector.Core
                 var toInject = new Queue<object>();
 
                 // saves time in later elaboration
-                this.EntryPoint = this.ClassOrFromInterface(this.EntryPoint);
+                this.EntryType = this.ClassOrFromInterface(this.EntryType);
 
                 // instantiates and enqueues the EntryPoint
-                toInject.Enqueue(this.InstantiateService(this.EntryPoint));
+                toInject.Enqueue(this.InstantiateService(this.EntryType));
 
                 // enqueuing loop
                 while( toInject.Any() )
@@ -49,7 +49,7 @@ namespace StackInjector.Core
             return
                 (T)this
                     .instances
-                    .OfType(this.EntryPoint)
+                    .OfType(this.EntryType)
                     .First();
         }
     }

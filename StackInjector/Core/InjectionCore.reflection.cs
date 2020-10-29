@@ -36,7 +36,7 @@ namespace StackInjector.Core
         internal void ReadAssemblies ()
         {
             if( this.settings._registerEntryPointAssembly )
-                this.settings._registredAssemblies.Add(this.EntryPoint.Assembly);
+                this.settings._registredAssemblies.Add(this.EntryType.Assembly);
 
             foreach
             (
