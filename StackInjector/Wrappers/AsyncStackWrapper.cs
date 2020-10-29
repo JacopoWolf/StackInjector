@@ -35,7 +35,7 @@ namespace StackInjector.Wrappers
         public override string ToString ()
             =>
                 $"AsyncStackWrapper<{typeof(TEntry).Name},{typeof(TIn).Name},{typeof(TOut).Name}>" +
-                $"{{ {this.Core.instances.AllTypes().Count()} registered types; " +
+                $"{{ {this.Core.instances.Count} registered types; " +
                 $"canceled: {this.cancelPendingTasksSource.IsCancellationRequested} }}";
 
     }

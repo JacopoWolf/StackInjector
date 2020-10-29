@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using StackInjector.Attributes;
-using StackInjector.Behaviours;
 using StackInjector.Exceptions;
 using StackInjector.Settings;
 
@@ -30,12 +29,11 @@ namespace StackInjector.Core
             }
         }
 
-
         // manage settings
         internal StackWrapperSettings settings;
 
         // holds instances
-        internal IInstancesHolder instances;
+        internal InstancesHolder instances;
 
         // tracks instantiated objects
         internal readonly List<object> instancesDiff;
@@ -49,7 +47,7 @@ namespace StackInjector.Core
         {
             this.settings = settings;
 
-            this.instances = new SingleInstanceHolder();
+            this.instances = new InstancesHolder();
 
             if( this.settings._trackInstancesDiff )
                 this.instancesDiff = new List<object>();

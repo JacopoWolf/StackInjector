@@ -32,7 +32,7 @@ namespace StackInjector.Wrappers
 
         public override string ToString ()
             =>
-                $"StackWrapper<{typeof(TEntry).Name}>{{ {this.Core.instances.AllTypes().Count()} registered types }}";
+                $"StackWrapper<{typeof(TEntry).Name}>{{ {this.Core.instances.Count} registered types }}";
 
 
 

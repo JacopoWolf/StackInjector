@@ -26,7 +26,7 @@ namespace StackInjector.Core
                 throw new MissingParameterlessConstructorException(type, mme.Message, mme);
             }
 
-            this.instances.AddInstance(type, instance);
+            this.instances[type].AddLast(instance);
 
             // if true, track instantiated objects
             if( this.settings._trackInstancesDiff )
@@ -44,7 +44,7 @@ namespace StackInjector.Core
             if( serviceAtt == null )
                 throw new NotAServiceException(type, $"The type {type.FullName} is not annotated with [Service]");
 
-            if( !this.instances.ContainsType(type) )
+            if( !this.instances.ContainsKey(type) )
                 throw new ServiceNotFoundException(type, $"The type {type.FullName} is not in a registred assembly!");
 
 
@@ -52,11 +52,10 @@ namespace StackInjector.Core
             {
                 default:
                 case InstantiationPattern.Singleton:
-                    var instanceOfType = this.instances.OfType(type).First();
 
-                    return (instanceOfType is null)
-                            ? this.InstantiateService(type)
-                            : instanceOfType;
+                    return (this.instances[type].Any())
+                            ? this.instances[type].First()
+                            : this.InstantiateService(type);
 
                 // always create doesn't track instantiated classes
                 case InstantiationPattern.AlwaysCreate:
@@ -77,7 +76,7 @@ namespace StackInjector.Core
             {
                 foreach( var instance in this.instancesDiff )
                 {
-                    this.instances.RemoveInstance(instance.GetType(), instance);
+                    this.instances[instance.GetType()].Remove(instance);
 
                     // if the relative setting is true, check if the instance implements IDisposable and call it
                     if( this.settings._callDisposeOnInstanceDiff && instance is IDisposable disposable )
