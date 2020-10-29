@@ -21,7 +21,7 @@ namespace StackInjector.Core
                 this.EntryType = this.ClassOrFromInterface(this.EntryType);
 
                 // instantiates and enqueues the EntryPoint
-                toInject.Enqueue(this.InstantiateService(this.EntryType));
+                toInject.Enqueue(this.OfTypeOrInstantiate(this.EntryType));
 
                 // enqueuing loop
                 while( toInject.Any() )

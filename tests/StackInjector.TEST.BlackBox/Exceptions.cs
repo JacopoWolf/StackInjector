@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NuGet.Frameworks;
 using NUnit.Framework;
 using StackInjector.Attributes;
 using StackInjector.Exceptions;
@@ -12,7 +13,7 @@ namespace StackInjector.TEST.BlackBox
 
     internal class Exceptions
     {
-
+        [Service]
         private class BaseNotAServiceThrower {[Served] private List<int> integers; }
 
         [Test]
@@ -22,7 +23,16 @@ namespace StackInjector.TEST.BlackBox
         }
 
 
+        private class BaseNotAService { }
+
+        [Test]
+        public void ThrowsBaseNotAService ()
+        {
+            Assert.Throws<NotAServiceException>(() => Injector.From<BaseNotAService>());
+        }
+
         // references class in unregistred external assembly
+        [Service]
         private class BaseServiceNotFoundThrower {[Served] public Externalclass externalClass; }
 
         [Test]
@@ -59,7 +69,7 @@ namespace StackInjector.TEST.BlackBox
 
 
         private interface INoImplementationThrower { void SomeMethod (); }
-        private class BaseNoImplementationThrower {[Served] private INoImplementationThrower no; }
+        [Service] private class BaseNoImplementationThrower {[Served] private INoImplementationThrower no; }
 
         [Test]
         public void ThrowsImplementationNotFound ()
