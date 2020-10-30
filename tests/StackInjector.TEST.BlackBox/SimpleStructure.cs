@@ -14,7 +14,13 @@ namespace StackInjector.TEST.BlackBox
     class EmptyTestClass { }
 
     /*
-     * base -> level 1 (A,B) -> level 2
+     * base
+     * 
+     *      level1A -
+     *          level1_2
+     *          
+     *      level1B -
+     *              - level 2
      */
 
 
@@ -36,10 +42,16 @@ namespace StackInjector.TEST.BlackBox
 
 
     [Service(Version = 2.0)]
-    internal class VersionedBase
+    internal class InterfaceVersionedBase
     {
         [Served(TargetingMethod = ServedVersionTargetingMethod.Exact, TargetVersion = 1.2)]
         public ILevel1 level1;
+    }
+
+    [Service]
+    internal class ClassVersionedBase
+    {
+
     }
 
     [Service]
@@ -115,6 +127,12 @@ namespace StackInjector.TEST.BlackBox
     {
         [Ignored]
         public int Logic2 => 1;
+    }
+
+    [Service(Version = 2.0)]
+    internal class Level1_2 : Level1A
+    {
+
     }
 
     #endregion

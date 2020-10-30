@@ -112,6 +112,7 @@ namespace StackInjector.Core
             {
 
                 var generic = type.GetGenericArguments()[0];
+
                 // list of sorted valid types
                 var validTypes = this.Version( generic, servedAttribute ).ToArray();
 
@@ -133,7 +134,7 @@ namespace StackInjector.Core
             }
             else
             {
-                var serviceType = this.ClassOrFromInterface( type, servedAttribute );
+                var serviceType = this.ClassOrVersionFromInterface( type, servedAttribute );
                 var obj = this.OfTypeOrInstantiate(serviceType);
                 instantiated.Add(obj);
                 return obj;

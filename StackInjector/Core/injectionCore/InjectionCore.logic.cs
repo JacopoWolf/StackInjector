@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using StackInjector.Exceptions;
 
 namespace StackInjector.Core
 {
@@ -9,16 +10,16 @@ namespace StackInjector.Core
 
         internal void ServeAll ()
         {
+            // those don't need to be inside the lock.
             var injected = new HashSet<object>();
+            var toInject = new Queue<object>();
 
-            // ensures that two threads are not trying to Dispose and InjectAll at the same time
+
+            // ensures that two threads are not trying to Dispose/InjectAll at the same time
             lock( this._lock )
             {
-
-                var toInject = new Queue<object>();
-
-                // saves time in later elaboration
-                this.EntryType = this.ClassOrFromInterface(this.EntryType);
+                // entry type must always be a class
+                this.EntryType = this.ClassOrVersionFromInterface(this.EntryType);
 
                 // instantiates and enqueues the EntryPoint
                 toInject.Enqueue(this.OfTypeOrInstantiate(this.EntryType));
@@ -49,10 +50,11 @@ namespace StackInjector.Core
         // retrieves the entry point of the specified type
         internal T GetEntryPoint<T> ()
         {
-            return
-                (T)this
-                    .instances[this.EntryType]
-                    .First();
+            var entries = this.instances[this.EntryType];
+
+            return (entries.Any())
+                ? (T)entries.First()
+                : throw new InvalidEntryTypeException($"No instance found for entry type {this.EntryType.FullName}");
         }
     }
 }

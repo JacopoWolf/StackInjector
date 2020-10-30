@@ -12,7 +12,7 @@ namespace StackInjector.Core
         // Instantiates the specified [Served] type
         private object InstantiateService ( Type type )
         {
-            type = this.ClassOrFromInterface(type);
+            type = this.ClassOrVersionFromInterface(type);
 
 
             if( type.GetConstructor(Array.Empty<Type>()) == null )
