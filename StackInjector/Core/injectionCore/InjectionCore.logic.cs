@@ -41,8 +41,6 @@ namespace StackInjector.Core
 
             }
 
-            //? should clear injected HashSet?
-
         }
 
 

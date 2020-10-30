@@ -15,16 +15,11 @@ namespace StackInjector.Core
             type = this.ClassOrFromInterface(type);
 
 
-            object instance;
+            if( type.GetConstructor(Array.Empty<Type>()) == null )
+                throw new MissingParameterlessConstructorException(type,$"Missing parameteless constructor for {type.FullName}");
 
-            try
-            {
-                instance = Activator.CreateInstance(type);
-            }
-            catch( MissingMethodException mme )
-            {
-                throw new MissingParameterlessConstructorException(type, mme.Message, mme);
-            }
+            object instance = Activator.CreateInstance(type);    
+            
 
             this.instances[type].AddLast(instance);
 

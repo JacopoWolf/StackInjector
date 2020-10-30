@@ -13,7 +13,6 @@ namespace StackInjector.Core
                 .Where(t => type.IsAssignableFrom(t));
 
 
-        //? would it actually work
         internal IEnumerable<object> InstancesAssignableFrom ( Type type )
             => this
                 .Where(pair => type.IsAssignableFrom(pair.Key) && pair.Value.Any())
