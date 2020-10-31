@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using NuGet.Frameworks;
 using NUnit.Framework;
 using StackInjector.Attributes;
 using StackInjector.Exceptions;
@@ -20,9 +19,7 @@ namespace StackInjector.TEST.BlackBox
 
         [Test]
         public void ThrowsNotAService ()
-        {
-            Assert.Throws<NotAServiceException>(() => Injector.From<BaseNotAServiceThrower>());
-        }
+            => Assert.Throws<NotAServiceException>(() => Injector.From<BaseNotAServiceThrower>());
 
         //  ----------
 
@@ -30,9 +27,7 @@ namespace StackInjector.TEST.BlackBox
 
         [Test]
         public void ThrowsBaseNotAService ()
-        {
-            Assert.Throws<NotAServiceException>(() => Injector.From<BaseNotAService>());
-        }
+            => Assert.Throws<NotAServiceException>(() => Injector.From<BaseNotAService>());
 
         //  ----------
 
@@ -42,9 +37,7 @@ namespace StackInjector.TEST.BlackBox
 
         [Test]
         public void ThrowsServiceNotFound ()
-        {
-            Assert.Throws<ServiceNotFoundException>(() => Injector.From<BaseServiceNotFoundThrower>());
-        }
+            => Assert.Throws<ServiceNotFoundException>(() => Injector.From<BaseServiceNotFoundThrower>());
 
 
         [Test]
@@ -81,9 +74,7 @@ namespace StackInjector.TEST.BlackBox
 
         [Test]
         public void ThrowsImplementationNotFound ()
-        {
-            Assert.Throws<ImplementationNotFoundException>(() => Injector.From<BaseNoImplementationThrower>());
-        }
+            => Assert.Throws<ImplementationNotFoundException>(() => Injector.From<BaseNoImplementationThrower>());
 
         //  ----------
 
@@ -91,9 +82,7 @@ namespace StackInjector.TEST.BlackBox
 
         [Test]
         public void ThrowsInvalidEntryType ()
-        {
-            Assert.Throws<InvalidEntryTypeException>(() => Injector.From<InvalidEntryTypeThrower>());
-        }
+            => Assert.Throws<InvalidEntryTypeException>(() => Injector.From<InvalidEntryTypeThrower>());
 
         //  ----------
 
@@ -103,9 +92,7 @@ namespace StackInjector.TEST.BlackBox
 
         [Test]
         public void ThrowsMissingParameterlessConstructor ()
-        {
-            Assert.Throws<MissingParameterlessConstructorException>(() => Injector.From<BaseNoParameterlessConstructorThrower>());
-        }
+            => Assert.Throws<MissingParameterlessConstructorException>(() => Injector.From<BaseNoParameterlessConstructorThrower>());
 
         //  ----------
 
@@ -114,9 +101,7 @@ namespace StackInjector.TEST.BlackBox
 
         [Test]
         public void ThrowsNoSetter ()
-        {
-            Assert.Throws<NoSetterException>(() => Injector.From<BaseNoSetterThrower>());
-        }
+            => Assert.Throws<NoSetterException>(() => Injector.From<BaseNoSetterThrower>());
 
     }
 }

@@ -12,10 +12,7 @@ namespace StackInjector.Exceptions
         /// </summary>
         public Type SourceType { get; private protected set; }
 
-        internal StackInjectorException ( Type type, string message ) : this(message)
-        {
-            this.SourceType = type;
-        }
+        internal StackInjectorException ( Type type, string message ) : this(message) => this.SourceType = type;
 
         internal StackInjectorException () : base() { }
 

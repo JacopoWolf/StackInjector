@@ -9,10 +9,7 @@ namespace StackInjector.Exceptions
     {
         internal MissingParameterlessConstructorException () { }
 
-        internal MissingParameterlessConstructorException ( Type type, string message ) : base(message)
-        {
-            this.SourceType = type;
-        }
+        internal MissingParameterlessConstructorException ( Type type, string message ) : base(message) => this.SourceType = type;
 
         internal MissingParameterlessConstructorException ( string message ) : base(message) { }
 

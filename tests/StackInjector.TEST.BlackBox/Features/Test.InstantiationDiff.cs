@@ -1,35 +1,29 @@
-﻿using StackInjector;
-using System;
+﻿using System.Linq;
 using NUnit.Framework;
-using StackInjector.Wrappers;
 using StackInjector.Attributes;
-using StackInjector.Settings;
-using System.Linq;
-using System.Transactions;
 using StackInjector.Exceptions;
+using StackInjector.Settings;
+using StackInjector.Wrappers;
 
 namespace StackInjector.TEST.BlackBox.Features
 {
 #pragma warning disable CS0649
 
     //[Ignore("Feature still under development after massive internal rewrite.")]
-    class InstantiationDiff
+    internal class InstantiationDiff
     {
         [Service]
-        class WrapperBase
+        private class WrapperBase
         {
             [Served]
             public readonly ServiceA serviceA;
 
-            public void Work()
-            {
-                this.serviceA.sharedCondition = true;
-            }
+            public void Work () => this.serviceA.sharedCondition = true;
 
         }
 
         [Service]
-        class ServiceA
+        private class ServiceA
         {
             public bool sharedCondition;
         }
@@ -54,7 +48,7 @@ namespace StackInjector.TEST.BlackBox.Features
                 Assert.DoesNotThrow(() => wrapperB.Entry.Work());
                 Assert.AreSame
                 (
-                    wrapperA.GetServices<ServiceA>().First(), 
+                    wrapperA.GetServices<ServiceA>().First(),
                     wrapperB.GetServices<ServiceA>().First()
                 );
             });
@@ -75,7 +69,7 @@ namespace StackInjector.TEST.BlackBox.Features
             }
 
             // after a deep clone there are no instances in wrapperB
-            Assert.Throws<InvalidEntryTypeException>( () => wrapperB.Entry.Work() );
+            Assert.Throws<InvalidEntryTypeException>(() => wrapperB.Entry.Work());
 
         }
 
@@ -98,7 +92,7 @@ namespace StackInjector.TEST.BlackBox.Features
                 Assert.DoesNotThrow(() => wrapperB.Entry.Work());
                 Assert.AreNotSame
                 (
-                    wrapperA.GetServices<ServiceA>().First(), 
+                    wrapperA.GetServices<ServiceA>().First(),
                     wrapperB.GetServices<ServiceA>().First()
                 );
             });
@@ -119,7 +113,7 @@ namespace StackInjector.TEST.BlackBox.Features
             }
 
             // wrapper B is a deep clone. Being different objects, disposing one won't interact with the other
-            Assert.DoesNotThrow( () => wrapperB.Entry.Work() );
+            Assert.DoesNotThrow(() => wrapperB.Entry.Work());
 
         }
     }

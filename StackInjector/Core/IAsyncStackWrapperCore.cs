@@ -22,12 +22,6 @@ namespace StackInjector.Core
         CancellationToken PendingTasksCancellationToken { get; }
 
         /// <summary>
-        /// submit new work to this wrapper
-        /// </summary>
-        /// <param name="work"></param>
-        void Submit ( Task<T> work );
-
-        /// <summary>
         /// The loop you ca use to <c>await foreach</c> tasks in elaboration, converted to the specified type.
         /// When the pending tasks list is empty, unless <see cref="IDisposable.Dispose"/> is explocitly called
         /// this will wait indefinitively.

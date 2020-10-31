@@ -31,11 +31,9 @@ namespace StackInjector.Core
         protected internal LinkedList<Task<T>> tasks = new LinkedList<Task<T>>();
 
 
-        internal AsyncStackWrapperCore ( InjectionCore core, Type toRegister ) : base(core, toRegister)
-        {
-            // register an event that in case the list is empty, release the empty event listener.
+        // register an event that in case the list is empty, release the empty event listener.
+        internal AsyncStackWrapperCore ( InjectionCore core, Type toRegister ) : base(core, toRegister) =>
             this.cancelPendingTasksSource.Token.Register(this.ReleaseListAwaiter);
-        }
 
 
 

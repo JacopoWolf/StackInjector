@@ -11,7 +11,7 @@ namespace StackInjector.TEST.BlackBox
 #pragma warning disable CS0649, IDE0044, IDE0051
 
     [Service]
-    class EmptyTestClass { }
+    internal class EmptyTestClass { }
 
     /* class structure
      * 

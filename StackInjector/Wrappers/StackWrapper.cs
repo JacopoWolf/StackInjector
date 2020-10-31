@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using StackInjector.Attributes;
 using StackInjector.Core;
 using StackInjector.Settings;

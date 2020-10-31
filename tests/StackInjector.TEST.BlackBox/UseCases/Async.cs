@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using StackInjector.Attributes;
-using StackInjector.Settings;
 using CTkn = System.Threading.CancellationToken;
 
 
@@ -24,12 +21,12 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
         // base async test class
         [Service]
-        class AsyncBase
+        private class AsyncBase
         {
             internal async Task<object> WaitForever ( object obj, CTkn tkn )
             {
                 // waits forever unless cancelled
-                await Task.Delay(-1,tkn);
+                await Task.Delay(-1, tkn);
                 return obj;
             }
 
@@ -58,15 +55,30 @@ namespace StackInjector.TEST.BlackBox.UseCases
         }
 
         [Test]
-        public void SubmitAndCatchAsyncEnumerable ()
+        public async Task SubmitAndCatchAsyncEnumerable ()
         {
             using var wrapper = Injector.AsyncFrom<AsyncBase,object,object>( (b,i,t) => b.ReturnArg(i,t) );
-            var task1 = wrapper.Submit(new object());
-            var task2 = wrapper.Submit(new object());
+            object
+                obj1 = new object(),
+                obj2 = new object();
+
+            wrapper.Submit(obj1);
+            wrapper.Submit(obj2);
+
+            var objs = new List<object>();
+            var count = 0;
+
+            await foreach( var obj in wrapper.Elaborated() )
+            {
+                objs.Add(obj);
+                if( ++count > 2 )
+                    break;
+            }
 
             Assert.Multiple(() =>
             {
-
+                Assert.IsFalse(wrapper.AnyTaskLeft());
+                CollectionAssert.AreEquivalent( new object[] { obj1, obj2 }, objs );
             });
 
         }

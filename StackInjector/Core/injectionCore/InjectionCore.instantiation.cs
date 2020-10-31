@@ -16,10 +16,10 @@ namespace StackInjector.Core
 
 
             if( type.GetConstructor(Array.Empty<Type>()) == null )
-                throw new MissingParameterlessConstructorException(type,$"Missing parameteless constructor for {type.FullName}");
+                throw new MissingParameterlessConstructorException(type, $"Missing parameteless constructor for {type.FullName}");
 
-            object instance = Activator.CreateInstance(type);    
-            
+            var instance = Activator.CreateInstance(type);
+
 
             this.instances[type].AddLast(instance);
 
@@ -44,20 +44,15 @@ namespace StackInjector.Core
                 throw new ServiceNotFoundException(type, $"The type {type.FullName} is not in a registred assembly!");
 
 
-            switch( serviceAtt.Pattern )
+            return serviceAtt.Pattern switch
             {
-                default:
-                case InstantiationPattern.Singleton:
-
-                    return (this.instances[type].Any())
-                            ? this.instances[type].First()
-                            : this.InstantiateService(type);
-
-                // always create doesn't track instantiated classes
-                case InstantiationPattern.AlwaysCreate:
-                    return this.InstantiateService(type);
-            }
-
+                InstantiationPattern.AlwaysCreate // always create doesn't track instantiated classes
+                    => this.InstantiateService(type),
+                _ 
+                    => (this.instances[type].Any())
+                        ? this.instances[type].First()
+                        : this.InstantiateService(type),
+            };
         }
 
 

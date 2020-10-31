@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace StackInjector.Core
 {
-    internal class InstancesHolder : Dictionary<Type,LinkedList<object>>
+    internal class InstancesHolder : Dictionary<Type, LinkedList<object>>
     {
 
         internal IEnumerable<Type> TypesAssignableFrom ( Type type )
@@ -19,10 +19,7 @@ namespace StackInjector.Core
                 .SelectMany(pair => pair.Value);
 
 
-        internal void AddType ( Type type )
-        {
-            this.TryAdd(type, new LinkedList<object>());
-        }
+        internal void AddType ( Type type ) => this.TryAdd(type, new LinkedList<object>());
 
         // clones just the structure, the classes references are not cloned
         internal InstancesHolder CloneStructure ()

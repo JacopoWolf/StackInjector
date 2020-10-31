@@ -41,7 +41,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
         }
 
 
-        [Service] private class VersionClass { [Served] internal Level1A Level1_2; }
+        [Service] private class VersionClass {[Served] internal Level1A Level1_2; }
 
         [Test]
         public void ServerdVersioningClass ()
@@ -54,7 +54,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
             /* CLASSES ARE NOT VERSIONED, ONLY INTERFACES
              * this is why this tests checks if the field is not of Level1_2
-            */ 
+            */
             Assert.That(versionedService, Is.Not.InstanceOf<Level1_2>());
 
         }
@@ -91,10 +91,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
         [Service] private class ReferenceLoopB {[Served] public ReferenceLoopA loopA; }
 
         [Test]
-        public void CircularReference ()
-        {
-            Assert.That(() => Injector.From<ReferenceLoopA>(), Throws.Nothing);
-        }
+        public void CircularReference () => Assert.That(() => Injector.From<ReferenceLoopA>(), Throws.Nothing);
 
 
         [Test]

@@ -9,12 +9,10 @@ namespace StackInjector.Core
     internal abstract partial class AsyncStackWrapperCore<T>
     {
         // call the semaphore
-        protected internal void ReleaseListAwaiter ()
-        {
-            this._emptyListAwaiter.Release();
-        }
+        protected internal void ReleaseListAwaiter () => this._emptyListAwaiter.Release();
 
-        public void Submit ( Task<T> work )
+
+        internal void Submit ( Task<T> work )
         {
             lock( this._listAccessLock )
                 this.tasks.AddLast(work);
@@ -25,6 +23,7 @@ namespace StackInjector.Core
                 this.ReleaseListAwaiter();
         }
 
+
         public bool AnyTaskLeft ()
         {
             lock( this._listAccessLock )
@@ -33,7 +32,8 @@ namespace StackInjector.Core
 
         public bool AnyTaskCompleted ()
         {
-            return this.tasks.Any(t => t.IsCompleted);
+            lock( this._listAccessLock )
+                return this.tasks.Any(t => t.IsCompleted);
         }
 
         // todo add a method to safely exit the await loop to be able to re-join later or maybe an Unloack() of some sort
