@@ -14,77 +14,61 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
 #pragma warning disable IDE0051, IDE0044, CS0169, CS0649
 
-    //TODO: rewrite async tests
-    [Ignore("tests are broken. TODO: rewrite")]
     internal class Async
     {
-        //! everything is broken and i can't figure out why
+        /*NOTE: AsyncStackWrapper is an extension od the normal wrapper,
+         * there is a common core logic; this means that the tests done in UseCases.Sync
+         * are also valid for the AsyncStackWrapper, since the tested code is the same
+         * (injection logic)
+         */
 
-
-        /*x
-        [Test]
-        [Timeout(500)]
-        [Retry(3)]
-        public async Task Simple ()
+        // base async test class
+        [Service]
+        class AsyncBase
         {
-            
-            using var wrapper = Injector.AsyncFrom
-                (
-                    ( BaseAsync e, int i, CTkn t ) => e.Logic( i, t ),
-                    StackWrapperSettings.Default
-                );
+            internal async Task<object> WaitForever ( object obj, CTkn tkn )
+            {
+                // waits forever unless cancelled
+                await Task.Delay(-1,tkn);
+                return obj;
+            }
 
-
-            var rnd = new Random(42);
-            foreach( var item in Enumerable.Range(0, 6).OrderBy(i => rnd.Next()) )
-                wrapper.Submit(item);
-
-
-            var results = new List<int>();
-            await foreach( var result in wrapper.Elaborated() )
-                results.Add(result);
-
-
-            CollectionAssert.AreEquivalent
-            (
-                new int[] { 10, 11, 12, 13, 14, 15 },
-                results
-            );
-            
+            internal async Task<object> ReturnArg ( object obj, CTkn tkn )
+            {
+                // waits forever unless cancelled
+                await Task.Delay(0, tkn);
+                return obj;
+            }
         }
-        */
+
+
 
         [Test]
-        [Retry(3)]
-        public void AsyncConcurrentExecution ()
+        public void SubmitNoElaboration ()
         {
-            var settings = StackWrapperSettings
-                .Default
-                .WhenNoMoreTasks(AsyncWaitingMethod.Exit);
+            using var wrapper = Injector.AsyncFrom<AsyncBase,object,object>( (b,i,t) => b.WaitForever(i,t) );
+            wrapper.Submit(new object());
 
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(wrapper.AnyTaskLeft());
+                Assert.IsFalse(wrapper.AnyTaskCompleted());
+            });
 
-            // does nothing but waiting
-            var wrapper = Injector.AsyncFrom<EmptyTestClass,int,int>
-                (
-                    // enough delay for T1 to NOT FINISH execution before the second method call,
-                    // if T1 has finished executing then the second method will run empty withouth errors
-                    async (e, i, t) => { await Task.Delay(10000); return i; },
-                    settings
-                );
-
-            // test callback
-            wrapper.OnElaborated += ( i ) => Console.Write(i);
-
-            // test submit
-            wrapper.Submit(420);
-
-            // 1st call
-            var t1 = wrapper.Elaborate();
-
-            // 2nd call. 
-            // If t1 is still elaborating this is an invalid operation
-            Assert.Throws<InvalidOperationException>(() => wrapper.Elaborate());
         }
-        
+
+        [Test]
+        public void SubmitAndCatchAsyncEnumerable ()
+        {
+            using var wrapper = Injector.AsyncFrom<AsyncBase,object,object>( (b,i,t) => b.ReturnArg(i,t) );
+            var task1 = wrapper.Submit(new object());
+            var task2 = wrapper.Submit(new object());
+
+            Assert.Multiple(() =>
+            {
+
+            });
+
+        }
     }
 }

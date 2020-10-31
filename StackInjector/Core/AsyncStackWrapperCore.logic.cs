@@ -11,12 +11,12 @@ namespace StackInjector.Core
         // call the semaphore
         protected internal void ReleaseListAwaiter ()
         {
-            this.emptyListAwaiter.Release();
+            this._emptyListAwaiter.Release();
         }
 
         public void Submit ( Task<T> work )
         {
-            lock( this.listAccessLock )
+            lock( this._listAccessLock )
                 this.tasks.AddLast(work);
 
             // if the list was empty just an item ago, signal it's not anymore.
@@ -27,7 +27,7 @@ namespace StackInjector.Core
 
         public bool AnyTaskLeft ()
         {
-            lock( this.listAccessLock )
+            lock( this._listAccessLock )
                 return this.tasks.Any();
         }
 
@@ -49,7 +49,7 @@ namespace StackInjector.Core
                 {
                     var completed = await Task.WhenAny(this.tasks).ConfigureAwait(false);
 
-                    lock( this.listAccessLock )
+                    lock( this._listAccessLock )
                         this.tasks.Remove(completed);
 
                     yield return completed.Result;
@@ -62,24 +62,15 @@ namespace StackInjector.Core
                 }
             }
 
-            lock( this.listAccessLock )
-                this.exclusiveExecution = false;
+            lock( this._listAccessLock )
+                this._exclusiveExecution = false;
 
         }
 
-        public Task Elaborate ()
+        public async Task Elaborate ()
         {
-            // must run syncronously
-            this.EnsureExclusiveExecution();
-
-            return
-                Task.Run(async () =>
-                {
-
-                    await foreach( var res in this.Elaborated() )
-                        this.OnElaborated?.Invoke(res);
-                });
-
+            await foreach( var res in this.Elaborated() )
+                this.OnElaborated?.Invoke(res);
         }
 
 
@@ -88,7 +79,7 @@ namespace StackInjector.Core
         {
             // to not repeat code
             Task listAwaiter ()
-                => this.emptyListAwaiter.WaitAsync();
+                => this._emptyListAwaiter.WaitAsync();
 
 
             switch( this.Settings._asyncWaitingMethod )
@@ -118,13 +109,13 @@ namespace StackInjector.Core
 
         private void EnsureExclusiveExecution ( bool set = false )
         {
-            lock( this.listAccessLock ) // reused lock
+            lock( this._listAccessLock ) // reused lock
             {
-                if( this.exclusiveExecution )
+                if( this._exclusiveExecution )
                     throw new InvalidOperationException();
 
                 if( set )
-                    this.exclusiveExecution = set;
+                    this._exclusiveExecution = set;
             }
         }
 

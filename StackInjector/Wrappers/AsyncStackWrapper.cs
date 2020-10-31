@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using StackInjector.Attributes;
 using StackInjector.Core;
 using StackInjector.Settings;
@@ -19,17 +20,17 @@ namespace StackInjector.Wrappers
         public AsyncStackWrapper ( InjectionCore core ) : base(core, typeof(AsyncStackWrapper<TEntry, TIn, TOut>))
         { }
 
-        public void Submit ( TIn item )
+        public Task<TOut> Submit ( TIn item )
         {
-            this.Submit
-                (
-                    this.StackDigest.Invoke
+            var task = this.StackDigest.Invoke
                     (
-                        this.Core.GetEntryPoint<TEntry>(),
+                        this.Entry,
                         item,
                         this.PendingTasksCancellationToken
-                    )
-                );
+                    );
+
+            this.Submit( task );
+            return task;
         }
 
         public override string ToString ()

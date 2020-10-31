@@ -13,6 +13,8 @@ namespace StackInjector.TEST.BlackBox
 
     internal class Exceptions
     {
+        //  ----------
+
         [Service]
         private class BaseNotAServiceThrower {[Served] private List<int> integers; }
 
@@ -22,6 +24,7 @@ namespace StackInjector.TEST.BlackBox
             Assert.Throws<NotAServiceException>(() => Injector.From<BaseNotAServiceThrower>());
         }
 
+        //  ----------
 
         private class BaseNotAService { }
 
@@ -30,6 +33,8 @@ namespace StackInjector.TEST.BlackBox
         {
             Assert.Throws<NotAServiceException>(() => Injector.From<BaseNotAService>());
         }
+
+        //  ----------
 
         // references class in unregistred external assembly
         [Service]
@@ -54,6 +59,7 @@ namespace StackInjector.TEST.BlackBox
             Assert.That(externalClass, Is.TypeOf<Externalclass>());
         }
 
+
         [Test]
         public void ExternalAllAssemblyReference ()
         {
@@ -68,6 +74,8 @@ namespace StackInjector.TEST.BlackBox
         }
 
 
+        //  ----------
+
         private interface INoImplementationThrower { void SomeMethod (); }
         [Service] private class BaseNoImplementationThrower {[Served] private INoImplementationThrower no; }
 
@@ -77,6 +85,7 @@ namespace StackInjector.TEST.BlackBox
             Assert.Throws<ImplementationNotFoundException>(() => Injector.From<BaseNoImplementationThrower>());
         }
 
+        //  ----------
 
         [Service(Pattern = InstantiationPattern.AlwaysCreate)] private class InvalidEntryTypeThrower { }
 
@@ -86,6 +95,7 @@ namespace StackInjector.TEST.BlackBox
             Assert.Throws<InvalidEntryTypeException>(() => Injector.From<InvalidEntryTypeThrower>());
         }
 
+        //  ----------
 
         [Service]
         private class BaseNoParameterlessConstructorThrower
@@ -97,6 +107,7 @@ namespace StackInjector.TEST.BlackBox
             Assert.Throws<MissingParameterlessConstructorException>(() => Injector.From<BaseNoParameterlessConstructorThrower>());
         }
 
+        //  ----------
 
         [Service]
         private class BaseNoSetterThrower {[Served] public Base Base { get; } }

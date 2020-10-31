@@ -37,7 +37,8 @@ namespace StackInjector.Wrappers
         /// submit a new item to be elaborated
         /// </summary>
         /// <param name="item">the item to submit</param>
-        void Submit ( TIn item );
+        Task<TOut> Submit ( TIn item );
+
 
     }
 }
