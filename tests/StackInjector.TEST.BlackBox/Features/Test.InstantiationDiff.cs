@@ -1,46 +1,62 @@
-﻿using StackInjector;
-using System;
+﻿using System.Linq;
 using NUnit.Framework;
-using StackInjector.Wrappers;
 using StackInjector.Attributes;
+using StackInjector.Exceptions;
 using StackInjector.Settings;
+using StackInjector.Wrappers;
 
 namespace StackInjector.TEST.BlackBox.Features
 {
 #pragma warning disable CS0649
 
-    class InstantiationDiff
+    //[Ignore("Feature still under development after massive internal rewrite.")]
+    internal class InstantiationDiff
     {
         [Service]
-        class WrapperBase
+        private class WrapperBase
         {
             [Served]
             public readonly ServiceA serviceA;
 
-            public void Work()
-            {
-                this.serviceA.sharedCondition = true;
-            }
+            public void Work () => this.serviceA.sharedCondition = true;
 
         }
 
         [Service]
-        class ServiceA : IDisposable
+        private class ServiceA
         {
             public bool sharedCondition;
-
-            public void Dispose()
-            {
-                Console.WriteLine("I've been disposed!");
-            }
-
         }
 
 
         [Test]
+        public void SimpleClone ()
+        {
+            var settings = StackWrapperSettings.Default
+                            .TrackInstantiationDiff();
+
+            IStackWrapper<WrapperBase> wrapperB;
+
+            var wrapperA = Injector.From<WrapperBase>(settings);
+
+            wrapperA.Start(e => e.Work());
+            wrapperB = wrapperA.CloneCore().ToWrapper<WrapperBase>();
+
+
+            Assert.Multiple(() =>
+            {
+                Assert.DoesNotThrow(() => wrapperB.Entry.Work());
+                Assert.AreSame
+                (
+                    wrapperA.GetServices<ServiceA>().First(),
+                    wrapperB.GetServices<ServiceA>().First()
+                );
+            });
+        }
+
+        [Test]
         public void SimpleCloneWithDispose ()
         {
-
             var settings = StackWrapperSettings.Default
                             .TrackInstantiationDiff();
 
@@ -52,13 +68,14 @@ namespace StackInjector.TEST.BlackBox.Features
                 wrapperB = wrapperA.CloneCore().ToWrapper<WrapperBase>();
             }
 
-
-            Assert.Throws<NullReferenceException>( () => wrapperB.Entry.Work() );
+            // after a deep clone there are no instances in wrapperB
+            Assert.Throws<InvalidEntryTypeException>(() => wrapperB.Entry.Work());
 
         }
 
+
         [Test]
-        public void SimpleClone ()
+        public void DeepClone ()
         {
             var settings = StackWrapperSettings.Default
                             .TrackInstantiationDiff();
@@ -66,16 +83,20 @@ namespace StackInjector.TEST.BlackBox.Features
             IStackWrapper<WrapperBase> wrapperB;
 
             var wrapperA = Injector.From<WrapperBase>(settings);
-            
+
             wrapperA.Start(e => e.Work());
-            wrapperB = wrapperA.CloneCore().ToWrapper<WrapperBase>();
-            
+            wrapperB = wrapperA.DeepCloneCore().ToWrapper<WrapperBase>();
 
-            
-            Assert.DoesNotThrow( () => wrapperB.Entry.Work() ); 
+            Assert.Multiple(() =>
+            {
+                Assert.DoesNotThrow(() => wrapperB.Entry.Work());
+                Assert.AreNotSame
+                (
+                    wrapperA.GetServices<ServiceA>().First(),
+                    wrapperB.GetServices<ServiceA>().First()
+                );
+            });
         }
-
-
 
         [Test]
         public void DeepCloneWithDispose ()
@@ -92,7 +113,8 @@ namespace StackInjector.TEST.BlackBox.Features
             }
 
             // wrapper B is a deep clone. Being different objects, disposing one won't interact with the other
-            Assert.DoesNotThrow( () => wrapperB.Entry.Work() );
+            Assert.DoesNotThrow(() => wrapperB.Entry.Work());
+
         }
     }
 }

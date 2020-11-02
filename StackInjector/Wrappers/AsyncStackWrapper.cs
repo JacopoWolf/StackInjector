@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System.Threading.Tasks;
 using StackInjector.Attributes;
 using StackInjector.Core;
 using StackInjector.Settings;
@@ -21,21 +21,33 @@ namespace StackInjector.Wrappers
 
         public void Submit ( TIn item )
         {
-            this.Submit
-                (
-                    this.StackDigest.Invoke
+            var task = this.StackDigest.Invoke
                     (
-                        this.Core.GetEntryPoint<TEntry>(),
+                        this.Entry,
                         item,
                         this.PendingTasksCancellationToken
-                    )
-                );
+                    );
+
+            base.Submit(task);
+        }
+
+        public Task<TOut> SubmitAndGet ( TIn item )
+        {
+            var task = this.StackDigest.Invoke
+                    (
+                        this.Entry,
+                        item,
+                        this.PendingTasksCancellationToken
+                    );
+
+            base.Submit(task);
+            return task;
         }
 
         public override string ToString ()
             =>
                 $"AsyncStackWrapper<{typeof(TEntry).Name},{typeof(TIn).Name},{typeof(TOut).Name}>" +
-                $"{{ {this.Core.instances.AllTypes().Count()} registered types; " +
+                $"{{ {this.Core.instances.Count} registered types; " +
                 $"canceled: {this.cancelPendingTasksSource.IsCancellationRequested} }}";
 
     }

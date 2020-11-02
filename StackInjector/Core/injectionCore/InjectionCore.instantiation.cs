@@ -12,21 +12,16 @@ namespace StackInjector.Core
         // Instantiates the specified [Served] type
         private object InstantiateService ( Type type )
         {
-            type = this.ClassOrFromInterface(type);
+            type = this.ClassOrVersionFromInterface(type);
 
 
-            object instance;
+            if( type.GetConstructor(Array.Empty<Type>()) == null )
+                throw new MissingParameterlessConstructorException(type, $"Missing parameteless constructor for {type.FullName}");
 
-            try
-            {
-                instance = Activator.CreateInstance(type);
-            }
-            catch( MissingMethodException mme )
-            {
-                throw new MissingParameterlessConstructorException(type, mme.Message, mme);
-            }
+            var instance = Activator.CreateInstance(type);
 
-            this.instances.AddInstance(type, instance);
+
+            this.instances[type].AddLast(instance);
 
             // if true, track instantiated objects
             if( this.settings._trackInstancesDiff )
@@ -44,25 +39,20 @@ namespace StackInjector.Core
             if( serviceAtt == null )
                 throw new NotAServiceException(type, $"The type {type.FullName} is not annotated with [Service]");
 
-            if( !this.instances.ContainsType(type) )
+            //todo allow disabling of this check and add services at runtime
+            if( !this.instances.ContainsKey(type) )
                 throw new ServiceNotFoundException(type, $"The type {type.FullName} is not in a registred assembly!");
 
 
-            switch( serviceAtt.Pattern )
+            return serviceAtt.Pattern switch
             {
-                default:
-                case InstantiationPattern.Singleton:
-                    var instanceOfType = this.instances.OfType(type).First();
-
-                    return (instanceOfType is null)
-                            ? this.InstantiateService(type)
-                            : instanceOfType;
-
-                // always create doesn't track instantiated classes
-                case InstantiationPattern.AlwaysCreate:
-                    return this.InstantiateService(type);
-            }
-
+                InstantiationPattern.AlwaysCreate // always create doesn't track instantiated classes
+                    => this.InstantiateService(type),
+                _ 
+                    => (this.instances[type].Any())
+                        ? this.instances[type].First()
+                        : this.InstantiateService(type),
+            };
         }
 
 
@@ -77,7 +67,7 @@ namespace StackInjector.Core
             {
                 foreach( var instance in this.instancesDiff )
                 {
-                    this.instances.RemoveInstance(instance.GetType(), instance);
+                    this.instances[instance.GetType()].Remove(instance);
 
                     // if the relative setting is true, check if the instance implements IDisposable and call it
                     if( this.settings._callDisposeOnInstanceDiff && instance is IDisposable disposable )

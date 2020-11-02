@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using StackInjector.Exceptions;
 
 namespace StackInjector.Core
 {
@@ -8,17 +9,19 @@ namespace StackInjector.Core
 
         internal void ServeAll ()
         {
-            // ensures that two threads are not trying to Dispose and InjectAll at the same time
+            // those don't need to be inside the lock.
+            var injected = new HashSet<object>();
+            var toInject = new Queue<object>();
+
+
+            // ensures that two threads are not trying to Dispose/InjectAll at the same time
             lock( this._lock )
             {
-
-                var toInject = new Queue<object>();
-
-                // saves time in later elaboration
-                this.EntryPoint = this.ClassOrFromInterface(this.EntryPoint);
+                // entry type must always be a class
+                this.EntryType = this.ClassOrVersionFromInterface(this.EntryType);
 
                 // instantiates and enqueues the EntryPoint
-                toInject.Enqueue(this.InstantiateService(this.EntryPoint));
+                toInject.Enqueue(this.OfTypeOrInstantiate(this.EntryType));
 
                 // enqueuing loop
                 while( toInject.Any() )
@@ -27,12 +30,12 @@ namespace StackInjector.Core
                     var usedServices = this.InjectServicesInto(next);
 
                     // this object has been injected
-                    this.instances.SetInjectionStatus(next);
+                    injected.Add(next);
 
                     // foreach injected object check if it has already been injected. 
                     // saves time in most situations
                     foreach( var service in usedServices )
-                        if( !this.instances.IsInjected(service) )
+                        if( !injected.Contains(service) )
                             toInject.Enqueue(service);
                 }
 
@@ -46,11 +49,11 @@ namespace StackInjector.Core
         // retrieves the entry point of the specified type
         internal T GetEntryPoint<T> ()
         {
-            return
-                (T)this
-                    .instances
-                    .OfType(this.EntryPoint)
-                    .First();
+            var entries = this.instances[this.EntryType];
+
+            return (entries.Any())
+                ? (T)entries.First()
+                : throw new InvalidEntryTypeException($"No instance found for entry type {this.EntryType.FullName}");
         }
     }
 }

@@ -9,14 +9,12 @@ namespace StackInjector.Core
     internal abstract partial class AsyncStackWrapperCore<T>
     {
         // call the semaphore
-        protected internal void ReleaseListAwaiter ()
-        {
-            this.emptyListAwaiter.Release();
-        }
+        protected internal void ReleaseListAwaiter () => this._emptyListAwaiter.Release();
 
-        public void Submit ( Task<T> work )
+
+        internal void Submit ( Task<T> work )
         {
-            lock( this.listAccessLock )
+            lock( this._listAccessLock )
                 this.tasks.AddLast(work);
 
             // if the list was empty just an item ago, signal it's not anymore.
@@ -25,15 +23,17 @@ namespace StackInjector.Core
                 this.ReleaseListAwaiter();
         }
 
+
         public bool AnyTaskLeft ()
         {
-            lock( this.listAccessLock )
+            lock( this._listAccessLock )
                 return this.tasks.Any();
         }
 
         public bool AnyTaskCompleted ()
         {
-            return this.tasks.Any(t => t.IsCompleted);
+            lock( this._listAccessLock )
+                return this.tasks.Any(t => t.IsCompleted);
         }
 
         // todo add a method to safely exit the await loop to be able to re-join later or maybe an Unloack() of some sort
@@ -41,7 +41,7 @@ namespace StackInjector.Core
         public async IAsyncEnumerable<T> Elaborated ()
         {
             this.EnsureExclusiveExecution(true);
-
+            
             while( !this.cancelPendingTasksSource.IsCancellationRequested )
             {
                 // avoid deadlocks 
@@ -49,7 +49,9 @@ namespace StackInjector.Core
                 {
                     var completed = await Task.WhenAny(this.tasks).ConfigureAwait(false);
 
-                    lock( this.listAccessLock )
+
+
+                    lock( this._listAccessLock )
                         this.tasks.Remove(completed);
 
                     yield return completed.Result;
@@ -62,24 +64,15 @@ namespace StackInjector.Core
                 }
             }
 
-            lock( this.listAccessLock )
-                this.exclusiveExecution = false;
+            lock( this._listAccessLock )
+                this._exclusiveExecution = false;
 
         }
 
-        public Task Elaborate ()
+        public async Task Elaborate ()
         {
-            // must run syncronously
-            this.EnsureExclusiveExecution();
-
-            return
-                Task.Run(async () =>
-                {
-
-                    await foreach( var res in this.Elaborated() )
-                        this.OnElaborated?.Invoke(res);
-                });
-
+            await foreach( var res in this.Elaborated() )
+                this.OnElaborated?.Invoke(res);
         }
 
 
@@ -88,7 +81,7 @@ namespace StackInjector.Core
         {
             // to not repeat code
             Task listAwaiter ()
-                => this.emptyListAwaiter.WaitAsync();
+                => this._emptyListAwaiter.WaitAsync();
 
 
             switch( this.Settings._asyncWaitingMethod )
@@ -118,13 +111,13 @@ namespace StackInjector.Core
 
         private void EnsureExclusiveExecution ( bool set = false )
         {
-            lock( this.listAccessLock ) // reused lock
+            lock( this._listAccessLock ) // reused lock
             {
-                if( this.exclusiveExecution )
+                if( this._exclusiveExecution )
                     throw new InvalidOperationException();
 
                 if( set )
-                    this.exclusiveExecution = set;
+                    this._exclusiveExecution = set;
             }
         }
 

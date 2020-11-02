@@ -2,6 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 using StackInjector.Attributes;
+using StackInjector.Core;
 using StackInjector.Settings;
 
 namespace StackInjector.TEST.BlackBox.UseCases
@@ -33,11 +34,30 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
 
         [Test]
-        public void ServedVersioning ()
+        public void ServedVersioningInterface ()
         {
-            var versionedService = Injector.From<VersionedBase>().Entry.level1;
+            var versionedService = Injector.From<InterfaceVersionedBase>().Entry.level1;
 
             Assert.That(versionedService, Is.TypeOf<Level1B>());
+        }
+
+
+        [Service] private class VersionClass {[Served] internal Level1A Level1_2; }
+
+        [Test]
+        public void ServerdVersioningClass ()
+        {
+            var settings =
+                StackWrapperSettings.Default
+                .InjectionVersioningMethod(ServedVersionTargetingMethod.LatestMajor,true);
+
+            var versionedService = Injector.From<VersionClass>(settings).Entry.Level1_2;
+
+            /* CLASSES ARE NOT VERSIONED, ONLY INTERFACES
+             * this is why this tests checks if the field is not of Level1_2
+            */
+            Assert.That(versionedService, Is.Not.InstanceOf<Level1_2>());
+
         }
 
 
@@ -48,7 +68,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
                 StackWrapperSettings.Default
                 .InjectionVersioningMethod(ServedVersionTargetingMethod.LatestMajor,true);
 
-            var versionedService = Injector.From<VersionedBase>( settings ).Entry.level1;
+            var versionedService = Injector.From<InterfaceVersionedBase>( settings ).Entry.level1;
 
             Assert.That(versionedService, Is.TypeOf<Level1LatestVersion>());
         }
@@ -61,7 +81,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
                 StackWrapperSettings.Default
                 .InjectionVersioningMethod(ServedVersionTargetingMethod.LatestMinor,true);
 
-            var versionedService = Injector.From<VersionedBase>( settings ).Entry.level1;
+            var versionedService = Injector.From<InterfaceVersionedBase>( settings ).Entry.level1;
 
             Assert.That(versionedService, Is.TypeOf<Level1B>());
         }
@@ -72,10 +92,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
         [Service] private class ReferenceLoopB {[Served] public ReferenceLoopA loopA; }
 
         [Test]
-        public void CircularReference ()
-        {
-            Assert.That(() => Injector.From<ReferenceLoopA>(), Throws.Nothing);
-        }
+        public void CircularReference () => Assert.That(() => Injector.From<ReferenceLoopA>(), Throws.Nothing);
 
 
         [Test]
@@ -110,6 +127,16 @@ namespace StackInjector.TEST.BlackBox.UseCases
             CollectionAssert.AreEquivalent(wrapper.GetServices<object>(), cloneWrapper.GetServices<object>());
         }
 
+        [Test]
+        public void CloneNoRepetitionsSingleton ()
+        {
+            var wrapper = Injector.From<IBase>();
+
+            var clone = wrapper.CloneCore().ToWrapper<IBase>();
+
+            Assert.AreSame( clone, clone.GetServices<IStackWrapperCore>().Single() );
+
+        }
 
         [Test]
         public void ServeEnum ()
@@ -118,7 +145,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
             CollectionAssert.AreEquivalent
                 (
-                    new Type[] { typeof(Level1A), typeof(Level1B), typeof(Level1LatestVersion) },
+                    new Type[] { typeof(Level1A), typeof(Level1B), typeof(Level1LatestVersion), typeof(Level1_2) },
                     injected.Select(i => i.GetType())
                 );
         }

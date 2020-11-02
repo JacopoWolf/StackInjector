@@ -12,24 +12,32 @@ namespace StackInjector.TEST.BlackBox
 
     internal class Exceptions
     {
+        //  ----------
 
+        [Service]
         private class BaseNotAServiceThrower {[Served] private List<int> integers; }
 
         [Test]
         public void ThrowsNotAService ()
-        {
-            Assert.Throws<NotAServiceException>(() => Injector.From<BaseNotAServiceThrower>());
-        }
+            => Assert.Throws<NotAServiceException>(() => Injector.From<BaseNotAServiceThrower>());
 
+        //  ----------
+
+        private class BaseNotAService { }
+
+        [Test]
+        public void ThrowsBaseNotAService ()
+            => Assert.Throws<NotAServiceException>(() => Injector.From<BaseNotAService>());
+
+        //  ----------
 
         // references class in unregistred external assembly
+        [Service]
         private class BaseServiceNotFoundThrower {[Served] public Externalclass externalClass; }
 
         [Test]
         public void ThrowsServiceNotFound ()
-        {
-            Assert.Throws<ServiceNotFoundException>(() => Injector.From<BaseServiceNotFoundThrower>());
-        }
+            => Assert.Throws<ServiceNotFoundException>(() => Injector.From<BaseServiceNotFoundThrower>());
 
 
         [Test]
@@ -43,6 +51,7 @@ namespace StackInjector.TEST.BlackBox
 
             Assert.That(externalClass, Is.TypeOf<Externalclass>());
         }
+
 
         [Test]
         public void ExternalAllAssemblyReference ()
@@ -58,24 +67,24 @@ namespace StackInjector.TEST.BlackBox
         }
 
 
+        //  ----------
+
         private interface INoImplementationThrower { void SomeMethod (); }
-        private class BaseNoImplementationThrower {[Served] private INoImplementationThrower no; }
+        [Service] private class BaseNoImplementationThrower {[Served] private INoImplementationThrower no; }
 
         [Test]
         public void ThrowsImplementationNotFound ()
-        {
-            Assert.Throws<ImplementationNotFoundException>(() => Injector.From<BaseNoImplementationThrower>());
-        }
+            => Assert.Throws<ImplementationNotFoundException>(() => Injector.From<BaseNoImplementationThrower>());
 
+        //  ----------
 
         [Service(Pattern = InstantiationPattern.AlwaysCreate)] private class InvalidEntryTypeThrower { }
 
         [Test]
         public void ThrowsInvalidEntryType ()
-        {
-            Assert.Throws<InvalidEntryTypeException>(() => Injector.From<InvalidEntryTypeThrower>());
-        }
+            => Assert.Throws<InvalidEntryTypeException>(() => Injector.From<InvalidEntryTypeThrower>());
 
+        //  ----------
 
         [Service]
         private class BaseNoParameterlessConstructorThrower
@@ -83,19 +92,16 @@ namespace StackInjector.TEST.BlackBox
 
         [Test]
         public void ThrowsMissingParameterlessConstructor ()
-        {
-            Assert.Throws<MissingParameterlessConstructorException>(() => Injector.From<BaseNoParameterlessConstructorThrower>());
-        }
+            => Assert.Throws<MissingParameterlessConstructorException>(() => Injector.From<BaseNoParameterlessConstructorThrower>());
 
+        //  ----------
 
         [Service]
         private class BaseNoSetterThrower {[Served] public Base Base { get; } }
 
         [Test]
         public void ThrowsNoSetter ()
-        {
-            Assert.Throws<NoSetterException>(() => Injector.From<BaseNoSetterThrower>());
-        }
+            => Assert.Throws<NoSetterException>(() => Injector.From<BaseNoSetterThrower>());
 
     }
 }
