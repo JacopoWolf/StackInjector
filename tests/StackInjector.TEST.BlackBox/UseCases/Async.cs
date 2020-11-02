@@ -140,5 +140,22 @@ namespace StackInjector.TEST.BlackBox.UseCases
         }
 
 
+        [Test]
+        public void SubmitWithEvent ()
+        {
+            using var wrapper = Injector.AsyncFrom<AsyncBase,object,object>( (b,i,t) => b.ReturnArg(i,t) );
+
+            var called = false;
+            wrapper.OnElaborated += ( obj ) => called = true;
+
+            var task = wrapper.SubmitAndGet(new object());
+            wrapper.Elaborate();
+            task.Wait();
+
+            Assert.IsTrue(called);
+
+        }
+
+
     }
 }
