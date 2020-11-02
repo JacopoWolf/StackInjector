@@ -2,6 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 using StackInjector.Attributes;
+using StackInjector.Core;
 using StackInjector.Settings;
 
 namespace StackInjector.TEST.BlackBox.UseCases
@@ -126,6 +127,16 @@ namespace StackInjector.TEST.BlackBox.UseCases
             CollectionAssert.AreEquivalent(wrapper.GetServices<object>(), cloneWrapper.GetServices<object>());
         }
 
+        [Test]
+        public void CloneNoRepetitionsSingleton ()
+        {
+            var wrapper = Injector.From<IBase>();
+
+            var clone = wrapper.CloneCore().ToWrapper<IBase>();
+
+            Assert.That(() => clone.GetServices<IStackWrapperCore>().Count() == 1);
+
+        }
 
         [Test]
         public void ServeEnum ()

@@ -10,8 +10,6 @@ namespace StackInjector.TEST.BlackBox
     // set as readonly, unused field
 #pragma warning disable CS0649, IDE0044, IDE0051
 
-    [Service]
-    internal class EmptyTestClass { }
 
     /* class structure
      * 

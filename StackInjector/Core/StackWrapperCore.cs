@@ -26,6 +26,7 @@ namespace StackInjector.Core
             if( this.Core.settings._registerWrapAsService )
             {
                 this.Core.instances.AddType(toRegister);
+                this.Core.instances[toRegister].Clear();
                 this.Core.instances[toRegister].AddFirst(this);
             }
         }
