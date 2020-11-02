@@ -31,8 +31,12 @@ jobs:
       run: dotnet test --no-restore --verbosity normal
       
     # extract version from release tag
-    - name: Extract version
-      run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF:10}
+    - name: Set version env
+      run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      #un: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF:10}
+        
+    - name: Log version env
+      run: echo $RELEASE_VERSION
       
     # publish
     - name: Pack
