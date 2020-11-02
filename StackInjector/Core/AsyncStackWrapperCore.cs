@@ -24,6 +24,8 @@ namespace StackInjector.Core
         // used to endure Elaborated() and Elaborate() are called together
         private bool _exclusiveExecution;
 
+        public bool IsElaborating => this._exclusiveExecution;
+
         // asyncronously waited for new events if TaskList is empty
         private readonly SemaphoreSlim _emptyListAwaiter = new SemaphoreSlim(0);
 

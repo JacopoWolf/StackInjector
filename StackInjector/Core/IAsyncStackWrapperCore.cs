@@ -16,6 +16,7 @@ namespace StackInjector.Core
         /// </summary>
         event Action<T> OnElaborated;
 
+
         /// <summary>
         /// Used to signal cancellation of every pending task
         /// </summary>
@@ -37,6 +38,16 @@ namespace StackInjector.Core
         /// <returns>a task rappresenting the elaboration loop</returns>
         /// <exception cref="InvalidOperationException"></exception>
         Task Elaborate ();
+
+        
+
+
+        /// <summary>
+        /// is this wrapper is already elaborating queued tasks.<br/>
+        /// If true, then calling <see cref="Elaborate"/> or <see cref="Elaborated"/>
+        /// will throw a <see cref="InvalidOperationException"/>
+        /// </summary>
+        bool IsElaborating { get; }
 
         /// <summary>
         /// check if there are tasks left to elaborate

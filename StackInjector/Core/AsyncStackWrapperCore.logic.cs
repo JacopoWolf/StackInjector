@@ -41,13 +41,15 @@ namespace StackInjector.Core
         public async IAsyncEnumerable<T> Elaborated ()
         {
             this.EnsureExclusiveExecution(true);
-
+            
             while( !this.cancelPendingTasksSource.IsCancellationRequested )
             {
                 // avoid deadlocks 
                 if( this.AnyTaskLeft() )
                 {
                     var completed = await Task.WhenAny(this.tasks).ConfigureAwait(false);
+
+
 
                     lock( this._listAccessLock )
                         this.tasks.Remove(completed);
