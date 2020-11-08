@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Schema;
 using NUnit.Framework;
 using StackInjector.Attributes;
 using CTkn = System.Threading.CancellationToken;
@@ -95,14 +93,15 @@ namespace StackInjector.TEST.BlackBox.UseCases
             Assert.Multiple(() =>
             {
                 Assert.IsFalse(wrapper.AnyTaskLeft());
-                CollectionAssert.AreEquivalent( new object[] { obj1, obj2 }, objs );
+                CollectionAssert.AreEquivalent(new object[] { obj1, obj2 }, objs);
             });
 
         }
 
 
-        [Test][Timeout(1000)]
-        public void TaskCancellation()
+        [Test]
+        [Timeout(1000)]
+        public void TaskCancellation ()
         {
             var wrapper = Injector.AsyncFrom<AsyncBase,object,object>( (b,i,t) => b.WaitForever(i,t) );
             var task = wrapper.SubmitAndGet(new object());
@@ -118,7 +117,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
             });
 
         }
-        
+
 
 
         [Test]
@@ -135,7 +134,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
                 var aggregate = Assert.Throws<AggregateException>(() => wrapper.Elaborate().Wait());
                 Assert.IsInstanceOf<InvalidOperationException>(aggregate.InnerException);
             });
-            
+
 
         }
 

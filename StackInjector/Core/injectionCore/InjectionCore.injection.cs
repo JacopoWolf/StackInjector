@@ -43,11 +43,11 @@ namespace StackInjector.Core
                 this.InjectProperties(type, instance, ref instantiated, onlyWithAttrib);
 
 
-            if ( serviceAtt.Pattern == InstantiationPattern.AlwaysCreate && instantiated.Any(i => i.GetType() == type) )
+            if( serviceAtt.Pattern == InstantiationPattern.AlwaysCreate && instantiated.Any(i => i.GetType() == type) )
             {
                 throw new StackInjectorException
                 (
-                    type, 
+                    type,
                     $"Service {type.FullName} is marked as {InstantiationPattern.AlwaysCreate} and cannot have itself served! " +
                     $"This will generate an infinite injection loop."
                 );

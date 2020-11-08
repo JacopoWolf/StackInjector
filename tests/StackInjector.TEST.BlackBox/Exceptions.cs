@@ -106,17 +106,15 @@ namespace StackInjector.TEST.BlackBox
         //  ----------
 
         [Service(Pattern = InstantiationPattern.AlwaysCreate)]
-        private class InstantiationPatternTester {[Served] InstantiationPatternTester loop; }
+        private class InstantiationPatternTester {[Served] private InstantiationPatternTester loop; }
 
         [Service]
-        private class InstantiationPatternBase {[Served] InstantiationPatternTester loop; }
+        private class InstantiationPatternBase {[Served] private InstantiationPatternTester loop; }
 
         [Test]
         [Timeout(500)]
-        public void ThrowsExceptionOnAlwaysCreateLoop ()
-        {
-            Assert.Throws<StackInjectorException>(() => Injector.From<InstantiationPatternBase>());
-        }
+        public void ThrowsExceptionOnAlwaysCreateLoop () 
+            => Assert.Throws<StackInjectorException>(() => Injector.From<InstantiationPatternBase>());
 
 
     }

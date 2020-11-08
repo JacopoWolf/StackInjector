@@ -56,7 +56,7 @@ namespace StackInjector.Core
                 : throw new InvalidEntryTypeException
                     (
                         $"No instance found for entry type {this.EntryType.FullName}",
-                        innerException: new ServiceNotFoundException(typeof(T),string.Empty)
+                        innerException: new ServiceNotFoundException(typeof(T), string.Empty)
                     );
         }
     }

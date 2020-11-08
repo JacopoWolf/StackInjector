@@ -39,7 +39,7 @@ namespace StackInjector.Core
         public async IAsyncEnumerable<T> Elaborated ()
         {
             this.EnsureExclusiveExecution(true);
-            
+
             while( !this.cancelPendingTasksSource.IsCancellationRequested )
             {
                 // avoid deadlocks 
