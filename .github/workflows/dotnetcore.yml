@@ -11,11 +11,6 @@ on:
       - 'master'
       - 'rel/**'
       - 'dev/**'
-    paths-ignore: 
-      - '**.md'
-      - '**.txt'
-      - '**.yml'
-  workflow_dispatch:
 
   
 jobs:
