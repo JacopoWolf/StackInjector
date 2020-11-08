@@ -53,7 +53,11 @@ namespace StackInjector.Core
 
             return (entries.Any())
                 ? (T)entries.First()
-                : throw new InvalidEntryTypeException($"No instance found for entry type {this.EntryType.FullName}");
+                : throw new InvalidEntryTypeException
+                    (
+                        $"No instance found for entry type {this.EntryType.FullName}",
+                        innerException: new ServiceNotFoundException(typeof(T),string.Empty)
+                    );
         }
     }
 }
