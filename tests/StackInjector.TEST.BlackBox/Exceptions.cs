@@ -106,10 +106,10 @@ namespace StackInjector.TEST.BlackBox
         //  ----------
 
         [Service(Pattern = InstantiationPattern.AlwaysCreate)]
-        private class InstantiationPatternTester {[Served] private InstantiationPatternTester loop; }
+        private class InstantiationPatternTester {[Served] public InstantiationPatternTester loop; }
 
         [Service]
-        private class InstantiationPatternBase {[Served] private InstantiationPatternTester loop; }
+        private class InstantiationPatternBase {[Served] public InstantiationPatternTester loop; }
 
         [Test]
         [Timeout(500)]
