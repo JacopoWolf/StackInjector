@@ -5,13 +5,16 @@ on:
     paths-ignore: 
       - '**.md'
       - '**.txt'
+      - '**.yml'
   pull_request:
     branches: 
-      - $default-branch
-      - 'rel/*.*'
+      - 'master'
+      - 'rel/**'
+      - 'dev/**'
     paths-ignore: 
       - '**.md'
       - '**.txt'
+      - '**.yml'
   workflow_dispatch:
 
   
