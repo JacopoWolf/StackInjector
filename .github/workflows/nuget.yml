@@ -7,41 +7,55 @@ on:
 
 jobs:
  
-  release:
-    
-    runs-on: ubuntu-latest
+  test:
+    runs-on: ${{ matrix.os }}
+    env:
+      DOTNET_NOLOGO: true
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        dotnet: ['3.1.x']
 
     steps:
-    # setup
     - uses: actions/checkout@v2
       
-    - name: Setup .NET Core
+    - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '3.1.x'
+        dotnet-version: ${{ matrix.dotnet }}
         
-    # test
     - name: Install dependencies
       run: dotnet restore
       
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build --no-restore --configuration Release
       
     - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      run: dotnet test --no-restore --configuration Release --logger "console;verbosity=detailed"
+  
+  
+  
+  release:
+    needs: [test]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
       
-    # extract version from release tag
-    - name: Set version env
-      run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      #un: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF:10}
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.x'
+      
+      #run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF:10}
+    - name: Version
+      run: |
+        echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+        echo version is $RELEASE_VERSION
         
-    - name: Log version env
-      run: echo $RELEASE_VERSION
-      
-    # publish
     - name: Pack
       run: dotnet pack StackInjector --configuration Release -p:PackageVersion=$RELEASE_VERSION
-      
+
     - name: Push
       run: dotnet nuget push "StackInjector/bin/Release/StackInjector.$RELEASE_VERSION.nupkg" -k ${{ secrets.NUGET_KEY }} -s https://api.nuget.org/v3/index.json
 
