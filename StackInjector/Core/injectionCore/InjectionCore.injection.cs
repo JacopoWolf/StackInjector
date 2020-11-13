@@ -42,8 +42,7 @@ namespace StackInjector.Core
             if( serving.HasFlag(ServingMethods.Properties) )
                 this.InjectProperties(type, instance, ref instantiated, onlyWithAttrib);
 
-
-            if( serviceAtt.Pattern == InstantiationPattern.AlwaysCreate && instantiated.Any(i => i.GetType() == type) )
+            if( serviceAtt.Pattern == InstantiationPattern.AlwaysCreate && instantiated.Exists( i => type.IsAssignableFrom( i.GetType() ) ) )
             {
                 throw new StackInjectorException
                 (
