@@ -39,7 +39,7 @@ namespace StackInjector.Core
         /// <exception cref="InvalidOperationException"></exception>
         Task Elaborate ();
 
-        
+
 
 
         /// <summary>

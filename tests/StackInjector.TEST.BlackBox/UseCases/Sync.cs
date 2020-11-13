@@ -134,7 +134,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
             var clone = wrapper.CloneCore().ToWrapper<IBase>();
 
-            Assert.AreSame( clone, clone.GetServices<IStackWrapperCore>().Single() );
+            Assert.AreSame(clone, clone.GetServices<IStackWrapperCore>().Single());
 
         }
 

@@ -46,9 +46,9 @@ namespace StackInjector.Core
 
             return serviceAtt.Pattern switch
             {
-                InstantiationPattern.AlwaysCreate // always create doesn't track instantiated classes
+                InstantiationPattern.AlwaysCreate
                     => this.InstantiateService(type),
-                _ 
+                _
                     => (this.instances[type].Any())
                         ? this.instances[type].First()
                         : this.InstantiateService(type),

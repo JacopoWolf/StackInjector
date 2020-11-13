@@ -36,12 +36,10 @@ namespace StackInjector.Core
                 return this.tasks.Any(t => t.IsCompleted);
         }
 
-        // todo add a method to safely exit the await loop to be able to re-join later or maybe an Unloack() of some sort
-        //! should check if exiting an await foreach loop and re-entering will not hack the control or lose data
         public async IAsyncEnumerable<T> Elaborated ()
         {
             this.EnsureExclusiveExecution(true);
-            
+
             while( !this.cancelPendingTasksSource.IsCancellationRequested )
             {
                 // avoid deadlocks 
