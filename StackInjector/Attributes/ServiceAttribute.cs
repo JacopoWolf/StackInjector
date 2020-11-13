@@ -17,7 +17,11 @@ namespace StackInjector.Attributes
         /// <summary>
         /// The instantiation pattern for this service.
         /// </summary>
-        public InstantiationPattern Pattern { get; set; } = InstantiationPattern.Singleton;
+        public InstantiationPattern Pattern 
+        {
+            get => this._pattern;
+            set => this._pattern = value;
+        } 
 
 
         /// <summary>
@@ -33,6 +37,7 @@ namespace StackInjector.Attributes
             }
         }
 
+        private InstantiationPattern _pattern = InstantiationPattern.Singleton;
         private ServingMethods _serving;
         internal bool _servingDefined;
     }
