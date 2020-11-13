@@ -42,6 +42,7 @@ namespace StackInjector.Core
             if( serving.HasFlag(ServingMethods.Properties) )
                 this.InjectProperties(type, instance, ref instantiated, onlyWithAttrib);
 
+            /*x
             if( serviceAtt.Pattern == InstantiationPattern.AlwaysCreate && instantiated.Exists( i => type.IsAssignableFrom( i.GetType() ) ) )
             {
                 throw new StackInjectorException
@@ -51,7 +52,7 @@ namespace StackInjector.Core
                     $"This will generate an infinite injection loop."
                 );
             }
-
+            */
 
             return instantiated;
         }
