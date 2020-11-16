@@ -150,5 +150,25 @@ namespace StackInjector.TEST.BlackBox.UseCases
                 );
         }
 
+        // -----------
+        
+        [Service]
+        private class AlwaysCreateBase 
+        {
+            [Served] public AlwaysCreateInstance instance1;
+            [Served] public AlwaysCreateInstance instance2;
+        }
+
+        [Service(Pattern = InstantiationPattern.AlwaysCreate)]
+        private class AlwaysCreateInstance { }
+
+        [Test]
+        public void AlwaysCreate ()
+        {
+            var wrapper = Injector.From<AlwaysCreateBase>();
+
+            CollectionAssert.AllItemsAreUnique(wrapper.GetServices<AlwaysCreateInstance>());
+        }
+
     }
 }

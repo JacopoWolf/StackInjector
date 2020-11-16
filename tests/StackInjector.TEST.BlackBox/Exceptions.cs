@@ -104,7 +104,7 @@ namespace StackInjector.TEST.BlackBox
 
         //  ----------
         // test is broken on linux.
-        /*x
+
         [Service(Pattern = InstantiationPattern.AlwaysCreate)]
         private class InstantiationPatternTester {[Served] public InstantiationPatternTester loop; }
 
@@ -112,10 +112,10 @@ namespace StackInjector.TEST.BlackBox
         private class InstantiationPatternBase {[Served] public InstantiationPatternTester loop; }
 
         [Test]
-        [Timeout(500)]
+        [Timeout(200)]
         public void ThrowsExceptionOnAlwaysCreateLoop () 
-            => Assert.Throws<StackInjectorException>(() => Injector.From<InstantiationPatternBase>());
-        */
+           => Assert.Throws<StackInjectorException>(() => Injector.From<InstantiationPatternBase>());
+        
 
     }
 }
