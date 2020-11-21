@@ -23,8 +23,12 @@ namespace StackInjector.Core
             this.Core = core;
 
             // setting for referencing the calling wrapper as a service
-            if( this.Core.settings._registerSelf )
-                this.Core.instances.AddInstance(toRegister, this);
+            if( this.Core.settings._registerWrapAsService )
+            {
+                this.Core.instances.AddType(toRegister);
+                this.Core.instances[toRegister].Clear();
+                this.Core.instances[toRegister].AddFirst(this);
+            }
         }
 
 

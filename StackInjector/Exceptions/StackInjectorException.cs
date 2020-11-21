@@ -5,17 +5,14 @@ namespace StackInjector.Exceptions
     /// <summary>
     /// Base class for every StackWrapper exception
     /// </summary>
-    public abstract class StackInjectorException : Exception
+    public class StackInjectorException : Exception
     {
         /// <summary>
         /// The source type of the exception
         /// </summary>
-        public Type SourceType { get; private protected set; } = null;
+        public Type SourceType { get; private protected set; }
 
-        internal StackInjectorException ( Type type, string message ) : this(message)
-        {
-            this.SourceType = type;
-        }
+        internal StackInjectorException ( Type type, string message ) : this(message) => this.SourceType = type;
 
         internal StackInjectorException () : base() { }
 

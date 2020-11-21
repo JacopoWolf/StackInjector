@@ -10,15 +10,17 @@ namespace StackInjector.Core
     {
         // Returns type if it's a [Service] class,
         // otherwise searches for a [Service] implementing the specified interface
-        private Type ClassOrFromInterface ( Type type, ServedAttribute servedAttribute = null )
+        private Type ClassOrVersionFromInterface ( Type type, ServedAttribute servedAttribute = null )
         {
             if( type.IsInterface )
             {
-                try
+                var versions = this.Version(type, servedAttribute);
+
+                if( versions.Any() )
                 {
-                    return this.Version(type, servedAttribute).First();
+                    return versions.First();
                 }
-                catch( InvalidOperationException )
+                else
                 {
                     if( servedAttribute is null )
                         throw new ImplementationNotFoundException(type, $"can't find [Service] for interface {type.Name}");
@@ -27,7 +29,9 @@ namespace StackInjector.Core
                 }
             }
             else
+            {
                 return type;
+            }
         }
 
 
@@ -36,7 +40,7 @@ namespace StackInjector.Core
         internal void ReadAssemblies ()
         {
             if( this.settings._registerEntryPointAssembly )
-                this.settings._registredAssemblies.Add(this.EntryPoint.Assembly);
+                this.settings._registredAssemblies.Add(this.EntryType.Assembly);
 
             foreach
             (

@@ -39,5 +39,13 @@ namespace StackInjector.Wrappers
         /// <param name="item">the item to submit</param>
         void Submit ( TIn item );
 
+
+        /// <summary>
+        /// submits a new item to be elaborated and returns the submitted task
+        /// </summary>
+        /// <param name="item">the item to submit to elaboration</param>
+        /// <returns>a task tapresenting the elaboration of <paramref name="item"/></returns>
+        Task<TOut> SubmitAndGet ( TIn item );
+
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using StackInjector.Attributes;
 using StackInjector.Core;
 using StackInjector.Settings;
@@ -32,11 +31,11 @@ namespace StackInjector.Wrappers
 
         public override string ToString ()
             =>
-                $"StackWrapper<{typeof(TEntry).Name}>{{ {this.Core.instances.AllTypes().Count()} registered types }}";
+                $"StackWrapper<{typeof(TEntry).Name}>{{ {this.Core.instances.Count} registered types }}";
 
 
 
-        private bool disposed = false;
+        private bool disposed;
 
         public override void Dispose ()
         {

@@ -18,12 +18,12 @@ namespace StackInjector.Settings
 
         // registration
         internal HashSet<Assembly>                  _registredAssemblies                    = new HashSet<Assembly>();
-        internal bool                               _registerEntryPointAssembly             = false;
-        internal bool                               _registerSelf                           = false;
+        internal bool                               _registerEntryPointAssembly;
+        internal bool                               _registerWrapAsService;
 
         // disposing
-        internal bool                               _trackInstancesDiff                     = false;
-        internal bool                               _callDisposeOnInstanceDiff              = false;
+        internal bool                               _trackInstancesDiff;
+        internal bool                               _callDisposeOnInstanceDiff;
 
         // async management
         internal AsyncWaitingMethod                 _asyncWaitingMethod                     = AsyncWaitingMethod.Exit;
@@ -31,13 +31,13 @@ namespace StackInjector.Settings
 
         // injection
         internal ServedVersionTargetingMethod       _targetingMethod                        = ServedVersionTargetingMethod.None;
-        internal bool                               _overrideTargetingMethod                = false;
+        internal bool                               _overrideTargetingMethod;
 
         internal ServingMethods                     _servingMethod                          = ServingMethods.DoNotServe;
-        internal bool                               _overrideServingMethod                  = false;
+        internal bool                               _overrideServingMethod;
 
         // features
-        internal bool                               _serveEnumerables                       = false;
+        internal bool                               _serveEnumerables;
 
         #endregion
 
@@ -71,7 +71,6 @@ namespace StackInjector.Settings
 
         /// <summary>
         /// Creates a new StackWrapperSettings with default parameters.
-        /// See what those are at <see href="https://github.com/JacopoWolf/StackInjector/wiki/Default-Settings">the Wiki page</see>
         /// </summary>
         /// <returns>the default settings</returns>
         public static StackWrapperSettings Default
@@ -93,6 +92,7 @@ namespace StackInjector.Settings
         /// <seealso cref="Attributes.IgnoredAttribute"/>
         public static StackWrapperSettings DefaultBySubtraction
             =>
-                Default.InjectionServingMethods(Injector.Defaults.ServeAll, @override: true);
+                Default
+                    .InjectionServingMethods(Injector.Defaults.ServeAll, @override: true);
     }
 }

@@ -19,7 +19,7 @@ namespace StackInjector.Core.Cloning
                 StackDigest = digest
             };
 
-            this.clonedCore.EntryPoint = typeof(TEntry);
+            this.clonedCore.EntryType = typeof(TEntry);
             this.clonedCore.ServeAll();
 
             return wrapper;
@@ -29,7 +29,7 @@ namespace StackInjector.Core.Cloning
         {
             var wrapper = new StackWrapper<T>(this.clonedCore);
 
-            this.clonedCore.EntryPoint = typeof(T);
+            this.clonedCore.EntryType = typeof(T);
             this.clonedCore.ServeAll();
 
             return wrapper;
