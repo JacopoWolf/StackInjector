@@ -151,9 +151,9 @@ namespace StackInjector.TEST.BlackBox.UseCases
         }
 
         // -----------
-        
+
         [Service]
-        private class AlwaysCreateBase 
+        private class AlwaysCreateBase
         {
             [Served] public AlwaysCreateInstance instance1;
             [Served] public AlwaysCreateInstance instance2;
@@ -167,7 +167,12 @@ namespace StackInjector.TEST.BlackBox.UseCases
         {
             var wrapper = Injector.From<AlwaysCreateBase>();
 
-            CollectionAssert.AllItemsAreUnique(wrapper.GetServices<AlwaysCreateInstance>());
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(2, wrapper.GetServices<AlwaysCreateInstance>().Count());
+                CollectionAssert.AllItemsAreUnique(wrapper.GetServices<AlwaysCreateInstance>());
+            });
+
         }
 
     }
