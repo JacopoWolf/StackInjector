@@ -82,7 +82,7 @@ namespace StackInjector.TEST.BlackBox
         [Test]
         public void ThrowsInvalidEntryType ()
             => Assert.Throws<InvalidEntryTypeException>(() => Injector.From<InvalidEntryTypeThrower>());
-        
+
         //  ----------
 
         [Service]

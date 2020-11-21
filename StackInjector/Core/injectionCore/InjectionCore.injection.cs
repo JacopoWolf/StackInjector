@@ -41,7 +41,7 @@ namespace StackInjector.Core
 
             if( serving.HasFlag(ServingMethods.Properties) )
                 this.InjectProperties(type, instance, ref instantiated, onlyWithAttrib);
-            
+
 
             return instantiated;
         }
