@@ -35,7 +35,6 @@ namespace StackInjector.Core
         }
 
 
-
         // reads all [Service] classes 
         internal void ReadAssemblies ()
         {

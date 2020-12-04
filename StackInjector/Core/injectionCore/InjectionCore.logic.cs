@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using StackInjector.Exceptions;
 
@@ -59,5 +60,19 @@ namespace StackInjector.Core
                         innerException: new ServiceNotFoundException(typeof(T), string.Empty)
                     );
         }
+
+
+        // remove types with no instances
+        internal void RemoveUnusedTypes ()
+        {
+            var unused = this.instances
+                            .Where(p => !p.Value.Any())
+                            .Select(p=>p.Key)
+                            .ToList();
+
+            foreach( var type in unused )
+                this.instances.Remove(type);
+        }
+
     }
 }

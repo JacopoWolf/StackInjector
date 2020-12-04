@@ -50,7 +50,7 @@ namespace StackInjector.Settings
         /// <returns>the modified settings</returns>
         public StackWrapperSettings RegisterAssemblyOf<T> ()
         {
-            this._registredAssemblies.Add(typeof(T).Assembly);
+            this.RegisterAssemblies(typeof(T).Assembly);
             return this;
         }
 
@@ -73,7 +73,7 @@ namespace StackInjector.Settings
         /// <returns>the modified settings</returns>
         public StackWrapperSettings RegisterWrapperAsService ( bool register = true )
         {
-            this._registerWrapAsService = register;
+            this._registerWrapperAsService = register;
             return this;
         }
 

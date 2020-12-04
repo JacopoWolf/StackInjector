@@ -12,6 +12,8 @@ namespace StackInjector.Core.Cloning
                 this.clonedCore = clonedCore;
 
 
+        //todo: implement option to call ReadAssemblies for newly added assemblies in clones
+
         public IAsyncStackWrapper<TEntry, TIn, TOut> ToAsyncWrapper<TEntry, TIn, TOut> ( AsyncStackDigest<TEntry, TIn, TOut> digest )
         {
             var wrapper = new AsyncStackWrapper<TEntry,TIn,TOut>( this.clonedCore )

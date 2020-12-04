@@ -19,7 +19,7 @@ namespace StackInjector.Settings
         // registration
         internal HashSet<Assembly>                  _registredAssemblies                    = new HashSet<Assembly>();
         internal bool                               _registerEntryPointAssembly;
-        internal bool                               _registerWrapAsService;
+        internal bool                               _registerWrapperAsService;
 
         // disposing
         internal bool                               _trackInstancesDiff;

@@ -8,7 +8,7 @@ using StackInjector.Settings;
 namespace StackInjector.TEST.BlackBox.UseCases
 {
 
-#pragma warning disable IDE0051, IDE0044, CS0169, CS0649
+#pragma warning disable CS0169, CS0649
 
     internal class Sync
     {
@@ -108,6 +108,9 @@ namespace StackInjector.TEST.BlackBox.UseCases
         }
 
 
+        //todo: create test for RemoveUnusedTypes
+
+
         [Test]
         public void AccessWrapper ()
         {
@@ -137,6 +140,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
             Assert.AreSame(clone, clone.GetServices<IStackWrapperCore>().Single());
 
         }
+
 
         [Test]
         public void ServeEnum ()
