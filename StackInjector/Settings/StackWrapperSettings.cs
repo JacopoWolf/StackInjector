@@ -20,6 +20,7 @@ namespace StackInjector.Settings
         internal HashSet<Assembly>                  _registredAssemblies                    = new HashSet<Assembly>();
         internal bool                               _registerEntryPointAssembly;
         internal bool                               _registerWrapperAsService;
+        internal bool                               _registerAfterCloning;
 
         // disposing
         internal bool                               _trackInstancesDiff;
@@ -35,6 +36,7 @@ namespace StackInjector.Settings
 
         internal ServingMethods                     _servingMethod                          = ServingMethods.DoNotServe;
         internal bool                               _overrideServingMethod;
+        internal bool                               _cleanUnusedTypesAftInj;
 
         // features
         internal bool                               _serveEnumerables;
@@ -78,6 +80,7 @@ namespace StackInjector.Settings
                 new StackWrapperSettings()
                     .RegisterEntryAssembly()
                     .RegisterWrapperAsService()
+                    .RegisterAfterCloning(false)
                     .TrackInstantiationDiff(false, callDispose: false)
                     .InjectionVersioningMethod(ServedVersionTargetingMethod.None, @override: false)
                     .InjectionServingMethods(Injector.Defaults.ServeAllStrict, @override: false)

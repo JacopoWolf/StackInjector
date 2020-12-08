@@ -40,6 +40,9 @@ namespace StackInjector.Core
                             toInject.Enqueue(service);
                 }
 
+                if( this.settings._cleanUnusedTypesAftInj )
+                    this.RemoveUnusedTypes();
+
             }
 
         }

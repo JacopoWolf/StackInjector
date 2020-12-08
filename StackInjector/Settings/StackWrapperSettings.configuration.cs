@@ -77,6 +77,18 @@ namespace StackInjector.Settings
             return this;
         }
 
+
+        /// <summary>
+        /// If set, when cloned the StackWrapper will re-scans all assemblies before the injection.
+        /// Used to update assemblies with new types.
+        /// </summary>
+        /// <returns>the modified settings</returns>
+        public StackWrapperSettings RegisterAfterCloning ( bool register = true )
+        {
+            this._registerAfterCloning = register;
+            return this;
+        }
+
         #endregion
 
 
@@ -141,6 +153,17 @@ namespace StackInjector.Settings
         {
             this._servingMethod = methods;
             this._overrideServingMethod = @override;
+            return this;
+        }
+
+
+        /// <summary>
+        /// Remove the reference to unused types after the injection is finished.
+        /// </summary>
+        /// <returns>The modified settings</returns>
+        public StackWrapperSettings RemoveUnusedTypesAfterInjection ( bool remove = true )
+        {
+            this._cleanUnusedTypesAftInj = remove;
             return this;
         }
 

@@ -75,9 +75,6 @@ namespace StackInjector.Core
                 }
 
                 this.instancesDiff.Clear();
-
-                //todo add check in settings
-                //this.RemoveUnusedTypes();
             }
         }
 
