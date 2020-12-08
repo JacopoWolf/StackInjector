@@ -12,6 +12,7 @@ namespace StackInjector.Core.Cloning
                 this.clonedCore = clonedCore;
 
 
+
         public IAsyncStackWrapper<TEntry, TIn, TOut> ToAsyncWrapper<TEntry, TIn, TOut> ( AsyncStackDigest<TEntry, TIn, TOut> digest )
         {
             var wrapper = new AsyncStackWrapper<TEntry,TIn,TOut>( this.clonedCore )
@@ -20,6 +21,8 @@ namespace StackInjector.Core.Cloning
             };
 
             this.clonedCore.EntryType = typeof(TEntry);
+            if( this.clonedCore.settings._registerAfterCloning )
+                this.clonedCore.ReadAssemblies();
             this.clonedCore.ServeAll();
 
             return wrapper;
@@ -30,6 +33,8 @@ namespace StackInjector.Core.Cloning
             var wrapper = new StackWrapper<T>(this.clonedCore);
 
             this.clonedCore.EntryType = typeof(T);
+            if( this.clonedCore.settings._registerAfterCloning )
+                this.clonedCore.ReadAssemblies();
             this.clonedCore.ServeAll();
 
             return wrapper;

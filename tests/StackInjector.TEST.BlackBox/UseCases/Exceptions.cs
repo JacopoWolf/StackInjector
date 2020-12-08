@@ -5,7 +5,7 @@ using StackInjector.Exceptions;
 using StackInjector.Settings;
 using StackInjector.TEST.ExternalAssembly;
 
-namespace StackInjector.TEST.BlackBox
+namespace StackInjector.TEST.BlackBox.UseCases
 {
 
 #pragma warning disable IDE0051, IDE0044, CS0169, CS0649
@@ -33,7 +33,7 @@ namespace StackInjector.TEST.BlackBox
 
         // references class in unregistred external assembly
         [Service]
-        private class BaseServiceNotFoundThrower {[Served] public Externalclass externalClass; }
+        internal class BaseServiceNotFoundThrower {[Served] public Externalclass externalClass; }
 
         [Test]
         public void ThrowsServiceNotFound ()

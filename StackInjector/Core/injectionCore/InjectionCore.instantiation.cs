@@ -39,7 +39,7 @@ namespace StackInjector.Core
             if( serviceAtt == null )
                 throw new NotAServiceException(type, $"The type {type.FullName} is not annotated with [Service]");
 
-            //todo allow disabling of this check and add services at runtime
+            //todo 4.0: allow disabling of this check and add services at runtime
             if( !this.instances.ContainsKey(type) )
                 throw new ServiceNotFoundException(type, $"The type {type.FullName} is not in a registred assembly!");
 

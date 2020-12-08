@@ -18,6 +18,9 @@ namespace StackInjector.Settings
         /// <returns>the modified settings</returns>
         public StackWrapperSettings RegisterAssemblies ( params Assembly[] assemblies )
         {
+            if( assemblies is null )
+                throw new ArgumentNullException(nameof(assemblies));
+
             foreach( var assembly in assemblies )
                 this._registredAssemblies.Add(assembly);
             return this;
@@ -50,7 +53,7 @@ namespace StackInjector.Settings
         /// <returns>the modified settings</returns>
         public StackWrapperSettings RegisterAssemblyOf<T> ()
         {
-            this._registredAssemblies.Add(typeof(T).Assembly);
+            this.RegisterAssemblies(typeof(T).Assembly);
             return this;
         }
 
@@ -73,7 +76,19 @@ namespace StackInjector.Settings
         /// <returns>the modified settings</returns>
         public StackWrapperSettings RegisterWrapperAsService ( bool register = true )
         {
-            this._registerWrapAsService = register;
+            this._registerWrapperAsService = register;
+            return this;
+        }
+
+
+        /// <summary>
+        /// If set, when cloned the StackWrapper will re-scans all assemblies before the injection.
+        /// Used to update assemblies with new types.
+        /// </summary>
+        /// <returns>the modified settings</returns>
+        public StackWrapperSettings RegisterAfterCloning ( bool register = true )
+        {
+            this._registerAfterCloning = register;
             return this;
         }
 
@@ -141,6 +156,17 @@ namespace StackInjector.Settings
         {
             this._servingMethod = methods;
             this._overrideServingMethod = @override;
+            return this;
+        }
+
+
+        /// <summary>
+        /// Remove the reference to unused types after the injection is finished.
+        /// </summary>
+        /// <returns>The modified settings</returns>
+        public StackWrapperSettings RemoveUnusedTypesAfterInjection ( bool remove = true )
+        {
+            this._cleanUnusedTypesAftInj = remove;
             return this;
         }
 

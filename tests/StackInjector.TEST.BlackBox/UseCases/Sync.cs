@@ -3,12 +3,14 @@ using System.Linq;
 using NUnit.Framework;
 using StackInjector.Attributes;
 using StackInjector.Core;
+using StackInjector.Exceptions;
 using StackInjector.Settings;
+using StackInjector.TEST.ExternalAssembly;
 
 namespace StackInjector.TEST.BlackBox.UseCases
 {
 
-#pragma warning disable IDE0051, IDE0044, CS0169, CS0649
+#pragma warning disable CS0169, CS0649
 
     internal class Sync
     {
@@ -42,51 +44,6 @@ namespace StackInjector.TEST.BlackBox.UseCases
         }
 
 
-        [Service] private class VersionClass {[Served] internal Level1A Level1_2; }
-
-        [Test]
-        public void ServerdVersioningClass ()
-        {
-            var settings =
-                StackWrapperSettings.Default
-                .InjectionVersioningMethod(ServedVersionTargetingMethod.LatestMajor,true);
-
-            var versionedService = Injector.From<VersionClass>(settings).Entry.Level1_2;
-
-            /* CLASSES ARE NOT VERSIONED, ONLY INTERFACES
-             * this is why this tests checks if the field is not of Level1_2
-            */
-            Assert.That(versionedService, Is.Not.InstanceOf<Level1_2>());
-
-        }
-
-
-        [Test]
-        public void SettingVersioningLatestMaj ()
-        {
-            var settings =
-                StackWrapperSettings.Default
-                .InjectionVersioningMethod(ServedVersionTargetingMethod.LatestMajor,true);
-
-            var versionedService = Injector.From<InterfaceVersionedBase>( settings ).Entry.level1;
-
-            Assert.That(versionedService, Is.TypeOf<Level1LatestVersion>());
-        }
-
-
-        [Test]
-        public void SettingVersioningLatestMin ()
-        {
-            var settings =
-                StackWrapperSettings.Default
-                .InjectionVersioningMethod(ServedVersionTargetingMethod.LatestMinor,true);
-
-            var versionedService = Injector.From<InterfaceVersionedBase>( settings ).Entry.level1;
-
-            Assert.That(versionedService, Is.TypeOf<Level1B>());
-        }
-
-
         [Service] private class ReferenceLoopA {[Served] public ReferenceLoopB loopB; }
 
         [Service] private class ReferenceLoopB {[Served] public ReferenceLoopA loopA; }
@@ -109,33 +66,25 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
 
         [Test]
+        public void RemoveUnusedTypes ()
+        {
+            var settings =
+                StackWrapperSettings.Default
+                .RemoveUnusedTypesAfterInjection();
+
+            var wrap1 = Injector.From<Level1A>( settings );
+
+            // base is removed after injecting from a class that doesn't need it
+            Assert.Throws<ServiceNotFoundException>(() => wrap1.CloneCore().ToWrapper<Base>());
+
+        }
+
+        [Test]
         public void AccessWrapper ()
         {
             var wrapper = Injector.From<AccessWrapperBase>();
 
             Assert.AreSame(wrapper, wrapper.Entry.wrapper);
-        }
-
-
-        [Test]
-        public void CloneSame ()
-        {
-            var wrapper = Injector.From<AccessWrapperBase>();
-
-            var cloneWrapper = wrapper.Entry.Clone();
-
-            CollectionAssert.AreEquivalent(wrapper.GetServices<object>(), cloneWrapper.GetServices<object>());
-        }
-
-        [Test]
-        public void CloneNoRepetitionsSingleton ()
-        {
-            var wrapper = Injector.From<IBase>();
-
-            var clone = wrapper.CloneCore().ToWrapper<IBase>();
-
-            Assert.AreSame(clone, clone.GetServices<IStackWrapperCore>().Single());
-
         }
 
         [Test]
@@ -174,6 +123,56 @@ namespace StackInjector.TEST.BlackBox.UseCases
             });
 
         }
+
+
+        internal class Cloning
+        {
+
+            [Test]
+            public void RegisterAfterCloning ()
+            {
+                // empty class
+                var wrapper1 = Injector.From<Level1_2>();
+
+                Assert.Multiple(() =>
+                {
+                    // BaseServiceNotFoundThrower uses a class in an external assembly
+                    Assert.Throws<ServiceNotFoundException>(() => wrapper1.CloneCore().ToWrapper<Exceptions.BaseServiceNotFoundThrower>());
+
+                    var settings =
+                    StackWrapperSettings.Default
+                    .RegisterAssemblyOf<Externalclass>()
+                    .RegisterAfterCloning();
+
+                    Assert.DoesNotThrow(() => wrapper1.CloneCore(settings).ToWrapper<Exceptions.BaseServiceNotFoundThrower>());
+
+                });
+
+            }
+
+            [Test]
+            public void CloneSame ()
+            {
+                var wrapper = Injector.From<AccessWrapperBase>();
+
+                var cloneWrapper = wrapper.Entry.Clone();
+
+                CollectionAssert.AreEquivalent(wrapper.GetServices<object>(), cloneWrapper.GetServices<object>());
+            }
+
+            [Test]
+            public void CloneNoRepetitionsSingleton ()
+            {
+                var wrapper = Injector.From<IBase>();
+
+                var clone = wrapper.CloneCore().ToWrapper<IBase>();
+
+                Assert.AreSame(clone, clone.GetServices<IStackWrapperCore>().Single());
+
+            }
+
+        }
+
 
     }
 }
