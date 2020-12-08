@@ -18,6 +18,9 @@ namespace StackInjector.Settings
         /// <returns>the modified settings</returns>
         public StackWrapperSettings RegisterAssemblies ( params Assembly[] assemblies )
         {
+            if( assemblies is null )
+                throw new ArgumentNullException(nameof(assemblies));
+
             foreach( var assembly in assemblies )
                 this._registredAssemblies.Add(assembly);
             return this;
