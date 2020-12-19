@@ -14,7 +14,7 @@ namespace StackInjector.TEST.BlackBox.Features
         [Service] private class VersionClass {[Served] internal Level1A Level1_2; }
 
         [Test]
-        public void ServerdVersioningClass ()
+        public void ServedVersioningClass ()
         {
             var settings =
                 StackWrapperSettings.Default
@@ -27,6 +27,14 @@ namespace StackInjector.TEST.BlackBox.Features
             */
             Assert.That(versionedService, Is.Not.InstanceOf<Level1_2>());
 
+        }
+
+        [Test]
+        public void ServedVersioningInterface ()
+        {
+            var versionedService = Injector.From<InterfaceVersionedBase>().Entry.level1;
+
+            Assert.That(versionedService, Is.TypeOf<Level1B>());
         }
 
 

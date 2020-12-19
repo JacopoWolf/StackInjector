@@ -10,7 +10,7 @@ using StackInjector.TEST.ExternalAssembly;
 namespace StackInjector.TEST.BlackBox.UseCases
 {
 
-#pragma warning disable CS0169, CS0649
+#pragma warning disable CS0169, CS0649, IDE0051
 
     internal class Sync
     {
@@ -32,15 +32,6 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
             // asserts the whole structure works and references are correct.
             Assert.AreEqual(42, baseClass.Logic());
-        }
-
-
-        [Test]
-        public void ServedVersioningInterface ()
-        {
-            var versionedService = Injector.From<InterfaceVersionedBase>().Entry.level1;
-
-            Assert.That(versionedService, Is.TypeOf<Level1B>());
         }
 
 
@@ -170,6 +161,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
                 Assert.AreSame(clone, clone.GetServices<IStackWrapperCore>().Single());
 
             }
+
 
         }
 
