@@ -115,22 +115,6 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
         }
 
-        // ----------
-
-
-        [Service(Pattern = InstantiationPattern.AlwaysCreate)]
-        private class InstantiationPatternTester {[Served] readonly InstantiationPatternTester loop; }
-
-        [Service]
-        private class InstantiationPatternBase {[Served] readonly InstantiationPatternTester loop; }
-
-        [Test]
-        [Timeout(500)]
-        public void ThrowsExceptionOnAlwaysCreateLoop ()
-        {
-            Assert.Throws<StackInjectorException>(() => Injector.From<InstantiationPatternBase>());
-        }
-
 
         internal class Cloning
         {
