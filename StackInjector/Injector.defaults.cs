@@ -8,7 +8,6 @@ namespace StackInjector
         /// <summary>
         /// Static class for default settings.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1034", Justification = "This is more ordered")]
         public static class Defaults
         {
             // the const keyword allows usage in attributes

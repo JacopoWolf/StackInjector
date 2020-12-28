@@ -21,9 +21,10 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
         // base async test class
         [Service]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822", Justification = "methods don't need to be static.")]
         private class AsyncBase
         {
-            internal async Task<object> WaitForever ( object obj, CTkn tkn )
+		    internal async Task<object> WaitForever ( object obj, CTkn tkn )
             {
                 // waits forever unless cancelled
                 await Task.Delay(-1, tkn);

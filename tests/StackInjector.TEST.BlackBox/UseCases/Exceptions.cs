@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using StackInjector.Attributes;
 using StackInjector.Exceptions;
@@ -103,6 +104,21 @@ namespace StackInjector.TEST.BlackBox.UseCases
             => Assert.Throws<NoSetterException>(() => Injector.From<BaseNoSetterThrower>());
 
         //  ----------
+
+        [Service(Pattern = InstantiationPattern.AlwaysCreate)]
+        private class InstantiationPatternTester {[Served] readonly InstantiationPatternTester loop; }
+
+        [Service]
+        private class InstantiationPatternBase {[Served] readonly InstantiationPatternTester loop; }
+
+        [Test]
+        [Timeout(500)]
+        public void ThrowsExceptionOnAlwaysCreateLoop ()
+        {
+            var ex = Assert.Throws<StackInjectorException>(() => Injector.From<InstantiationPatternBase>());
+            Assert.That(ex.InnerException, Is.TypeOf<InvalidOperationException>());
+            
+        }
 
     }
 }

@@ -23,7 +23,11 @@ namespace StackInjector.Core
             {
                 var serviceAtt = value.GetCustomAttribute<ServiceAttribute>();
                 if( serviceAtt != null && serviceAtt.Pattern == InstantiationPattern.AlwaysCreate )
-                    throw new InvalidEntryTypeException(value, $"Entry point {value.Name} cannot have {InstantiationPattern.AlwaysCreate} as instantiation pattern.");
+                    throw new InvalidEntryTypeException(
+                        value, 
+                        $"Entry point {value.Name} cannot have {InstantiationPattern.AlwaysCreate} as instantiation pattern.",
+                        new InvalidOperationException()
+                    );
 
                 this._entryType = value;
             }
