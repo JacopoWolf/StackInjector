@@ -101,6 +101,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
 
 		[Test]
+		[Retry(3)]
 		[Timeout(1000)]
 		public void TaskCancellation ()
 		{
