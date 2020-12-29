@@ -15,7 +15,7 @@ namespace StackInjector.Core
 		// Injects services into the specified instance, instantiating them on necessity.
 		private IEnumerable<object> InjectServicesInto ( object instance )
 		{
-			var instantiated = new List<object>();
+			var servicesUsed = new List<object>();
 			var type = instance.GetType();
 			var serviceAtt = type.GetCustomAttribute<ServiceAttribute>();
 
@@ -29,34 +29,34 @@ namespace StackInjector.Core
 
 			// don't waste time serving if not necessary
 			if( serving == ServingMethods.DoNotServe )
-				return instantiated;
+				return servicesUsed;
 
 			// if false avoids going though the properties/fields list a second time to filter
 			var onlyWithAttrib = serving.HasFlag(ServingMethods.Strict);
 
 
 			if( serving.HasFlag(ServingMethods.Fields) )
-				this.InjectFields(type, instance, ref instantiated, onlyWithAttrib);
+				this.InjectFields(type, instance, ref servicesUsed, onlyWithAttrib);
 
 
 			if( serving.HasFlag(ServingMethods.Properties) )
-				this.InjectProperties(type, instance, ref instantiated, onlyWithAttrib);
+				this.InjectProperties(type, instance, ref servicesUsed, onlyWithAttrib);
 
 
-			return instantiated;
+			return servicesUsed;
 		}
 
 
 
 		#region injection methods
 
-		private void InjectFields ( Type type, object instance, ref List<object> instantiated, bool hasAttribute )
+		private void InjectFields ( Type type, object instance, ref List<object> used, bool strict )
 		{
 			var fields =
 					type.GetFields( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance )
 					.Where( f => f.GetCustomAttribute<IgnoredAttribute>() is null );
 
-			if( hasAttribute )
+			if( strict )
 				fields = fields.Where(field => field.GetCustomAttribute<ServedAttribute>() != null);
 
 			foreach( var serviceField in fields )
@@ -66,20 +66,21 @@ namespace StackInjector.Core
 					(
 						serviceField.FieldType,
 						serviceField.GetCustomAttribute<ServedAttribute>(),
-						ref instantiated
+						ref used
 					);
+
 				serviceField.SetValue(instance, serviceInstance);
 			}
 		}
 
 
-		private void InjectProperties ( Type type, object instance, ref List<object> instantiated, bool hasAttribute )
+		private void InjectProperties ( Type type, object instance, ref List<object> used, bool strict )
 		{
 			var properties =
 					type.GetProperties( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance )
 					.Where( p => p.GetCustomAttribute<IgnoredAttribute>() is null );
 
-			if( hasAttribute )
+			if( strict )
 				properties = properties.Where(property => property.GetCustomAttribute<ServedAttribute>() != null);
 
 			foreach( var serviceProperty in properties )
@@ -92,7 +93,7 @@ namespace StackInjector.Core
 					(
 						serviceProperty.PropertyType,
 						serviceProperty.GetCustomAttribute<ServedAttribute>(),
-						ref instantiated
+						ref used
 					);
 
 				serviceProperty.SetValue(instance, serviceInstance);
@@ -101,7 +102,7 @@ namespace StackInjector.Core
 
 
 		// returns the instantiated object 
-		private object InstTypeOrServiceEnum ( Type type, ServedAttribute servedAttribute, ref List<object> instantiated )
+		private object InstTypeOrServiceEnum ( Type type, ServedAttribute servedAttribute, ref List<object> used )
 		{
 			if
 			(
@@ -110,7 +111,6 @@ namespace StackInjector.Core
 				type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)
 			)
 			{
-
 				var generic = type.GetGenericArguments()[0];
 
 				// list of sorted valid types
@@ -122,24 +122,25 @@ namespace StackInjector.Core
 				var instances = (IList)Activator.CreateInstance( listType );
 
 				// gather instances if necessary
-				foreach( var requestedType in validTypes )
+				foreach( var serviceType in validTypes )
 				{
-					var obj = this.OfTypeOrInstantiate(requestedType);
+					var obj = this.OfTypeOrInstantiate(serviceType);
 					instances.Add(obj);
-					instantiated.Add(obj);
+					used.Add(obj);
 				}
-
-
 				return instances;
 			}
 			else
 			{
 				var serviceType = this.ClassOrVersionFromInterface( type, servedAttribute );
+
 				var obj = this.OfTypeOrInstantiate(serviceType);
-				instantiated.Add(obj);
+				used.Add(obj);
 				return obj;
 			}
 		}
+
+
 
 		#endregion
 

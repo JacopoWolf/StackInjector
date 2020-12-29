@@ -45,37 +45,5 @@ namespace StackInjector.Core
 			}
 
 		}
-
-
-
-
-		// retrieves the entry point of the specified type
-		internal T GetEntryPoint<T> ()
-		{
-			var entries = this.instances[this.EntryType];
-
-			return (entries.Any())
-				? (T)entries.First()
-				: throw new InvalidEntryTypeException
-					(
-						this.EntryType,
-						$"No instance found for entry type {this.EntryType.FullName}",
-						innerException: new ServiceNotFoundException(typeof(T), string.Empty)
-					);
-		}
-
-
-		// remove types with no instances
-		internal void RemoveUnusedTypes ()
-		{
-			var unused = this.instances
-							.Where(p => !p.Value.Any())
-							.Select(p=>p.Key)
-							.ToList();
-
-			foreach( var type in unused )
-				this.instances.Remove(type);
-		}
-
 	}
 }
