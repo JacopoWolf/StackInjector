@@ -53,16 +53,24 @@ namespace StackInjector.Core
 						: this.InstantiateService(type);
 
 				case InstantiationPattern.AlwaysCreate:
-					if( hostType?.IsAssignableFrom(type) ?? false )
-						throw new StackInjectorException(
-								hostType,
-								$"Service {type.FullName} is marked as {InstantiationPattern.AlwaysCreate} and cannot have itself or a derivate type served.",
-								new InvalidOperationException()
-							);
+					AlwaysCreateCheck(type, hostType);
 					return this.InstantiateService(type);
 			}
 
-		}
 
+			// static local check
+			static void AlwaysCreateCheck ( Type type, Type host )
+			{
+				if( host is null )
+					return;
+				else if( type == host || type.IsSubclassOf(host) )
+					throw new StackInjectorException(
+							host,
+							$"Service {type.FullName} is marked as {InstantiationPattern.AlwaysCreate} and cannot have itself or a derivate type served.",
+							new InvalidOperationException()
+						);
+			}
+
+		}
 	}
 }
