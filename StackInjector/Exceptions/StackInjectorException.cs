@@ -5,7 +5,7 @@ namespace StackInjector.Exceptions
 	/// <summary>
 	/// Base class for every StackWrapper exception
 	/// </summary>
-	public abstract class StackInjectorException : Exception
+	public class StackInjectorException : Exception
 	{
 		/// <summary>
 		/// The source type of the exception

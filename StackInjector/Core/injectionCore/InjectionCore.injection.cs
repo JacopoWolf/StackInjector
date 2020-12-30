@@ -64,6 +64,7 @@ namespace StackInjector.Core
 				var serviceInstance =
 					this.InstTypeOrServiceEnum
 					(
+						type,
 						serviceField.FieldType,
 						serviceField.GetCustomAttribute<ServedAttribute>(),
 						ref used
@@ -91,6 +92,7 @@ namespace StackInjector.Core
 				var serviceInstance =
 					this.InstTypeOrServiceEnum
 					(
+						type,
 						serviceProperty.PropertyType,
 						serviceProperty.GetCustomAttribute<ServedAttribute>(),
 						ref used
@@ -102,7 +104,7 @@ namespace StackInjector.Core
 
 
 		// returns the instantiated object 
-		private object InstTypeOrServiceEnum ( Type type, ServedAttribute servedAttribute, ref List<object> used )
+		private object InstTypeOrServiceEnum ( Type host, Type type, ServedAttribute servedAttribute, ref List<object> used )
 		{
 			if
 			(
@@ -124,7 +126,7 @@ namespace StackInjector.Core
 				// gather instances if necessary
 				foreach( var serviceType in validTypes )
 				{
-					var obj = this.OfTypeOrInstantiate(serviceType);
+					var obj = this.OfTypeOrInstantiate(serviceType, host);
 					instances.Add(obj);
 					used.Add(obj);
 				}
@@ -134,13 +136,11 @@ namespace StackInjector.Core
 			{
 				var serviceType = this.ClassOrVersionFromInterface( type, servedAttribute );
 
-				var obj = this.OfTypeOrInstantiate(serviceType);
+				var obj = this.OfTypeOrInstantiate(serviceType,host);
 				used.Add(obj);
 				return obj;
 			}
 		}
-
-
 
 		#endregion
 

@@ -113,7 +113,6 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
 		[Test]
 		[Timeout(500)]
-		[Ignore("still fixing")]
 		public void ThrowsExceptionOnAlwaysCreateLoop ()
 		{
 			Assert.Multiple(() =>

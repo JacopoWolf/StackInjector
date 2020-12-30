@@ -25,6 +25,7 @@ namespace StackInjector
 		/// <exception cref="NotAServiceException"></exception>
 		/// <exception cref="ServiceNotFoundException"></exception>
 		/// <exception cref="ImplementationNotFoundException"></exception>
+		/// <exception cref="StackInjectorException"></exception>
 		public static IStackWrapper<T> From<T> ( StackWrapperSettings settings = null )
 		{
 			if( settings == null )
@@ -63,6 +64,7 @@ namespace StackInjector
 		/// <exception cref="NotAServiceException"></exception>
 		/// <exception cref="ServiceNotFoundException"></exception>
 		/// <exception cref="ImplementationNotFoundException"></exception>
+		/// <exception cref="StackInjectorException"></exception>
 		public static IAsyncStackWrapper<TEntry, TIn, TOut> AsyncFrom<TEntry, TIn, TOut>
 			(
 				AsyncStackDigest<TEntry, TIn, TOut> digest,
