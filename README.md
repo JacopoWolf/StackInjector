@@ -22,14 +22,15 @@ Modern, easy-to-use and fast dependency injection framework.<br><br>
 
 
 <p align=center>
-<img src="https://img.shields.io/github/license/jacopowolf/stackinjector">
-<img src="https://img.shields.io/maintenance/yes/2020">
-<img src="https://img.shields.io/github/issues/jacopowolf/stackinjector/bug">
 <img src="https://img.shields.io/nuget/dt/StackInjector?logo=nuget">
+<img src="https://img.shields.io/nuget/vpre/StackInjector?label=">
+<br>
+<img src="https://img.shields.io/github/license/jacopowolf/stackinjector">
+<img src="https://img.shields.io/maintenance/yes/2021">
+<img src="https://img.shields.io/github/issues/jacopowolf/stackinjector/bug">
 <br>
 <img src="https://img.shields.io/badge/-Standard_2.1-5C2D91?logo=.net"/>
-<img src="https://img.shields.io/badge/-8.0-239120?logo=c-sharp"/>
-<img src="https://img.shields.io/nuget/vpre/StackInjector?label=">
+<img src="https://img.shields.io/badge/-9.0-239120?logo=c-sharp"/>
 </p>
 
 
@@ -56,11 +57,7 @@ If you want to use an extremely easy dependency injection framework, and also us
 
 ## Installation
 
-```powershell
-dotnet add package StackInjector
-```
-
-Or visit the [Nuget page](https://www.nuget.org/packages/StackInjector) for more options.
+Visit the [Nuget page](https://www.nuget.org/packages/StackInjector)
 
 
 
@@ -70,7 +67,7 @@ In-depth tutorials and explanations can be found in the repository's [Wiki](http
 
 ---
 
-You can plan your components as **interfaces** and *implement* them! 
+You can plan your components as **interfaces** and *implement* them.
 
 As clean as you can get!
 
@@ -87,22 +84,24 @@ using StackInjector.Attributes;
 [Service]
 class SimpleFooFilter : IFooFilter
 {
-    // by default settings, you have to explicitly annotate with [Served]
-    // the properties or fields you want injected
-
     [Served]
     IDatabaseAccess Database { get; set; }
     
     [Served]
     IFooFilter filter;
 
+    [Served]
+    IEnumerable<ISanitizer> sanitizers; 
     
-    string Filter( string element ) 
+
+    string SomeMethod( string query ) 
     {
         // those are just random examples! 
-        var item = this.Database.SomeMethod( element );
+        foreach ( var s in this.sanitizers )
+            s.Clear( query );
+        var item = this.Database.ExampleGet( element );
         this.filter.Filter( item );
-        return element;
+        return item;
     }
 }
 ```
@@ -116,17 +115,25 @@ You then have multiple options on how to initialize your application, and every 
 **synchronous**
 
 a simple call to a static method and you're done!
+
+*examples of a Main.cs in C# 9.0*
+
 ```cs
-// call DoWork() on a dependency-injected instance of IMyAppEntryPoint
-Injector.From<IMyAppEntryPoint>().Entry.DoWork();
+using StackInjector;
+
+var settings = StackWrapperSettings
+    .Default
+    .RemoveUnusedTypesAfterInjection();
+
+Injector.From<IMyAppEntryPoint>( settings ).Entry.DoWork();
 ```
 
 **asynchronous**
 
-with C# 8's asynchronous enumerables waiting for task to complete is really this easy!
-
 ```cs
-// the "using" keyword allows for safe disposing of the resources
+using StackInjector;
+
+// the "using" keyword here allows for safe disposing of the resources after 
 using var app = Injector.AsyncFrom<IMyAsyncAppEntryPoint>( (e,i,t) => e.AsyncWork(i,t) );
 
 // can be called from anywhere
