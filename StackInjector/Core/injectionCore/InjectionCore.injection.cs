@@ -143,13 +143,14 @@ namespace StackInjector.Core
 			}
 		}
 
-		// static check
+		// static check to avaid self injection infinite loops
 		private static void SelfInjectionCheck ( Type host, Type child )
 		{
 			if( child == host || child.IsSubclassOf(host) )
 				throw new StackInjectorException(
 						host,
-						$"Service {child.FullName} is marked as {InstantiationPattern.AlwaysCreate} and cannot have itself or a derivate type served.",
+						$"{child.Name} is the same type or inherits from {host.Name} " +
+						$"and therefore cannot be served.",
 						new InvalidOperationException()
 					);
 		}
