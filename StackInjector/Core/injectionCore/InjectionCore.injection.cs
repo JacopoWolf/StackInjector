@@ -32,15 +32,15 @@ namespace StackInjector.Core
 				return servicesUsed;
 
 			// if false avoids going though the properties/fields list a second time to filter
-			var onlyWithAttrib = serving.HasFlag(ServingMethods.Strict);
+			var strict = serving.HasFlag(ServingMethods.Strict);
 
 
 			if( serving.HasFlag(ServingMethods.Fields) )
-				this.InjectFields(type, instance, ref servicesUsed, onlyWithAttrib);
+				this.InjectFields(type, instance, ref servicesUsed, strict);
 
 
 			if( serving.HasFlag(ServingMethods.Properties) )
-				this.InjectProperties(type, instance, ref servicesUsed, onlyWithAttrib);
+				this.InjectProperties(type, instance, ref servicesUsed, strict);
 
 
 			return servicesUsed;
@@ -106,8 +106,7 @@ namespace StackInjector.Core
 		// returns the instantiated object 
 		private object InstTypeOrServiceEnum ( Type host, Type type, ServedAttribute servedAttribute, ref List<object> used )
 		{
-			if
-			(
+			if (
 				this.settings._serveEnumerables
 				&&
 				type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)
@@ -126,7 +125,8 @@ namespace StackInjector.Core
 				// gather instances if necessary
 				foreach( var serviceType in validTypes )
 				{
-					var obj = this.OfTypeOrInstantiate(serviceType, host);
+					SelfInjectionCheck(host, serviceType);
+					var obj = this.OfTypeOrInstantiate(serviceType);
 					instances.Add(obj);
 					used.Add(obj);
 				}
@@ -135,11 +135,23 @@ namespace StackInjector.Core
 			else
 			{
 				var serviceType = this.ClassOrVersionFromInterface( type, servedAttribute );
+				SelfInjectionCheck(host, serviceType);
 
-				var obj = this.OfTypeOrInstantiate(serviceType,host);
+				var obj = this.OfTypeOrInstantiate(serviceType);
 				used.Add(obj);
 				return obj;
 			}
+		}
+
+		// static check
+		private static void SelfInjectionCheck ( Type host, Type child )
+		{
+			if( child == host || child.IsSubclassOf(host) )
+				throw new StackInjectorException(
+						host,
+						$"Service {child.FullName} is marked as {InstantiationPattern.AlwaysCreate} and cannot have itself or a derivate type served.",
+						new InvalidOperationException()
+					);
 		}
 
 		#endregion

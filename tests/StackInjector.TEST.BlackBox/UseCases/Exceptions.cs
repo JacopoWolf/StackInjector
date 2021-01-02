@@ -106,19 +106,40 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		//  ----------
 
 		[Service(Pattern = InstantiationPattern.AlwaysCreate)]
-		private class InstantiationPatternTester {[Served] private readonly InstantiationPatternTester loop; }
+		private class AlwaysCreateLoopInjectionThrower {[Served] private readonly AlwaysCreateLoopInjectionThrower loop; }
 
 		[Service]
-		private class InstantiationPatternBase {[Served] private readonly InstantiationPatternTester loop; }
+		private class InstantiationPatternBase {[Served] private readonly AlwaysCreateLoopInjectionThrower loop; }
 
 		[Test]
 		[Timeout(500)]
-		[Ignore("Bug in the .net implementation")]
-		public void ThrowsExceptionOnAlwaysCreateLoop ()
+		public void ThrowsExceptionOnInjectionLoop_AlwaysCreate ()
 		{
 			Assert.Multiple(() =>
 			{
 				var ex = Assert.Throws<StackInjectorException>(() => Injector.From<InstantiationPatternBase>());
+				Assert.That(ex.InnerException, Is.TypeOf<InvalidOperationException>());
+			});
+		}
+
+
+		// ----------
+
+
+		[Service]
+		private class LoopInjectionThrower
+		{
+			[Served]
+			readonly LoopInjectionThrower self;
+		}
+
+		[Test]
+		[Timeout(500)]
+		public void ThrowsExceptionOnInjectionLoop ()
+		{
+			Assert.Multiple(() =>
+			{
+				var ex = Assert.Throws<StackInjectorException>(() => Injector.From<LoopInjectionThrower>());
 				Assert.That(ex.InnerException, Is.TypeOf<InvalidOperationException>());
 			});
 		}

@@ -31,7 +31,7 @@ namespace StackInjector.Core
 
 		}
 
-		private object OfTypeOrInstantiate ( Type type, Type hostType = null )
+		private object OfTypeOrInstantiate ( Type type )
 		{
 			var serviceAtt = type.GetCustomAttribute<ServiceAttribute>();
 
@@ -44,33 +44,15 @@ namespace StackInjector.Core
 				throw new ServiceNotFoundException(type, $"The type {type.FullName} is not in a registred assembly!");
 
 
-			switch( serviceAtt.Pattern )
+			return serviceAtt.Pattern switch
 			{
-				default:
-				case InstantiationPattern.Singleton:
-					return (this.instances[type].Any())
+				InstantiationPattern.AlwaysCreate 
+					=> this.InstantiateService(type),
+				_ 
+					=> (this.instances[type].Any())
 						? this.instances[type].First()
-						: this.InstantiateService(type);
-
-				case InstantiationPattern.AlwaysCreate:
-					AlwaysCreateCheck(type, hostType);
-					return this.InstantiateService(type);
-			}
-
-
-			// static local check
-			static void AlwaysCreateCheck ( Type type, Type host )
-			{
-				if( host is null )
-					return;
-				else if( type == host || type.IsSubclassOf(host) )
-					throw new StackInjectorException(
-							host,
-							$"Service {type.FullName} is marked as {InstantiationPattern.AlwaysCreate} and cannot have itself or a derivate type served.",
-							new InvalidOperationException()
-						);
-			}
-
+						: this.InstantiateService(type),
+			};
 		}
 	}
 }
