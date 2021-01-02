@@ -2,42 +2,41 @@
 
 namespace StackInjector.Core.Cloning
 {
-    internal class ClonedCore : IClonedCore
-    {
+	internal class ClonedCore : IClonedCore
+	{
 
-        private readonly InjectionCore clonedCore;
+		private readonly InjectionCore clonedCore;
 
-        internal ClonedCore ( InjectionCore clonedCore )
-            =>
-                this.clonedCore = clonedCore;
+		internal ClonedCore ( InjectionCore clonedCore )
+		{
+			this.clonedCore = clonedCore;
+		}
 
+		public IAsyncStackWrapper<TEntry, TIn, TOut> ToAsyncWrapper<TEntry, TIn, TOut> ( AsyncStackDigest<TEntry, TIn, TOut> digest )
+		{
+			var wrapper = new AsyncStackWrapper<TEntry,TIn,TOut>( this.clonedCore )
+			{
+				StackDigest = digest
+			};
 
+			this.clonedCore.EntryType = typeof(TEntry);
+			if( this.clonedCore.settings._registerAfterCloning )
+				this.clonedCore.ReadAssemblies();
+			this.clonedCore.ServeAll();
 
-        public IAsyncStackWrapper<TEntry, TIn, TOut> ToAsyncWrapper<TEntry, TIn, TOut> ( AsyncStackDigest<TEntry, TIn, TOut> digest )
-        {
-            var wrapper = new AsyncStackWrapper<TEntry,TIn,TOut>( this.clonedCore )
-            {
-                StackDigest = digest
-            };
+			return wrapper;
+		}
 
-            this.clonedCore.EntryType = typeof(TEntry);
-            if( this.clonedCore.settings._registerAfterCloning )
-                this.clonedCore.ReadAssemblies();
-            this.clonedCore.ServeAll();
+		public IStackWrapper<T> ToWrapper<T> ()
+		{
+			var wrapper = new StackWrapper<T>(this.clonedCore);
 
-            return wrapper;
-        }
+			this.clonedCore.EntryType = typeof(T);
+			if( this.clonedCore.settings._registerAfterCloning )
+				this.clonedCore.ReadAssemblies();
+			this.clonedCore.ServeAll();
 
-        public IStackWrapper<T> ToWrapper<T> ()
-        {
-            var wrapper = new StackWrapper<T>(this.clonedCore);
-
-            this.clonedCore.EntryType = typeof(T);
-            if( this.clonedCore.settings._registerAfterCloning )
-                this.clonedCore.ReadAssemblies();
-            this.clonedCore.ServeAll();
-
-            return wrapper;
-        }
-    }
+			return wrapper;
+		}
+	}
 }
