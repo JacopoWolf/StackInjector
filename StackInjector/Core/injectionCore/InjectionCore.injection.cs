@@ -64,7 +64,6 @@ namespace StackInjector.Core
 				var serviceInstance =
 					this.InstTypeOrServiceEnum
 					(
-						type,
 						serviceField.FieldType,
 						serviceField.GetCustomAttribute<ServedAttribute>(),
 						ref used
@@ -92,7 +91,6 @@ namespace StackInjector.Core
 				var serviceInstance =
 					this.InstTypeOrServiceEnum
 					(
-						type,
 						serviceProperty.PropertyType,
 						serviceProperty.GetCustomAttribute<ServedAttribute>(),
 						ref used
@@ -104,7 +102,7 @@ namespace StackInjector.Core
 
 
 		// returns the instantiated object 
-		private object InstTypeOrServiceEnum ( Type host, Type type, ServedAttribute servedAttribute, ref List<object> used )
+		private object InstTypeOrServiceEnum ( Type type, ServedAttribute servedAttribute, ref List<object> used )
 		{
 			if (
 				this.settings._serveEnumerables
@@ -125,7 +123,6 @@ namespace StackInjector.Core
 				// gather instances if necessary
 				foreach( var serviceType in validTypes )
 				{
-					SelfInjectionCheck(host, serviceType);
 					var obj = this.OfTypeOrInstantiate(serviceType);
 					instances.Add(obj);
 					used.Add(obj);
@@ -135,24 +132,11 @@ namespace StackInjector.Core
 			else
 			{
 				var serviceType = this.ClassOrVersionFromInterface( type, servedAttribute );
-				SelfInjectionCheck(host, serviceType);
 
 				var obj = this.OfTypeOrInstantiate(serviceType);
 				used.Add(obj);
 				return obj;
 			}
-		}
-
-		// static check to avaid self injection infinite loops
-		private static void SelfInjectionCheck ( Type host, Type child )
-		{
-			if( child == host || child.IsSubclassOf(host) )
-				throw new StackInjectorException(
-						host,
-						$"{child.Name} is the same type or inherits from {host.Name} " +
-						$"and therefore cannot be served.",
-						new InvalidOperationException()
-					);
 		}
 
 		#endregion

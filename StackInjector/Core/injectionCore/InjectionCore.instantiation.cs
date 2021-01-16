@@ -22,6 +22,7 @@ namespace StackInjector.Core
 
 
 			this.instances[type].AddLast(instance);
+			this.instances.total_count++;
 
 			// if true, track instantiated objects
 			if( this.settings._trackInstancesDiff )

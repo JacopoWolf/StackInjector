@@ -6,6 +6,7 @@ namespace StackInjector.Core
 {
 	internal class InstancesHolder : Dictionary<Type, LinkedList<object>>
 	{
+		internal uint total_count = 0;
 
 		internal IEnumerable<Type> TypesAssignableFrom ( Type type )
 		{
@@ -26,6 +27,15 @@ namespace StackInjector.Core
 			this.TryAdd(type, new LinkedList<object>());
 		}
 
+
+		internal void CountAllInstances ()
+		{
+			this.total_count = 0;
+			foreach (var pair in this)
+				this.total_count += (uint)pair.Value.Count;
+		}
+
+
 		// clones just the structure, the classes references are not cloned
 		internal InstancesHolder CloneStructure ()
 		{
@@ -37,6 +47,5 @@ namespace StackInjector.Core
 			return clonedHolder;
 
 		}
-
 	}
 }
