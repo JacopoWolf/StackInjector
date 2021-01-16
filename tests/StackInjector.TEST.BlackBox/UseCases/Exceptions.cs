@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using NUnit.Framework;
 using StackInjector.Attributes;
 using StackInjector.Exceptions;
@@ -113,13 +114,9 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
 		[Test]
 		[Timeout(500)]
-		public void ThrowsExceptionOnInjectionLoop_AlwaysCreate ()
+		public void ThrowsInstLimitReach_AlwaysCreate ()
 		{
-			Assert.Multiple(() =>
-			{
-				var ex = Assert.Throws<StackInjectorException>(() => Injector.From<InstantiationPatternBase>());
-				Assert.That(ex.InnerException, Is.TypeOf<InvalidOperationException>());
-			});
+			Assert.Throws<InstancesLimitReachedException>(() => Injector.From<InstantiationPatternBase>());
 		}
 
 
@@ -135,13 +132,26 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
 		[Test]
 		[Timeout(500)]
-		public void ThrowsExceptionOnInjectionLoop ()
+		public void NotThrowsInstLimitReach_Singleton ()
 		{
-			Assert.Multiple(() =>
-			{
-				var ex = Assert.Throws<StackInjectorException>(() => Injector.From<LoopInjectionThrower>());
-				Assert.That(ex.InnerException, Is.TypeOf<InvalidOperationException>());
-			});
+			var settings = StackWrapperSettings.Default
+				.LimitInstancesCount(1);
+			Assert.DoesNotThrow(() => Injector.From<LoopInjectionThrower>(settings));
+		}
+
+
+		// ----------
+
+
+		
+
+		[Test]
+		[Timeout(500)]
+		public void ThrowsInstLimitReach_Cloned ()
+		{
+			var settings = StackWrapperSettings.Default
+				.LimitInstancesCount(1);
+			Assert.Throws<InstancesLimitReachedException>( () => Injector.From<IBase>().CloneCore(settings).ToWrapper<IBase>() );
 		}
 
 	}

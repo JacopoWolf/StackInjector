@@ -5,7 +5,7 @@ namespace StackInjector.Exceptions
 	/// <summary>
 	/// Thrown when the specified type has a field/property withouth a setter
 	/// </summary>
-	public class NoSetterException : StackInjectorException
+	public sealed class NoSetterException : StackInjectorException
 	{
 		internal NoSetterException () { }
 

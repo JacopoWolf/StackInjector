@@ -5,7 +5,7 @@ namespace StackInjector.Exceptions
 	/// <summary>
 	/// Thrown when the specified class is NOT a marked with <see cref="Attributes.ServiceAttribute"/>.
 	/// </summary>
-	public class NotAServiceException : StackInjectorException
+	public sealed class NotAServiceException : StackInjectorException
 	{
 		internal NotAServiceException () { }
 

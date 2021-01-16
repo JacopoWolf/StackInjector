@@ -22,7 +22,7 @@ namespace StackInjector.Core.Cloning
 			this.clonedCore.EntryType = typeof(TEntry);
 			if( this.clonedCore.settings._registerAfterCloning )
 				this.clonedCore.ReadAssemblies();
-			this.clonedCore.ServeAll();
+			this.clonedCore.ServeAll(cloned:true);
 
 			return wrapper;
 		}
@@ -34,7 +34,7 @@ namespace StackInjector.Core.Cloning
 			this.clonedCore.EntryType = typeof(T);
 			if( this.clonedCore.settings._registerAfterCloning )
 				this.clonedCore.ReadAssemblies();
-			this.clonedCore.ServeAll();
+			this.clonedCore.ServeAll(cloned:true);
 
 			return wrapper;
 		}

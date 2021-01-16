@@ -170,6 +170,18 @@ namespace StackInjector.Settings
 			return this;
 		}
 
+		/// <summary>
+		/// Limits the TOTAL number of instances. <br/>
+		/// You can use <see cref="uint.MaxValue"/> to remove this limit, altough it is suggest to use the lowest possible value.
+		/// </summary>
+		/// <param name="count">the limit of total instances</param>
+		/// <returns>The modified settings</returns>
+		public StackWrapperSettings LimitInstancesCount ( uint count = 128 )
+		{
+			this._limitInstancesCount = count;
+			return this;
+		}
+
 		#endregion
 
 

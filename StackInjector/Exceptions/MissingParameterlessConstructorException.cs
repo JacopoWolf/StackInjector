@@ -5,7 +5,7 @@ namespace StackInjector.Exceptions
 	/// <summary>
 	/// Thrown when a class has no parameterless constructor to call.
 	/// </summary>
-	public class MissingParameterlessConstructorException : StackInjectorException
+	public sealed class MissingParameterlessConstructorException : StackInjectorException
 	{
 		internal MissingParameterlessConstructorException () { }
 

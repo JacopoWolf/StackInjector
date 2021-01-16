@@ -5,7 +5,7 @@ namespace StackInjector.Exceptions
 	/// <summary>
 	/// Thrown when the entry point is invalid.
 	/// </summary>
-	public class InvalidEntryTypeException : StackInjectorException
+	public sealed class InvalidEntryTypeException : StackInjectorException
 	{
 		internal InvalidEntryTypeException () { }
 

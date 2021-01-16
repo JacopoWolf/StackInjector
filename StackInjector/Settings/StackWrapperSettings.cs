@@ -37,6 +37,7 @@ namespace StackInjector.Settings
 		internal ServingMethods                     _servingMethod                          = ServingMethods.DoNotServe;
 		internal bool                               _overrideServingMethod;
 		internal bool                               _cleanUnusedTypesAftInj;
+		internal uint                               _limitInstancesCount                    = 128;
 
 		// features
 		internal bool                               _serveEnumerables;
