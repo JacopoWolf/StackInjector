@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
+using NUnit.Framework.Internal;
 using StackInjector.Attributes;
 using StackInjector.Exceptions;
 using StackInjector.Settings;
 using StackInjector.TEST.ExternalAssembly;
+using StackInjector.TEST;
 
 namespace StackInjector.TEST.BlackBox.UseCases
 {
 
 #pragma warning disable IDE0051, IDE0044, CS0169, CS0649
 
-	internal class Exceptions
+	internal class Exceptions : CommonTestingMethods
 	{
 		//  ----------
 
@@ -141,8 +144,6 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
 
 		// ----------
-
-
 		
 
 		[Test]
@@ -153,6 +154,5 @@ namespace StackInjector.TEST.BlackBox.UseCases
 				.LimitInstancesCount(1);
 			Assert.Throws<InstancesLimitReachedException>( () => Injector.From<IBase>().CloneCore(settings).ToWrapper<IBase>() );
 		}
-
 	}
 }

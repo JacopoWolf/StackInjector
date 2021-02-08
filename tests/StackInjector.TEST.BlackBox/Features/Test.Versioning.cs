@@ -4,7 +4,7 @@ using StackInjector.Settings;
 
 namespace StackInjector.TEST.BlackBox.Features
 {
-	internal class Versioning
+	internal class Versioning : CommonTestingMethods
 	{
 #pragma warning disable CS0649
 
