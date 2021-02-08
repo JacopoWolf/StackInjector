@@ -127,21 +127,30 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
 
 		[Service]
-		private class LoopInjectionThrower
+		private class SingletonLoopInjectionNotThrowerBase { [Served] readonly SingletonLoopInjectionNotThrower pippo; }
+
+		[Service(Pattern = InstantiationPattern.Singleton)]
+		private class SingletonLoopInjectionNotThrower { [Served] readonly SingletonLoopInjectionNotThrower self; }
+
+
+		[Test]
+		[Timeout(500)]
+		public void NotThrowsInstLimitReach_Singleton_wBase ()
 		{
-			[Served]
-			readonly LoopInjectionThrower self;
+			var settings = StackWrapperSettings.Default
+				.LimitInstancesCount(2);
+			Assert.DoesNotThrow(() => Injector.From<SingletonLoopInjectionNotThrowerBase>(settings));
 		}
+
 
 		[Test]
 		[Timeout(500)]
 		public void NotThrowsInstLimitReach_Singleton ()
 		{
 			var settings = StackWrapperSettings.Default
-				.LimitInstancesCount(1);
-			Assert.DoesNotThrow(() => Injector.From<LoopInjectionThrower>(settings));
+				.LimitInstancesCount(2);
+			Assert.DoesNotThrow(() => Injector.From<SingletonLoopInjectionNotThrower>(settings));
 		}
-
 
 		// ----------
 		
