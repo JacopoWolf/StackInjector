@@ -11,7 +11,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
 #pragma warning disable IDE0060, IDE0051, IDE0044, CS0169, CS0649
 
-	internal class Async
+	internal class Async : CommonTestingMethods
 	{
 		/*NOTE: AsyncStackWrapper is an extension od the normal wrapper,
          * there is a common core logic; this means that the tests done in UseCases.Sync
