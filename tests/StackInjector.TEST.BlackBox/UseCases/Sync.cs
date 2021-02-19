@@ -10,7 +10,7 @@ using StackInjector.TEST.ExternalAssembly;
 #pragma warning disable CS0649
 namespace StackInjector.TEST.BlackBox.UseCases
 {
-	internal class Sync
+	internal class Sync : CommonTestingMethods
 	{
 
 		[Test]

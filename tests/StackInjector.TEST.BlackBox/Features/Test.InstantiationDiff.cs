@@ -9,7 +9,7 @@ namespace StackInjector.TEST.BlackBox.Features
 {
 #pragma warning disable CS0649
 
-	internal class InstantiationDiff
+	internal class InstantiationDiff : CommonTestingMethods
 	{
 		[Service]
 		private class WrapperBase
