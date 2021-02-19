@@ -53,7 +53,7 @@ namespace StackInjector.Core
 
 			this.instances = new InstancesHolder();
 
-			if( this.settings._trackInstancesDiff )
+			if( this.settings.InjectionOptions._trackInstancesDiff )
 				this.instancesDiff = new List<object>();
 		}
 

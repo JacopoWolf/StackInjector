@@ -25,7 +25,7 @@ namespace StackInjector.Core
 			this.instances.total_count++;
 
 			// if true, track instantiated objects
-			if( this.settings._trackInstancesDiff )
+			if( this.settings.InjectionOptions._trackInstancesDiff )
 				this.instancesDiff.Add(instance);
 
 			return instance;

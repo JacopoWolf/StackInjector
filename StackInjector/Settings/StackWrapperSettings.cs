@@ -9,40 +9,12 @@ namespace StackInjector.Settings
 	/// <summary>
 	/// Used to manage the behaviour of <see cref="IStackWrapper{TEntry}"/> and <see cref="IAsyncStackWrapper{TEntry, TIn, TOut}"/>
 	/// </summary>
-	[Serializable]
 	public sealed partial class StackWrapperSettings
 	{
 
-		// list of settings and their initial empty definition
-		#region settings
-
-		// registration
-		internal HashSet<Assembly>                  _registredAssemblies                    = new HashSet<Assembly>();
-		internal bool                               _registerEntryPointAssembly;
-		internal bool                               _registerWrapperAsService;
-		internal bool                               _registerAfterCloning;
-
-		// disposing
-		internal bool                               _trackInstancesDiff;
-		internal bool                               _callDisposeOnInstanceDiff;
-
-		// async management
-		internal AsyncWaitingMethod                 _asyncWaitingMethod                     = AsyncWaitingMethod.Exit;
-		internal int                                _asyncWaitTime                          = 500;
-
-		// injection
-		internal ServedVersionTargetingMethod       _targetingMethod                        = ServedVersionTargetingMethod.None;
-		internal bool                               _overrideTargetingMethod;
-
-		internal ServingMethods                     _servingMethod                          = ServingMethods.DoNotServe;
-		internal bool                               _overrideServingMethod;
-		internal bool                               _cleanUnusedTypesAftInj;
-		internal uint                               _limitInstancesCount                    = 128;
-
-		// features
-		internal bool                               _serveEnumerables;
-
-		#endregion
+		public Mask MaskOptions { get; private set; }
+		public Injection InjectionOptions { get; private set; }
+		public Runtime RuntimeOptions { get; private set; }
 
 
 		private StackWrapperSettings () { }
@@ -56,7 +28,7 @@ namespace StackInjector.Settings
 		{
 			var settingsCopy = (StackWrapperSettings)this.MemberwiseClone();
 			// creats a deep copy of reference objects
-			settingsCopy._registredAssemblies = this._registredAssemblies.ToHashSet();
+			settingsCopy.MaskOptions._registredAssemblies = this.MaskOptions._registredAssemblies.ToHashSet();
 
 			return settingsCopy;
 		}
@@ -72,21 +44,15 @@ namespace StackInjector.Settings
 				new StackWrapperSettings();
 
 
-		/// <summary>
-		/// Creates a new StackWrapperSettings with default parameters.
-		/// </summary>
-		/// <returns>the default settings</returns>
-		public static StackWrapperSettings Default
-			=>
-				new StackWrapperSettings()
-					.RegisterEntryAssembly()
-					.RegisterWrapperAsService()
-					.RegisterAfterCloning(false)
-					.TrackInstantiationDiff(false, callDispose: false)
-					.InjectionVersioningMethod(ServedVersionTargetingMethod.None, @override: false)
-					.InjectionServingMethods(Injector.Defaults.ServeAllStrict, @override: false)
-					.WhenNoMoreTasks(AsyncWaitingMethod.Exit)
-					.ServeIEnumerables();
+		
+		public static StackWrapperSettings Default ( Injection injection = null, Runtime runtime = null, Mask mask = null )
+			=> 
+			new StackWrapperSettings()
+			{
+				MaskOptions = mask ?? Mask.Default,
+				InjectionOptions = injection ?? Injection.Default,
+				RuntimeOptions = runtime ?? Runtime.Default
+			};
 
 
 		/// <summary>
@@ -95,8 +61,8 @@ namespace StackInjector.Settings
 		/// </summary>
 		/// <seealso cref="Attributes.IgnoredAttribute"/>
 		public static StackWrapperSettings DefaultBySubtraction
-			=>
-				Default
-					.InjectionServingMethods(Injector.Defaults.ServeAll, @override: true);
+			=> Default(Injection.Default.InjectionServingMethods(Injector.Defaults.ServeAll, true));
+
+
 	}
 }

@@ -10,6 +10,8 @@ using StackInjector.Settings;
 using StackInjector.TEST.ExternalAssembly;
 using StackInjector.TEST;
 
+using SWS = StackInjector.Settings.StackWrapperSettings;
+
 namespace StackInjector.TEST.BlackBox.UseCases
 {
 
@@ -48,9 +50,12 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		[Test]
 		public void ExternalAssemblyReference ()
 		{
-			var settings =
-				StackWrapperSettings.Default
-				.RegisterAssemblyOf<Externalclass>();
+			var settings = SWS.Default(
+				mask:
+					SWS.Mask.Default
+					.RegisterAssemblyOf<Externalclass>()
+				);
+				
 
 			var externalClass = Injector.From<BaseServiceNotFoundThrower>(settings).Entry.externalClass;
 
@@ -62,7 +67,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		public void ExternalAllAssemblyReference ()
 		{
 			var settings =
-				StackWrapperSettings.Default
+				SWS.Default
 				.RegisterDomain();
 
 
@@ -137,7 +142,8 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		[Timeout(500)]
 		public void NotThrowsInstLimitReach_Singleton_wBase ()
 		{
-			var settings = StackWrapperSettings.Default
+			var settings = SWS.Default();
+			settings.InjectionOptions
 				.LimitInstancesCount(2);
 			Assert.DoesNotThrow(() => Injector.From<SingletonLoopInjectionNotThrowerBase>(settings));
 		}
@@ -147,7 +153,8 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		[Timeout(500)]
 		public void NotThrowsInstLimitReach_Singleton ()
 		{
-			var settings = StackWrapperSettings.Default
+			var settings = SWS.Default();
+			settings.InjectionOptions
 				.LimitInstancesCount(2);
 			Assert.DoesNotThrow(() => Injector.From<SingletonLoopInjectionNotThrower>(settings));
 		}
@@ -159,7 +166,8 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		[Timeout(500)]
 		public void ThrowsInstLimitReach_Cloned ()
 		{
-			var settings = StackWrapperSettings.Default
+			var settings = SWS.Default();
+			settings.InjectionOptions
 				.LimitInstancesCount(1);
 			Assert.Throws<InstancesLimitReachedException>( () => Injector.From<IBase>().CloneCore(settings).ToWrapper<IBase>() );
 		}
