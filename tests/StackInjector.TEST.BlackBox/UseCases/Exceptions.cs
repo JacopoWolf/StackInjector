@@ -11,6 +11,7 @@ using StackInjector.TEST.ExternalAssembly;
 using StackInjector.TEST;
 
 using SWS = StackInjector.Settings.StackWrapperSettings;
+using System.Threading.Tasks;
 
 namespace StackInjector.TEST.BlackBox.UseCases
 {
@@ -120,7 +121,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		private class InstantiationPatternBase {[Served] private readonly AlwaysCreateLoopInjectionThrower loop; }
 
 		[Test]
-		[Timeout(500)]
+		[Timeout(200)]
 		public void ThrowsInstLimitReach_AlwaysCreate ()
 		{
 			Assert.Throws<InstancesLimitReachedException>(() => Injector.From<InstantiationPatternBase>());
@@ -137,25 +138,30 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		private class SingletonLoopInjectionNotThrower { [Served] readonly SingletonLoopInjectionNotThrower self; }
 
 
-		[Test]
-		[Timeout(500)]
+		[Test][Retry(3)]
+		//[Timeout(200)]
 		public void NotThrowsInstLimitReach_Singleton_wBase ()
 		{
-			var settings = SWS.Default();
-			settings.InjectionOptions
-				.LimitInstancesCount(2);
-			Assert.DoesNotThrow(() => Injector.From<SingletonLoopInjectionNotThrowerBase>(settings));
+			ExecuteTest(100, () =>
+			{
+				var settings = SWS.Default();
+				settings.InjectionOptions
+					.LimitInstancesCount(2);
+				Assert.DoesNotThrow(() => Injector.From<SingletonLoopInjectionNotThrowerBase>(settings));
+			});
 		}
 
 
-		[Test]
-		[Timeout(500)]
+		[Test][Retry(3)]
+		//[Timeout(200)]
 		public void NotThrowsInstLimitReach_Singleton ()
 		{
-			var settings = SWS.Default();
-			settings.InjectionOptions
-				.LimitInstancesCount(2);
-			Assert.DoesNotThrow(() => Injector.From<SingletonLoopInjectionNotThrower>(settings));
+			ExecuteTest(100, () =>
+			{
+				var settings = SWS.Default();
+				settings.InjectionOptions.LimitInstancesCount(2);
+				Assert.DoesNotThrow(() => Injector.From<SingletonLoopInjectionNotThrower>(settings));
+			});
 		}
 
 		// ----------

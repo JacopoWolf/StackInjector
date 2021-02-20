@@ -102,20 +102,23 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
 		[Test]
 		[Retry(3)]
-		[Timeout(1000)]
+		//[Timeout(1000)]
 		public void TaskCancellation ()
 		{
-			var wrapper = Injector.AsyncFrom<AsyncBase,object,object>( (b,i,t) => b.WaitForever(i,t) );
-			var task = wrapper.SubmitAndGet(new object());
-
-			var elaborationTask = wrapper.Elaborate();
-
-			wrapper.Dispose();
-
-			Assert.Multiple(() =>
+			ExecuteTest(1000, () =>
 			{
-				var aggregate = Assert.Throws<AggregateException>(()=>task.Wait());
-				Assert.IsInstanceOf<TaskCanceledException>(aggregate.InnerException);
+				var wrapper = Injector.AsyncFrom<AsyncBase,object,object>( (b,i,t) => b.WaitForever(i,t) );
+				var task = wrapper.SubmitAndGet(new object());
+
+				var elaborationTask = wrapper.Elaborate();
+
+				wrapper.Dispose();
+
+				Assert.Multiple(() =>
+				{
+					var aggregate = Assert.Throws<AggregateException>(()=>task.Wait());
+					Assert.IsInstanceOf<TaskCanceledException>(aggregate.InnerException);
+				});
 			});
 
 		}
