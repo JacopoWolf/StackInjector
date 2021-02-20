@@ -38,14 +38,14 @@ namespace StackInjector.Core
 		// reads all [Service] classes 
 		internal void ReadAssemblies ()
 		{
-			if( this.settings.Mask._registerEntryPointAssembly )
-				this.settings.Mask._registredAssemblies.Add(this.EntryType.Assembly);
+			if( this.settings.MaskOptions._registerEntryPointAssembly )
+				this.settings.MaskOptions._registredAssemblies.Add(this.EntryType.Assembly);
 
 			foreach
 			(
 				var t in this
 				.settings
-				.Mask
+				.MaskOptions
 				._registredAssemblies
 				.SelectMany
 				(

@@ -16,9 +16,7 @@ namespace StackInjector.Settings
 
 			internal Runtime () { }
 
-			public static Runtime Default =>
-					new Runtime()
-						.WhenNoMoreTasks(AsyncWaitingMethod.Exit);
+			public static Runtime Default => new Runtime();
 
 
 			/// <summary>

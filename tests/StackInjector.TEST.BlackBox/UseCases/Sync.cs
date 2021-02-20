@@ -44,8 +44,8 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		[Test]
 		public void ServeStrict ()
 		{
-			var settings =
-				StackWrapperSettings.Default
+			var settings = StackWrapperSettings.Default();
+		settings.InjectionOptions
 				.InjectionServingMethods( Injector.Defaults.ServeAllStrict, true );
 
 			var entry = Injector.From<ForgotTheServedAttributeBase>(settings).Entry;
@@ -58,7 +58,8 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		public void RemoveUnusedTypes ()
 		{
 			var settings =
-				StackWrapperSettings.Default
+				StackWrapperSettings.Default();
+		settings.InjectionOptions
 				.RemoveUnusedTypesAfterInjection();
 
 			var wrap1 = Injector.From<Level1A>( settings );
@@ -128,10 +129,10 @@ namespace StackInjector.TEST.BlackBox.UseCases
 					// BaseServiceNotFoundThrower uses a class in an external assembly
 					Assert.Throws<ServiceNotFoundException>(() => wrapper1.CloneCore().ToWrapper<Exceptions.BaseServiceNotFoundThrower>());
 
-					var settings =
-					StackWrapperSettings.Default
-					.RegisterAssemblyOf<Externalclass>()
-					.RegisterAfterCloning();
+					var settings = StackWrapperSettings.Default();
+					settings.MaskOptions
+						.RegisterAssemblyOf<Externalclass>()
+						.RegisterAfterCloning();
 
 					Assert.DoesNotThrow(() => wrapper1.CloneCore(settings).ToWrapper<Exceptions.BaseServiceNotFoundThrower>());
 

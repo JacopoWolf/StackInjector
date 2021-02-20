@@ -14,20 +14,11 @@ namespace StackInjector.Settings
 		{
 			// registration
 			internal HashSet<Assembly>                  _registredAssemblies                    = new HashSet<Assembly>();
-			internal bool                               _registerEntryPointAssembly;
-			internal bool                               _registerWrapperAsService;
+			internal bool                               _registerEntryPointAssembly				= true;
+			internal bool                               _registerWrapperAsService				= true;
 			internal bool                               _registerAfterCloning;
 
-			public static Mask Default =>
-						new Mask()
-						{
-							_registerEntryPointAssembly = true,
-							_registerWrapperAsService = true,
-							_registerAfterCloning = false
-						};
-						//.RegisterEntryAssembly()
-						//.RegisterWrapperAsService()
-						//.RegisterAfterCloning(false);
+			public static Mask Default => new Mask();
 
 			internal Mask () { }
 

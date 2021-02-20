@@ -12,12 +12,12 @@ namespace StackInjector.Settings
 			internal ServedVersionTargetingMethod       _targetingMethod                        = ServedVersionTargetingMethod.None;
 			internal bool                               _overrideTargetingMethod;
 
-			internal ServingMethods                     _servingMethod                          = ServingMethods.DoNotServe;
+			internal ServingMethods                     _servingMethod                          = Injector.Defaults.ServeAllStrict;
 			internal bool                               _overrideServingMethod;
 			internal bool                               _cleanUnusedTypesAftInj;
 			internal uint                               _limitInstancesCount                    = 128;
 
-			internal bool                               _serveEnumerables;
+			internal bool                               _serveEnumerables						= true;
 
 			// disposing
 			internal bool                               _trackInstancesDiff;
@@ -27,11 +27,11 @@ namespace StackInjector.Settings
 			internal Injection () { }
 
 			public static Injection Default =>
-					new Injection()
-						.TrackInstantiationDiff(false, false)
-						.InjectionVersioningMethod(ServedVersionTargetingMethod.None, false)
-						.InjectionServingMethods(Injector.Defaults.ServeAllStrict, false)
-						.ServeIEnumerables();
+					new Injection();
+						//.TrackInstantiationDiff(false, false)
+						//.InjectionVersioningMethod(ServedVersionTargetingMethod.None, false)
+						//.InjectionServingMethods(Injector.Defaults.ServeAllStrict, false)
+						//.ServeIEnumerables();
 
 
 			#region configuration methods

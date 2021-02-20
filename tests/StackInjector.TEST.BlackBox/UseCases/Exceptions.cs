@@ -66,9 +66,8 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		[Test]
 		public void ExternalAllAssemblyReference ()
 		{
-			var settings =
-				SWS.Default
-				.RegisterDomain();
+			var settings = SWS.Default();
+			settings.MaskOptions.RegisterDomain();
 
 
 			var externalClass = Injector.From<BaseServiceNotFoundThrower>(settings).Entry.externalClass;
