@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using StackInjector.Attributes;
 using StackInjector.Exceptions;
 
@@ -14,15 +16,24 @@ namespace StackInjector.Core
 		{
 			if( type.IsInterface )
 			{
-				var versions = this.Version(type, servedAttribute);
+				IEnumerable<Type> versions = this.instances.TypesAssignableFrom(type);
 
-				if( versions.Any() )
+				// is there already an implementation for the interface?
+				if ( versions.Any() )
 				{
 					return versions.First();
 				}
 				else
 				{
-					if( servedAttribute is null )
+					versions = this.Version(type, servedAttribute);
+					if ( versions.Any() )
+					{
+						var t = versions.First();
+						MaskPass(t);
+						return t;
+					}
+
+					if ( servedAttribute is null )
 						throw new ImplementationNotFoundException(type, $"can't find [Service] for interface {type.Name}");
 					else
 						throw new ImplementationNotFoundException(type, $"can't find [Service] for {type.Name} v{servedAttribute.TargetVersion}");
@@ -30,11 +41,22 @@ namespace StackInjector.Core
 			}
 			else
 			{
+				MaskPass(type);
 				return type;
 			}
+
+
+			void MaskPass (Type type)
+			{
+				if ( !this.settings.MaskOptions._isDisabled && this.settings.MaskOptions.IsMasked(type) )
+					throw new Exception($"Type {type.Name} is { (this.settings.MaskOptions._isWhiteList ? "not in the whitelist" : "in the blacklist")}");
+				//todo create custom exception
+			}
+			
+
 		}
 
-
+		// moved to InjectionCore.versioning.cs
 		////reads all [Service] classes
 		////internal void ReadAssemblies ()
 		////{

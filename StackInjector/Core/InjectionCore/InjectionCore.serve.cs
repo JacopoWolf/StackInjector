@@ -7,7 +7,7 @@ namespace StackInjector.Core
 	internal partial class InjectionCore
 	{
 
-		internal void ServeAll ( bool cloned = false )
+		internal void Serve ( bool cloned = false )
 		{
 			// those don't need to be inside the lock.
 			var injected = new HashSet<object>();
@@ -20,14 +20,12 @@ namespace StackInjector.Core
 			// ensures that two threads are not trying to Dispose/InjectAll at the same time
 			lock( this._lock )
 			{
-				// entry type must always be a class
+				// EntryType must be a class
 				this.EntryType = this.ClassOrVersionFromInterface(this.EntryType);
 
-				// instantiates and enqueues the EntryPoint
+				// instantiates and enqueues the EntryPoint. initializes the loop
 				toInject.Enqueue(this.OfTypeOrInstantiate(this.EntryType));
-
 				checkInstancesLimit();
-
 
 				// enqueuing loop
 				while( toInject.Any() )

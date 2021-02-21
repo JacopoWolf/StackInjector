@@ -41,31 +41,30 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
 		// references class in unregistred external assembly
 		[Service]
-		internal class BaseServiceNotFoundThrower {[Served] public Externalclass externalClass; }
+		internal class ClassInExternalAssemblyBase {[Served] public Externalclass externalClass; }
 
 		[Test]
 		public void ThrowsServiceNotFound ()
-			=> Assert.Throws<ServiceNotFoundException>(() => Injector.From<BaseServiceNotFoundThrower>());
-
-
-		[Test][Ignore("feature disabled. Review")]
-		public void ExternalAssemblyReference ()
 		{
-			//var settings = SWS.Default(
-			//	mask:
-			//		SWS.Registration.Default
-			//		.RegisterAssemblyOf<Externalclass>()
-			//	);
-				
+			var settings = SWS.Default;
+			// add to blacklist
+			settings.MaskOptions.Register(typeof(Externalclass));
 
-			//var externalClass = Injector.From<BaseServiceNotFoundThrower>(settings).Entry.externalClass;
-
-			//Assert.That(externalClass, Is.TypeOf<Externalclass>());
+			Assert.Throws<ServiceNotFoundException>(() => Injector.From<ClassInExternalAssemblyBase>(settings));
 		}
 
 
 		[Test]
-		[Ignore("feature disabled. Review")]
+		public void ExternalAssemblyReference ()
+		{
+			var externalClass = Injector.From<ClassInExternalAssemblyBase>().Entry.externalClass;
+
+			Assert.That(externalClass, Is.TypeOf<Externalclass>());
+		}
+
+
+		[Test]
+		[Ignore("feature disabled.")]
 		public void ExternalAllAssemblyReference ()
 		{
 			//var settings = SWS.With();

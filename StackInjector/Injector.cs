@@ -41,7 +41,7 @@ namespace StackInjector
 
 			// initialize the injection process
 			////core.ReadAssemblies();
-			core.ServeAll();
+			core.Serve();
 
 
 			return wrapper;
@@ -87,7 +87,7 @@ namespace StackInjector
 
 			// initialize the injection process
 			////core.ReadAssemblies();
-			core.ServeAll();
+			core.Serve();
 
 			return wrapper;
 		}

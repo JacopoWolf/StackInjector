@@ -19,7 +19,12 @@ namespace StackInjector.Core
 					? this.settings.InjectionOptions._targetingMethod
 					: servedAttribute.TargetingMethod;
 
-			var candidateTypes = this.instances.TypesAssignableFrom(targetType);
+
+			////var candidateTypes = this.instances.TypesAssignableFrom(targetType);
+			var candidateTypes = targetType
+				.Assembly
+				.GetTypes()
+				.Where( t => t.IsClass && !t.IsAbstract && targetType.IsAssignableFrom(t));
 
 
 			return method switch

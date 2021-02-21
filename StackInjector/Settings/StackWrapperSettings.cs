@@ -32,7 +32,7 @@ namespace StackInjector.Settings
 		/// <returns></returns>
 		public StackWrapperSettings Clone ()
 		{
-			//todo implement Clone() in every suboption
+			//! implement Clone() in every suboption
 			throw new NotImplementedException();
 			var settingsCopy = Default;
 			// creats a deep copy of reference objects
@@ -49,7 +49,7 @@ namespace StackInjector.Settings
 			=> 
 			new StackWrapperSettings()
 			{
-				MaskOptions = mask ?? Mask.BlackList,
+				MaskOptions = mask ?? Mask.Disabled,
 				InjectionOptions = injection ?? Injection.Default,
 				RuntimeOptions = runtime ?? Runtime.Default
 			};

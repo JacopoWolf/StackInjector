@@ -10,6 +10,8 @@ using StackInjector.TEST.ExternalAssembly;
 #pragma warning disable CS0649
 namespace StackInjector.TEST.BlackBox.UseCases
 {
+
+	//todo add test for abastract classes
 	internal class Sync : CommonTestingMethods
 	{
 

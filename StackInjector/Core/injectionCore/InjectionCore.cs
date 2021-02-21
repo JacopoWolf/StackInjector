@@ -40,6 +40,7 @@ namespace StackInjector.Core
 		internal InstancesHolder instances;
 
 		// tracks instantiated objects
+		//todo move into instancesHolder
 		internal readonly List<object> instancesDiff;
 
 		// used to lock this core on critical sections

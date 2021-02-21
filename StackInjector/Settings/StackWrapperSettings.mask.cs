@@ -8,13 +8,15 @@ namespace StackInjector.Settings
 	{
 		public sealed class Mask : HashSet<Type>
 		{
-			internal bool isWhiteList;
+			internal bool _isDisabled;
+			internal bool _isWhiteList;
 
 			private Mask () { }
 
 
 			public Mask Register ( params Type[] types )
 			{
+				this._isDisabled = false;
 				foreach ( var t in types )
 					base.Add(t);
 				return this;
@@ -23,18 +25,19 @@ namespace StackInjector.Settings
 
 			public bool IsMasked ( Type type )
 			{
-				if ( isWhiteList )
-					return this.Contains(type);
-				else
+				if ( _isWhiteList )
 					return !this.Contains(type);
+				else
+					return this.Contains(type);
 
 			}
 
 
+			public static Mask WhiteList	=> new Mask() { _isWhiteList = true };
 
-			public static Mask WhiteList => new Mask() { isWhiteList = true };
+			public static Mask BlackList	=> new Mask();
 
-			public static Mask BlackList => new Mask();
+			public static Mask Disabled		=> new Mask() { _isDisabled = true };
 
 
 		}

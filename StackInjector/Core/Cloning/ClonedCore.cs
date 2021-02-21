@@ -23,7 +23,7 @@ namespace StackInjector.Core.Cloning
 			//todo check this
 			//if( this.clonedCore.settings.MaskOptions._registerAfterCloning )
 			//	this.clonedCore.ReadAssemblies();
-			this.clonedCore.ServeAll(cloned:true);
+			this.clonedCore.Serve(cloned:true);
 
 			return wrapper;
 		}
@@ -36,7 +36,7 @@ namespace StackInjector.Core.Cloning
 			//todo check this
 			//if( this.clonedCore.settings.MaskOptions._registerAfterCloning )
 			//	this.clonedCore.ReadAssemblies();
-			this.clonedCore.ServeAll(cloned:true);
+			this.clonedCore.Serve(cloned:true);
 
 			return wrapper;
 		}
