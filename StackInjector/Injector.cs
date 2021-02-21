@@ -29,7 +29,7 @@ namespace StackInjector
 		public static IStackWrapper<T> From<T> ( StackWrapperSettings settings = null )
 		{
 			if( settings == null )
-				settings = StackWrapperSettings.Default();
+				settings = StackWrapperSettings.Default;
 
 			// create the core and wrap it
 			var core = new InjectionCore( settings )
@@ -40,7 +40,7 @@ namespace StackInjector
 			var wrapper = new StackWrapper<T>(core);
 
 			// initialize the injection process
-			core.ReadAssemblies();
+			////core.ReadAssemblies();
 			core.ServeAll();
 
 
@@ -72,7 +72,7 @@ namespace StackInjector
 			)
 		{
 			if( settings == null )
-				settings = StackWrapperSettings.Default();
+				settings = StackWrapperSettings.Default;
 
 			// create the core and wrap it
 			var core = new InjectionCore( settings )
@@ -86,7 +86,7 @@ namespace StackInjector
 			};
 
 			// initialize the injection process
-			core.ReadAssemblies();
+			////core.ReadAssemblies();
 			core.ServeAll();
 
 			return wrapper;

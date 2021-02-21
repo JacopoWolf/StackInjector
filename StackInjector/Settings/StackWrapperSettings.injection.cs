@@ -12,7 +12,7 @@ namespace StackInjector.Settings
 			internal ServedVersionTargetingMethod       _targetingMethod                        = ServedVersionTargetingMethod.None;
 			internal bool                               _overrideTargetingMethod;
 
-			internal ServingMethods                     _servingMethod                          = Injector.Defaults.ServeAllStrict;
+			internal ServingMethods                     _servingMethod                          = DefaultConstants.ServeAllStrict;
 			internal bool                               _overrideServingMethod;
 			internal bool                               _cleanUnusedTypesAftInj;
 			internal uint                               _limitInstancesCount                    = 128;

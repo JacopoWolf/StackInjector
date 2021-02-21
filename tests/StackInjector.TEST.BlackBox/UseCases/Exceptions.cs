@@ -48,32 +48,33 @@ namespace StackInjector.TEST.BlackBox.UseCases
 			=> Assert.Throws<ServiceNotFoundException>(() => Injector.From<BaseServiceNotFoundThrower>());
 
 
-		[Test]
+		[Test][Ignore("feature disabled. Review")]
 		public void ExternalAssemblyReference ()
 		{
-			var settings = SWS.Default(
-				mask:
-					SWS.Mask.Default
-					.RegisterAssemblyOf<Externalclass>()
-				);
+			//var settings = SWS.Default(
+			//	mask:
+			//		SWS.Registration.Default
+			//		.RegisterAssemblyOf<Externalclass>()
+			//	);
 				
 
-			var externalClass = Injector.From<BaseServiceNotFoundThrower>(settings).Entry.externalClass;
+			//var externalClass = Injector.From<BaseServiceNotFoundThrower>(settings).Entry.externalClass;
 
-			Assert.That(externalClass, Is.TypeOf<Externalclass>());
+			//Assert.That(externalClass, Is.TypeOf<Externalclass>());
 		}
 
 
 		[Test]
+		[Ignore("feature disabled. Review")]
 		public void ExternalAllAssemblyReference ()
 		{
-			var settings = SWS.Default();
-			settings.MaskOptions.RegisterDomain();
+			//var settings = SWS.With();
+			//settings.MaskOptions.RegisterDomain();
 
 
-			var externalClass = Injector.From<BaseServiceNotFoundThrower>(settings).Entry.externalClass;
+			//var externalClass = Injector.From<BaseServiceNotFoundThrower>(settings).Entry.externalClass;
 
-			Assert.That(externalClass, Is.TypeOf<Externalclass>());
+			//Assert.That(externalClass, Is.TypeOf<Externalclass>());
 		}
 
 
@@ -144,7 +145,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		{
 			ExecuteTest(100, () =>
 			{
-				var settings = SWS.Default();
+				var settings = SWS.Default;
 				settings.InjectionOptions
 					.LimitInstancesCount(2);
 				Assert.DoesNotThrow(() => Injector.From<SingletonLoopInjectionNotThrowerBase>(settings));
@@ -158,7 +159,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		{
 			ExecuteTest(100, () =>
 			{
-				var settings = SWS.Default();
+				var settings = SWS.Default;
 				settings.InjectionOptions.LimitInstancesCount(2);
 				Assert.DoesNotThrow(() => Injector.From<SingletonLoopInjectionNotThrower>(settings));
 			});
@@ -171,7 +172,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		[Timeout(500)]
 		public void ThrowsInstLimitReach_Cloned ()
 		{
-			var settings = SWS.Default();
+			var settings = SWS.Default;
 			settings.InjectionOptions
 				.LimitInstancesCount(1);
 			Assert.Throws<InstancesLimitReachedException>( () => Injector.From<IBase>().CloneCore(settings).ToWrapper<IBase>() );

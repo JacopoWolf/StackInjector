@@ -13,7 +13,7 @@ namespace StackInjector.TEST.BlackBox.Features
 		[Test]
 		public void ServedVersioningClass ()
 		{
-			var settings = StackWrapperSettings.Default();
+			var settings = StackWrapperSettings.Default;
 			settings.InjectionOptions
 				.InjectionVersioningMethod(ServedVersionTargetingMethod.LatestMajor,true);
 
@@ -38,7 +38,7 @@ namespace StackInjector.TEST.BlackBox.Features
 		[Test]
 		public void SettingVersioningLatestMaj ()
 		{
-			var settings = StackWrapperSettings.Default();
+			var settings = StackWrapperSettings.Default;
 			settings.InjectionOptions
 				.InjectionVersioningMethod(ServedVersionTargetingMethod.LatestMajor,true);
 
@@ -51,7 +51,7 @@ namespace StackInjector.TEST.BlackBox.Features
 		[Test]
 		public void SettingVersioningLatestMin ()
 		{
-			var settings = StackWrapperSettings.Default();
+			var settings = StackWrapperSettings.Default;
 			settings.InjectionOptions
 				.InjectionVersioningMethod(ServedVersionTargetingMethod.LatestMinor,true);
 

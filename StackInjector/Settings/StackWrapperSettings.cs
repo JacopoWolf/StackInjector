@@ -13,8 +13,14 @@ namespace StackInjector.Settings
 	{
 
 		public Mask MaskOptions { get; private set; }
+
 		public Injection InjectionOptions { get; private set; }
+
 		public Runtime RuntimeOptions { get; private set; }
+
+#if FEATURE_REGISTRATION
+		public Registration RegistrationOptions {get; private set;}
+#endif
 
 
 		private StackWrapperSettings () { }
@@ -24,32 +30,26 @@ namespace StackInjector.Settings
 		/// creates a deep copy of this settings object
 		/// </summary>
 		/// <returns></returns>
-		public StackWrapperSettings Copy ()
+		public StackWrapperSettings Clone ()
 		{
-			var settingsCopy = (StackWrapperSettings)this.MemberwiseClone();
+			//todo implement Clone() in every suboption
+			throw new NotImplementedException();
+			var settingsCopy = Default;
 			// creats a deep copy of reference objects
-			settingsCopy.MaskOptions._registredAssemblies = this.MaskOptions._registredAssemblies.ToHashSet();
+			//settingsCopy.MaskOptions._registredAssemblies = this.MaskOptions._registredAssemblies.ToHashSet();
 
 			return settingsCopy;
 		}
 
 
-
-		/// <summary>
-		/// generates a new <see cref="StackWrapperSettings"/> with everything set to false
-		/// </summary>
-		/// <returns>empty settings</returns>
-		public static StackWrapperSettings Empty
-			=>
-				new StackWrapperSettings();
-
+		public static StackWrapperSettings Default => With(null, null, null);
 
 		
-		public static StackWrapperSettings Default ( Injection injection = null, Runtime runtime = null, Mask mask = null )
+		public static StackWrapperSettings With ( Injection injection, Runtime runtime, Mask mask )
 			=> 
 			new StackWrapperSettings()
 			{
-				MaskOptions = mask ?? Mask.Default,
+				MaskOptions = mask ?? Mask.BlackList,
 				InjectionOptions = injection ?? Injection.Default,
 				RuntimeOptions = runtime ?? Runtime.Default
 			};
@@ -61,7 +61,12 @@ namespace StackInjector.Settings
 		/// </summary>
 		/// <seealso cref="Attributes.IgnoredAttribute"/>
 		public static StackWrapperSettings DefaultBySubtraction
-			=> Default(Injection.Default.InjectionServingMethods(Injector.Defaults.ServeAll, true));
+			=> With(
+					Injection.Default
+					.InjectionServingMethods(DefaultConstants.ServeAll, true),
+					null,
+					null
+				);
 
 
 	}

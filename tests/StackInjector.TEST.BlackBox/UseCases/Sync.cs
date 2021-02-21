@@ -44,9 +44,9 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		[Test]
 		public void ServeStrict ()
 		{
-			var settings = StackWrapperSettings.Default();
+			var settings = StackWrapperSettings.Default;
 		settings.InjectionOptions
-				.InjectionServingMethods( Injector.Defaults.ServeAllStrict, true );
+				.InjectionServingMethods( StackWrapperSettings.DefaultConstants.ServeAllStrict, true );
 
 			var entry = Injector.From<ForgotTheServedAttributeBase>(settings).Entry;
 
@@ -58,7 +58,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		public void RemoveUnusedTypes ()
 		{
 			var settings =
-				StackWrapperSettings.Default();
+				StackWrapperSettings.Default;
 		settings.InjectionOptions
 				.RemoveUnusedTypesAfterInjection();
 
@@ -118,25 +118,25 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		internal class Cloning
 		{
 
-			[Test]
+			[Test][Ignore("feature removed. Review this later")]
 			public void RegisterAfterCloning ()
 			{
-				// empty class
-				var wrapper1 = Injector.From<Level1_2>();
+				////// empty class
+				////var wrapper1 = Injector.From<Level1_2>();
 
-				Assert.Multiple(() =>
-				{
-					// BaseServiceNotFoundThrower uses a class in an external assembly
-					Assert.Throws<ServiceNotFoundException>(() => wrapper1.CloneCore().ToWrapper<Exceptions.BaseServiceNotFoundThrower>());
+				////Assert.Multiple(() =>
+				////{
+				////	// BaseServiceNotFoundThrower uses a class in an external assembly
+				////	Assert.Throws<ServiceNotFoundException>(() => wrapper1.CloneCore().ToWrapper<Exceptions.BaseServiceNotFoundThrower>());
 
-					var settings = StackWrapperSettings.Default();
-					settings.MaskOptions
-						.RegisterAssemblyOf<Externalclass>()
-						.RegisterAfterCloning();
+				////	var settings = StackWrapperSettings.Default;
+				////	settings.MaskOptions
+				////		.RegisterAssemblyOf<Externalclass>()
+				////		.RegisterAfterCloning();
 
-					Assert.DoesNotThrow(() => wrapper1.CloneCore(settings).ToWrapper<Exceptions.BaseServiceNotFoundThrower>());
+				////	Assert.DoesNotThrow(() => wrapper1.CloneCore(settings).ToWrapper<Exceptions.BaseServiceNotFoundThrower>());
 
-				});
+				//});
 
 			}
 

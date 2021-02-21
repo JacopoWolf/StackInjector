@@ -22,13 +22,14 @@ namespace StackInjector.Core
 		{
 			this.Core = core;
 
-			// setting for referencing the calling wrapper as a service
-			if( this.Core.settings.MaskOptions._registerWrapperAsService )
-			{
-				this.Core.instances.AddType(toRegister);
-				this.Core.instances[toRegister].Clear();
-				this.Core.instances[toRegister].AddFirst(this);
-			}
+			//! this was critical code. verify
+			////// setting for referencing the calling wrapper as a service
+			////if( this.Core.settings.MaskOptions._registerWrapperAsService )
+			////{
+			////	this.Core.instances.AddType(toRegister);
+			////	this.Core.instances[toRegister].Clear();
+			////	this.Core.instances[toRegister].AddFirst(this);
+			////}
 		}
 
 
@@ -52,7 +53,7 @@ namespace StackInjector.Core
 
 		public IClonedCore DeepCloneCore ( StackWrapperSettings settings = null )
 		{
-			var clonedCore = new InjectionCore( settings ??  this.Core.settings.Copy() )
+			var clonedCore = new InjectionCore( settings ??  this.Core.settings.Clone() )
 			{
 				instances = this.Core.instances.CloneStructure()
 			};
