@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using NuGet.Frameworks;
 using NUnit.Framework;
 using StackInjector.Attributes;
 using StackInjector.Exceptions;
@@ -35,22 +36,23 @@ namespace StackInjector.TEST.BlackBox.Features
 			settings.InjectionOptions
 							.TrackInstantiationDiff();
 
-			IStackWrapper<WrapperBase> wrapperB;
+			IStackWrapper<WrapperBase> wrapperA, wrapperB;
 
-			var wrapperA = Injector.From<WrapperBase>(settings);
-
-			wrapperA.Start(e => e.Work());
+			wrapperA = Injector.From<WrapperBase>(settings);
 			wrapperB = wrapperA.CloneCore().ToWrapper<WrapperBase>();
 
 
 			Assert.Multiple(() =>
 			{
 				Assert.DoesNotThrow(() => wrapperB.Entry.Work());
-				Assert.AreSame
-				(
+				Assert.AreSame(
 					wrapperA.GetServices<ServiceA>().First(),
 					wrapperB.GetServices<ServiceA>().First()
 				);
+				Assert.AreSame(
+					wrapperA.Settings,
+					wrapperB.Settings
+					);
 			});
 		}
 
@@ -92,11 +94,14 @@ namespace StackInjector.TEST.BlackBox.Features
 			Assert.Multiple(() =>
 			{
 				Assert.DoesNotThrow(() => wrapperB.Entry.Work());
-				Assert.AreNotSame
-				(
+				Assert.AreNotSame(
 					wrapperA.GetServices<ServiceA>().First(),
 					wrapperB.GetServices<ServiceA>().First()
 				);
+				Assert.AreNotSame(
+					wrapperA.Settings,
+					wrapperB.Settings
+					);
 			});
 		}
 

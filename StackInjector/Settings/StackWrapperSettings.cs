@@ -18,9 +18,6 @@ namespace StackInjector.Settings
 
 		public Runtime RuntimeOptions { get; private set; }
 
-#if FEATURE_REGISTRATION
-		public Registration RegistrationOptions {get; private set;}
-#endif
 
 
 		private StackWrapperSettings () { }
@@ -30,16 +27,12 @@ namespace StackInjector.Settings
 		/// creates a deep copy of this settings object
 		/// </summary>
 		/// <returns></returns>
-		public StackWrapperSettings Clone ()
-		{
-			//! implement Clone() in every suboption
-			throw new NotImplementedException();
-			var settingsCopy = Default;
-			// creats a deep copy of reference objects
-			//settingsCopy.MaskOptions._registredAssemblies = this.MaskOptions._registredAssemblies.ToHashSet();
-
-			return settingsCopy;
-		}
+		public StackWrapperSettings Clone () =>
+			With(
+				(Injection)this.InjectionOptions.Clone(),
+				(Runtime)this.RuntimeOptions.Clone(),
+				(Mask)this.MaskOptions.Clone()
+				);
 
 
 		public static StackWrapperSettings Default => With(null, null, null);

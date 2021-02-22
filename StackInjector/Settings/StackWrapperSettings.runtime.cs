@@ -6,7 +6,7 @@ namespace StackInjector.Settings
 {
 	partial class StackWrapperSettings
 	{
-		public sealed class Runtime
+		public sealed class Runtime : IOptions
 		{
 
 			// async management
@@ -17,6 +17,9 @@ namespace StackInjector.Settings
 			internal Runtime () { }
 
 			public static Runtime Default => new Runtime();
+
+			IOptions IOptions.CreateDefault () => Default;
+
 
 
 			/// <summary>
@@ -32,6 +35,8 @@ namespace StackInjector.Settings
 				this._asyncWaitTime = waitTime;
 				return this;
 			}
+
+			public object Clone () => this.MemberwiseClone();
 		}
 	}
 }

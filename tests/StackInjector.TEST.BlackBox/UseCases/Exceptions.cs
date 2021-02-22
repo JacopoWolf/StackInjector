@@ -50,7 +50,8 @@ namespace StackInjector.TEST.BlackBox.UseCases
 			// add to blacklist
 			settings.MaskOptions.Register(typeof(Externalclass));
 
-			Assert.Throws<ServiceNotFoundException>(() => Injector.From<ClassInExternalAssemblyBase>(settings));
+			//todo change to specific mask exception
+			Assert.Throws<Exception>(() => Injector.From<ClassInExternalAssemblyBase>(settings));
 		}
 
 

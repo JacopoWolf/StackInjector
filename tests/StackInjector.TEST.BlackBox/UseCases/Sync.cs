@@ -56,18 +56,18 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		}
 
 
-		[Test]
+		[Test][Ignore("feature has to be reviewd")]
 		public void RemoveUnusedTypes ()
 		{
-			var settings =
-				StackWrapperSettings.Default;
-		settings.InjectionOptions
+			var settings = StackWrapperSettings.Default;
+			settings.InjectionOptions
 				.RemoveUnusedTypesAfterInjection();
 
-			var wrap1 = Injector.From<Level1A>( settings );
+			var wrap1 = Injector.From<Base>( settings );
+			var clone1 = wrap1.CloneCore();
 
 			// base is removed after injecting from a class that doesn't need it
-			Assert.Throws<ServiceNotFoundException>(() => wrap1.CloneCore().ToWrapper<Base>());
+			Assert.Throws<ServiceNotFoundException>(() => clone1.ToWrapper<Level1A>());
 
 		}
 

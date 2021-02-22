@@ -7,7 +7,7 @@ namespace StackInjector.Settings
 	partial class StackWrapperSettings
 	{
 
-		public sealed class Injection
+		public sealed class Injection : IOptions
 		{
 			internal ServedVersionTargetingMethod       _targetingMethod                        = ServedVersionTargetingMethod.None;
 			internal bool                               _overrideTargetingMethod;
@@ -26,12 +26,13 @@ namespace StackInjector.Settings
 
 			internal Injection () { }
 
-			public static Injection Default =>
-					new Injection();
-						//.TrackInstantiationDiff(false, false)
-						//.InjectionVersioningMethod(ServedVersionTargetingMethod.None, false)
-						//.InjectionServingMethods(Injector.Defaults.ServeAllStrict, false)
-						//.ServeIEnumerables();
+
+			IOptions IOptions.CreateDefault () => Default;
+
+			public static Injection Default => new Injection();
+
+
+			public object Clone () => MemberwiseClone();
 
 
 			#region configuration methods
@@ -79,7 +80,8 @@ namespace StackInjector.Settings
 
 
 			/// <summary>
-			/// Remove the reference to unused types after the injection is finished.
+			/// Remove the reference to unused types after the injection is finished. <br/>
+			/// Usually not necessay, but can save memory after cloning 
 			/// </summary>
 			/// <returns>The modified settings</returns>
 			public Injection RemoveUnusedTypesAfterInjection ( bool remove = true )
