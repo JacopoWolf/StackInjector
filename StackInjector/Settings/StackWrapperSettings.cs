@@ -11,11 +11,19 @@ namespace StackInjector.Settings
 	/// </summary>
 	public sealed partial class StackWrapperSettings
 	{
-
+		/// <summary>
+		/// manages masking options.
+		/// </summary>
 		public Mask MaskOptions { get; private set; }
 
+		/// <summary>
+		/// manages injection options
+		/// </summary>
 		public Injection InjectionOptions { get; private set; }
 
+		/// <summary>
+		/// manages runtime options
+		/// </summary>
 		public Runtime RuntimeOptions { get; private set; }
 
 
@@ -23,10 +31,11 @@ namespace StackInjector.Settings
 		private StackWrapperSettings () { }
 
 
+
 		/// <summary>
 		/// creates a deep copy of this settings object
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>a cloned settings object</returns>
 		public StackWrapperSettings Clone () =>
 			With(
 				(Injection)this.InjectionOptions.Clone(),
@@ -35,9 +44,22 @@ namespace StackInjector.Settings
 				);
 
 
+		/// <summary>
+		/// The default settings. see
+		/// <seealso cref="Injection.Default"/>,
+		/// <seealso cref="Runtime.Default"/>,
+		/// <seealso cref="Mask.Disabled"/>
+		/// </summary>
 		public static StackWrapperSettings Default => With(null, null, null);
 
 		
+		/// <summary>
+		/// create a new <see cref="StackWrapperSettings"/> with the specified options.
+		/// </summary>
+		/// <param name="injection">the injection options</param>
+		/// <param name="runtime">the runtime options</param>
+		/// <param name="mask">mask options</param>
+		/// <returns></returns>
 		public static StackWrapperSettings With ( Injection injection, Runtime runtime, Mask mask )
 			=> 
 			new StackWrapperSettings()
@@ -53,11 +75,14 @@ namespace StackInjector.Settings
 		/// everything is served by default, and you must instead use <c>[Ignored]</c> on properties and fields you don't want injected
 		/// </summary>
 		/// <seealso cref="Attributes.IgnoredAttribute"/>
-		public static StackWrapperSettings DefaultBySubtraction
-			=> With(
+		public static StackWrapperSettings DefaultBySubtraction => 
+			With(
+				injection: 
 					Injection.Default
 					.InjectionServingMethods(DefaultConstants.ServeAll, true),
+				mask:	
 					null,
+				runtime: 
 					null
 				);
 

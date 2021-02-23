@@ -6,7 +6,9 @@ namespace StackInjector.Settings
 {
 	partial class StackWrapperSettings
 	{
-
+		/// <summary>
+		/// Injection options for the Injector.
+		/// </summary>
 		public sealed class Injection : IOptions
 		{
 			internal ServedVersionTargetingMethod       _targetingMethod                        = ServedVersionTargetingMethod.None;
@@ -29,10 +31,36 @@ namespace StackInjector.Settings
 
 			IOptions IOptions.CreateDefault () => Default;
 
+			/// <summary>
+			/// The default injection. Settings are valorized as following:
+			/// <list type="table">
+			/// <item>
+			///		<term><see cref="InjectionVersioningMethod(ServedVersionTargetingMethod, bool)"/></term>
+			///		<description><see cref="ServedVersionTargetingMethod.None"/>, false</description>
+			///	</item><item>
+			///		<term><see cref="InjectionServingMethods(ServingMethods, bool)"/></term><description>
+			///		<see cref="DefaultConstants.ServeAllStrict"/>, false</description>
+			///	</item><item>
+			///		<term><see cref="RemoveUnusedTypesAfterInjection(bool)"/></term>
+			///		<description>false</description>
+			///	</item><item>
+			///		<term><see cref="LimitInstancesCount(uint)"/></term>
+			///		<description>128</description>
+			///	</item><item>
+			///		<term><see cref="ServeIEnumerables(bool)"/></term>
+			///		<description>true</description>
+			///	</item><item>
+			///		<term><see cref="TrackInstantiationDiff(bool, bool)"/></term>
+			///		<description>false, false</description>
+			///	</item>
+			/// </list>
+			/// </summary>
 			public static Injection Default => new Injection();
 
-
+			/// <inheritdoc/>
 			public object Clone () => MemberwiseClone();
+
+
 
 
 			#region configuration methods
