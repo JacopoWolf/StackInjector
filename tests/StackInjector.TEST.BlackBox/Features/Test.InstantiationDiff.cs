@@ -31,32 +31,35 @@ namespace StackInjector.TEST.BlackBox.Features
 		[Test]
 		public void SimpleClone ()
 		{
-			var settings = StackWrapperSettings.Default
+			var settings = StackWrapperSettings.Default;
+			settings.InjectionOptions
 							.TrackInstantiationDiff();
 
-			IStackWrapper<WrapperBase> wrapperB;
+			IStackWrapper<WrapperBase> wrapperA, wrapperB;
 
-			var wrapperA = Injector.From<WrapperBase>(settings);
-
-			wrapperA.Start(e => e.Work());
+			wrapperA = Injector.From<WrapperBase>(settings);
 			wrapperB = wrapperA.CloneCore().ToWrapper<WrapperBase>();
 
 
 			Assert.Multiple(() =>
 			{
 				Assert.DoesNotThrow(() => wrapperB.Entry.Work());
-				Assert.AreSame
-				(
+				Assert.AreSame(
 					wrapperA.GetServices<ServiceA>().First(),
 					wrapperB.GetServices<ServiceA>().First()
 				);
+				Assert.AreSame(
+					wrapperA.Settings,
+					wrapperB.Settings
+					);
 			});
 		}
 
 		[Test]
 		public void SimpleCloneWithDispose ()
 		{
-			var settings = StackWrapperSettings.Default
+			var settings = StackWrapperSettings.Default;
+			settings.InjectionOptions
 							.TrackInstantiationDiff();
 
 			IStackWrapper<WrapperBase> wrapperB;
@@ -76,7 +79,8 @@ namespace StackInjector.TEST.BlackBox.Features
 		[Test]
 		public void DeepClone ()
 		{
-			var settings = StackWrapperSettings.Default
+			var settings = StackWrapperSettings.Default;
+			settings.InjectionOptions
 							.TrackInstantiationDiff();
 
 			IStackWrapper<WrapperBase> wrapperB;
@@ -89,18 +93,22 @@ namespace StackInjector.TEST.BlackBox.Features
 			Assert.Multiple(() =>
 			{
 				Assert.DoesNotThrow(() => wrapperB.Entry.Work());
-				Assert.AreNotSame
-				(
+				Assert.AreNotSame(
 					wrapperA.GetServices<ServiceA>().First(),
 					wrapperB.GetServices<ServiceA>().First()
 				);
+				Assert.AreNotSame(
+					wrapperA.Settings,
+					wrapperB.Settings
+					);
 			});
 		}
 
 		[Test]
 		public void DeepCloneWithDispose ()
 		{
-			var settings = StackWrapperSettings.Default
+			var settings = StackWrapperSettings.Default;
+			settings.InjectionOptions
 							.TrackInstantiationDiff();
 
 			IStackWrapper<WrapperBase> wrapperB;

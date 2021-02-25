@@ -1,14 +1,13 @@
 ﻿using StackInjector.Attributes;
-using StackInjector.Settings;
 
-namespace StackInjector
+namespace StackInjector.Settings
 {
-	public static partial class Injector
+	public partial class StackWrapperSettings
 	{
 		/// <summary>
 		/// Static class for default settings.
 		/// </summary>
-		public static class Defaults
+		public static class DefaultConstants
 		{
 			// the const keyword allows usage in attributes
 

@@ -15,11 +15,16 @@ namespace StackInjector.Core
 
 			var targetVersion = servedAttribute?.TargetVersion ?? 0.0;
 			var method =
-				(this.settings._overrideTargetingMethod || servedAttribute is null || !(servedAttribute._targetingDefined))
-					? this.settings._targetingMethod
+				(this.settings.InjectionOptions._overrideTargetingMethod || servedAttribute is null || !(servedAttribute._targetingDefined))
+					? this.settings.InjectionOptions._targetingMethod
 					: servedAttribute.TargetingMethod;
 
-			var candidateTypes = this.instances.TypesAssignableFrom(targetType);
+
+			////var candidateTypes = this.instances.TypesAssignableFrom(targetType);
+			var candidateTypes = targetType
+				.Assembly
+				.GetTypes()
+				.Where( t => t.IsClass && !t.IsAbstract && targetType.IsAssignableFrom(t));
 
 
 			return method switch

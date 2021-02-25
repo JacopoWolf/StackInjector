@@ -7,7 +7,7 @@ namespace StackInjector.Core
 	internal partial class InjectionCore
 	{
 
-		internal void ServeAll ( bool cloned = false )
+		internal void Serve ( bool cloned = false )
 		{
 			// those don't need to be inside the lock.
 			var injected = new HashSet<object>();
@@ -20,14 +20,12 @@ namespace StackInjector.Core
 			// ensures that two threads are not trying to Dispose/InjectAll at the same time
 			lock( this._lock )
 			{
-				// entry type must always be a class
+				// EntryType must be a class
 				this.EntryType = this.ClassOrVersionFromInterface(this.EntryType);
 
-				// instantiates and enqueues the EntryPoint
+				// instantiates and enqueues the EntryPoint. initializes the loop
 				toInject.Enqueue(this.OfTypeOrInstantiate(this.EntryType));
-
 				checkInstancesLimit();
-
 
 				// enqueuing loop
 				while( toInject.Any() )
@@ -51,16 +49,16 @@ namespace StackInjector.Core
 				}
 
 				// cleanup
-				if( this.settings._cleanUnusedTypesAftInj )
+				if( this.settings.InjectionOptions._cleanUnusedTypesAftInj )
 					this.RemoveUnusedTypes();
 
 
 
 				void checkInstancesLimit ()
 				{
-					if ( this.instances.total_count > this.settings._limitInstancesCount )
+					if ( this.instances.total_count > this.settings.InjectionOptions._limitInstancesCount )
 						throw new InstancesLimitReachedException(
-							$"Reached limit of {this.settings._limitInstancesCount} instances."
+							$"Reached limit of {this.settings.InjectionOptions._limitInstancesCount} instances."
 						);
 				}
 			}

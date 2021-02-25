@@ -8,24 +8,21 @@ namespace StackInjector.Core
 	{
 		internal uint total_count = 0;
 
-		internal IEnumerable<Type> TypesAssignableFrom ( Type type )
-		{
-			return this
-						   .Keys
-						   .Where(t => type.IsAssignableFrom(t));
-		}
+		internal IEnumerable<Type> TypesAssignableFrom ( Type type ) =>
+			this
+			.Keys
+			.Where(t => type.IsAssignableFrom(t));
+		
 
-		internal IEnumerable<object> InstancesAssignableFrom ( Type type )
-		{
-			return this
-						   .Where(pair => type.IsAssignableFrom(pair.Key) && pair.Value.Any())
-						   .SelectMany(pair => pair.Value);
-		}
+		internal IEnumerable<object> InstancesAssignableFrom ( Type type ) =>
+			this
+			.Where(pair => type.IsAssignableFrom(pair.Key) && pair.Value.Any())
+			.SelectMany(pair => pair.Value);
+		
 
-		internal void AddType ( Type type )
-		{
-			this.TryAdd(type, new LinkedList<object>());
-		}
+		internal bool AddType ( Type type ) =>
+			this.TryAdd(type, new LinkedList<object>() );
+		
 
 
 		internal void CountAllInstances ()

@@ -40,6 +40,7 @@ namespace StackInjector.Core
 		internal InstancesHolder instances;
 
 		// tracks instantiated objects
+		//todo move into instancesHolder
 		internal readonly List<object> instancesDiff;
 
 		// used to lock this core on critical sections
@@ -53,7 +54,7 @@ namespace StackInjector.Core
 
 			this.instances = new InstancesHolder();
 
-			if( this.settings._trackInstancesDiff )
+			if( this.settings.InjectionOptions._trackInstancesDiff )
 				this.instancesDiff = new List<object>();
 		}
 

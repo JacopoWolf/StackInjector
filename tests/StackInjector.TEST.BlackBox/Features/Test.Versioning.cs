@@ -13,9 +13,9 @@ namespace StackInjector.TEST.BlackBox.Features
 		[Test]
 		public void ServedVersioningClass ()
 		{
-			var settings =
-				StackWrapperSettings.Default
-				.InjectionVersioningMethod(ServedVersionTargetingMethod.LatestMajor,true);
+			var settings = StackWrapperSettings.Default;
+			settings.InjectionOptions
+				.VersioningMethod(ServedVersionTargetingMethod.LatestMajor,true);
 
 			var versionedService = Injector.From<VersionClass>(settings).Entry.Level1_2;
 
@@ -38,9 +38,9 @@ namespace StackInjector.TEST.BlackBox.Features
 		[Test]
 		public void SettingVersioningLatestMaj ()
 		{
-			var settings =
-				StackWrapperSettings.Default
-				.InjectionVersioningMethod(ServedVersionTargetingMethod.LatestMajor,true);
+			var settings = StackWrapperSettings.Default;
+			settings.InjectionOptions
+				.VersioningMethod(ServedVersionTargetingMethod.LatestMajor,true);
 
 			var versionedService = Injector.From<InterfaceVersionedBase>( settings ).Entry.level1;
 
@@ -51,9 +51,9 @@ namespace StackInjector.TEST.BlackBox.Features
 		[Test]
 		public void SettingVersioningLatestMin ()
 		{
-			var settings =
-				StackWrapperSettings.Default
-				.InjectionVersioningMethod(ServedVersionTargetingMethod.LatestMinor,true);
+			var settings = StackWrapperSettings.Default;
+			settings.InjectionOptions
+				.VersioningMethod(ServedVersionTargetingMethod.LatestMinor,true);
 
 			var versionedService = Injector.From<InterfaceVersionedBase>( settings ).Entry.level1;
 

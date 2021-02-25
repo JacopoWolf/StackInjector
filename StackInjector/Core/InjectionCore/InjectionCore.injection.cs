@@ -23,8 +23,8 @@ namespace StackInjector.Core
 			// otherwise check if the type has a service attribute and
 			// if its property has been defined.
 			var serving =
-				(this.settings._overrideServingMethod || serviceAtt is null || !(serviceAtt._servingDefined))
-					? this.settings._servingMethod
+				(this.settings.InjectionOptions._overrideServingMethod || serviceAtt is null || !(serviceAtt._servingDefined))
+					? this.settings.InjectionOptions._servingMethod
 					: serviceAtt.Serving;
 
 			// don't waste time serving if not necessary
@@ -105,7 +105,7 @@ namespace StackInjector.Core
 		private object InstTypeOrServiceEnum ( Type type, ServedAttribute servedAttribute, ref List<object> used )
 		{
 			if (
-				this.settings._serveEnumerables
+				this.settings.InjectionOptions._serveEnumerables
 				&&
 				type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)
 			)

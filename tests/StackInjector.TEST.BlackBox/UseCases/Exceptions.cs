@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using NUnit.Framework;
-using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
 using StackInjector.Attributes;
 using StackInjector.Exceptions;
 using StackInjector.Settings;
 using StackInjector.TEST.ExternalAssembly;
-using StackInjector.TEST;
+
+using SWS = StackInjector.Settings.StackWrapperSettings;
 
 namespace StackInjector.TEST.BlackBox.UseCases
 {
@@ -36,39 +35,52 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
 		//  ----------
 
+		[Service]
+		private abstract class AbstractThrower { }
+
+		[Test]
+		public void ThrowsOnAbstractClass ()
+			=> Assert.Throws<MissingParameterlessConstructorException>( () => Injector.From<AbstractThrower>() );
+
+		// ----------
+
 		// references class in unregistred external assembly
 		[Service]
-		internal class BaseServiceNotFoundThrower {[Served] public Externalclass externalClass; }
+		internal class ClassInExternalAssemblyBase {[Served] public Externalclass externalClass; }
 
 		[Test]
 		public void ThrowsServiceNotFound ()
-			=> Assert.Throws<ServiceNotFoundException>(() => Injector.From<BaseServiceNotFoundThrower>());
+		{
+			var settings = SWS.With(
+				mask: SWS.Mask.BlackList
+					.Register(typeof(Externalclass))
+				);
+
+			//todo change to specific mask exception
+			Assert.Throws<Exception>(() => Injector.From<ClassInExternalAssemblyBase>(settings));
+		}
 
 
 		[Test]
 		public void ExternalAssemblyReference ()
 		{
-			var settings =
-				StackWrapperSettings.Default
-				.RegisterAssemblyOf<Externalclass>();
-
-			var externalClass = Injector.From<BaseServiceNotFoundThrower>(settings).Entry.externalClass;
+			var externalClass = Injector.From<ClassInExternalAssemblyBase>().Entry.externalClass;
 
 			Assert.That(externalClass, Is.TypeOf<Externalclass>());
 		}
 
 
 		[Test]
+		[Ignore("feature disabled.")]
 		public void ExternalAllAssemblyReference ()
 		{
-			var settings =
-				StackWrapperSettings.Default
-				.RegisterDomain();
+			//var settings = SWS.With();
+			//settings.MaskOptions.RegisterDomain();
 
 
-			var externalClass = Injector.From<BaseServiceNotFoundThrower>(settings).Entry.externalClass;
+			//var externalClass = Injector.From<BaseServiceNotFoundThrower>(settings).Entry.externalClass;
 
-			Assert.That(externalClass, Is.TypeOf<Externalclass>());
+			//Assert.That(externalClass, Is.TypeOf<Externalclass>());
 		}
 
 
@@ -116,7 +128,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		private class InstantiationPatternBase {[Served] private readonly AlwaysCreateLoopInjectionThrower loop; }
 
 		[Test]
-		[Timeout(500)]
+		[Timeout(200)]
 		public void ThrowsInstLimitReach_AlwaysCreate ()
 		{
 			Assert.Throws<InstancesLimitReachedException>(() => Injector.From<InstantiationPatternBase>());
@@ -133,35 +145,51 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		private class SingletonLoopInjectionNotThrower { [Served] readonly SingletonLoopInjectionNotThrower self; }
 
 
-		[Test]
-		[Timeout(500)]
+		[Test][Retry(3)]
+		//[Timeout(200)]
 		public void NotThrowsInstLimitReach_Singleton_wBase ()
 		{
-			var settings = StackWrapperSettings.Default
-				.LimitInstancesCount(2);
-			Assert.DoesNotThrow(() => Injector.From<SingletonLoopInjectionNotThrowerBase>(settings));
+			ExecuteTest(100, () =>
+			{
+				var settings = SWS.Default;
+				settings.InjectionOptions
+					.LimitInstancesCount(2);
+				Assert.DoesNotThrow(() => Injector.From<SingletonLoopInjectionNotThrowerBase>(settings));
+			});
 		}
 
 
-		[Test]
-		[Timeout(500)]
+		[Test][Retry(3)]
+		//[Timeout(200)]
 		public void NotThrowsInstLimitReach_Singleton ()
 		{
-			var settings = StackWrapperSettings.Default
-				.LimitInstancesCount(2);
-			Assert.DoesNotThrow(() => Injector.From<SingletonLoopInjectionNotThrower>(settings));
+			ExecuteTest(100, () =>
+			{
+				var settings = SWS.Default;
+				settings.InjectionOptions.LimitInstancesCount(2);
+				Assert.DoesNotThrow(() => Injector.From<SingletonLoopInjectionNotThrower>(settings));
+			});
 		}
 
 		// ----------
-		
 
 		[Test]
 		[Timeout(500)]
 		public void ThrowsInstLimitReach_Cloned ()
 		{
-			var settings = StackWrapperSettings.Default
+			var settings = SWS.Default;
+			settings.InjectionOptions
 				.LimitInstancesCount(1);
 			Assert.Throws<InstancesLimitReachedException>( () => Injector.From<IBase>().CloneCore(settings).ToWrapper<IBase>() );
 		}
+
+		// ----------
+
+
+		[Test]
+		public void ThrowsOnMaskDisabled () 
+			=> Assert.Throws<InvalidOperationException>( () => SWS.Mask.Disabled.Register() );
+		
+
 	}
 }
