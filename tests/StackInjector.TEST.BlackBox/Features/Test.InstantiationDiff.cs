@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using NuGet.Frameworks;
 using NUnit.Framework;
 using StackInjector.Attributes;
 using StackInjector.Exceptions;

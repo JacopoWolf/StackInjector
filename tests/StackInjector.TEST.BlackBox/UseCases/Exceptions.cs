@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using NUnit.Framework;
-using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
 using StackInjector.Attributes;
 using StackInjector.Exceptions;
 using StackInjector.Settings;
 using StackInjector.TEST.ExternalAssembly;
-using StackInjector.TEST;
 
 using SWS = StackInjector.Settings.StackWrapperSettings;
-using System.Threading.Tasks;
 
 namespace StackInjector.TEST.BlackBox.UseCases
 {

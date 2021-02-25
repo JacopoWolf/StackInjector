@@ -5,7 +5,6 @@ using StackInjector.Attributes;
 using StackInjector.Core;
 using StackInjector.Exceptions;
 using StackInjector.Settings;
-using StackInjector.TEST.ExternalAssembly;
 
 #pragma warning disable CS0649
 namespace StackInjector.TEST.BlackBox.UseCases

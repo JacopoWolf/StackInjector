@@ -1,5 +1,4 @@
 ﻿using StackInjector.Attributes;
-using StackInjector.Settings;
 
 namespace StackInjector.Settings
 {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using StackInjector.Wrappers;
+﻿using StackInjector.Wrappers;
 
 namespace StackInjector.Settings
 {
