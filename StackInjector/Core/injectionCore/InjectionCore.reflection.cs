@@ -48,8 +48,8 @@ namespace StackInjector.Core
 
 			void MaskPass (Type type)
 			{
-				if ( !this.settings.MaskOptions._isDisabled && this.settings.MaskOptions.IsMasked(type) )
-					throw new Exception($"Type {type.Name} is { (this.settings.MaskOptions._isWhiteList ? "not in the whitelist" : "in the blacklist")}");
+				if ( this.settings.MaskOptions.IsMasked(type) )
+					throw new Exception($"Type {type.Name} is { (this.settings.MaskOptions._isWhiteList ? "not whitelisted" : "blacklisted")}");
 				//todo create custom exception
 			}
 			

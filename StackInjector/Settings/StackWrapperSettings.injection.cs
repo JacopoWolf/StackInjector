@@ -7,9 +7,9 @@ namespace StackInjector.Settings
 	partial class StackWrapperSettings
 	{
 		/// <summary>
-		/// Injection options for the Injector.
+		/// Options for the injection process.
 		/// </summary>
-		public sealed class Injection : IOptions
+		public sealed class Injection : IOption
 		{
 			internal ServedVersionTargetingMethod       _targetingMethod                        = ServedVersionTargetingMethod.None;
 			internal bool                               _overrideTargetingMethod;
@@ -29,16 +29,20 @@ namespace StackInjector.Settings
 			internal Injection () { }
 
 
-			IOptions IOptions.CreateDefault () => Default;
+			IOption IOption.CreateDefault () => Default;
+
+			/// <inheritdoc/>
+			public object Clone () => MemberwiseClone();
+
 
 			/// <summary>
 			/// The default injection. Settings are valorized as following:
 			/// <list type="table">
 			/// <item>
-			///		<term><see cref="InjectionVersioningMethod(ServedVersionTargetingMethod, bool)"/></term>
+			///		<term><see cref="VersioningMethod(ServedVersionTargetingMethod, bool)"/></term>
 			///		<description><see cref="ServedVersionTargetingMethod.None"/>, false</description>
 			///	</item><item>
-			///		<term><see cref="InjectionServingMethods(ServingMethods, bool)"/></term><description>
+			///		<term><see cref="ServingMethod(ServingMethods, bool)"/></term><description>
 			///		<see cref="DefaultConstants.ServeAllStrict"/>, false</description>
 			///	</item><item>
 			///		<term><see cref="RemoveUnusedTypesAfterInjection(bool)"/></term>
@@ -56,11 +60,6 @@ namespace StackInjector.Settings
 			/// </list>
 			/// </summary>
 			public static Injection Default => new Injection();
-
-			/// <inheritdoc/>
-			public object Clone () => MemberwiseClone();
-
-
 
 
 			#region configuration methods
@@ -86,7 +85,7 @@ namespace StackInjector.Settings
 			/// <param name="targetMethod">the new default targetting method</param>
 			/// <param name="override">if true, versioning methods for [Served] fields and properties are overriden</param>
 			/// <returns>the modified settings</returns>
-			public Injection InjectionVersioningMethod ( ServedVersionTargetingMethod targetMethod, bool @override = false )
+			public Injection VersioningMethod ( ServedVersionTargetingMethod targetMethod, bool @override = false )
 			{
 				this._targetingMethod = targetMethod;
 				this._overrideTargetingMethod = @override;
@@ -99,7 +98,7 @@ namespace StackInjector.Settings
 			/// <param name="methods">the new default serving method for all services</param>
 			/// <param name="override">if true, serving methods for [Service] calsses are overridden with the specified one</param>
 			/// <returns>the modified settings</returns>
-			public Injection InjectionServingMethods ( ServingMethods methods, bool @override = false )
+			public Injection ServingMethod ( ServingMethods methods, bool @override = false )
 			{
 				this._servingMethod = methods;
 				this._overrideServingMethod = @override;

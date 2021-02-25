@@ -79,7 +79,7 @@ namespace StackInjector.Settings
 			With(
 				injection: 
 					Injection.Default
-					.InjectionServingMethods(DefaultConstants.ServeAll, true),
+					.ServingMethod(DefaultConstants.ServeAll, true),
 				mask:	
 					null,
 				runtime: 

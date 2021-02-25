@@ -48,7 +48,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		{
 			var settings = StackWrapperSettings.Default;
 		settings.InjectionOptions
-				.InjectionServingMethods( StackWrapperSettings.DefaultConstants.ServeAllStrict, true );
+				.ServingMethod( StackWrapperSettings.DefaultConstants.ServeAllStrict, true );
 
 			var entry = Injector.From<ForgotTheServedAttributeBase>(settings).Entry;
 
