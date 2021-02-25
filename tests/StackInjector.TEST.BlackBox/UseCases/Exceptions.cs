@@ -39,6 +39,15 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
 		//  ----------
 
+		[Service]
+		private abstract class AbstractThrower { }
+
+		[Test]
+		public void ThrowsOnAbstractClass ()
+			=> Assert.Throws<MissingParameterlessConstructorException>( () => Injector.From<AbstractThrower>() );
+
+		// ----------
+
 		// references class in unregistred external assembly
 		[Service]
 		internal class ClassInExternalAssemblyBase {[Served] public Externalclass externalClass; }
@@ -167,7 +176,6 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		}
 
 		// ----------
-		
 
 		[Test]
 		[Timeout(500)]
@@ -178,5 +186,14 @@ namespace StackInjector.TEST.BlackBox.UseCases
 				.LimitInstancesCount(1);
 			Assert.Throws<InstancesLimitReachedException>( () => Injector.From<IBase>().CloneCore(settings).ToWrapper<IBase>() );
 		}
+
+		// ----------
+
+
+		[Test]
+		public void ThrowsOnMaskDisabled () 
+			=> Assert.Throws<InvalidOperationException>( () => SWS.Mask.Disabled.Register() );
+		
+
 	}
 }

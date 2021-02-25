@@ -34,7 +34,6 @@ namespace StackInjector.Core
 		}
 
 
-		//todo review
 		// clones just the structure, the classes references are not cloned
 		internal InstancesHolder CloneStructure ()
 		{

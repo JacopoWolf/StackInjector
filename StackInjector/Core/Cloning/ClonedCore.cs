@@ -20,9 +20,6 @@ namespace StackInjector.Core.Cloning
 			};
 
 			this.clonedCore.EntryType = typeof(TEntry);
-			//todo check this
-			//if( this.clonedCore.settings.MaskOptions._registerAfterCloning )
-			//	this.clonedCore.ReadAssemblies();
 			this.clonedCore.Serve(cloned:true);
 
 			return wrapper;
@@ -33,9 +30,6 @@ namespace StackInjector.Core.Cloning
 			var wrapper = new StackWrapper<T>(this.clonedCore);
 
 			this.clonedCore.EntryType = typeof(T);
-			//todo check this
-			//if( this.clonedCore.settings.MaskOptions._registerAfterCloning )
-			//	this.clonedCore.ReadAssemblies();
 			this.clonedCore.Serve(cloned:true);
 
 			return wrapper;

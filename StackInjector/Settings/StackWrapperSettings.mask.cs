@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define CONTRACTS_ALL
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -33,7 +35,9 @@ namespace StackInjector.Settings
 			/// <returns>The modified Mask object</returns>
 			public Mask Register ( params Type[] types )
 			{
-				Contract.Requires(!_isDisabled);	//todo test preconditions
+				if ( _isDisabled )
+					throw new InvalidOperationException("cannot register to a disabled mask");
+
 				foreach ( var t in types )
 					base.Add(t);
 				return this;
