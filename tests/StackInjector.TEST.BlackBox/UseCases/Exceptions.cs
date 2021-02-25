@@ -46,9 +46,10 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		[Test]
 		public void ThrowsServiceNotFound ()
 		{
-			var settings = SWS.Default;
-			// add to blacklist
-			settings.MaskOptions.Register(typeof(Externalclass));
+			var settings = SWS.With(
+				mask: SWS.Mask.BlackList
+					.Register(typeof(Externalclass))
+				);
 
 			//todo change to specific mask exception
 			Assert.Throws<Exception>(() => Injector.From<ClassInExternalAssemblyBase>(settings));

@@ -56,32 +56,5 @@ namespace StackInjector.Core
 
 		}
 
-		// moved to InjectionCore.versioning.cs
-		////reads all [Service] classes
-		////internal void ReadAssemblies ()
-		////{
-		////	if ( this.settings.MaskOptions._registerEntryPointAssembly )
-		////		this.settings.MaskOptions._registredAssemblies.Add(this.EntryType.Assembly);
-
-		////	foreach
-		////	(
-		////		var t in this
-		////		.settings
-		////		.MaskOptions
-		////		._registredAssemblies
-		////		.SelectMany
-		////		(
-		////			assembly =>
-		////				assembly
-		////				.GetTypes()
-		////				.AsParallel()
-		////				.Where(t => t.IsClass && t.GetCustomAttribute<ServiceAttribute>() != null)
-		////		)
-		////	)
-		////	{
-		////		this.instances.AddType(t);
-		////	}
-		////}
-
 	}
 }

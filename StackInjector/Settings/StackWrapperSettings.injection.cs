@@ -105,10 +105,10 @@ namespace StackInjector.Settings
 				return this;
 			}
 
-
+			//todo this is never called in the code. check.
 			/// <summary>
 			/// Remove the reference to unused types after the injection is finished. <br/>
-			/// Usually not necessay, but can save memory after cloning 
+			/// Usually not necessay, but can save memory after cloning.
 			/// </summary>
 			/// <returns>The modified settings</returns>
 			public Injection RemoveUnusedTypesAfterInjection ( bool remove = true )

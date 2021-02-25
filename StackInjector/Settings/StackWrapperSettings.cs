@@ -50,7 +50,7 @@ namespace StackInjector.Settings
 		/// <seealso cref="Runtime.Default"/>,
 		/// <seealso cref="Mask.Disabled"/>
 		/// </summary>
-		public static StackWrapperSettings Default => With(null, null, null);
+		public static StackWrapperSettings Default => With();
 
 		
 		/// <summary>
@@ -60,7 +60,7 @@ namespace StackInjector.Settings
 		/// <param name="runtime">the runtime options</param>
 		/// <param name="mask">mask options</param>
 		/// <returns></returns>
-		public static StackWrapperSettings With ( Injection injection, Runtime runtime, Mask mask )
+		public static StackWrapperSettings With ( Injection injection = null, Runtime runtime = null, Mask mask = null )
 			=> 
 			new StackWrapperSettings()
 			{
