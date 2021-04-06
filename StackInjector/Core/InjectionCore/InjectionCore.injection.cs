@@ -28,7 +28,7 @@ namespace StackInjector.Core
 					: serviceAtt.Serving;
 
 			// don't waste time serving if not necessary
-			if( serving == ServingMethods.DoNotServe )
+			if( serving == ServingMethods.None )
 				return servicesUsed;
 
 			// if false avoids going though the properties/fields list a second time to filter

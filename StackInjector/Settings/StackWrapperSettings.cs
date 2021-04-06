@@ -7,6 +7,7 @@ namespace StackInjector.Settings
 	/// </summary>
 	public sealed partial class StackWrapperSettings
 	{
+
 		/// <summary>
 		/// manages masking options.
 		/// </summary>
@@ -75,7 +76,7 @@ namespace StackInjector.Settings
 			With(
 				injection: 
 					InjectionOptions.Default
-					.ServingMethod(DefaultConstants.ServeAll, true),
+					.ServingMethod(ServeAll, true),
 				mask:	
 					null,
 				runtime: 

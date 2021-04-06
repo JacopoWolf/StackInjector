@@ -57,7 +57,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
 				);
 
 			//todo change to specific mask exception
-			Assert.Throws<Exception>(() => Injector.From<ClassInExternalAssemblyBase>(settings));
+			Assert.Throws<InvalidOperationException>(() => Injector.From<ClassInExternalAssemblyBase>(settings));
 		}
 
 

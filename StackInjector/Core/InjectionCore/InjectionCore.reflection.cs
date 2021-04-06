@@ -47,7 +47,7 @@ namespace StackInjector.Core
 			void MaskPass (Type type)
 			{
 				if ( this.settings.Mask.IsMasked(type) )
-					throw new Exception($"Type {type.Name} is { (this.settings.Mask._isWhiteList ? "not whitelisted" : "blacklisted")}");
+					throw new InvalidOperationException($"Type {type.Name} is { (this.settings.Mask._isWhiteList ? "not whitelisted" : "blacklisted")}");
 				//todo create custom exception
 			}
 			

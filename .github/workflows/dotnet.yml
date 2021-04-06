@@ -15,6 +15,7 @@ on:
 jobs:
 
   test:
+    if: ${{ !( github.event_name == 'push' && matrix.os == 'windows-latest' ) }}
     runs-on: ${{ matrix.os }}
     env:
       DOTNET_NOLOGO: true

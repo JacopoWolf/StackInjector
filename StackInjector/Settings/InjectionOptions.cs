@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace StackInjector.Settings
 {
@@ -11,10 +12,10 @@ namespace StackInjector.Settings
 		internal ServedVersionTargetingMethod       _targetingMethod                        = ServedVersionTargetingMethod.None;
 		internal bool                               _overrideTargetingMethod;
 
-		internal ServingMethods                     _servingMethod                          = StackWrapperSettings.DefaultConstants.ServeAllStrict;
+		internal ServingMethods                     _servingMethod                          = StackWrapperSettings.ServeAllStrict;
 		internal bool                               _overrideServingMethod;
 		internal bool                               _cleanUnusedTypesAftInj;
-		internal uint                               _limitInstancesCount                    = 128;
+		internal int                               _limitInstancesCount                     = 128;
 
 		internal bool                               _serveEnumerables						= true;
 
@@ -40,12 +41,12 @@ namespace StackInjector.Settings
 		///		<description><see cref="ServedVersionTargetingMethod.None"/>, false</description>
 		///	</item><item>
 		///		<term><see cref="ServingMethod(ServingMethods, bool)"/></term><description>
-		///		<see cref="DefaultConstants.ServeAllStrict"/>, false</description>
+		///		<see cref="StackWrapperSettings.ServeAllStrict"/>, false</description>
 		///	</item><item>
 		///		<term><see cref="RemoveUnusedTypesAfterInjection(bool)"/></term>
 		///		<description>false</description>
 		///	</item><item>
-		///		<term><see cref="LimitInstancesCount(uint)"/></term>
+		///		<term><see cref="LimitInstancesCount(int)"/></term>
 		///		<description>128</description>
 		///	</item><item>
 		///		<term><see cref="ServeIEnumerables(bool)"/></term>
@@ -115,12 +116,14 @@ namespace StackInjector.Settings
 
 		/// <summary>
 		/// Limits the TOTAL number of instances. <br/>
-		/// You can use <see cref="uint.MaxValue"/> to remove this limit, altough it is suggest to use the lowest possible value.
+		/// You can use <see cref="int.MaxValue"/> to remove this limit, altough it is suggest to use the lowest possible value.
 		/// </summary>
-		/// <param name="count">the limit of total instances</param>
+		/// <param name="count">the limit of total instances. must be <c>>=1</c></param>
 		/// <returns>The modified settings</returns>
-		public InjectionOptions LimitInstancesCount ( uint count = 128 )
+		public InjectionOptions LimitInstancesCount ( int count = 128 )
 		{
+			if ( count < 1 )
+				throw new ArgumentOutOfRangeException(nameof(count));
 			this._limitInstancesCount = count;
 			return this;
 		}
