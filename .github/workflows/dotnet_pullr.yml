@@ -1,21 +1,21 @@
-name: .NET tests
+name: .NET PR tests
 
+# runs only on pull requests
 on:
-  push:
-    paths-ignore: 
-      - '**.md'
-      - '**.txt'
   pull_request:
     branches: 
       - 'master'
       - 'rel/**'
       - 'dev/**'
+    paths-ignore: 
+      - '**.md'
+      - '**.txt'
+      - '**.png'
 
   
 jobs:
 
-  test:
-    if: ${{ !( github.event_name == 'push' && matrix.os == 'windows-latest' ) }}
+  prtest:
     runs-on: ${{ matrix.os }}
     env:
       DOTNET_NOLOGO: true
