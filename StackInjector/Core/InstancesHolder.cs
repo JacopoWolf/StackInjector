@@ -6,7 +6,7 @@ namespace StackInjector.Core
 {
 	internal class InstancesHolder : Dictionary<Type, LinkedList<object>>
 	{
-		internal uint total_count = 0;
+		internal uint total_count; // 0
 
 		internal IEnumerable<Type> TypesAssignableFrom ( Type type ) =>
 			this

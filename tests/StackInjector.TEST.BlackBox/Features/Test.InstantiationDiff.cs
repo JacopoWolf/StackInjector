@@ -32,7 +32,7 @@ namespace StackInjector.TEST.BlackBox.Features
 		public void SimpleClone ()
 		{
 			var settings = StackWrapperSettings.Default;
-			settings.InjectionOptions
+			settings.Injection
 							.TrackInstantiationDiff();
 
 			IStackWrapper<WrapperBase> wrapperA, wrapperB;
@@ -59,7 +59,7 @@ namespace StackInjector.TEST.BlackBox.Features
 		public void SimpleCloneWithDispose ()
 		{
 			var settings = StackWrapperSettings.Default;
-			settings.InjectionOptions
+			settings.Injection
 							.TrackInstantiationDiff();
 
 			IStackWrapper<WrapperBase> wrapperB;
@@ -80,7 +80,7 @@ namespace StackInjector.TEST.BlackBox.Features
 		public void DeepClone ()
 		{
 			var settings = StackWrapperSettings.Default;
-			settings.InjectionOptions
+			settings.Injection
 							.TrackInstantiationDiff();
 
 			IStackWrapper<WrapperBase> wrapperB;
@@ -108,7 +108,7 @@ namespace StackInjector.TEST.BlackBox.Features
 		public void DeepCloneWithDispose ()
 		{
 			var settings = StackWrapperSettings.Default;
-			settings.InjectionOptions
+			settings.Injection
 							.TrackInstantiationDiff();
 
 			IStackWrapper<WrapperBase> wrapperB;

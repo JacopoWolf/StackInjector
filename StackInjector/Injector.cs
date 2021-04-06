@@ -1,8 +1,10 @@
-﻿using StackInjector.Core;
+﻿using System;
+using StackInjector.Core;
 using StackInjector.Exceptions;
 using StackInjector.Settings;
 using StackInjector.Wrappers;
 
+[assembly:CLSCompliant(true)]
 namespace StackInjector
 {
 	/// <summary>

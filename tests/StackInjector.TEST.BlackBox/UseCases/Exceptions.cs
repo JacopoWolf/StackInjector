@@ -52,7 +52,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		public void ThrowsServiceNotFound ()
 		{
 			var settings = SWS.With(
-				mask: SWS.Mask.BlackList
+				mask: MaskOptions.BlackList
 					.Register(typeof(Externalclass))
 				);
 
@@ -152,7 +152,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
 			ExecuteTest(100, () =>
 			{
 				var settings = SWS.Default;
-				settings.InjectionOptions
+				settings.Injection
 					.LimitInstancesCount(2);
 				Assert.DoesNotThrow(() => Injector.From<SingletonLoopInjectionNotThrowerBase>(settings));
 			});
@@ -166,7 +166,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
 			ExecuteTest(100, () =>
 			{
 				var settings = SWS.Default;
-				settings.InjectionOptions.LimitInstancesCount(2);
+				settings.Injection.LimitInstancesCount(2);
 				Assert.DoesNotThrow(() => Injector.From<SingletonLoopInjectionNotThrower>(settings));
 			});
 		}
@@ -178,7 +178,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		public void ThrowsInstLimitReach_Cloned ()
 		{
 			var settings = SWS.Default;
-			settings.InjectionOptions
+			settings.Injection
 				.LimitInstancesCount(1);
 			Assert.Throws<InstancesLimitReachedException>( () => Injector.From<IBase>().CloneCore(settings).ToWrapper<IBase>() );
 		}
@@ -188,7 +188,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
 		[Test]
 		public void ThrowsOnMaskDisabled () 
-			=> Assert.Throws<InvalidOperationException>( () => SWS.Mask.Disabled.Register() );
+			=> Assert.Throws<InvalidOperationException>( () => MaskOptions.Disabled.Register() );
 		
 
 	}

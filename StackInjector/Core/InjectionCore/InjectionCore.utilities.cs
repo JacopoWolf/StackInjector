@@ -38,7 +38,7 @@ namespace StackInjector.Core
 		// removes instances of the tracked instantiated types and call their Dispose method. Thread safe.
 		protected internal void RemoveInstancesDiff ()
 		{
-			if( !this.settings.InjectionOptions._trackInstancesDiff )
+			if( !this.settings.Injection._trackInstancesDiff )
 				return;
 
 			// ensures that two threads are not trying to Dispose and InjectAll at the same time
@@ -49,7 +49,7 @@ namespace StackInjector.Core
 					this.instances[instance.GetType()].Remove(instance);
 
 					// if the relative setting is true, check if the instance implements IDisposable and call it
-					if( this.settings.InjectionOptions._callDisposeOnInstanceDiff && instance is IDisposable disposable )
+					if( this.settings.Injection._callDisposeOnInstanceDiff && instance is IDisposable disposable )
 						disposable.Dispose();
 				}
 

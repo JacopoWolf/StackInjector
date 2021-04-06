@@ -44,7 +44,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		public void ServeStrict ()
 		{
 			var settings = StackWrapperSettings.Default;
-		settings.InjectionOptions
+		settings.Injection
 				.ServingMethod( StackWrapperSettings.DefaultConstants.ServeAllStrict, true );
 
 			var entry = Injector.From<ForgotTheServedAttributeBase>(settings).Entry;
@@ -57,7 +57,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		public void RemoveUnusedTypes ()
 		{
 			var settings = StackWrapperSettings.Default;
-			settings.InjectionOptions
+			settings.Injection
 				.RemoveUnusedTypesAfterInjection();
 
 			var wrap1 = Injector.From<Base>( settings );

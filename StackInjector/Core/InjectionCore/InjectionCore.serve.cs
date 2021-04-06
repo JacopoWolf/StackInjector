@@ -49,16 +49,16 @@ namespace StackInjector.Core
 				}
 
 				// cleanup
-				if( this.settings.InjectionOptions._cleanUnusedTypesAftInj )
+				if( this.settings.Injection._cleanUnusedTypesAftInj )
 					this.RemoveUnusedTypes();
 
 
 
 				void checkInstancesLimit ()
 				{
-					if ( this.instances.total_count > this.settings.InjectionOptions._limitInstancesCount )
+					if ( this.instances.total_count > this.settings.Injection._limitInstancesCount )
 						throw new InstancesLimitReachedException(
-							$"Reached limit of {this.settings.InjectionOptions._limitInstancesCount} instances."
+							$"Reached limit of {this.settings.Injection._limitInstancesCount} instances."
 						);
 				}
 			}
