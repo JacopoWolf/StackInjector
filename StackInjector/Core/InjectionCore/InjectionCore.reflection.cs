@@ -12,7 +12,7 @@ namespace StackInjector.Core
 		// otherwise searches for a [Service] implementing the specified interface
 		private Type ClassOrVersionFromInterface ( Type type, ServedAttribute servedAttribute = null )
 		{
-			if( type.IsInterface )
+			if ( type.IsInterface )
 			{
 				IEnumerable<Type> versions = this.instances.TypesAssignableFrom(type);
 
@@ -44,13 +44,13 @@ namespace StackInjector.Core
 			}
 
 
-			void MaskPass (Type type)
+			void MaskPass ( Type type )
 			{
 				if ( this.settings.Mask.IsMasked(type) )
 					throw new InvalidOperationException($"Type {type.Name} is { (this.settings.Mask._isWhiteList ? "not whitelisted" : "blacklisted")}");
 				//todo create custom exception
 			}
-			
+
 
 		}
 

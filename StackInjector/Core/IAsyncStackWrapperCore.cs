@@ -5,6 +5,17 @@ using System.Threading.Tasks;
 
 namespace StackInjector.Core
 {
+
+	public class AsyncElaboratedEventArgs<T> : EventArgs
+	{
+		public T Result { get; internal set; }
+
+		public AsyncElaboratedEventArgs ( T result )
+		{
+			this.Result = result;
+		}
+	}
+
 	/// <summary>
 	/// Base interface for all asyncronous stackwrappers.
 	/// </summary>
@@ -14,7 +25,7 @@ namespace StackInjector.Core
 		/// <summary>
 		/// called when a new element has been elaborated
 		/// </summary>
-		event Action<T> OnElaborated;
+		event EventHandler<AsyncElaboratedEventArgs<T>> OnElaborated;
 
 
 		/// <summary>

@@ -19,7 +19,10 @@ namespace StackInjector.Settings
 
 		private MaskOptions () { }
 
-		IOptions IOptions.CreateDefault () => Disabled;
+		IOptions IOptions.CreateDefault ()
+		{
+			return Disabled;
+		}
 
 
 		/// <summary>
@@ -55,23 +58,26 @@ namespace StackInjector.Settings
 		}
 
 		/// <inheritdoc/>
-		public object Clone () => MemberwiseClone();
+		public object Clone ()
+		{
+			return MemberwiseClone();
+		}
 
 
 		/// <summary>
 		/// allow only registred types.
 		/// </summary>
-		public static MaskOptions WhiteList	=> new MaskOptions() { _isWhiteList = true };
+		public static MaskOptions WhiteList => new MaskOptions() { _isWhiteList = true };
 
 		/// <summary>
 		/// allow every type <b>except</b> the regisred ones.
 		/// </summary>
-		public static MaskOptions BlackList	=> new MaskOptions();
+		public static MaskOptions BlackList => new MaskOptions();
 
 		/// <summary>
 		/// allow everything, don't even check.
 		/// </summary>
-		public static MaskOptions Disabled		=> new MaskOptions() { _isDisabled = true };
+		public static MaskOptions Disabled => new MaskOptions() { _isDisabled = true };
 
 
 	}

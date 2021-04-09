@@ -38,7 +38,7 @@ namespace StackInjector.Wrappers
 
 		public override void Dispose ()
 		{
-			if( !this.disposed )
+			if ( !this.disposed )
 			{
 				this.Core.RemoveInstancesDiff();
 

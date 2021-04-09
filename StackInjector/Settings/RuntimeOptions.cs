@@ -14,10 +14,16 @@
 		internal RuntimeOptions () { }
 
 
-		IOptions IOptions.CreateDefault () => Default;
+		IOptions IOptions.CreateDefault ()
+		{
+			return Default;
+		}
 
 		/// <inheritdoc/>
-		public object Clone () => this.MemberwiseClone();
+		public object Clone ()
+		{
+			return this.MemberwiseClone();
+		}
 
 
 		/// <summary>
@@ -50,5 +56,5 @@
 
 		#endregion
 
-	}	
+	}
 }

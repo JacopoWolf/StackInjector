@@ -15,10 +15,10 @@ namespace StackInjector.Core
 
 			if ( cloned )
 				this.instances.CountAllInstances();
-			
+
 
 			// ensures that two threads are not trying to Dispose/InjectAll at the same time
-			lock( this._lock )
+			lock ( this._lock )
 			{
 				// EntryType must be a class
 				this.EntryType = this.ClassOrVersionFromInterface(this.EntryType);
@@ -28,7 +28,7 @@ namespace StackInjector.Core
 				checkInstancesLimit();
 
 				// enqueuing loop
-				while( toInject.Any() )
+				while ( toInject.Any() )
 				{
 					var next = toInject.Dequeue();
 					var usedServices = this.InjectServicesInto(next);
@@ -38,8 +38,8 @@ namespace StackInjector.Core
 
 					// foreach injected object check if it has already been injected. 
 					// saves time in most situations
-					foreach( var service in usedServices )
-					{ 
+					foreach ( var service in usedServices )
+					{
 						if ( !injected.Contains(service) )
 						{
 							toInject.Enqueue(service);
@@ -49,7 +49,7 @@ namespace StackInjector.Core
 				}
 
 				// cleanup
-				if( this.settings.Injection._cleanUnusedTypesAftInj )
+				if ( this.settings.Injection._cleanUnusedTypesAftInj )
 					this.RemoveUnusedTypes();
 
 

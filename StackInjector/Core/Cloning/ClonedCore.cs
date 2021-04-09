@@ -20,7 +20,7 @@ namespace StackInjector.Core.Cloning
 			};
 
 			this.clonedCore.EntryType = typeof(TEntry);
-			this.clonedCore.Serve(cloned:true);
+			this.clonedCore.Serve(cloned: true);
 
 			return wrapper;
 		}
@@ -30,7 +30,7 @@ namespace StackInjector.Core.Cloning
 			var wrapper = new StackWrapper<T>(this.clonedCore);
 
 			this.clonedCore.EntryType = typeof(T);
-			this.clonedCore.Serve(cloned:true);
+			this.clonedCore.Serve(cloned: true);
 
 			return wrapper;
 		}

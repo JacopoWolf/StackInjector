@@ -17,7 +17,7 @@ namespace StackInjector.Settings
 		internal bool                               _cleanUnusedTypesAftInj;
 		internal int                               _limitInstancesCount                     = 128;
 
-		internal bool                               _serveEnumerables						= true;
+		internal bool                               _serveEnumerables                       = true;
 
 		// disposing
 		internal bool                               _trackInstancesDiff;
@@ -27,10 +27,16 @@ namespace StackInjector.Settings
 		internal InjectionOptions () { }
 
 
-		IOptions IOptions.CreateDefault () => Default;
+		IOptions IOptions.CreateDefault ()
+		{
+			return Default;
+		}
 
 		/// <inheritdoc/>
-		public object Clone () => MemberwiseClone();
+		public object Clone ()
+		{
+			return MemberwiseClone();
+		}
 
 
 		/// <summary>

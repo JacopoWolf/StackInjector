@@ -8,27 +8,29 @@ namespace StackInjector.Core
 	{
 		internal uint total_count; // 0
 
-		internal IEnumerable<Type> TypesAssignableFrom ( Type type ) =>
-			this
-			.Keys
-			.Where(t => type.IsAssignableFrom(t));
-		
+		internal IEnumerable<Type> TypesAssignableFrom ( Type type )
+		{
+			return this
+				.Keys
+				.Where(t => type.IsAssignableFrom(t));
+		}
 
-		internal IEnumerable<object> InstancesAssignableFrom ( Type type ) =>
-			this
-			.Where(pair => type.IsAssignableFrom(pair.Key) && pair.Value.Any())
-			.SelectMany(pair => pair.Value);
-		
+		internal IEnumerable<object> InstancesAssignableFrom ( Type type )
+		{
+			return this
+				.Where(pair => type.IsAssignableFrom(pair.Key) && pair.Value.Any())
+				.SelectMany(pair => pair.Value);
+		}
 
-		internal bool AddType ( Type type ) =>
-			this.TryAdd(type, new LinkedList<object>() );
-		
-
+		internal bool AddType ( Type type )
+		{
+			return this.TryAdd(type, new LinkedList<object>());
+		}
 
 		internal void CountAllInstances ()
 		{
 			this.total_count = 0;
-			foreach (var pair in this)
+			foreach ( var pair in this )
 				this.total_count += (uint)pair.Value.Count;
 		}
 
@@ -38,7 +40,7 @@ namespace StackInjector.Core
 		{
 			var clonedHolder = new InstancesHolder();
 
-			foreach( var t in this.Keys )
+			foreach ( var t in this.Keys )
 				clonedHolder.AddType(t);
 
 			return clonedHolder;

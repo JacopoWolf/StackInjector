@@ -15,8 +15,8 @@ namespace StackInjector.Settings
 		/// </summary>
 		/// <returns></returns>
 		protected internal IOptions CreateDefault ();
-			
+
 	}
 
-	
+
 }

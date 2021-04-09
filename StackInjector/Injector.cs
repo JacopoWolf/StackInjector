@@ -4,7 +4,7 @@ using StackInjector.Exceptions;
 using StackInjector.Settings;
 using StackInjector.Wrappers;
 
-[assembly:CLSCompliant(true)]
+[assembly: CLSCompliant(true)]
 namespace StackInjector
 {
 	/// <summary>
@@ -30,7 +30,7 @@ namespace StackInjector
 		/// <exception cref="StackInjectorException"></exception>
 		public static IStackWrapper<T> From<T> ( StackWrapperSettings settings = null )
 		{
-			if( settings == null )
+			if ( settings == null )
 				settings = StackWrapperSettings.Default;
 
 			// create the core and wrap it
@@ -73,7 +73,7 @@ namespace StackInjector
 				StackWrapperSettings settings = null
 			)
 		{
-			if( settings == null )
+			if ( settings == null )
 				settings = StackWrapperSettings.Default;
 
 			// create the core and wrap it

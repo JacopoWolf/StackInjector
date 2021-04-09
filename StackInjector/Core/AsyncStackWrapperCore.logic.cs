@@ -16,25 +16,25 @@ namespace StackInjector.Core
 
 		internal void Submit ( Task<T> work )
 		{
-			lock( this._listAccessLock )
+			lock ( this._listAccessLock )
 				this.tasks.AddLast(work);
 
 			// if the list was empty just an item ago, signal it's not anymore.
 			// this limit avoids useless cross thread calls that would slow everything down.
-			if( this.tasks.Count == 1 )
+			if ( this.tasks.Count == 1 )
 				this.ReleaseListAwaiter();
 		}
 
 
 		public bool AnyTaskLeft ()
 		{
-			lock( this._listAccessLock )
+			lock ( this._listAccessLock )
 				return this.tasks.Any();
 		}
 
 		public bool AnyTaskCompleted ()
 		{
-			lock( this._listAccessLock )
+			lock ( this._listAccessLock )
 				return this.tasks.Any(t => t.IsCompleted);
 		}
 
@@ -42,16 +42,14 @@ namespace StackInjector.Core
 		{
 			this.EnsureExclusiveExecution(true);
 
-			while( !this.cancelPendingTasksSource.IsCancellationRequested )
+			while ( !this.cancelPendingTasksSource.IsCancellationRequested )
 			{
 				// avoid deadlocks 
-				if( this.AnyTaskLeft() )
+				if ( this.AnyTaskLeft() )
 				{
 					var completed = await Task.WhenAny(this.tasks).ConfigureAwait(false);
 
-
-
-					lock( this._listAccessLock )
+					lock ( this._listAccessLock )
 						this.tasks.Remove(completed);
 
 					yield return completed.Result;
@@ -59,20 +57,20 @@ namespace StackInjector.Core
 				}
 				else
 				{
-					if( await this.OnNoTasksLeft().ConfigureAwait(true) )
+					if ( await this.OnNoTasksLeft().ConfigureAwait(true) )
 						break;
 				}
 			}
 
-			lock( this._listAccessLock )
+			lock ( this._listAccessLock )
 				this._exclusiveExecution = false;
 
 		}
 
 		public async Task Elaborate ()
 		{
-			await foreach( var res in this.Elaborated() )
-				this.OnElaborated?.Invoke(res);
+			await foreach ( var res in this.Elaborated() )
+				this.OnElaborated?.Invoke(this, new AsyncElaboratedEventArgs<T>(res));
 		}
 
 
@@ -85,7 +83,7 @@ namespace StackInjector.Core
 				return this._emptyListAwaiter.WaitAsync();
 			}
 
-			switch( this.Settings.Runtime._asyncWaitingMethod )
+			switch ( this.Settings.Runtime._asyncWaitingMethod )
 			{
 
 				case AsyncWaitingMethod.Exit:
@@ -112,12 +110,12 @@ namespace StackInjector.Core
 
 		private void EnsureExclusiveExecution ( bool set = false )
 		{
-			lock( this._listAccessLock ) // reused lock
+			lock ( this._listAccessLock ) // reused lock
 			{
-				if( this._exclusiveExecution )
+				if ( this._exclusiveExecution )
 					throw new InvalidOperationException();
 
-				if( set )
+				if ( set )
 					this._exclusiveExecution = set;
 			}
 		}

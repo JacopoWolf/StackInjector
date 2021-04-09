@@ -14,7 +14,7 @@ namespace StackInjector.Core
 			var serviceAtt = type.GetCustomAttribute<ServiceAttribute>();
 
 			// manage exceptions
-			if( serviceAtt == null )
+			if ( serviceAtt == null )
 				throw new NotAServiceException(type, $"Type {type.FullName} is not a [Service]");
 
 			////if( !this.instances.ContainsKey(type) )
@@ -23,9 +23,9 @@ namespace StackInjector.Core
 
 			return serviceAtt.Pattern switch
 			{
-				InstantiationPattern.AlwaysCreate 
+				InstantiationPattern.AlwaysCreate
 					=> this.InstantiateService(type),
-				_ 
+				_
 					=> (this.instances.ContainsKey(type) && this.instances[type].Any())
 						? this.instances[type].First()
 						: this.InstantiateService(type),
