@@ -70,20 +70,6 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		}
 
 
-		[Test]
-		[Ignore("feature disabled.")]
-		public void ExternalAllAssemblyReference ()
-		{
-			//var settings = SWS.With();
-			//settings.MaskOptions.RegisterDomain();
-
-
-			//var externalClass = Injector.From<BaseServiceNotFoundThrower>(settings).Entry.externalClass;
-
-			//Assert.That(externalClass, Is.TypeOf<Externalclass>());
-		}
-
-
 		//  ----------
 
 		private interface INoImplementationThrower { void SomeMethod (); }

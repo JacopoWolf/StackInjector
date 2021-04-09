@@ -42,7 +42,6 @@ namespace StackInjector
 			var wrapper = new StackWrapper<T>(core);
 
 			// initialize the injection process
-			////core.ReadAssemblies();
 			core.Serve();
 
 
@@ -88,7 +87,6 @@ namespace StackInjector
 			};
 
 			// initialize the injection process
-			////core.ReadAssemblies();
 			core.Serve();
 
 			return wrapper;

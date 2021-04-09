@@ -6,7 +6,7 @@ namespace StackInjector.Core
 {
 	internal class InstancesHolder : Dictionary<Type, LinkedList<object>>
 	{
-		internal uint total_count; // 0
+		internal int total_count; // 0
 
 		internal IEnumerable<Type> TypesAssignableFrom ( Type type )
 		{
@@ -31,7 +31,7 @@ namespace StackInjector.Core
 		{
 			this.total_count = 0;
 			foreach ( var pair in this )
-				this.total_count += (uint)pair.Value.Count;
+				this.total_count += pair.Value.Count;
 		}
 
 

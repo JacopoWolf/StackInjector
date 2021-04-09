@@ -5,12 +5,18 @@ using System.Threading.Tasks;
 
 namespace StackInjector.Core
 {
-
-	public class AsyncElaboratedEventArgs<T> : EventArgs
+	/// <summary>
+	/// The event arguments for <see cref="IAsyncStackWrapperCore{T}.OnElaborated"/>
+	/// </summary>
+	/// <typeparam name="T">The generic returned type of the wrapper</typeparam>
+	public sealed class AsyncElaboratedEventArgs<T> : EventArgs
 	{
+		/// <summary>
+		/// Result of the elaboration
+		/// </summary>
 		public T Result { get; internal set; }
 
-		public AsyncElaboratedEventArgs ( T result )
+		internal AsyncElaboratedEventArgs ( T result )
 		{
 			this.Result = result;
 		}

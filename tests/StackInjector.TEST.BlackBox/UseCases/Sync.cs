@@ -53,18 +53,22 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		}
 
 
-		[Test][Ignore("feature has to be reviewd")]
+		[Test]//[Ignore("feature has to be reviewd")]
 		public void RemoveUnusedTypes ()
 		{
 			var settings = StackWrapperSettings.Default;
 			settings.Injection
 				.RemoveUnusedTypesAfterInjection();
 
-			var wrap1 = Injector.From<Base>( settings );
-			var clone1 = wrap1.CloneCore();
+			Assert.Multiple(() =>
+			{
+				var wrap1 = Injector.From<Base>( );
+				Assert.AreEqual(4, wrap1.CountServices());
 
-			// base is removed after injecting from a class that doesn't need it
-			Assert.Throws<ServiceNotFoundException>(() => clone1.ToWrapper<Level1A>());
+				// base is removed after injecting from a class that doesn't need it
+				var clone1 = wrap1.DeepCloneCore( settings ).ToWrapper<Level1_2>( );
+				Assert.AreEqual(2, clone1.CountServices());
+			});
 
 		}
 
@@ -75,6 +79,7 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
 			Assert.AreSame(wrapper, wrapper.Entry.wrapper);
 		}
+
 
 		[Test]
 		public void ServeEnum ()
@@ -116,27 +121,16 @@ namespace StackInjector.TEST.BlackBox.UseCases
 
 		internal class Cloning
 		{
-
-			[Test][Ignore("feature removed. Review this later")]
-			public void RegisterAfterCloning ()
+			[Test]
+			public void ExternalAfterCloning ()
 			{
-				////// empty class
-				////var wrapper1 = Injector.From<Level1_2>();
-
-				////Assert.Multiple(() =>
-				////{
-				////	// BaseServiceNotFoundThrower uses a class in an external assembly
-				////	Assert.Throws<ServiceNotFoundException>(() => wrapper1.CloneCore().ToWrapper<Exceptions.BaseServiceNotFoundThrower>());
-
-				////	var settings = StackWrapperSettings.Default;
-				////	settings.MaskOptions
-				////		.RegisterAssemblyOf<Externalclass>()
-				////		.RegisterAfterCloning();
-
-				////	Assert.DoesNotThrow(() => wrapper1.CloneCore(settings).ToWrapper<Exceptions.BaseServiceNotFoundThrower>());
-
-				//});
-
+				Assert.DoesNotThrow(() =>
+				{
+					Injector
+						.From<Level1_2>()		// service with no dependency
+						.CloneCore()
+						.ToWrapper<Level1A>();
+				});
 			}
 
 			[Test]

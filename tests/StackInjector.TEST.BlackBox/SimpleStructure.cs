@@ -61,7 +61,7 @@ namespace StackInjector.TEST.BlackBox
 	internal class AccessWrapperBase
 	{
 		[Served]
-		public ICloneableCore wrapper;
+		public IStackWrapperCore wrapper;
 
 		public IStackWrapperCore Clone ()
 			=>

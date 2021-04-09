@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using StackInjector.Attributes;
+using StackInjector.Core;
+using StackInjector.Settings;
 using CTkn = System.Threading.CancellationToken;
 
 
@@ -75,8 +78,8 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		{
 			var wrapper = Injector.AsyncFrom<AsyncBase,object,object>( (b,i,t) => b.ReturnArg(i,t) );
 			object
-				obj1 = new object(),
-				obj2 = new object();
+				obj1 = new(),
+				obj2 = new();
 
 			wrapper.Submit(obj1);
 			wrapper.Submit(obj2);
@@ -144,20 +147,41 @@ namespace StackInjector.TEST.BlackBox.UseCases
 		}
 
 
-		[Test]
+		[Test][Timeout(1000)]
 		public void SubmitWithEvent ()
 		{
-			using var wrapper = Injector.AsyncFrom<AsyncBase,object,object>( (b,i,t) => b.ReturnArg(i,t) );
+			using var wrapper = Injector.AsyncFrom<AsyncBase,object,object>( 
+				(b,i,t) => b.ReturnArg(i,t),  
+				StackWrapperSettings.With(
+					runtime:
+						RuntimeOptions.Default
+						.WhenNoMoreTasks(AsyncWaitingMethod.Wait,100)
+					)
+				);
 
-			var called = false;
-			wrapper.OnElaborated += ( obj ) => called = true;
+			// test holders
+			var semaphore = new SemaphoreSlim(0);
 
-			var task = wrapper.SubmitAndGet(new object());
+			object 
+				token = new(),
+				tokentest = null;
+			IStackWrapperCore wrappertest = null;
+
+			wrapper.OnElaborated += ( sender, args ) => {
+				tokentest = args.Result;
+				wrappertest = (IStackWrapperCore)sender;
+				semaphore.Release();
+			};
+
 			wrapper.Elaborate();
-			task.Wait();
 
-			Assert.IsTrue(called);
-
+			Assert.Multiple(async () =>
+			{
+				await wrapper.SubmitAndGet(token);
+				await semaphore.WaitAsync();
+				Assert.AreSame(token, tokentest);
+				Assert.AreSame(wrapper, wrappertest);
+			});
 		}
 
 

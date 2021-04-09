@@ -21,14 +21,7 @@ namespace StackInjector.Wrappers
 
 		public void Submit ( TIn item )
 		{
-			var task = this.StackDigest.Invoke
-					(
-						this.Entry,
-						item,
-						this.PendingTasksCancellationToken
-					);
-
-			base.Submit(task);
+			this.SubmitAndGet(item);
 		}
 
 		public Task<TOut> SubmitAndGet ( TIn item )

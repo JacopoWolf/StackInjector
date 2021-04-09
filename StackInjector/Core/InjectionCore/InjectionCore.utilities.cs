@@ -32,6 +32,8 @@ namespace StackInjector.Core
 
 			foreach ( var type in unused )
 				this.instances.Remove(type);
+
+			this.instances.CountAllInstances();
 		}
 
 
