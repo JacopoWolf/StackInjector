@@ -32,6 +32,9 @@ jobs:
       with:
         dotnet-version: '5.0.x'
         
+    - name: Clean cache
+      run: dotnet clean --configuration Release && dotnet nuget locals all --clear
+        
     - name: Install dependencies
       run: dotnet restore
       
@@ -39,5 +42,5 @@ jobs:
       run: dotnet build --no-restore --configuration Release
       
     - name: Test
-      run: dotnet test --no-restore --configuration Release --logger "console;verbosity=detailed"
+      run: dotnet test  --no-restore --configuration Release --logger "console;verbosity=detailed"
 
