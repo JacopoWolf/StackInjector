@@ -5,8 +5,6 @@ using System.Collections.Generic;
 
 namespace StackInjector.Settings
 {
-
-	//todo seealso custom mask exception
 	/// <summary>
 	/// Used to filter Types from the injection proces. 
 	/// When trying to inject masked Types an injection will be thrown.<br/>
