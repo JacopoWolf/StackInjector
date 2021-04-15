@@ -15,7 +15,7 @@ namespace StackInjector.TEST.Structures.Simple
 
 	#region base
 
-	internal interface IBase { object Logic ( object input ); }
+	internal interface IBase { void Logic (  ); }
 
 	[Service(Version = 1.0)]
 	internal class Base : IBase
@@ -26,7 +26,7 @@ namespace StackInjector.TEST.Structures.Simple
 		[Served]
 		public Level1_12 level1B;
 
-		public object Logic ( object input ) => input;
+		public void Logic ( ) { }
 	}
 
 	#endregion
