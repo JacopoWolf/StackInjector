@@ -63,6 +63,17 @@ namespace StackInjector.TEST.BlackBox
 			});
 		}
 
+
+		[Test]
+		public void Shallow_ThrowsInstancesLimit ()
+		{
+			var settings = StackWrapperSettings.Default;
+			settings.Injection.LimitInstancesCount(1);
+
+			Assert.Throws<InstancesLimitReachedException>(() => Injector.From<Base>().CloneCore(settings).ToWrapper<Base>());
+
+		}
+
 		#endregion
 
 		#region Deep Cloning

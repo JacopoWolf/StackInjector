@@ -24,7 +24,7 @@ namespace StackInjector.TEST.BlackBox
 		{
 			public IBase field;
 
-			//? for some fucked up reason if written as `public IBase property {get; set;} is considered a field?!?!?` 
+			// for some fucked up reason if written as `public IBase property {get; set;}` is considered a field?!?!?
 			public IBase property { get => this._base; set => this._base = value; }
 			[Ignored]private IBase _base;
 		}
@@ -43,7 +43,7 @@ namespace StackInjector.TEST.BlackBox
 
 		[Test]
 		[TestCaseSource(nameof(NoAtt_ServingGenerator))]
-		public void NoAtt ( NullConstraint prop, NullConstraint field, ServingMethods serving )
+		public void NoAttributes ( NullConstraint prop, NullConstraint field, ServingMethods serving )
 		{
 			var settings = StackWrapperSettings.Default;
 			settings.Injection
@@ -86,7 +86,7 @@ namespace StackInjector.TEST.BlackBox
 
 		[Test]
 		[TestCaseSource(nameof(Att_ServingGenerator))]
-		public void WithAtt ( NullConstraint prop, NullConstraint field, ServingMethods serving )
+		public void WithAtttributes ( NullConstraint prop, NullConstraint field, ServingMethods serving )
 		{
 			var settings = StackWrapperSettings.Default;
 			settings.Injection

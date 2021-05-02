@@ -8,12 +8,15 @@ using StackInjector.Attributes;
 using StackInjector.Settings;
 using StackInjector.TEST.Structures.Simple;
 
-namespace StackInjector.TEST.BlackBox.settings
+namespace StackInjector.TEST.BlackBox
 {
 	[TestFixture]
 	public class Settings
 	{
 
+		[Test]
+		public void ThrowsOnMaskDisabled ()
+			=> Assert.Throws<InvalidOperationException>(() => MaskOptions.Disabled.Register());
 
 
 	}

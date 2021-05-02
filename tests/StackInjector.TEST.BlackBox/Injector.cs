@@ -102,7 +102,51 @@ namespace StackInjector.TEST.BlackBox
 		}
 
 
+		[Service]
+		private class _AlwaysCreateBase
+		{
+			[Served] public _AlwaysCreateInstance instance1;
+			[Served] public _AlwaysCreateInstance instance2;
+		}
 
+		[Service(Pattern = InstantiationPattern.AlwaysCreate)]
+		private class _AlwaysCreateInstance { }
+
+		[Test]
+		public void AlwaysCreate ()
+		{
+			var wrapper = Injector.From<_AlwaysCreateBase>();
+
+			Assert.Multiple(() =>
+			{
+				Assert.AreEqual(2, wrapper.GetServices<_AlwaysCreateInstance>().Count());
+				CollectionAssert.AllItemsAreUnique(wrapper.GetServices<_AlwaysCreateInstance>());
+			});
+
+		}
+
+
+		[Service]
+		private class _ExternalAssemblyReference_Class {[Served] public readonly ExternalAssembly.Externalclass externalclass; }
+
+		[Test]
+		public void ExternalAssembly_NoRegistration_FromClass ()
+		{
+			Assert.DoesNotThrow(() => Injector.From<_ExternalAssemblyReference_Class>());
+		}
+
+
+		[Service]
+		private class _ExternalAssemblyReference_Interface {[Served] public readonly ExternalAssembly.IExternalClass externalclass; }
+
+		[Test]
+		public void ExternalAssembly_NoRegistration_FromInterface ()
+		{
+			Assert.DoesNotThrow(() => Injector.From<_ExternalAssemblyReference_Interface>());
+		}
+
+
+		//todo asas
 
 	}
 }
