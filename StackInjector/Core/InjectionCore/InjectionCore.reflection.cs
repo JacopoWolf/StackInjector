@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using StackInjector.Attributes;
 using StackInjector.Exceptions;
 
@@ -12,17 +12,26 @@ namespace StackInjector.Core
 		// otherwise searches for a [Service] implementing the specified interface
 		private Type ClassOrVersionFromInterface ( Type type, ServedAttribute servedAttribute = null )
 		{
-			if( type.IsInterface )
+			if ( type.IsInterface )
 			{
-				var versions = this.Version(type, servedAttribute);
+				IEnumerable<Type> versions = this.instances.TypesAssignableFrom(type);
 
-				if( versions.Any() )
+				// is there already an implementation for the interface?
+				if ( versions.Any() )
 				{
 					return versions.First();
 				}
 				else
 				{
-					if( servedAttribute is null )
+					versions = this.Version(type, servedAttribute);
+					if ( versions.Any() )
+					{
+						var t = versions.First();
+						MaskPass(t);
+						return t;
+					}
+
+					if ( servedAttribute is null )
 						throw new ImplementationNotFoundException(type, $"can't find [Service] for interface {type.Name}");
 					else
 						throw new ImplementationNotFoundException(type, $"can't find [Service] for {type.Name} v{servedAttribute.TargetVersion}");
@@ -30,34 +39,19 @@ namespace StackInjector.Core
 			}
 			else
 			{
+				MaskPass(type);
 				return type;
 			}
-		}
 
 
-		// reads all [Service] classes 
-		internal void ReadAssemblies ()
-		{
-			if( this.settings._registerEntryPointAssembly )
-				this.settings._registredAssemblies.Add(this.EntryType.Assembly);
-
-			foreach
-			(
-				var t in this
-				.settings
-				._registredAssemblies
-				.SelectMany
-				(
-					assembly =>
-						assembly
-						.GetTypes()
-						.AsParallel()
-						.Where(t => t.IsClass && t.GetCustomAttribute<ServiceAttribute>() != null)
-				)
-			)
+			void MaskPass ( Type type )
 			{
-				this.instances.AddType(t);
+				if ( this.settings.Mask.IsMasked(type) )
+					throw new InvalidOperationException($"Type {type.Name} is { (this.settings.Mask._isWhiteList ? "not whitelisted" : "blacklisted")}");
+				//todo create custom exception
 			}
+
+
 		}
 
 	}

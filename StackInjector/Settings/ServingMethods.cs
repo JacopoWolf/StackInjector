@@ -10,9 +10,9 @@ namespace StackInjector.Settings
 	public enum ServingMethods
 	{
 		/// <summary>
-		/// empty servicing method
+		/// empty servicing method. Do not serve, disabling injection for a particular class.
 		/// </summary>
-		DoNotServe = 0,
+		None = 0,
 
 		/// <summary>
 		/// Serve only to those properties or fields marked with <see cref="ServedAttribute"/>.

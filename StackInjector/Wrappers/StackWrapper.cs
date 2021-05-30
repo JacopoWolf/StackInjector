@@ -5,7 +5,7 @@ using StackInjector.Settings;
 
 namespace StackInjector.Wrappers
 {
-	[Service(Version = 3.0, Serving = ServingMethods.DoNotServe)]
+	[Service(Version = 3.0, Serving = ServingMethods.None)]
 	internal class StackWrapper<TEntry> : StackWrapperCore, IStackWrapper<TEntry>
 	{
 
@@ -38,7 +38,7 @@ namespace StackInjector.Wrappers
 
 		public override void Dispose ()
 		{
-			if( !this.disposed )
+			if ( !this.disposed )
 			{
 				this.Core.RemoveInstancesDiff();
 
