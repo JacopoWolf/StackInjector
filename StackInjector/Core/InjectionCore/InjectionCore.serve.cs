@@ -6,7 +6,6 @@ namespace StackInjector.Core
 {
 	internal partial class InjectionCore
 	{
-
 		internal void Serve ( bool cloned = false )
 		{
 			// those don't need to be inside the lock.
