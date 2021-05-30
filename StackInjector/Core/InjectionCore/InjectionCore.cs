@@ -22,7 +22,7 @@ namespace StackInjector.Core
 			set
 			{
 				var serviceAtt = value.GetCustomAttribute<ServiceAttribute>();
-				if( serviceAtt != null && serviceAtt.Pattern == InstantiationPattern.AlwaysCreate )
+				if ( serviceAtt != null && serviceAtt.Pattern == InstantiationPattern.AlwaysCreate )
 					throw new InvalidEntryTypeException(
 						value,
 						$"Entry point {value.Name} cannot have {InstantiationPattern.AlwaysCreate} as instantiation pattern.",
@@ -40,6 +40,7 @@ namespace StackInjector.Core
 		internal InstancesHolder instances;
 
 		// tracks instantiated objects
+		//todo move into instancesHolder
 		internal readonly List<object> instancesDiff;
 
 		// used to lock this core on critical sections
@@ -53,7 +54,7 @@ namespace StackInjector.Core
 
 			this.instances = new InstancesHolder();
 
-			if( this.settings._trackInstancesDiff )
+			if ( this.settings.Injection._trackInstancesDiff )
 				this.instancesDiff = new List<object>();
 		}
 

@@ -8,7 +8,7 @@ namespace StackInjector.Core
 	internal abstract partial class AsyncStackWrapperCore<T> : StackWrapperCore, IAsyncStackWrapperCore<T>
 	{
 
-		public event Action<T> OnElaborated;
+		public event EventHandler<AsyncElaboratedEventArgs<T>> OnElaborated;
 
 
 		// used to cancel everything
@@ -47,7 +47,7 @@ namespace StackInjector.Core
 
 		public override void Dispose ()
 		{
-			if( !this.disposedValue )
+			if ( !this.disposedValue )
 			{
 
 				// managed resources

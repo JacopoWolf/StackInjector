@@ -22,23 +22,24 @@ namespace StackInjector.Core
 		{
 			this.Core = core;
 
-			// setting for referencing the calling wrapper as a service
-			if( this.Core.settings._registerWrapperAsService )
-			{
-				this.Core.instances.AddType(toRegister);
+			// add this wrapper to possible instances
+			if ( !this.Core.instances.AddType(toRegister) )
 				this.Core.instances[toRegister].Clear();
-				this.Core.instances[toRegister].AddFirst(this);
-			}
+			this.Core.instances[toRegister].AddFirst(this);
+			
 		}
 
 
 		public IEnumerable<T> GetServices<T> ()
 		{
 			return this.Core
-						   .instances
-						   .InstancesAssignableFrom(typeof(T))
-						   .Select(o => (T)o);
+				.instances
+				.InstancesAssignableFrom(typeof(T))
+				.Select(o => (T)o);
 		}
+
+		public int CountServices () => this.Core.instances.total_count;
+
 
 		public IClonedCore CloneCore ( StackWrapperSettings settings = null )
 		{
@@ -52,7 +53,7 @@ namespace StackInjector.Core
 
 		public IClonedCore DeepCloneCore ( StackWrapperSettings settings = null )
 		{
-			var clonedCore = new InjectionCore( settings ??  this.Core.settings.Copy() )
+			var clonedCore = new InjectionCore( settings ??  this.Core.settings.Clone() )
 			{
 				instances = this.Core.instances.CloneStructure()
 			};
@@ -62,6 +63,5 @@ namespace StackInjector.Core
 
 
 		public abstract void Dispose ();
-
 	}
 }

@@ -1,92 +1,73 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using StackInjector.Wrappers;
+﻿using StackInjector.Wrappers;
 
 namespace StackInjector.Settings
 {
 	/// <summary>
 	/// Used to manage the behaviour of <see cref="IStackWrapper{TEntry}"/> and <see cref="IAsyncStackWrapper{TEntry, TIn, TOut}"/>
 	/// </summary>
-	[Serializable]
 	public sealed partial class StackWrapperSettings
 	{
 
-		// list of settings and their initial empty definition
-		#region settings
+		/// <summary>
+		/// manages masking options.
+		/// </summary>
+		public MaskOptions Mask { get; private set; }
 
-		// registration
-		internal HashSet<Assembly>                  _registredAssemblies                    = new HashSet<Assembly>();
-		internal bool                               _registerEntryPointAssembly;
-		internal bool                               _registerWrapperAsService;
-		internal bool                               _registerAfterCloning;
+		/// <summary>
+		/// manages injection options
+		/// </summary>
+		public InjectionOptions Injection { get; private set; }
 
-		// disposing
-		internal bool                               _trackInstancesDiff;
-		internal bool                               _callDisposeOnInstanceDiff;
+		/// <summary>
+		/// manages runtime options
+		/// </summary>
+		public RuntimeOptions Runtime { get; private set; }
 
-		// async management
-		internal AsyncWaitingMethod                 _asyncWaitingMethod                     = AsyncWaitingMethod.Exit;
-		internal int                                _asyncWaitTime                          = 500;
-
-		// injection
-		internal ServedVersionTargetingMethod       _targetingMethod                        = ServedVersionTargetingMethod.None;
-		internal bool                               _overrideTargetingMethod;
-
-		internal ServingMethods                     _servingMethod                          = ServingMethods.DoNotServe;
-		internal bool                               _overrideServingMethod;
-		internal bool                               _cleanUnusedTypesAftInj;
-		internal uint                               _limitInstancesCount                    = 128;
-
-		// features
-		internal bool                               _serveEnumerables;
-
-		#endregion
 
 
 		private StackWrapperSettings () { }
 
 
+
 		/// <summary>
 		/// creates a deep copy of this settings object
 		/// </summary>
-		/// <returns></returns>
-		public StackWrapperSettings Copy ()
+		/// <returns>a cloned settings object</returns>
+		public StackWrapperSettings Clone ()
 		{
-			var settingsCopy = (StackWrapperSettings)this.MemberwiseClone();
-			// creats a deep copy of reference objects
-			settingsCopy._registredAssemblies = this._registredAssemblies.ToHashSet();
-
-			return settingsCopy;
+			return With(
+				(InjectionOptions)this.Injection.Clone(),
+				(RuntimeOptions)this.Runtime.Clone(),
+				(MaskOptions)this.Mask.Clone()
+				);
 		}
 
 
+		/// <summary>
+		/// The default settings. see
+		/// <seealso cref="InjectionOptions.Default"/>,
+		/// <seealso cref="RuntimeOptions.Default"/>,
+		/// <seealso cref="MaskOptions.Disabled"/>
+		/// </summary>
+		public static StackWrapperSettings Default => With();
+
 
 		/// <summary>
-		/// generates a new <see cref="StackWrapperSettings"/> with everything set to false
+		/// create a new <see cref="StackWrapperSettings"/> with the specified options.
 		/// </summary>
-		/// <returns>empty settings</returns>
-		public static StackWrapperSettings Empty
-			=>
-				new StackWrapperSettings();
-
-
-		/// <summary>
-		/// Creates a new StackWrapperSettings with default parameters.
-		/// </summary>
-		/// <returns>the default settings</returns>
-		public static StackWrapperSettings Default
-			=>
-				new StackWrapperSettings()
-					.RegisterEntryAssembly()
-					.RegisterWrapperAsService()
-					.RegisterAfterCloning(false)
-					.TrackInstantiationDiff(false, callDispose: false)
-					.InjectionVersioningMethod(ServedVersionTargetingMethod.None, @override: false)
-					.InjectionServingMethods(Injector.Defaults.ServeAllStrict, @override: false)
-					.WhenNoMoreTasks(AsyncWaitingMethod.Exit)
-					.ServeIEnumerables();
+		/// <param name="injection">the injection options</param>
+		/// <param name="runtime">the runtime options</param>
+		/// <param name="mask">mask options</param>
+		/// <returns></returns>
+		public static StackWrapperSettings With ( InjectionOptions injection = null, RuntimeOptions runtime = null, MaskOptions mask = null )
+		{
+			return new StackWrapperSettings()
+			{
+				Mask = mask ?? MaskOptions.Disabled,
+				Injection = injection ?? InjectionOptions.Default,
+				Runtime = runtime ?? RuntimeOptions.Default
+			};
+		}
 
 
 		/// <summary>
@@ -94,9 +75,17 @@ namespace StackInjector.Settings
 		/// everything is served by default, and you must instead use <c>[Ignored]</c> on properties and fields you don't want injected
 		/// </summary>
 		/// <seealso cref="Attributes.IgnoredAttribute"/>
-		public static StackWrapperSettings DefaultBySubtraction
-			=>
-				Default
-					.InjectionServingMethods(Injector.Defaults.ServeAll, @override: true);
+		public static StackWrapperSettings DefaultBySubtraction =>
+			With(
+				injection:
+					InjectionOptions.Default
+					.ServingMethod(ServeAll, true),
+				mask:
+					null,
+				runtime:
+					null
+				);
+
+
 	}
 }

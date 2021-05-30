@@ -22,8 +22,15 @@ namespace StackInjector.Core
 		/// Find every service valid for the given class or interface.
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
-		/// <returns></returns>
 		IEnumerable<T> GetServices<T> ();
+
+		//! description is wrong
+		/// <summary>
+		/// The current number of all tracked services.<br/>
+		/// Does also include the Wrapper, so if you want all the instances 
+		/// <c>wrapper.CountServices()-1</c>
+		/// </summary>
+		int CountServices ();
 
 	}
 }
