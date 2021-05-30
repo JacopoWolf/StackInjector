@@ -15,8 +15,8 @@ namespace StackInjector.Core
 
 			var targetVersion = servedAttribute?.TargetVersion ?? 0.0;
 			var method =
-				(this.settings.InjectionOptions._overrideTargetingMethod || servedAttribute is null || !(servedAttribute._targetingDefined))
-					? this.settings.InjectionOptions._targetingMethod
+				(this.settings.Injection._overrideTargetingMethod || servedAttribute is null || !(servedAttribute._targetingDefined))
+					? this.settings.Injection._targetingMethod
 					: servedAttribute.TargetingMethod;
 
 

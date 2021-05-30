@@ -5,7 +5,7 @@ using StackInjector.Settings;
 
 namespace StackInjector.Wrappers
 {
-	[Service(Version = 3.0, Serving = ServingMethods.DoNotServe)]
+	[Service(Version = 3.0, Serving = ServingMethods.None)]
 	internal class AsyncStackWrapper<TEntry, TIn, TOut> : AsyncStackWrapperCore<TOut>, IAsyncStackWrapper<TEntry, TIn, TOut>
 	{
 
@@ -21,14 +21,7 @@ namespace StackInjector.Wrappers
 
 		public void Submit ( TIn item )
 		{
-			var task = this.StackDigest.Invoke
-					(
-						this.Entry,
-						item,
-						this.PendingTasksCancellationToken
-					);
-
-			base.Submit(task);
+			this.SubmitAndGet(item);
 		}
 
 		public Task<TOut> SubmitAndGet ( TIn item )

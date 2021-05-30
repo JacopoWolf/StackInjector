@@ -30,26 +30,28 @@ namespace StackInjector.Core
 							.Select(p=>p.Key)
 							.ToList();
 
-			foreach( var type in unused )
+			foreach ( var type in unused )
 				this.instances.Remove(type);
+
+			this.instances.CountAllInstances();
 		}
 
 
 		// removes instances of the tracked instantiated types and call their Dispose method. Thread safe.
 		protected internal void RemoveInstancesDiff ()
 		{
-			if( !this.settings.InjectionOptions._trackInstancesDiff )
+			if ( !this.settings.Injection._trackInstancesDiff )
 				return;
 
 			// ensures that two threads are not trying to Dispose and InjectAll at the same time
-			lock( this._lock )
+			lock ( this._lock )
 			{
-				foreach( var instance in this.instancesDiff )
+				foreach ( var instance in this.instancesDiff )
 				{
 					this.instances[instance.GetType()].Remove(instance);
 
 					// if the relative setting is true, check if the instance implements IDisposable and call it
-					if( this.settings.InjectionOptions._callDisposeOnInstanceDiff && instance is IDisposable disposable )
+					if ( this.settings.Injection._callDisposeOnInstanceDiff && instance is IDisposable disposable )
 						disposable.Dispose();
 				}
 

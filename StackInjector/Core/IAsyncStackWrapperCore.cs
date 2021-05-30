@@ -6,6 +6,23 @@ using System.Threading.Tasks;
 namespace StackInjector.Core
 {
 	/// <summary>
+	/// The event arguments for <see cref="IAsyncStackWrapperCore{T}.OnElaborated"/>
+	/// </summary>
+	/// <typeparam name="T">The generic returned type of the wrapper</typeparam>
+	public sealed class AsyncElaboratedEventArgs<T> : EventArgs
+	{
+		/// <summary>
+		/// Result of the elaboration
+		/// </summary>
+		public T Result { get; internal set; }
+
+		internal AsyncElaboratedEventArgs ( T result )
+		{
+			this.Result = result;
+		}
+	}
+
+	/// <summary>
 	/// Base interface for all asyncronous stackwrappers.
 	/// </summary>
 	/// <typeparam name="T">the type tasks will return</typeparam>
@@ -14,7 +31,7 @@ namespace StackInjector.Core
 		/// <summary>
 		/// called when a new element has been elaborated
 		/// </summary>
-		event Action<T> OnElaborated;
+		event EventHandler<AsyncElaboratedEventArgs<T>> OnElaborated;
 
 
 		/// <summary>

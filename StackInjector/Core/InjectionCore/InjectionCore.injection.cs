@@ -23,23 +23,23 @@ namespace StackInjector.Core
 			// otherwise check if the type has a service attribute and
 			// if its property has been defined.
 			var serving =
-				(this.settings.InjectionOptions._overrideServingMethod || serviceAtt is null || !(serviceAtt._servingDefined))
-					? this.settings.InjectionOptions._servingMethod
+				(this.settings.Injection._overrideServingMethod || serviceAtt is null || !(serviceAtt._servingDefined))
+					? this.settings.Injection._servingMethod
 					: serviceAtt.Serving;
 
 			// don't waste time serving if not necessary
-			if( serving == ServingMethods.DoNotServe )
+			if ( serving == ServingMethods.None )
 				return servicesUsed;
 
 			// if false avoids going though the properties/fields list a second time to filter
 			var strict = serving.HasFlag(ServingMethods.Strict);
 
 
-			if( serving.HasFlag(ServingMethods.Fields) )
+			if ( serving.HasFlag(ServingMethods.Fields) )
 				this.InjectFields(type, instance, ref servicesUsed, strict);
 
 
-			if( serving.HasFlag(ServingMethods.Properties) )
+			if ( serving.HasFlag(ServingMethods.Properties) )
 				this.InjectProperties(type, instance, ref servicesUsed, strict);
 
 
@@ -56,10 +56,10 @@ namespace StackInjector.Core
 					type.GetFields( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance )
 					.Where( f => f.GetCustomAttribute<IgnoredAttribute>() is null );
 
-			if( strict )
+			if ( strict )
 				fields = fields.Where(field => field.GetCustomAttribute<ServedAttribute>() != null);
 
-			foreach( var serviceField in fields )
+			foreach ( var serviceField in fields )
 			{
 				var serviceInstance =
 					this.InstTypeOrServiceEnum
@@ -80,12 +80,12 @@ namespace StackInjector.Core
 					type.GetProperties( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance )
 					.Where( p => p.GetCustomAttribute<IgnoredAttribute>() is null );
 
-			if( strict )
+			if ( strict )
 				properties = properties.Where(property => property.GetCustomAttribute<ServedAttribute>() != null);
 
-			foreach( var serviceProperty in properties )
+			foreach ( var serviceProperty in properties )
 			{
-				if( serviceProperty.GetSetMethod() is null )
+				if ( serviceProperty.GetSetMethod() is null )
 					throw new NoSetterException(type, $"Property {serviceProperty.Name} of {type.FullName} has no setter!");
 
 				var serviceInstance =
@@ -105,7 +105,7 @@ namespace StackInjector.Core
 		private object InstTypeOrServiceEnum ( Type type, ServedAttribute servedAttribute, ref List<object> used )
 		{
 			if (
-				this.settings.InjectionOptions._serveEnumerables
+				this.settings.Injection._serveEnumerables
 				&&
 				type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)
 			)
@@ -121,7 +121,7 @@ namespace StackInjector.Core
 				var instances = (IList)Activator.CreateInstance( listType );
 
 				// gather instances if necessary
-				foreach( var serviceType in validTypes )
+				foreach ( var serviceType in validTypes )
 				{
 					var obj = this.OfTypeOrInstantiate(serviceType);
 					instances.Add(obj);

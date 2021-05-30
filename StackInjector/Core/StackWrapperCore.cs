@@ -22,13 +22,11 @@ namespace StackInjector.Core
 		{
 			this.Core = core;
 
-			//x setting for referencing the calling wrapper as a service
-			//x if( this.Core.settings.MaskOptions._registerWrapperAsService )
-
+			// add this wrapper to possible instances
 			if ( !this.Core.instances.AddType(toRegister) )
 				this.Core.instances[toRegister].Clear();
 			this.Core.instances[toRegister].AddFirst(this);
-
+			
 		}
 
 
@@ -39,6 +37,9 @@ namespace StackInjector.Core
 				.InstancesAssignableFrom(typeof(T))
 				.Select(o => (T)o);
 		}
+
+		public int CountServices () => this.Core.instances.total_count;
+
 
 		public IClonedCore CloneCore ( StackWrapperSettings settings = null )
 		{
@@ -62,6 +63,5 @@ namespace StackInjector.Core
 
 
 		public abstract void Dispose ();
-
 	}
 }

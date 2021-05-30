@@ -22,7 +22,7 @@ namespace StackInjector.Core
 			set
 			{
 				var serviceAtt = value.GetCustomAttribute<ServiceAttribute>();
-				if( serviceAtt != null && serviceAtt.Pattern == InstantiationPattern.AlwaysCreate )
+				if ( serviceAtt != null && serviceAtt.Pattern == InstantiationPattern.AlwaysCreate )
 					throw new InvalidEntryTypeException(
 						value,
 						$"Entry point {value.Name} cannot have {InstantiationPattern.AlwaysCreate} as instantiation pattern.",
@@ -54,7 +54,7 @@ namespace StackInjector.Core
 
 			this.instances = new InstancesHolder();
 
-			if( this.settings.InjectionOptions._trackInstancesDiff )
+			if ( this.settings.Injection._trackInstancesDiff )
 				this.instancesDiff = new List<object>();
 		}
 
