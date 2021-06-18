@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using StackInjector.Attributes;
 using StackInjector.Exceptions;
@@ -16,7 +17,7 @@ namespace StackInjector.Core
 			{
 				IEnumerable<Type> versions = this.instances.TypesAssignableFrom(type);
 
-				// is there already an implementation for the interface?
+				// has an implementation for the interface already been found?
 				if ( versions.Any() )
 				{
 					return versions.First();
@@ -26,6 +27,7 @@ namespace StackInjector.Core
 					versions = this.Version(type, servedAttribute);
 					if ( versions.Any() )
 					{
+						//todo check for multiple valid versions
 						var t = versions.First();
 						MaskPass(t);
 						return t;
@@ -46,9 +48,9 @@ namespace StackInjector.Core
 
 			void MaskPass ( Type type )
 			{
-				if ( this.settings.Mask.IsMasked(type) )
+				if ( this.settings.Mask.IsMasked(type) ) //todo create custom exception
 					throw new InvalidOperationException($"Type {type.Name} is { (this.settings.Mask._isWhiteList ? "not whitelisted" : "blacklisted")}");
-				//todo create custom exception
+
 			}
 
 
