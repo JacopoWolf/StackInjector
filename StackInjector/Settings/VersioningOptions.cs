@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 
 namespace StackInjector.Settings
 {
@@ -43,9 +40,15 @@ namespace StackInjector.Settings
 
 
 		/// <inheritdoc/>
-		public object Clone () => this.MemberwiseClone();
+		public object Clone ()
+		{
+			return this.MemberwiseClone();
+		}
 
-		IOptions IOptions.CreateDefault () => Default;
+		IOptions IOptions.CreateDefault ()
+		{
+			return Default;
+		}
 
 
 
@@ -79,7 +82,7 @@ namespace StackInjector.Settings
 			return this;
 		}
 
-		
+
 
 		#endregion
 

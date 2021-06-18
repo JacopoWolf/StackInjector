@@ -68,8 +68,8 @@ namespace StackInjector.Settings
 		/// <param name="mask">mask options</param>
 		/// <param name="versioning">versioning options</param>
 		/// <returns></returns>
-		public static StackWrapperSettings With ( 
-			InjectionOptions injection = null, RuntimeOptions runtime = null, 
+		public static StackWrapperSettings With (
+			InjectionOptions injection = null, RuntimeOptions runtime = null,
 			MaskOptions mask = null, VersioningOptions versioning = null )
 		{
 			return new StackWrapperSettings()

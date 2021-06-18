@@ -19,15 +19,15 @@ namespace StackInjector.Core
 					? this.settings.Versioning._targetingMethod
 					: servedAttribute.TargetingMethod;
 
-			IEnumerable<TypeInfo> candidateTypes = 
-				(this.settings.Versioning.AssemblyLookUpOrder.Any()) 
+			IEnumerable<TypeInfo> candidateTypes =
+				(this.settings.Versioning.AssemblyLookUpOrder.Any())
 				?
 				this.settings.Versioning
 					.AssemblyLookUpOrder
 					.SelectMany( a => a.DefinedTypes )
-					.Where( t => t.IsClass && !t.IsAbstract 
+					.Where( t => t.IsClass && !t.IsAbstract
 						&& targetType.IsAssignableFrom(t) && !this.settings.Mask.IsMasked(t) )
-				: 
+				:
 				targetType
 					.Assembly
 					.DefinedTypes

@@ -26,7 +26,7 @@ namespace StackInjector.Core
 			if ( !this.Core.instances.AddType(toRegister) )
 				this.Core.instances[toRegister].Clear();
 			this.Core.instances[toRegister].AddFirst(this);
-			
+
 		}
 
 
@@ -38,8 +38,10 @@ namespace StackInjector.Core
 				.Select(o => (T)o);
 		}
 
-		public int CountServices () => this.Core.instances.total_count;
-
+		public int CountServices ()
+		{
+			return this.Core.instances.total_count;
+		}
 
 		public IClonedCore CloneCore ( StackWrapperSettings settings = null )
 		{

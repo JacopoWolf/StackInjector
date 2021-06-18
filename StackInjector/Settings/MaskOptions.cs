@@ -50,7 +50,7 @@ namespace StackInjector.Settings
 		{
 			if ( _isDisabled )
 				return false;
-			
+
 			return this._isWhiteList ^ this.Contains(type); //.XOR
 
 		}
