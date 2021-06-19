@@ -129,51 +129,19 @@ namespace StackInjector.TEST.BlackBox
 		private class _ExternalAssemblyReference_Class {[Served] public readonly ExternalAssembly.Externalclass externalclass; }
 
 		[Test]
-		public void ExternalAssembly_FromClass_NoVers ()
+		public void ExternalAssembly_FromClass ()
 		{
 			Assert.DoesNotThrow(() => Injector.From<_ExternalAssemblyReference_Class>());
 		}
 
 
 		[Service]
-		private class _ExternalAssemblyReference_Interface {[Served] public readonly ExternalAssembly.IExternalClass externalclass; }
+		internal class _ExternalAssemblyReference_Interface {[Served] public readonly ExternalAssembly.IExternalClass externalclass; }
 
 		[Test]
-		public void ExternalAssembly_FromInterface_NoVers ()
+		public void ExternalAssembly_FromInterface ()
 		{
 			Assert.DoesNotThrow(() => Injector.From<_ExternalAssemblyReference_Interface>());
-		}
-
-
-
-
-		[Service(Version = 2.0)]
-		private class _ExternalAssemblyReference_Local : ExternalAssembly.IExternalClass
-		{
-			public void SomeMethod () => throw new NotImplementedException();
-		}
-
-		[Test]
-		public void ExternalAssembly_LocalImplementation_NoVers_Throws ()
-		{
-			var settings = StackWrapperSettings.With(
-					mask: MaskOptions.BlackList
-				);
-			settings.Mask.Add(typeof(ExternalAssembly.Externalclass));
-			Assert.Throws<InvalidOperationException>( () => Injector.From<_ExternalAssemblyReference_Interface>(settings) );
-		}
-
-		[Test]
-		public void ExternalAssembly_LocalImplementation_Vers ()
-		{
-			var settings = StackWrapperSettings.With(
-					mask: MaskOptions.BlackList
-				);
-			settings.Mask.Add(typeof(ExternalAssembly.Externalclass));
-			settings.Versioning.AddAssembliesToLookup(Assembly.GetExecutingAssembly());
-
-			var wrapper = Injector.From<_ExternalAssemblyReference_Interface>(settings);
-			Assert.IsInstanceOf<_ExternalAssemblyReference_Local>(wrapper.Entry.externalclass);
 		}
 
 	}
