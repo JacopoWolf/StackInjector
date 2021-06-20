@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using NUnit.Framework;
-using StackInjector.Attributes;
-using StackInjector.Core;
 using StackInjector.Exceptions;
 using StackInjector.Settings;
 using StackInjector.TEST.Structures.Simple;
@@ -16,11 +10,6 @@ namespace StackInjector.TEST.BlackBox
 	[TestFixture]
 	public class Cloning
 	{
-
-		//? might be used for exception asserting
-		//var iete = Assert.Throws<InvalidEntryTypeException>(() => wrapperA.Entry.Logic() );
-		//Assert.IsInstanceOf<ServiceNotFoundException>(iete.InnerException);
-		//StringAssert.Contains("No instance found", iete.Message);
 
 #pragma warning disable 0649
 
@@ -97,7 +86,7 @@ namespace StackInjector.TEST.BlackBox
 			});
 		}
 
-		[Test] //? perhaps move to Settings
+		[Test]
 		public void Deep_RemoveUnused ()
 		{
 			var settings = StackWrapperSettings.Default;

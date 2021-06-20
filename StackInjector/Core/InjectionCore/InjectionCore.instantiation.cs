@@ -17,9 +17,6 @@ namespace StackInjector.Core
 			if ( serviceAtt == null )
 				throw new NotAServiceException(type, $"Type {type.FullName} is not a [Service]");
 
-			////if( !this.instances.ContainsKey(type) )
-			////	throw new ServiceNotFoundException(type, $"The type {type.FullName} is not in a registred assembly!");
-
 
 			return serviceAtt.Pattern switch
 			{

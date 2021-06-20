@@ -24,10 +24,9 @@ namespace StackInjector.Core
 		/// <typeparam name="T"></typeparam>
 		IEnumerable<T> GetServices<T> ();
 
-		//! description is wrong
 		/// <summary>
 		/// The current number of all tracked services.<br/>
-		/// Does also include the Wrapper, so if you want all the instances 
+		/// Does also include the Wrapper, so if you want just the instances 
 		/// <c>wrapper.CountServices()-1</c>
 		/// </summary>
 		int CountServices ();
