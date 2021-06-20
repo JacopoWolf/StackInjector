@@ -27,11 +27,12 @@ namespace StackInjector.Core
 			return this.TryAdd(type, new LinkedList<object>());
 		}
 
-		internal void CountAllInstances ()
+		internal int CountAllInstances ()
 		{
 			this.total_count = 0;
 			foreach ( var pair in this )
 				this.total_count += pair.Value.Count;
+			return this.total_count;
 		}
 
 

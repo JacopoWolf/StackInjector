@@ -32,7 +32,7 @@ namespace StackInjector.TEST.BlackBox
 				Assert.That(entry.level1A, Is.Not.Null.And.InstanceOf<Level1_11>());
 				Assert.That(entry.level1B, Is.Not.Null.And.InstanceOf<Level1_12>());
 				Assert.AreSame(entry.level1A.level2, entry.level1B.level2);
-				Assert.AreEqual(4, wrapper.CountServices());
+				Assert.AreEqual(5, wrapper.CountServices()); // 4 classes + 1 wrapper
 
 			});
 		}
@@ -50,7 +50,7 @@ namespace StackInjector.TEST.BlackBox
 				Assert.That(_entry.level1A, Is.Not.Null.And.InstanceOf<Level1_11>());
 				Assert.That(_entry.level1B, Is.Not.Null.And.InstanceOf<Level1_12>());
 				Assert.AreSame(_entry.level1A.level2, _entry.level1B.level2);
-				Assert.AreEqual(4, wrapper.CountServices());
+				Assert.AreEqual(5, wrapper.CountServices()); // 4 classes + 1 wrapper
 
 			});
 		}

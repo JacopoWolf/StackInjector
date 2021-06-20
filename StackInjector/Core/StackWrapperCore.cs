@@ -40,7 +40,7 @@ namespace StackInjector.Core
 
 		public int CountServices ()
 		{
-			return this.Core.instances.total_count;
+			return this.Core.instances.CountAllInstances();
 		}
 
 		public IClonedCore CloneCore ( StackWrapperSettings settings = null )

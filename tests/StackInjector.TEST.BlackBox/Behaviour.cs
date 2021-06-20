@@ -26,7 +26,7 @@ namespace StackInjector.TEST.BlackBox
 
 			Assert.Multiple(() => {
 				Assert.AreSame(wrapper.Entry, wrapper.Entry.loopB.loopA);
-				Assert.AreEqual(2, wrapper.CountServices());
+				Assert.AreEqual(3, wrapper.CountServices());
 			});
 		}
 

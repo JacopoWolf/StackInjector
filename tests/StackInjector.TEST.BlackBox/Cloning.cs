@@ -107,7 +107,7 @@ namespace StackInjector.TEST.BlackBox
 			Assert.Multiple(() =>
 			{
 				var wrap = Injector.From<Base>( );
-				Assert.AreEqual(4, wrap.CountServices());
+				Assert.AreEqual(5, wrap.CountServices());
 
 				// base is removed after injecting from a class that doesn't need it
 				var clone = wrap.DeepCloneCore( settings ).ToWrapper<ILevel2>( );
