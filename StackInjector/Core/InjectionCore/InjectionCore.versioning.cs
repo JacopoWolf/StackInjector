@@ -9,9 +9,20 @@ namespace StackInjector.Core
 {
 	internal partial class InjectionCore
 	{
+		private static readonly Type _istackwrappercore = typeof(IStackWrapperCore);
+
 		// performs versioning on the specified type
 		private IEnumerable<Type> Version ( Type targetType, ServedAttribute servedAttribute )
 		{
+			if (targetType.IsSubclassOf( _istackwrappercore ) || targetType == _istackwrappercore)
+				return this.instances.TypesAssignableFrom(targetType);
+
+			if (this.settings.Versioning._customBindings != null &&
+				this.settings.Versioning._customBindings.TryGetValue(targetType,out var t) )
+			{
+				return Enumerable.Repeat(t, 1);
+			}
+			
 
 			var targetVersion = servedAttribute?.TargetVersion ?? 0.0;
 			var method =

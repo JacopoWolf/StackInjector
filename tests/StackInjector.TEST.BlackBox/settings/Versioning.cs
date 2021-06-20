@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using StackInjector.Attributes;
 using StackInjector.Settings;
+using StackInjector.TEST.ExternalAssembly;
 using StackInjector.TEST.Structures.Simple;
 using static StackInjector.TEST.BlackBox.Injection;
 
@@ -97,8 +98,24 @@ namespace StackInjector.TEST.BlackBox
 			var settings = StackWrapperSettings.With(
 					mask: MaskOptions.BlackList
 				);
-			settings.Mask.Add(typeof(ExternalAssembly.Externalclass));
+			settings.Mask.Add(typeof(Externalclass));
 			settings.Versioning.AddAssembliesToLookup(Assembly.GetExecutingAssembly());
+
+			var wrapper = Injector.From<_ExternalAssemblyReference_Interface>(settings);
+			Assert.IsInstanceOf<_ExternalAssemblyReference_Local>(wrapper.Entry.externalclass);
+		}
+
+		[Test]
+		public void ExternalAssembly_LocalImplementation_Bind ()
+		{
+			var settings = StackWrapperSettings.With(
+					mask: MaskOptions.BlackList
+				);
+			settings.Mask
+				.Add(typeof(Externalclass));
+			settings.Versioning
+				.AddAssembliesToLookup(typeof(IExternalClass).Assembly)
+				.AddInterfaceBinding<IExternalClass,_ExternalAssemblyReference_Local>();
 
 			var wrapper = Injector.From<_ExternalAssemblyReference_Interface>(settings);
 			Assert.IsInstanceOf<_ExternalAssemblyReference_Local>(wrapper.Entry.externalclass);
