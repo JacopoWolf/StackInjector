@@ -5,12 +5,10 @@ namespace StackInjector.Settings
 {
 
 	/// <summary>
-	/// Options for the injection process.
+	/// Options for the injection process, regarding HOW the inejction should be performed
 	/// </summary>
 	public sealed class InjectionOptions : IOptions
 	{
-		internal ServedVersionTargetingMethod       _targetingMethod                        = ServedVersionTargetingMethod.None;
-		internal bool                               _overrideTargetingMethod;
 
 		internal ServingMethods                     _servingMethod                          = StackWrapperSettings.ServeAllStrict;
 		internal bool                               _overrideServingMethod;
@@ -42,10 +40,7 @@ namespace StackInjector.Settings
 		/// <summary>
 		/// The default injection. Settings are valorized as following:
 		/// <list type="table">
-		/// <item>
-		///		<term><see cref="VersioningMethod(ServedVersionTargetingMethod, bool)"/></term>
-		///		<description><see cref="ServedVersionTargetingMethod.None"/>, false</description>
-		///	</item><item>
+		///	<item>
 		///		<term><see cref="ServingMethod(ServingMethods, bool)"/></term><description>
 		///		<see cref="StackWrapperSettings.ServeAllStrict"/>, false</description>
 		///	</item><item>
@@ -79,20 +74,6 @@ namespace StackInjector.Settings
 		{
 			this._trackInstancesDiff = track;
 			this._callDisposeOnInstanceDiff = callDispose;
-			return this;
-		}
-
-
-		/// <summary>
-		/// Overrides default targetting method
-		/// </summary>
-		/// <param name="targetMethod">the new default targetting method</param>
-		/// <param name="override">if true, versioning methods for [Served] fields and properties are overriden</param>
-		/// <returns>the modified settings</returns>
-		public InjectionOptions VersioningMethod ( ServedVersionTargetingMethod targetMethod, bool @override = false )
-		{
-			this._targetingMethod = targetMethod;
-			this._overrideTargetingMethod = @override;
 			return this;
 		}
 

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO.Pipes;
 using System.Linq;
-using NUnit;
+using System.Reflection;
 using NUnit.Framework;
 using StackInjector.Attributes;
 using StackInjector.Core;
@@ -33,7 +32,7 @@ namespace StackInjector.TEST.BlackBox
 				Assert.That(entry.level1A, Is.Not.Null.And.InstanceOf<Level1_11>());
 				Assert.That(entry.level1B, Is.Not.Null.And.InstanceOf<Level1_12>());
 				Assert.AreSame(entry.level1A.level2, entry.level1B.level2);
-				Assert.AreEqual(4, wrapper.CountServices());
+				Assert.AreEqual(5, wrapper.CountServices()); // 4 classes + 1 wrapper
 
 			});
 		}
@@ -51,7 +50,7 @@ namespace StackInjector.TEST.BlackBox
 				Assert.That(_entry.level1A, Is.Not.Null.And.InstanceOf<Level1_11>());
 				Assert.That(_entry.level1B, Is.Not.Null.And.InstanceOf<Level1_12>());
 				Assert.AreSame(_entry.level1A.level2, _entry.level1B.level2);
-				Assert.AreEqual(4, wrapper.CountServices());
+				Assert.AreEqual(5, wrapper.CountServices()); // 4 classes + 1 wrapper
 
 			});
 		}
@@ -130,23 +129,20 @@ namespace StackInjector.TEST.BlackBox
 		private class _ExternalAssemblyReference_Class {[Served] public readonly ExternalAssembly.Externalclass externalclass; }
 
 		[Test]
-		public void ExternalAssembly_NoRegistration_FromClass ()
+		public void ExternalAssembly_FromClass ()
 		{
 			Assert.DoesNotThrow(() => Injector.From<_ExternalAssemblyReference_Class>());
 		}
 
 
 		[Service]
-		private class _ExternalAssemblyReference_Interface {[Served] public readonly ExternalAssembly.IExternalClass externalclass; }
+		internal class _ExternalAssemblyReference_Interface {[Served] public readonly ExternalAssembly.IExternalClass externalclass; }
 
 		[Test]
-		public void ExternalAssembly_NoRegistration_FromInterface ()
+		public void ExternalAssembly_FromInterface ()
 		{
 			Assert.DoesNotThrow(() => Injector.From<_ExternalAssemblyReference_Interface>());
 		}
-
-
-		//todo asas
 
 	}
 }

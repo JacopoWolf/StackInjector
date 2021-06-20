@@ -14,28 +14,21 @@ namespace StackInjector.Core
 		{
 			if ( type.IsInterface )
 			{
-				IEnumerable<Type> versions = this.instances.TypesAssignableFrom(type);
+				IEnumerable<Type> versions = this.Version(type, servedAttribute);
 
-				// is there already an implementation for the interface?
 				if ( versions.Any() )
 				{
-					return versions.First();
+					//todo check for multiple valid versions
+					var t = versions.First();
+					MaskPass(t);
+					return t;
 				}
-				else
-				{
-					versions = this.Version(type, servedAttribute);
-					if ( versions.Any() )
-					{
-						var t = versions.First();
-						MaskPass(t);
-						return t;
-					}
 
-					if ( servedAttribute is null )
-						throw new ImplementationNotFoundException(type, $"can't find [Service] for interface {type.Name}");
-					else
-						throw new ImplementationNotFoundException(type, $"can't find [Service] for {type.Name} v{servedAttribute.TargetVersion}");
-				}
+				if ( servedAttribute is null )
+					throw new ImplementationNotFoundException(type, $"can't find [Service] for interface {type.Name}");
+				else
+					throw new ImplementationNotFoundException(type, $"can't find [Service] for {type.Name} v{servedAttribute.TargetVersion}");
+				
 			}
 			else
 			{
@@ -43,12 +36,12 @@ namespace StackInjector.Core
 				return type;
 			}
 
-
+			// exception check and thrower
 			void MaskPass ( Type type )
 			{
-				if ( this.settings.Mask.IsMasked(type) )
+				if ( this.settings.Mask.IsMasked(type) ) //todo create custom exception
 					throw new InvalidOperationException($"Type {type.Name} is { (this.settings.Mask._isWhiteList ? "not whitelisted" : "blacklisted")}");
-				//todo create custom exception
+
 			}
 
 
