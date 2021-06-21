@@ -30,7 +30,7 @@ Modern, easy-to-use and fast dependency injection framework.<br><br>
 <img src="https://img.shields.io/github/issues/jacopowolf/stackinjector/bug">
 <br>
 <img src="https://img.shields.io/badge/-Standard_2.1-5C2D91?logo=.net"/>
-<img src="https://img.shields.io/badge/-9.0-239120?logo=c-sharp"/>
+<img src="https://img.shields.io/badge/-8.0-239120?logo=c-sharp"/>
 </p>
 
 
@@ -50,58 +50,59 @@ Table of Contents
 
 There are a lot of dependency injection frameworks for .NET, but every single one of them has some complicated specifics you have to learn (like active registration of components) and sometimes you don't really have full control of what to inject into your instances.
 
-If you want to use an extremely easy dependency injection framework, and also use the latest features the C# language has to offer, then *StackInjector* is made for you!
-
-*Also ships with some nice settings presets to suit your coding style!*
+If you want to use an extremely easy dependency injection framework, use the latest features the C# language has to offer, or work with assemblies, then *StackInjector* is made for you!
 
 
 ## Installation
 
 Visit the [Nuget page](https://www.nuget.org/packages/StackInjector)
 
-
-
 ## Usage
 
-In-depth tutorials and explanations can be found in the repository's [Wiki](https://github.com/JacopoWolf/StackInjector/wiki)
+What follows is a brief introduction for versions above 4.0, in-depth tutorials and explanations can be found in the repository's [Wiki](https://github.com/JacopoWolf/StackInjector/wiki)
 
 ---
 
-You can plan your components as **interfaces** and *implement* them.
-
-As clean as you can get!
+Plan your components as **interfaces**!
 
 ```cs
-interface IFooFilter
+interface IFoo
 {
-    string Filter( string element );
+    string SomeMethod( string element );
 }
 ```
+
+And then completely forget about constructors!
 
 ```cs
 using StackInjector.Attributes;
 
 [Service]
-class SimpleFooFilter : IFooFilter
+class SimpleFoo : IFoo
 {
+    // use the specific class
     [Served]
-    IDatabaseAccess Database { get; set; }
-    
-    [Served]
-    IFooFilter filter;
+    FooOptions options;
 
+    // or let the library find an implementation!
     [Served]
-    IEnumerable<ISanitizer> sanitizers; 
+    ILogger Logger { get; set; }
+
+    // serve an Enumerable of every implementation of IMyFilter!
+    [Served]
+    IEnumerable<IMyFilter> filters; 
     
 
-    string SomeMethod( string query ) 
+    public string SomeMethod( string element ) 
     {
-        // those are just random examples! 
-        foreach ( var s in this.sanitizers )
-            s.Clear( query );
-        var item = this.Database.ExampleGet( element );
-        this.filter.Filter( item );
-        return item;
+        // those are just random examples!
+        foreach ( var f in this.filters )
+            f.Pass( element );
+        
+        if (this.options.something)
+            this.Logger.Log(element)
+        
+        return element;
     }
 }
 ```
@@ -110,30 +111,25 @@ Everything **must** be explicit (`[Service]`,`[Served]` and `[Ignored]` attribut
 
 --- 
 
-You then have multiple options on how to initialize your application, and every single one of them type-safe!
+All instances are held inside a **StackWrapper**, which exposes useful methods to manage your classes.
+
+To initialize your application in a wrapper, you have multiple options, and every single one of them type-safe! 
 
 **synchronous**
 
 a simple call to a static method and you're done!
 
-*examples of a Main.cs in C# 9.0*
-
-```cs
-using StackInjector;
-
-var settings = StackWrapperSettings
-    .Default
-    .RemoveUnusedTypesAfterInjection();
-
-Injector.From<IMyAppEntryPoint>( settings ).Entry.DoWork();
+```cs   
+Injector.From<IMyAppEntryPoint>().Entry.DoWork();
 ```
 
 **asynchronous**
 
-```cs
-using StackInjector;
+Thead safe, `IDisposable`, and centralized!
 
-// the "using" keyword here allows for safe disposing of the resources after 
+```cs
+// the "using" keyword here allows for safe disposing of the resources
+//  and terminating pending tasks with a CancellationToken
 using var app = Injector.AsyncFrom<IMyAsyncAppEntryPoint>( (e,i,t) => e.AsyncWork(i,t) );
 
 // can be called from anywhere
@@ -149,7 +145,7 @@ await foreach ( var result in app.Elaborated() )
 
 Any contribution is appreciated! Especially bug reports, which mean you've been using this library I've been hard working on!
 
-But first read [contributing](CONTRIBUTING.md) and [code of conduct](CODE_OF_CONDUCT.md) (I promise they're short)
+If you want to contribute code first read [contributing](CONTRIBUTING.md) and [code of conduct](CODE_OF_CONDUCT.md) (I promise they're short)
 
 *suggested editor: ![visualStudio](https://img.shields.io/badge/-Visual_Studio-5C2D91?logo=visual-studio)*
 
