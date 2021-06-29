@@ -31,7 +31,17 @@ namespace StackInjector.Settings
 
 
 
-		private StackWrapperSettings () { }
+		private StackWrapperSettings (
+			MaskOptions mo,
+			InjectionOptions io,
+			VersioningOptions vo,
+			RuntimeOptions ro )
+		{
+			this.Mask = mo;
+			this.Injection = io;
+			this.Versioning = vo;
+			this.Runtime = ro;
+		}
 
 
 
@@ -57,7 +67,12 @@ namespace StackInjector.Settings
 		/// <seealso cref="MaskOptions.Disabled"/>
 		/// <seealso cref="VersioningOptions.Default"/>
 		/// </summary>
-		public static StackWrapperSettings Default => With();
+		public static StackWrapperSettings Default => new StackWrapperSettings(
+			MaskOptions.Disabled,
+			InjectionOptions.Default,
+			VersioningOptions.Default,
+			RuntimeOptions.Default
+			);
 
 
 		/// <summary>
@@ -69,16 +84,17 @@ namespace StackInjector.Settings
 		/// <param name="versioning">versioning options</param>
 		/// <returns></returns>
 		public static StackWrapperSettings With (
-			InjectionOptions injection = null, RuntimeOptions runtime = null,
-			MaskOptions mask = null, VersioningOptions versioning = null )
+			InjectionOptions injection = null,
+			RuntimeOptions runtime = null,
+			MaskOptions mask = null,
+			VersioningOptions versioning = null )
 		{
-			return new StackWrapperSettings()
-			{
-				Mask = mask ?? MaskOptions.Disabled,
-				Injection = injection ?? InjectionOptions.Default,
-				Runtime = runtime ?? RuntimeOptions.Default,
-				Versioning = versioning ?? VersioningOptions.Default
-			};
+			return new StackWrapperSettings(
+				mask ?? MaskOptions.Disabled,
+				injection ?? InjectionOptions.Default,
+				versioning ?? VersioningOptions.Default,
+				runtime ?? RuntimeOptions.Default
+			);
 		}
 
 
@@ -87,18 +103,16 @@ namespace StackInjector.Settings
 		/// everything is served by default, and you must instead use <c>[Ignored]</c> on properties and fields you don't want injected
 		/// </summary>
 		/// <seealso cref="Attributes.IgnoredAttribute"/>
-		public static StackWrapperSettings DefaultBySubtraction =>
-			With(
-				injection:
-					InjectionOptions.Default
-					.ServingMethod(ServeAll, true),
-				mask:
-					null,
-				runtime:
-					null,
-				versioning:
-					null
-			);
+		public static StackWrapperSettings DefaultBySubtraction
+		{
+			get
+			{ 
+				var settings = Default;
+				settings.Injection
+					.ServingMethod(ServeAll, true);
+				return settings;
+			}
+		}
 
 
 	}
