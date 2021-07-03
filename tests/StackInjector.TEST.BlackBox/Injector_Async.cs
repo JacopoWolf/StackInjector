@@ -157,7 +157,7 @@ namespace StackInjector.TEST.BlackBox
 						StackWrapperSettings.With(
 							runtime:
 								RuntimeOptions.Default
-								.WhenNoMoreTasks(AsyncWaitingMethod.Wait,100)
+								.WhenNoMoreTasks(AsyncWaitingMethod.Wait,-1)
 							)
 						);
 
