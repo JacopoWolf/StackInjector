@@ -57,6 +57,7 @@ namespace StackInjector.TEST.BlackBox
 			});
 		}
 
+
 		[Test]
 		public void SubmitNoCatch ()
 		{
@@ -184,6 +185,28 @@ namespace StackInjector.TEST.BlackBox
 				Assert.AreSame(token, tokentest);
 				Assert.AreSame(wrapper, wrappertest);
 			});
+		}
+
+
+		[Test]
+		[Timeout(100)]
+		public void StopOnTimeout ()
+		{
+			var wrapper = Injector.AsyncFrom<AsyncBase,object,object>(
+				(b,i,t) => b.ReturnArg(i,t),
+				StackWrapperSettings.With(
+					runtime:
+						RuntimeOptions.Default
+						.WhenNoMoreTasks(AsyncWaitingMethod.Timeout,1)
+				)
+			);
+
+			Assume.That(!wrapper.IsElaborating);
+
+			wrapper.Elaborate().Wait();
+
+			Assert.That(!wrapper.IsElaborating && !wrapper.AnyTaskLeft());
+
 		}
 
 	}
