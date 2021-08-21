@@ -106,7 +106,7 @@ namespace StackInjector.Settings
 		public static StackWrapperSettings DefaultBySubtraction
 		{
 			get
-			{ 
+			{
 				var settings = Default;
 				settings.Injection
 					.ServingMethod(ServeAll, true);

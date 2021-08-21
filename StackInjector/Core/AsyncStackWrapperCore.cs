@@ -34,7 +34,7 @@ namespace StackInjector.Core
 
 
 		// register an event that in case the list is empty, release the empty event listener.
-		internal AsyncStackWrapperCore ( InjectionCore core) : base(core)
+		internal AsyncStackWrapperCore ( InjectionCore core ) : base(core)
 		{
 			this.cancelPendingTasksSource.Token.Register(this.ReleaseListAwaiter);
 		}

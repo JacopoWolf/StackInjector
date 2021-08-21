@@ -28,7 +28,7 @@ namespace StackInjector.Core
 					throw new ImplementationNotFoundException(type, $"can't find [Service] for interface {type.Name}");
 				else
 					throw new ImplementationNotFoundException(type, $"can't find [Service] for {type.Name} v{servedAttribute.TargetVersion}");
-				
+
 			}
 			else
 			{
