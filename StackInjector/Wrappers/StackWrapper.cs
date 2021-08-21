@@ -9,7 +9,7 @@ namespace StackInjector.Wrappers
 	internal class StackWrapper<TEntry> : StackWrapperCore, IStackWrapper<TEntry>
 	{
 
-		internal StackWrapper ( InjectionCore core ) : base(core, typeof(StackWrapper<TEntry>)) { }
+		internal StackWrapper ( InjectionCore core ) : base(core) { }
 
 
 

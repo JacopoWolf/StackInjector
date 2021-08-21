@@ -18,14 +18,15 @@ namespace StackInjector.Core
 		private protected readonly InjectionCore Core;
 
 
-		public StackWrapperCore ( InjectionCore core, Type toRegister )
+		public StackWrapperCore ( InjectionCore core )
 		{
 			this.Core = core;
 
 			// add this wrapper to possible instances
-			if ( !this.Core.instances.AddType(toRegister) )
-				this.Core.instances[toRegister].Clear();
-			this.Core.instances[toRegister].AddFirst(this);
+			var registerAs = this.GetType();
+			if ( !this.Core.instances.AddType(registerAs) )
+				this.Core.instances[registerAs].Clear();
+			this.Core.instances[registerAs].AddFirst(this);
 
 		}
 
