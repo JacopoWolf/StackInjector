@@ -70,7 +70,9 @@ namespace StackInjector.Core
 
 			// no more elaborating
 			lock ( this._listAccessLock )
+			{
 				this._exclusiveExecution = false;
+			}
 
 		}
 
@@ -84,28 +86,15 @@ namespace StackInjector.Core
 		// true if outher loop is to break
 		private async Task<bool> OnNoTasksLeft ()
 		{
-			switch ( this.Settings.Runtime._asyncWaitingMethod )
-			{
 
-				case AsyncWaitingMethod.Exit:
-				default:
-					return true;
+			if ( this.Settings.Runtime._asyncWaitTime == 0 )
+				return true;
 
-
-				case AsyncWaitingMethod.Wait:
-					// wait for a signal of the list not being empty anymore
-					await this._emptyListAwaiter.WaitAsync().ConfigureAwait(true);
-					return false;
-
-
-				case AsyncWaitingMethod.Timeout:
-					return !await 
-						this._emptyListAwaiter.WaitAsync(
+			return !(await this._emptyListAwaiter.WaitAsync(
 							this.Settings.Runtime._asyncWaitTime,
 							this.PendingTasksCancellationToken
 						)
-						.ConfigureAwait(true);
-			}
+						.ConfigureAwait(true));
 		}
 	}
 }
