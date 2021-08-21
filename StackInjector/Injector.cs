@@ -24,7 +24,6 @@ namespace StackInjector
 		/// <returns>The Initialized StackWrapper</returns>
 		/// <exception cref="InvalidEntryTypeException"></exception>
 		/// <exception cref="NotAServiceException"></exception>
-		/// <exception cref="ServiceNotFoundException"></exception>
 		/// <exception cref="ImplementationNotFoundException"></exception>
 		/// <exception cref="StackInjectorException"></exception>
 		public static IStackWrapper<T> From<T> ( StackWrapperSettings settings = null )
@@ -66,7 +65,6 @@ namespace StackInjector
 		/// <returns>The created asyncronous wrapper</returns>
 		/// <exception cref="InvalidEntryTypeException"></exception>
 		/// <exception cref="NotAServiceException"></exception>
-		/// <exception cref="ServiceNotFoundException"></exception>
 		/// <exception cref="ImplementationNotFoundException"></exception>
 		/// <exception cref="StackInjectorException"></exception>
 		public static IAsyncStackWrapper<TEntry, TIn, TOut> AsyncFrom<TEntry, TIn, TOut>

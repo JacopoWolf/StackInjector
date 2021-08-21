@@ -21,7 +21,7 @@ namespace StackInjector.Settings
 		/// </summary>
 		public HashSet<Assembly> AssemblyLookUpOrder { get; private set; } = new HashSet<Assembly>();
 
-		
+
 
 
 

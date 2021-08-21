@@ -57,6 +57,7 @@ namespace StackInjector.TEST.BlackBox
 			});
 		}
 
+
 		[Test]
 		public void SubmitNoCatch ()
 		{
@@ -73,6 +74,7 @@ namespace StackInjector.TEST.BlackBox
 		}
 
 
+		[Timeout(1000)]
 		[Test]
 		public async Task SubmitAndCatchAsyncEnumerable ()
 		{
@@ -149,15 +151,13 @@ namespace StackInjector.TEST.BlackBox
 
 		[Test]
 		[Timeout(1000)]
-		public void SubmitWithEvent ()
+		public async Task SubmitWithEvent ()
 		{
 			using var wrapper = Injector.AsyncFrom<AsyncBase,object,object>(
 						(b,i,t) => b.ReturnArg(i,t),
 						StackWrapperSettings.With(
-							runtime:
-								RuntimeOptions.Default
-								.WhenNoMoreTasks(AsyncWaitingMethod.Wait,100)
-							)
+							runtime: RuntimeOptions.Default
+								.WaitTimeout(-1))
 						);
 
 			// test holders
@@ -175,15 +175,36 @@ namespace StackInjector.TEST.BlackBox
 				semaphore.Release();
 			};
 
-			wrapper.Elaborate();
+			var eltask = wrapper.Elaborate();
 
-			Assert.Multiple(async () =>
-			{
-				await wrapper.SubmitAndGet(token);
-				await semaphore.WaitAsync();
-				Assert.AreSame(token, tokentest);
-				Assert.AreSame(wrapper, wrappertest);
-			});
+			await wrapper.SubmitAndGet(token);
+			await semaphore.WaitAsync();
+
+			
+			Assert.AreSame(token, tokentest);
+			Assert.AreSame(wrapper, wrappertest);
+		}
+
+
+		[Test]
+		[Timeout(500)]
+		public void StopOnTimeout ()
+		{
+			var wrapper = Injector.AsyncFrom<AsyncBase,object,object>(
+				(b,i,t) => b.ReturnArg(i,t),
+				StackWrapperSettings.With(
+					runtime:
+						RuntimeOptions.Default
+						.WaitTimeout(10)
+				)
+			);
+
+			Assume.That(!wrapper.IsElaborating);
+
+			wrapper.Elaborate().Wait();
+
+			Assert.That(!wrapper.IsElaborating && !wrapper.AnyTaskLeft());
+
 		}
 
 	}

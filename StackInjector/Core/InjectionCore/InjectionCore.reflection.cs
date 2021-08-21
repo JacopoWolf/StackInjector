@@ -20,7 +20,7 @@ namespace StackInjector.Core
 				{
 					//todo check for multiple valid versions
 					var t = versions.First();
-					MaskPass(t);
+					_MaskPass(t);
 					return t;
 				}
 
@@ -28,16 +28,16 @@ namespace StackInjector.Core
 					throw new ImplementationNotFoundException(type, $"can't find [Service] for interface {type.Name}");
 				else
 					throw new ImplementationNotFoundException(type, $"can't find [Service] for {type.Name} v{servedAttribute.TargetVersion}");
-				
+
 			}
 			else
 			{
-				MaskPass(type);
+				_MaskPass(type);
 				return type;
 			}
 
 			// exception check and thrower
-			void MaskPass ( Type type )
+			void _MaskPass ( Type type )
 			{
 				if ( this.settings.Mask.IsMasked(type) ) //todo create custom exception
 					throw new InvalidOperationException($"Type {type.Name} is { (this.settings.Mask._isWhiteList ? "not whitelisted" : "blacklisted")}");
