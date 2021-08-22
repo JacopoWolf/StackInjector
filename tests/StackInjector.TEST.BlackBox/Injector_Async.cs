@@ -187,10 +187,10 @@ namespace StackInjector.TEST.BlackBox
 
 
 		[Test]
-		[Timeout(500)]
-		public void StopOnTimeout ()
+		[Timeout(1000)]
+		public async Task StopOnTimeout ()
 		{
-			var wrapper = Injector.AsyncFrom<AsyncBase,object,object>(
+			using var wrapper = Injector.AsyncFrom<AsyncBase,object,object>(
 				(b,i,t) => b.ReturnArg(i,t),
 				StackWrapperSettings.With(
 					runtime:
@@ -201,9 +201,12 @@ namespace StackInjector.TEST.BlackBox
 
 			Assume.That(!wrapper.IsElaborating);
 
-			wrapper.Elaborate().Wait();
+			var elTask = wrapper.Elaborate();
 
-			Assert.That(!wrapper.IsElaborating && !wrapper.AnyTaskLeft());
+			await elTask;
+
+			Assert.That(!wrapper.IsElaborating);
+			Assert.That(!wrapper.AnyTaskLeft());
 
 		}
 
