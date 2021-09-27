@@ -25,9 +25,9 @@ Modern, easy-to-use and fast dependency injection framework.<br><br>
 <img src="https://img.shields.io/nuget/dt/StackInjector?logo=nuget">
 <img src="https://img.shields.io/nuget/vpre/StackInjector?label=">
 <br>
+<img src="https://img.shields.io/maintenance/no/2021">
+<br>
 <img src="https://img.shields.io/github/license/jacopowolf/stackinjector">
-<img src="https://img.shields.io/maintenance/yes/2021">
-<img src="https://img.shields.io/github/issues/jacopowolf/stackinjector/bug">
 <br>
 <img src="https://img.shields.io/badge/-Standard_2.1-5C2D91?logo=.net"/>
 <img src="https://img.shields.io/badge/-8.0-239120?logo=c-sharp"/>
