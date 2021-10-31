@@ -6,26 +6,25 @@
 version: 2
 updates:
 
-
     # prod 
-  - package-ecosystem: "nuget" 
-    directory: "/StackInjector"
-    schedule:
-      interval: "weekly"
-      day: "saturday"
-    labels:
-      - "dependencies"
+  # - package-ecosystem: "nuget" 
+  #   directory: "/StackInjector"
+  #   schedule:
+  #     interval: "weekly"
+  #     day: "saturday"
+  #   labels:
+  #     - "dependencies"
       
     
     # test blackbox
-  - package-ecosystem: "nuget" 
-    directory: "/tests/StackInjector.TEST.BlackBox"
-    schedule:
-      interval: "weekly"
-      day: "saturday"
-    labels:
-      - "dependencies"
-      - "testing"
+  # - package-ecosystem: "nuget" 
+  #   directory: "/tests/StackInjector.TEST.BlackBox"
+  #   schedule:
+  #     interval: "weekly"
+  #     day: "saturday"
+  #   labels:
+  #     - "dependencies"
+  #     - "testing"
       
 
     #todo: add TEST.WhiteBox
