@@ -50,8 +50,8 @@ namespace StackInjector.Settings
 		{
 			if ( _isDisabled )
 				return false;
-			else
-				return this._isWhiteList ^ this.Contains(type); //.XOR
+
+			return this._isWhiteList ^ this.Contains(type); //.XOR
 
 		}
 
@@ -68,7 +68,7 @@ namespace StackInjector.Settings
 		public static MaskOptions WhiteList => new MaskOptions() { _isWhiteList = true };
 
 		/// <summary>
-		/// allow every type <b>except</b> the regisred ones.
+		/// allow every type <b>except</b> the registred ones.
 		/// </summary>
 		public static MaskOptions BlackList => new MaskOptions();
 

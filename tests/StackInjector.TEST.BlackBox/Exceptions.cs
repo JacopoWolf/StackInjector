@@ -45,7 +45,7 @@ namespace StackInjector.TEST.BlackBox
 		[Test]
 		public void ThrowsOnAbstractClass ()
 		{
-			Assert.Throws<MissingParameterlessConstructorException>(() => Injector.From<AbstractThrower>());
+			Assert.Throws<InvalidConstructorException>(() => Injector.From<AbstractThrower>());
 		}
 
 
@@ -72,7 +72,7 @@ namespace StackInjector.TEST.BlackBox
 
 		[Test]
 		public void ThrowsMissingParameterlessConstructor ()
-			=> Assert.Throws<MissingParameterlessConstructorException>(() => Injector.From<BaseNoParameterlessConstructorThrower>());
+			=> Assert.Throws<InvalidConstructorException>(() => Injector.From<BaseNoParameterlessConstructorThrower>());
 
 		//  ----------
 

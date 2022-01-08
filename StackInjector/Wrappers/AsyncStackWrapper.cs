@@ -16,8 +16,8 @@ namespace StackInjector.Wrappers
 				this.Core.GetEntryPoint<TEntry>();
 
 
-		public AsyncStackWrapper ( InjectionCore core ) : base(core, typeof(AsyncStackWrapper<TEntry, TIn, TOut>))
-		{ }
+		public AsyncStackWrapper ( InjectionCore core ) : base(core) { }
+
 
 		public void Submit ( TIn item )
 		{

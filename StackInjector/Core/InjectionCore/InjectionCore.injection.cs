@@ -54,10 +54,10 @@ namespace StackInjector.Core
 		{
 			var fields =
 					type.GetFields( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance )
-					.Where( f => f.GetCustomAttribute<IgnoredAttribute>() is null );
-
-			if ( strict )
-				fields = fields.Where(field => field.GetCustomAttribute<ServedAttribute>() != null);
+					.Where( f =>
+						f.GetCustomAttribute<IgnoredAttribute>() is null
+						&& (!strict||f.GetCustomAttribute<ServedAttribute>() != null) //if not strict, skip this check
+					);
 
 			foreach ( var serviceField in fields )
 			{
@@ -78,10 +78,10 @@ namespace StackInjector.Core
 		{
 			var properties =
 					type.GetProperties( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance )
-					.Where( p => p.GetCustomAttribute<IgnoredAttribute>() is null );
-
-			if ( strict )
-				properties = properties.Where(property => property.GetCustomAttribute<ServedAttribute>() != null);
+					.Where( p =>
+						p.GetCustomAttribute<IgnoredAttribute>() is null
+						&& (!strict || p.GetCustomAttribute<ServedAttribute>() != null) //if not strict, skip this check
+					);
 
 			foreach ( var serviceProperty in properties )
 			{

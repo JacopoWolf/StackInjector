@@ -17,9 +17,6 @@ namespace StackInjector.Core
 			if ( serviceAtt == null )
 				throw new NotAServiceException(type, $"Type {type.FullName} is not a [Service]");
 
-			////if( !this.instances.ContainsKey(type) )
-			////	throw new ServiceNotFoundException(type, $"The type {type.FullName} is not in a registred assembly!");
-
 
 			return serviceAtt.Pattern switch
 			{
@@ -40,7 +37,7 @@ namespace StackInjector.Core
 
 			//todo add more constructor options
 			if ( type.GetConstructor(Array.Empty<Type>()) == null )
-				throw new MissingParameterlessConstructorException(type, $"Missing parameteless constructor for {type.FullName}");
+				throw new InvalidConstructorException(type, $"Missing parameteless constructor for {type.FullName}");
 
 			var instance = Activator.CreateInstance(type);
 

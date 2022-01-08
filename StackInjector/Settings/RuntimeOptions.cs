@@ -1,4 +1,6 @@
-﻿namespace StackInjector.Settings
+﻿using System;
+
+namespace StackInjector.Settings
 {
 	/// <summary>
 	/// Options used at runtime
@@ -7,8 +9,7 @@
 	{
 
 		// async management
-		internal AsyncWaitingMethod                 _asyncWaitingMethod                     = AsyncWaitingMethod.Exit;
-		internal int                                _asyncWaitTime                          = 500;
+		internal int                                _asyncWaitTime; // 0
 
 
 		internal RuntimeOptions () { }
@@ -30,8 +31,8 @@
 		/// Default runtime options. Settings are valorized as following:
 		/// <list type="table">
 		/// <item>
-		///		<term><see cref="WhenNoMoreTasks(AsyncWaitingMethod, int)"/></term>
-		///		<description><see cref="AsyncWaitingMethod.Exit"/>, 500</description>
+		///		<term><see cref="WaitTimeout(int)"/></term>
+		///		<description>-1</description>
 		/// </item>
 		/// </list>
 		/// </summary>
@@ -44,12 +45,16 @@
 		/// What to do when an <see cref="Wrappers.IAsyncStackWrapper{TEntry, TIn, TOut}"/> 
 		/// has no more pending tasks to execute
 		/// </summary>
-		/// <param name="waitingMethod">the new waiting method</param>
-		/// <param name="waitTime">if <see cref="AsyncWaitingMethod.Timeout"/> is set, this will be max time to wait</param>
+		/// <param name="waitTime">this will be max time to wait. <br/>
+		///		-1: wait forever<br/>
+		///		 0: exit immediatly<br/>
+		///		+n: wait specified timeout (in ms)<br/> </param>
 		/// <returns>the modified settings</returns>
-		public RuntimeOptions WhenNoMoreTasks ( AsyncWaitingMethod waitingMethod, int waitTime )
+		public RuntimeOptions WaitTimeout ( int waitTime = 0 )
 		{
-			this._asyncWaitingMethod = waitingMethod;
+			if ( waitTime < -1 )
+				throw new ArgumentOutOfRangeException(nameof(waitTime), $"{waitTime} cannot be below -1!");
+
 			this._asyncWaitTime = waitTime;
 			return this;
 		}

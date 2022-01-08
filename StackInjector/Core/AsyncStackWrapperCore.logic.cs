@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using StackInjector.Settings;
 
 namespace StackInjector.Core
 {
@@ -40,7 +39,13 @@ namespace StackInjector.Core
 
 		public async IAsyncEnumerable<T> Elaborated ()
 		{
-			this.EnsureExclusiveExecution(true);
+			// begin elaboration
+			lock ( this._listAccessLock )
+			{
+				if ( this._exclusiveExecution )
+					throw new InvalidOperationException();
+				this._exclusiveExecution = true;
+			}
 
 			while ( !this.cancelPendingTasksSource.IsCancellationRequested )
 			{
@@ -62,8 +67,11 @@ namespace StackInjector.Core
 				}
 			}
 
+			// no more elaborating
 			lock ( this._listAccessLock )
+			{
 				this._exclusiveExecution = false;
+			}
 
 		}
 
@@ -77,50 +85,15 @@ namespace StackInjector.Core
 		// true if outher loop is to break
 		private async Task<bool> OnNoTasksLeft ()
 		{
-			// to not repeat code
-			Task listAwaiter ()
-			{
-				return this._emptyListAwaiter.WaitAsync();
-			}
 
-			switch ( this.Settings.Runtime._asyncWaitingMethod )
-			{
+			if ( this.Settings.Runtime._asyncWaitTime == 0 )
+				return true;
 
-				case AsyncWaitingMethod.Exit:
-				default:
-
-					return true;
-
-
-				case AsyncWaitingMethod.Wait:
-
-					// wait for a signal of the list not being empty anymore
-					await listAwaiter().ConfigureAwait(true);
-					return false;
-
-
-				case AsyncWaitingMethod.Timeout:
-					var list = listAwaiter();
-					var timeout = Task.Delay( this.Settings.Runtime._asyncWaitTime );
-
-					// if the timeout elapses first, then stop waiting
-					return (await Task.WhenAny(list, timeout).ConfigureAwait(true)) == timeout;
-			}
+			return !(await this._emptyListAwaiter.WaitAsync(
+							this.Settings.Runtime._asyncWaitTime,
+							this.PendingTasksCancellationToken
+						)
+						.ConfigureAwait(true));
 		}
-
-		private void EnsureExclusiveExecution ( bool set = false )
-		{
-			lock ( this._listAccessLock ) // reused lock
-			{
-				if ( this._exclusiveExecution )
-					throw new InvalidOperationException();
-
-				if ( set )
-					this._exclusiveExecution = set;
-			}
-		}
-
-
-
 	}
 }
